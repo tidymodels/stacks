@@ -39,6 +39,13 @@ Once a recipe object is fully specified, you can estimate coefficients from the 
 
 While building a recipe, tag parameters that need to tuned with `tune("text label")` (formerly `varying()`.)
 
+### dials
+
+dials supplies tools for describing and querying tuning parameters (/hyperparameters.) It provides default "reasonable" ranges for many parameters, which can be set with `update(text_label = dials::some_function())`, where `text_label` is the label set in `tune("text label")`, as well as `grid_*()` functions to assist with grid searches for optimal hyperparameters. `range_(g/s)et()` can get/set the proposed range of hyperparameters. `value_seq(n)` and `value_sample(n)` return a set of values that span the range.
+
+When range of values is dependent on data, can just supply no arguments: `mtry()`, `sample_size()`, `num_terms()`, `num_comp()`--set them, once having seen the data, with `finalize()`.
+
+The principal object class of dials is `param`.
 
 ### tune
 
@@ -47,8 +54,4 @@ tune helps optimize hyperparameters (model parameters that cannot be optimized u
 Again, while building a recipe, tag parameters that need to tuned with `tune("text label")` (formerly `varying()`.) Then, use `dials::parameters()` to detect and collect these flagged parameters.
 
 Use `rsample::vfold_cv()` to carry out `v`-fold cross validation on training data, and then supply it to `tune_grid()` (along with a model, recipe, and grid)
-
-### dials
-
-Supplies default "reasonable" ranges for many parameters, which can be set with `update(text_label = dials::some_function())`, where `text_label` is the label set in `tune("text label")`, as well as `grid_*()` functions to assist with grid searches for optimal hyperparameters.
 
