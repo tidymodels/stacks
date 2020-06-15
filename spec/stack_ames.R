@@ -1,6 +1,8 @@
 ## -----------------------------------------------------------------------------
 # Simple demonstration of stacking using three models with the Ames housing data
 
+# Simon's comments marked with ###
+
 ## -----------------------------------------------------------------------------
 
 library(tidymodels)
@@ -135,8 +137,6 @@ get_best_pred <- function(x, pred_name = stop("need a name")) {
   names(nm_list) <- pred_name
   keep_cols <- c(".row", pred_name)
 
-
-  mod_name <-
   res <- select_best(x, metric = "rmse")
   pred <- collect_predictions(x, parameters = res, summarize = TRUE) %>%
     ungroup()
@@ -169,10 +169,16 @@ ggplot(stack_data, aes(x = .panel_x, y = .panel_y)) +
 # coefficient constraint. glmnet is a good option but Bayesian methods might be
 # a good choice too.
 
+### General question for this section -- would this code be internal to the
+### package functions, or are these steps we want users to carry out?
+
 stack_model_spec <-
   linear_reg(penalty = tune(), mixture = 1) %>%
   set_engine("glmnet", lower.limits = 0)
 
+### The purpose of this is to evaluate how much to weight each of the different
+### member models? Is this static regardless of where in the sample space is
+### being predicted?
 set.seed(1872)
 stack_model_res <-
   stack_model_spec %>%
@@ -185,6 +191,7 @@ stack_model_res <-
 
 autoplot(stack_model_res)
 
+### Actually fits the data using the stacked model spec
 stack_model_fit <-
   stack_model_spec %>%
   finalize_model(tibble(penalty = 10^-3)) %>%
@@ -232,6 +239,8 @@ if (FALSE) {
   #    `evaluate`? `components` would be a good non-verb choice. Or... we could use
   #    `fit` to calculate the coefficients and `refit` to make the object that has
   #     the ensemble members within.
+  
+  ### This step is a functionalizing of the preceding section?
 
   # This would add the coefficients to the object.
   res <- evaluate(res, model = "glmnet", parameters, resampling)
@@ -273,6 +282,7 @@ get_all_pred <- function(x, pred_name = stop("need a name")) {
   # Julia has a PR working to automatically assign a configuration ID to
   # each parameter combination. We could use that and swap the prefix to pred_name
   # https://github.com/tidymodels/tune/pull/227
+  
   configs <-
     pred %>%
     dplyr::select(!!!params) %>%
