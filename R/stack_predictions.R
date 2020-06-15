@@ -32,6 +32,44 @@
 #' )
 stack_predictions <- function(data, ..., metric = "rmse", n = 1) {
   
+  # formerly get_best_pred and get_all_pred in the draft spec
+  
+  # the documentation for metric and n are borrowed from show_best...
+  # not sure if show_best or collect_predictions/metrics combined with some
+  # dplyr will be a better route for filtering
+  
+  resamples <- list(...)
+  
+  outcome_colnames <- purrr::map_chr(resamples, tune::outcome_names)
+  
+  if (length(unique(outcome_colnames)) != 1) {
+    stop("different outcome names depending on model")
+  } 
+  
+  # grab the metrics for each model, subset the best n, and then
+  # grab the predictions from those n
+  
+  # parse the metric and n arguments so that they can 
+  # be recycled if needed in pmap
+  metric_ <- if (length(metric) > 1) {
+    metric
+  } else {
+    rep(metric, length(resamples))
+  }
+  
+  n_ <- if (length(n) > 1) {n} else {rep(n, length(resamples))}
+  
+  best_models <- pmap(
+    list(x = resamples,
+         metric = metric_,
+         n = n_),
+    tune::show_best
+  )
+  
+  # We want to subset the resamples from tune_* according to which
+  # which were the best ^^^ and then collect predictions from them
+  #pred <- map(best_models, tune::collect_predictions)
+  
 }
 
 
