@@ -3,7 +3,9 @@ title: "Model Stacking Package, Generally"
 output: html_document
 ---
 
-Data setup:
+## Fitting Individual Models
+
+Setting up Data:
 * Split into testing/training (`rsample::initial_split()`, `rsample::training()`, `rsample::testing()`)
 * Cross validation (`rsample::vfold_cv()`)
 * Pre-processing (`recipes::recipe()`, `recipes::step_*()`)
@@ -13,10 +15,61 @@ Create an object to supply to `tune::tune_grid()` calls that ensures predictions
 Set metric. (`yardstick::metric_set()`)
 
 Build constituent models. For each:
-* Extend pre-processing, if necessary. (more `recipes::step_*()`)
+* Extend pre-processing, if necessary (more `recipes::step_*()`)
 * Set a model specification (with parsnip or rules)
 * Choose a package (`parsnip::set_engine()`)
 * Possibly: create a workflow (`workflows::workflow()`, `workflows::add_recipe()`, `workflows::add_model()`), tune hyperparameters (`tune::tune_grid()`) (possibly using a workflow)
+
+## Stacking / Ensembling
+
+The package should probably be opinionated about whether to use the language of "stacking" or "ensembling."
+
+Create "stacked data" (i.e. a dataframe with columns `y`, `y_hat`, `y_hat2`, etc.)
+* Currently uses the `get_best_pred()` function several times. 
+
+```{r}
+stack_data <-
+  ames_train %>%
+  select(Sale_Price) %>%
+  add_rowindex() %>%
+  full_join(get_best_pred(cubist_res, "cubist"), by = ".row") %>%
+  full_join(get_best_pred(glmnet_res, "glmnet"), by = ".row") %>%
+  full_join(get_best_pred(mars_res, "mars"), by = ".row") %>%
+  dplyr::select(-.row)
+```
+
+What about a `stack_predictions(pred_col, ...)` function that takes in named resampling results, like
+
+```{r}
+stack_data <- 
+  ames_train %>%
+  stack_predictions(Sale_Price, 
+                    cubist = cubist_res, 
+                    glmnet = glmnet_res,
+                    mars = mars_res)
+```
+
+where the pred_col argument is the name of the output column in the training data? Intuitively, this might just take in the `Sale_Price` vector, except keeping track of `NULL`s might be tricky, + less pipeable.
+
+* Create stacking loadings/coefficients based on model regularization
+   + Create a stacked model specification
+   + Use tuning to determine how much to weight each model
+   + Fit using the finalized model and stacked data
+   
+Collate resampling results:
+   
+```{r}
+res <-
+  ens_stacked() %>%
+  add_member(fit = cubist_fit, results = cubist_res) %>%
+  add_member(fit = glmnet_fit, results = glmnet_res) %>%
+  add_member(fit = mars_fit,   results = mars_res)
+```
+
+Possibly `stack_init()`? Or `ens_init()`? How important is it to have many functions start with the same prefix?
+
+* Add the coefficients to the collated resamples: 
+   + `evaluate(res, model = "glmnet", parameters, resampling)`
 
 
 
