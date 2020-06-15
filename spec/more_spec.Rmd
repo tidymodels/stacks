@@ -1,0 +1,22 @@
+---
+title: "Model Stacking Package, Generally"
+output: html_document
+---
+
+Data setup:
+* Split into testing/training (`rsample::initial_split()`, `rsample::training()`, `rsample::testing()`)
+* Cross validation (`rsample::vfold_cv()`)
+* Pre-processing (`recipes::recipe()`, `recipes::step_*()`)
+
+Create an object to supply to `tune::tune_grid()` calls that ensures predictions are saved. (`tune::control_grid(save_pred = TRUE)`)
+
+Set metric. (`yardstick::metric_set()`)
+
+Build constituent models. For each:
+* Extend pre-processing, if necessary. (more `recipes::step_*()`)
+* Set a model specification (with parsnip or rules)
+* Choose a package (`parsnip::set_engine()`)
+* Possibly: create a workflow (`workflows::workflow()`, `workflows::add_recipe()`, `workflows::add_model()`), tune hyperparameters (`tune::tune_grid()`) (possibly using a workflow)
+
+
+
