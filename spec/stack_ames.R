@@ -231,6 +231,8 @@ if (FALSE) {
   # 2. We'd need to hope that the fit is matched to the grid results. I don't know
   #   of a way to do that. Potentially, the `fit` wouldn't be needed until the end
   #   so they could leave that empty and we do the fit at the end.
+  # ### Fit is matched to the grid results in that the user supplies the
+  # ### correct grid results?
   #
   # 3. Instead of `fit`, maybe we should ask for the workflow and enforce a
   #    re-fitting
@@ -241,7 +243,7 @@ if (FALSE) {
   #     the ensemble members within.
   
   ### This step is a functionalizing of the preceding section?
-
+  
   # This would add the coefficients to the object.
   res <- evaluate(res, model = "glmnet", parameters, resampling)
 
