@@ -54,7 +54,7 @@ stack_data <-
 
 where the `pred_col` argument is the name of the output column in the training data? Intuitively, this might just take in the `Sale_Price` vector, except keeping track of `NULL`s might be tricky, + less pipeable. 
 
-Still trying to get a sense for whether this is what `get_all_pred()`s is doing and which of these, if not both, would be part of an implementation. (_All_ of the sub-model results refer to all of the models resulting from the whole grid of proposed hyperparameters?)
+`get_all_pred()` is an alternative to `get_best_pred()` where, instead of selecting the best sub-model and then calling `collect_predictions()` on it, the function collects the predictions from all of the sub-models (i.e. regardless of choice of hyperparameter). Perhaps, instead of two functions, whether or not to use all predictions would be an argument to `stack_predictions()` which defaults to FALSE.
 
 * Create stacking loadings/coefficients based on model regularization
    + Create a stacked model specification
