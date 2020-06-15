@@ -24,7 +24,7 @@ Build constituent models. For each:
 
 ## Stacking / Ensembling
 
-The package should probably be opinionated about whether to use the language of "stacking" or "ensembling."
+Ensembling refers to techniques that make use of multiple learning algorithms to improve model performance. Stacking is a subset of ensembling techniques where outputs from many different models are combined to make a final prediction (where the function/weights used to do the combining is/are arbitrary and can be learned).
 
 Create "stacked data" (i.e. a dataframe with columns `y`, `y_hat`, `y_hat2`, etc.)
 
@@ -56,7 +56,7 @@ where the `pred_col` argument is the name of the output column in the training d
 
 `get_all_pred()` is an alternative to `get_best_pred()` where, instead of selecting the best sub-model and then calling `collect_predictions()` on it, the function collects the predictions from all of the sub-models (i.e. regardless of choice of hyperparameter). Perhaps, instead of two functions, whether or not to use all predictions would be an argument to `stack_predictions()` which defaults to FALSE.
 
-* Create stacking loadings/coefficients based on model regularization
+Create stacking loadings/coefficients based on model regularization
    + Create a stacked model specification
    + Use tuning to determine how much to weight each model
    + Fit using the finalized model and stacked data
@@ -73,12 +73,20 @@ res <-
 
 Possibly `stack_init()`? Or `ens_init()`? How important is it to have many functions start with the same prefix?
 
-* Add the coefficients to the collated resamples: 
-   + `evaluate(res, model = "glmnet", parameters, resampling)`
-   + `evaluate()` feels sort of general, `refit()` conflicts with `lme4`. Maybe something like `stack_eval`?
-   + How much is this function actually doing, though? Have the coefficients been calculated yet? Why is this coming before `fit()`?
-* `fit()` the model
-   + Make use of the `generics::fit()` generic
-* `predict()` new data
-   + Should have a `type` argument for classification methods
+Add the coefficients to the collated resamples: 
+
+* `evaluate(res, model = "glmnet", parameters, resampling)`
+* `evaluate()` feels sort of general, `refit()` conflicts with `lme4`. Maybe something like `stack_eval`?
+* How much is this function actually doing, though? Have the coefficients been calculated yet? Why is this coming before `fit()`?
+
+`fit()` the model
+
+* Make use of the `generics::fit()` generic
+
+`predict()` new data
+
+* Should have a `type` argument for classification methods
+
+
+
 
