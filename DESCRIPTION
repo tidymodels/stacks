@@ -1,18 +1,37 @@
 Package: stack
-Title: What the Package Does (One Line, Title Case)
+Title: Tidy Model Stacking Tools
 Version: 0.0.0.9000
-Authors@R: 
-    person(given = "First",
-           family = "Last",
+Authors@R: c(
+    person(given = "Simon",
+           family = "Couch",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+           email = "simonpatrickcouch@gmail.com"),
+    person(given = "Max", 
+           family = "Kuhn", 
+           email = "max@rstudio.com", 
+           role = "aut"),
+    person("RStudio", 
+           role = "cph")
+    )
 Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to
-    pick a license
+License: MIT + file LICENSE
+Depends:
+    R (>= 2.10)
+Imports:
+    dplyr (>= 0.8.5),
+    rlang (>= 0.4.0),
+    tibble (>= 2.1.3),
+    purrr (>= 0.3.2), 
+    yardstick,
+    tidyr,
+    dials
+Suggests: 
+    testthat,
+    parsnip (>= 0.0.4),
+    workflows (>= 0.1.0)
+Remotes:
+    tidymodels/tune
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0.9000
-Suggests: 
-    testthat
