@@ -41,20 +41,17 @@ stack_data <-
   dplyr::select(-.row)
 ```
 
-What about a `stack_predictions(pred_col, ...)` function that takes in named resampling results, like
+What about a `stack_predictions(...)` function that takes in named resampling results, like
 
 ```{r, eval = FALSE}
 stack_data <- 
   ames_train %>%
-  stack_predictions(Sale_Price, 
-                    cubist = cubist_res, 
+  stack_predictions(cubist = cubist_res, 
                     glmnet = glmnet_res,
                     mars = mars_res)
 ```
 
-where the `pred_col` argument is the name of the output column in the training data? Intuitively, this might just take in the `Sale_Price` vector, except keeping track of `NULL`s might be tricky, + less pipeable. 
-
-`get_all_pred()` is an alternative to `get_best_pred()` where, instead of selecting the best sub-model and then calling `collect_predictions()` on it, the function collects the predictions from all of the sub-models (i.e. regardless of choice of hyperparameter). Perhaps, instead of two functions, whether or not to use all predictions would be an argument to `stack_predictions()` which defaults to FALSE.
+`get_all_pred()` is an alternative to `get_best_pred()` where, instead of selecting the best sub-model and then calling `collect_predictions()` on it, the function collects the predictions from all of the sub-models (i.e. regardless of choice of hyperparameter). See the `stack_predictions.R` file for a modified spec.
 
 Create stacking loadings/coefficients based on model regularization
    + Create a stacked model specification
