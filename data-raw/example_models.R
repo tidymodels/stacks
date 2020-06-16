@@ -1,7 +1,6 @@
 # This script implements some basic models for use in examples and tests.
-# Results are stored in R/sysdata.rda, which is loaded on package load.
 
-# setup: resample and basic recipe ---------------------------------------
+# setup: resample and basic recipe ------------------------
 
 library(tidymodels)
 
@@ -13,7 +12,7 @@ car_rec_ <-
   recipes::recipe(mpg ~ ., data = mtcars) %>%
   recipes::step_normalize(recipes::all_predictors())
 
-# support vector machine -------------------------------------------------
+# support vector machine ----------------------------------
 
 svm_mod_ <- 
   parsnip::svm_rbf(
@@ -33,7 +32,7 @@ svm_res_ <-
     grid = 5
   )
 
-# spline regression ------------------------------------------------------
+# spline regression ---------------------------------------
 
 spline_rec_ <-
   recipes::recipe(mpg ~ ., data = mtcars) %>%
@@ -53,7 +52,3 @@ spline_res_ <-
     resamples = folds_, 
     grid = spline_grid_
   )
-
-# save the objects to sysdata
-save.image("R/sysdata.rda")
-

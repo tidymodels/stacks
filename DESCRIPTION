@@ -30,7 +30,9 @@ Imports:
 Suggests: 
     testthat,
     parsnip (>= 0.0.4),
-    workflows (>= 0.1.0)
+    workflows (>= 0.1.0),
+    recipes,
+    rsample
 Remotes:
     tidymodels/tune
 Encoding: UTF-8
