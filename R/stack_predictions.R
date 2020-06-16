@@ -68,7 +68,10 @@ stack_predictions <- function(data, ..., metric = "rmse", n = 1) {
   
   # We want to subset the resamples from tune_* according to which
   # which were the best ^^^ and then collect predictions from them
-  #pred <- map(best_models, tune::collect_predictions)
+  # pred <- map(best_models, tune::collect_predictions)
+  
+  # tidymodels/tune#227 will be helpful here, but can't use until 
+  # it's merged since it doesn't incorporate #226
   
 }
 
