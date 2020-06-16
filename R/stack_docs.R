@@ -5,7 +5,7 @@
 #' @param stack A model `stack` object.
 #' @param member A `tune_results` object (or, if removing, its name)
 #'   outputted by [tune::tune_grid()] or [tune::tune_bayes()].
-#' @param ...
+#' @param ... Currently ignored.
 #' 
 #' @return A model `stack` object--see [stack_init()] for more details! 
 #' 

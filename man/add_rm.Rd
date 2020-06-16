@@ -16,7 +16,7 @@ stack_rm(stack, member, ...)
 \item{member}{A \code{tune_results} object (or, if removing, its name)
 outputted by \code{\link[tune:tune_grid]{tune::tune_grid()}} or \code{\link[tune:tune_bayes]{tune::tune_bayes()}}.}
 
-\item{...}{}
+\item{...}{Currently ignored.}
 }
 \value{
 A model \code{stack} object--see \code{\link[=stack_init]{stack_init()}} for more details!

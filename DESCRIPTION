@@ -25,7 +25,8 @@ Imports:
     yardstick,
     tidyr,
     dials,
-    digest
+    digest,
+    glue
 Suggests: 
     testthat,
     parsnip (>= 0.0.4),
