@@ -1,3 +1,15 @@
+# Imports
+# ------------------------------------------------------------------------
+#' @importFrom dplyr %>%
+
+# Global Variables
+# ------------------------------------------------------------------------
+utils::globalVariables(c(
+  "stack"
+))
+
+# Utility Functions
+# ------------------------------------------------------------------------
 glue_stop <- function(..., .sep = "", .envir = parent.frame()) {
   rlang::abort(glue::glue(..., .sep = .sep, .envir = .envir))
 }
@@ -53,6 +65,3 @@ check_member_name <- function(stack, member) {
   # doesn't have the same name as an existing member
   invisible(TRUE)
 }
-
-
-

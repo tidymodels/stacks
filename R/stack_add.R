@@ -1,3 +1,5 @@
+#' @rdname add_rm
+#' @export
 stack_add <- function(stack, member, ...) {
   stack <- check_hash(stack, member)
   

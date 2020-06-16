@@ -24,7 +24,8 @@ Imports:
     purrr (>= 0.3.2), 
     yardstick,
     tidyr,
-    dials
+    dials,
+    digest
 Suggests: 
     testthat,
     parsnip (>= 0.0.4),
