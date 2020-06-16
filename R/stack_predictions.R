@@ -1,6 +1,6 @@
 #' Collate predictions from resampling results
 #' 
-#' @param data Training data (as a data.frame or tibble)
+#' @param data Training data (as a `data.frame` or `tibble`)
 #' @param ... Named resampling results (set of sub-models) outputted from 
 #'   `tune_grid()`, where the name is an arbitrary and unique label for the 
 #'   given set of sub-models. If `n > 1`, an integer will be appended to each 
@@ -14,9 +14,9 @@
 #'   set or of length equal to the number of sub-model set to specify how many
 #'   sub-models to include from each sub-model set.
 #' 
-#' @return A tibble with `nrow(data)` rows and `1 + n * length(...)` columns,
-#'   where each column (besides the first, which contains the true response) 
-#'   gives the prediction for each selected sub-model.
+#' @return A tibble with `nrow(data)` rows and `1 + <number of sub-models>` 
+#'   columns, where each column (besides the first, which contains the true 
+#'   response) gives the prediction for each selected sub-model.
 #' 
 #' @examples 
 #' # just one sub-model from one sub-model set
@@ -30,6 +30,7 @@
 #'   mars = mars_res,
 #'   n = c(5, 1)
 #' )
+#' 
 stack_predictions <- function(data, ..., metric = "rmse", n = 1) {
   
   # formerly get_best_pred and get_all_pred in the draft spec
