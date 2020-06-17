@@ -5,13 +5,15 @@
 #' @param stack A model `stack` object.
 #' @param member A `tune_results` object (or, if removing, its name)
 #'   outputted by [tune::tune_grid()] or [tune::tune_bayes()].
-#' @param ... Currently ignored.
+#' @inheritParams stack_init
 #' 
 #' @return A model `stack` object--see [stack_init()] for more details! 
 #' 
 #' @examples 
-#' # these examples make use of the svm_res_ and 
-#' # spline_res_ objects exported with the package.
+#' # See ?example_data to learn more about the
+#' # `svm_res_` and `spline_res_` objects exported
+#' # with the package. Long story short, they're example
+#' # `tune_results` objects outputted from [tune::tune_grid()]!
 #' 
 #' # initialize a model stack
 #' st <- stack_init()

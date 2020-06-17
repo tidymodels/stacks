@@ -4,7 +4,7 @@
 #' objects contain a hash for the resampling object and a list of member 
 #' models.
 #' 
-#' @param ... Currently ignored.
+#' @param ... Additional arguments. Currently ignored.
 #' 
 #' @return A model `stack` object.
 #' 

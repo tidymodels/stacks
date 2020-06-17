@@ -47,6 +47,9 @@ names0 <- function(num, prefix = "x") {
   paste0(prefix, ind)
 }
 
+# Constructor Checks
+# ------------------------------------------------------------------------
+
 check_hash <- function(stack, member) {
   if (stack$rs_hash == "init") {stack$rs_hash <- digest::digest(member$splits)}
   
@@ -67,3 +70,25 @@ check_member_name <- function(stack, member) {
   # doesn't have the same name as an existing member
   invisible(TRUE)
 }
+
+# Misc. Utilities
+# ------------------------------------------------------------------------
+
+get_all_preds <- function(x) {
+  
+  params <- attributes(x)$parameters$id
+  
+  pred <-
+    tune::collect_predictions(x, summarize = TRUE) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(.row, .pred, .config) %>%
+    tidyr::pivot_wider(id_cols = ".row", 
+                       names_from = ".config", 
+                       values_from = ".pred") %>%
+    dplyr::select(-.row)
+  
+  pred
+}
+
+
+
