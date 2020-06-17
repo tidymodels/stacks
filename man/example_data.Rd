@@ -7,9 +7,9 @@
 \alias{spline_res_}
 \title{Example Data}
 \format{
-An object of class \code{tune_results} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 3 rows and 4 columns.
+An object of class \code{tune_results} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 3 rows and 5 columns.
 
-An object of class \code{tune_results} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 3 rows and 4 columns.
+An object of class \code{tune_results} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 3 rows and 5 columns.
 }
 \usage{
 svm_res_

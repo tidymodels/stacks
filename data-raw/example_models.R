@@ -6,6 +6,8 @@ library(tidymodels)
 
 set.seed(1)
 
+ctrl <- control_grid(save_pred = TRUE)
+
 folds_ <- rsample::vfold_cv(mtcars, v = 3)
 
 car_rec_ <- 
@@ -29,7 +31,8 @@ svm_res_ <-
     object = svm_mod_, 
     preprocessor = car_rec_, 
     resamples = folds_, 
-    grid = 5
+    grid = 5,
+    control = ctrl
   )
 
 # spline regression ---------------------------------------
@@ -46,9 +49,14 @@ lin_mod_ <-
 spline_grid_ <- expand.grid(disp = c(2, 4, 6), wt = c(2, 4, 6))
 
 spline_res_ <- 
-  tune_grid(
+  tune::tune_grid(
     object = lin_mod_,
     preprocessor = spline_rec_, 
     resamples = folds_, 
-    grid = spline_grid_
+    grid = spline_grid_,
+    control = ctrl
   )
+
+
+usethis::use_data(svm_res_, overwrite = TRUE)
+usethis::use_data(spline_res_, overwrite = TRUE)
