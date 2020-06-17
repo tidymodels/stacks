@@ -7,7 +7,7 @@
 stack_init(...)
 }
 \arguments{
-\item{...}{Currently ignored.}
+\item{...}{Additional arguments. Currently ignored.}
 }
 \value{
 A model \code{stack} object.

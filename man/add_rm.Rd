@@ -16,7 +16,7 @@ stack_rm(stack, member, ...)
 \item{member}{A \code{tune_results} object (or, if removing, its name)
 outputted by \code{\link[tune:tune_grid]{tune::tune_grid()}} or \code{\link[tune:tune_bayes]{tune::tune_bayes()}}.}
 
-\item{...}{Currently ignored.}
+\item{...}{Additional arguments. Currently ignored.}
 }
 \value{
 A model \code{stack} object--see \code{\link[=stack_init]{stack_init()}} for more details!
@@ -25,8 +25,10 @@ A model \code{stack} object--see \code{\link[=stack_init]{stack_init()}} for mor
 Add or remove models from a model stack specification.
 }
 \examples{
-# these examples make use of the svm_res_ and 
-# spline_res_ objects exported with the package.
+# See ?example_data to learn more about the
+# `svm_res_` and `spline_res_` objects exported
+# with the package. Long story short, they're example
+# `tune_results` objects outputted from [tune::tune_grid()]!
 
 # initialize a model stack
 st <- stack_init()
