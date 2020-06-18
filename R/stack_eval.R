@@ -21,7 +21,7 @@
 #'   stack_eval(mtcars)
 #' 
 #' @export
-stack_eval <- function(stack, data, metrics, ...) {
+stack_eval <- function(stack, data, ...) {
 
   preds <- stack_predictions(stack, data)
   

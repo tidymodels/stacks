@@ -4,7 +4,7 @@
 \alias{stack_eval}
 \title{Evaluate model stack coefficients}
 \usage{
-stack_eval(stack, data, metrics, ...)
+stack_eval(stack, data, ...)
 }
 \arguments{
 \item{stack}{A model \code{stack} object.}
