@@ -32,7 +32,8 @@ Imports:
     glue
 Suggests: 
     testthat,
-    workflows (>= 0.1.0)
+    workflows (>= 0.1.0),
+    covr
 Remotes:
     tidymodels/tune
 Encoding: UTF-8

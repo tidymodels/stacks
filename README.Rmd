@@ -3,6 +3,8 @@ title: "Model Stacking Package"
 output: github_document
 ---
 
+[![Codecov test coverage](https://codecov.io/gh/simonpcouch/stack/branch/main/graph/badge.svg)](https://codecov.io/gh/simonpcouch/stack?branch=main)[![R build status](https://github.com/simonpcouch/stack/workflows/R-CMD-check/badge.svg)](https://github.com/simonpcouch/stack/actions)
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```

@@ -5,3 +5,5 @@
 data-raw/
 notes/
 ^man-roxygen$
+^codecov\.yml$
+^\.github$
