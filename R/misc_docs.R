@@ -93,9 +93,7 @@ NULL
 NULL
 
 #' @rdname example_data
-#' @export
 "svm_res_"
 
 #' @rdname example_data
-#' @export
 "spline_res_"
