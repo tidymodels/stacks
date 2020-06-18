@@ -1,14 +1,14 @@
 #' @export
 print.stack <- function(x, ...) {
-  cat(glue::glue("# A model stack with {length(stack$members)} member",
-                 "{if (length(stack$members) != 1) 's' else ''}",
-                 "{if (length(stack$members) != 0) ':' else '.'}"))
-  if (length(stack$members) != 0) {cat("\n")}
+  cat(glue::glue("# A model stack with {length(x$members)} member",
+                 "{if (length(x$members) != 1) 's' else ''}",
+                 "{if (length(x$members) != 0) ':' else '.'}"))
+  if (length(x$members) != 0) {cat("\n")}
   
   members <- 
     purrr::map2(
-      unname(stack$members), 
-      names(stack$members), 
+      unname(x$members), 
+      names(x$members), 
       function(member, name) {
         cat(glue::glue(
             "#   {name}: ", 
@@ -18,9 +18,9 @@ print.stack <- function(x, ...) {
       }
     )
   
-  cat(glue::glue("# Outcome: {get_outcome(stack)}\n"))
+  cat(glue::glue("# Outcome: {get_outcome(x)}\n"))
   cat("\n")
   
-  cat(glue::glue("# Evaluated: {is_evaluated(stack)}"))
+  cat(glue::glue("# Evaluated: {is_evaluated(x)}"))
   cat("\n")
 }
