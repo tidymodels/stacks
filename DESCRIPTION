@@ -29,7 +29,8 @@ Imports:
     tidyr,
     dials,
     digest,
-    glue
+    glue,
+    generics
 Suggests: 
     testthat,
     workflows (>= 0.1.0),
