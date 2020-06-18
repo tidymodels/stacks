@@ -9,11 +9,9 @@
 #' 
 #' @return A model `stack` object--see [stack_init()] for more details! 
 #' 
+#' @template note_example_data
+#' 
 #' @examples 
-#' # See ?example_data to learn more about the
-#' # `svm_res_` and `spline_res_` objects exported
-#' # with the package. Long story short, they're example
-#' # `tune_results` objects outputted from [tune::tune_grid()]!
 #' 
 #' # initialize a model stack
 #' st <- stack_init()
@@ -35,8 +33,8 @@ NULL
 #' This package provides some \code{tune_results} objects for use in examples
 #' and tests. [svm_res_] and [spline_res_] contain tuning results
 #' for a support vector machine and spline model, respectively, fitting
-#' \code{mpg} in the \code{mtcars} data. The source code for generating
-#' these objects is given below.
+#' \code{mpg} in the \code{mtcars} data using all of the other variables
+#' as predictors. The source code for generating these objects is given below.
 #' 
 #' @examples 
 #' \dontrun{

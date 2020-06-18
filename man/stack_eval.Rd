@@ -4,24 +4,30 @@
 \alias{stack_eval}
 \title{Evaluate model stack coefficients}
 \usage{
-stack_eval(stack, preprocessor, ...)
+stack_eval(stack, data, metrics, ...)
 }
 \arguments{
 \item{stack}{A model \code{stack} object.}
 
-\item{...}{Additional arguments. Currently ignored.}
+\item{data}{The training data used to generate the resampling object.}
 }
 \value{
-
+An evaluated model \code{stack} object.
 }
 \description{
 Completes a stacked model specification by estimating the
 stacking/loading coefficients for the model stack.
 }
+\section{Example Data}{
+
+
+See \code{?example_data} to learn more about the \code{svm_res_} and
+\code{spline_res_} objects used in the examples below. Long story short,
+they're \code{tune_results} objects outputted from \code{\link[tune:tune_grid]{tune::tune_grid()}}
+fitting \code{mpg} with all other variables in \code{mtcars} as predictors!
+}
+
 \examples{
-
-#example man-roxygen/ex-note_example_data
-
 # initialize a model stack and add some members
 st <- stack_init() \%>\%
   stack_add(svm_res_) \%>\%
@@ -29,6 +35,6 @@ st <- stack_init() \%>\%
 
 # evaluate the stack
 st \%>\%
-  stack_eval()
+  stack_eval(mtcars)
 
 }

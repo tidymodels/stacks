@@ -4,7 +4,7 @@
 \alias{stack_predictions}
 \title{Collate predictions from a model stack}
 \usage{
-stack_predictions(stack, ...)
+stack_predictions(stack, data, ...)
 }
 \arguments{
 \item{stack}{A model \code{stack} object.}
@@ -22,4 +22,25 @@ from each of the members' sub-models and collates them in a tibble.
 This is a helper function and will generally not be used (explicitly)
 in a model stacking pipeline, but is exported for user convenience
 for ad-hoc model stacking.
+}
+\section{Example Data}{
+
+
+See \code{?example_data} to learn more about the \code{svm_res_} and
+\code{spline_res_} objects used in the examples below. Long story short,
+they're \code{tune_results} objects outputted from \code{\link[tune:tune_grid]{tune::tune_grid()}}
+fitting \code{mpg} with all other variables in \code{mtcars} as predictors!
+}
+
+\examples{
+ 
+# initialize a model stack and add some members
+st <- stack_init() \%>\%
+  stack_add(svm_res_) \%>\%
+  stack_add(spline_res_)
+  
+# collate model predictions
+st \%>\%
+  stack_predictions()
+  
 }

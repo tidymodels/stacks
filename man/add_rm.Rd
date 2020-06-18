@@ -24,11 +24,16 @@ A model \code{stack} object--see \code{\link[=stack_init]{stack_init()}} for mor
 \description{
 Add or remove models from a model stack specification.
 }
+\section{Example Data}{
+
+
+See \code{?example_data} to learn more about the \code{svm_res_} and
+\code{spline_res_} objects used in the examples below. Long story short,
+they're \code{tune_results} objects outputted from \code{\link[tune:tune_grid]{tune::tune_grid()}}
+fitting \code{mpg} with all other variables in \code{mtcars} as predictors!
+}
+
 \examples{
-# See ?example_data to learn more about the
-# `svm_res_` and `spline_res_` objects exported
-# with the package. Long story short, they're example
-# `tune_results` objects outputted from [tune::tune_grid()]!
 
 # initialize a model stack
 st <- stack_init()

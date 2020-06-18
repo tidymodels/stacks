@@ -47,9 +47,27 @@ names0 <- function(num, prefix = "x") {
   paste0(prefix, ind)
 }
 
-# Constructor Checks
+# Constructor Utilities
 # ------------------------------------------------------------------------
 
+# getters
+get_outcome <- function(stack) {stack$outcome}
+
+# setters
+set_outcome <- function(stack, member) {
+  if (!is.null(get_outcome(stack)) && 
+      get_outcome(stack) != tune::outcome_names(member)) {
+    glue_stop("The member you've tried to add to the stack has ",
+              "outcome variable {tune::outcome_names(member)}, ",
+              "while the stack's outcome variable is {get_outcome(stack)}.")
+  }
+  
+  stack$outcome <- tune::outcome_names(member)
+  
+  stack
+}
+
+# checks
 check_hash <- function(stack, member) {
   if (stack$rs_hash == "init") {stack$rs_hash <- digest::digest(member$splits)}
   

@@ -20,8 +20,8 @@ spline_res_
 This package provides some \code{tune_results} objects for use in examples
 and tests. \link{svm_res_} and \link{spline_res_} contain tuning results
 for a support vector machine and spline model, respectively, fitting
-\code{mpg} in the \code{mtcars} data. The source code for generating
-these objects is given below.
+\code{mpg} in the \code{mtcars} data using all of the other variables
+as predictors. The source code for generating these objects is given below.
 }
 \examples{
 \dontrun{

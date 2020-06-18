@@ -11,8 +11,29 @@
 #' @return A tibble with `nrow(data)` rows and `1 + <number of sub-models>` 
 #'   columns, where each column (besides the first, which contains the true 
 #'   response) gives the prediction for each given sub-model.
+#'
+#' @template note_example_data  
+#'  
+#' @examples  
+#' # initialize a model stack and add some members
+#' st <- stack_init() %>%
+#'   stack_add(svm_res_) %>%
+#'   stack_add(spline_res_)
+#'   
+#' # collate model predictions
+#' st %>%
+#'   stack_predictions()
+#'   
 #' @export
-stack_predictions <- function(stack, ...) {
+stack_predictions <- function(stack, data, ...) {
+  
+  outcome_name <- get_outcome(stack)
+  
+  outcome <- 
+    data %>%
+    dplyr::pull(outcome_name)
+  
+  assign(get_outcome(stack), outcome)
   
   res <- 
     purrr::map(
@@ -20,7 +41,7 @@ stack_predictions <- function(stack, ...) {
       get_all_preds
     ) %>%
     dplyr::bind_cols() %>%
-    dplyr::bind_cols(.row = 1:nrow(.), .)
+    dplyr::bind_cols(!!outcome_name := outcome, .) 
   
 }
 

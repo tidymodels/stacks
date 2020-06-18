@@ -4,14 +4,13 @@
 #' stacking/loading coefficients for the model stack.
 #' 
 #' @param stack A model `stack` object.
-#' @inheritParams stack_init
+#' @param data The training data used to generate the resampling object.
 #' 
-#' @return 
+#' @return An evaluated model `stack` object.
+#' 
+#' @template note_example_data
 #' 
 #' @examples 
-#' 
-#' #example man-roxygen/ex-note_example_data
-#' 
 #' # initialize a model stack and add some members
 #' st <- stack_init() %>%
 #'   stack_add(svm_res_) %>%
@@ -19,19 +18,28 @@
 #' 
 #' # evaluate the stack
 #' st %>%
-#'   stack_eval()
+#'   stack_eval(mtcars)
 #' 
 #' @export
-stack_eval <- function(stack, preprocessor, ...) {
+stack_eval <- function(stack, data, metrics, ...) {
 
-  stacked_predictions <- stack_predictions(stack)
+  preds <- stack_predictions(stack, data)
   
-  parsnip::linear_reg(penalty = tune::tune(), mixture = 1) %>%
+  preds_formula <- 
+    paste0(colnames(preds)[1], " ~ .") %>%
+    as.formula()
+  
+  stack_coefs <- 
+    parsnip::linear_reg(penalty = tune::tune(), mixture = 1) %>%
     parsnip::set_engine("glmnet", lower.limits = 0) %>%
     tune::tune_grid(
-      preprocessor,
-      resamples = bootstraps(stacked_predictions),
+      preds_formula,
+      resamples = rsample::bootstraps(preds),
       grid = tibble(penalty = 10 ^ (-6:-1)),
-      metrics = metric
+      metrics = yardstick::metric_set(yardstick::rmse)
     )
+  
+  stack$coefficients <- stack_coefs
+  
+  stack_constr(stack)
 }
