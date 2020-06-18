@@ -90,7 +90,7 @@ check_member_name <- function(stack, member) {
 }
 
 # predicates
-is_evaluated <- function(stack) {is.null(stack$coefficients)}
+is_evaluated <- function(stack) {!is.null(stack$coefficients)}
 
 # Misc. Utilities
 # ------------------------------------------------------------------------

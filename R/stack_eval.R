@@ -35,7 +35,7 @@ stack_eval <- function(stack, data, ...) {
     tune::tune_grid(
       preds_formula,
       resamples = rsample::bootstraps(preds),
-      grid = tibble(penalty = 10 ^ (-6:-1)),
+      grid = tibble::tibble(penalty = 10 ^ (-6:-1)),
       metrics = yardstick::metric_set(yardstick::rmse)
     )
   

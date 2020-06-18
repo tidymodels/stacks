@@ -43,6 +43,8 @@ stack_predictions <- function(stack, data, ...) {
     dplyr::bind_cols() %>%
     dplyr::bind_cols(!!outcome_name := outcome, .) 
   
+  tibble::as_tibble(res)
+  
 }
 
 
