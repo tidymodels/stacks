@@ -15,7 +15,9 @@ stack_init <- function(...) {
   structure(
     list(
       rs_hash = "init",
-      members = list()
+      members = list(),
+      outcome = NULL,
+      coefficients = NULL
     ),
     class = "stack"
   )

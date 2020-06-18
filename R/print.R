@@ -1,7 +1,8 @@
 #' @export
 print.stack <- function(stack) {
   
-  cat(glue::glue("# A model stack with {length(stack$members)} members:"))
+  cat(glue::glue("# A model stack with {length(stack$members)} member",
+                 "{if (length(stack$members) != 1) 's' else ''}:"))
   cat("\n")
   
   members <- 

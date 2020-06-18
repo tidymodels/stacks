@@ -23,7 +23,7 @@
 #' @export
 stack_eval <- function(stack, data, ...) {
 
-  preds <- stack_predictions(stack, data)
+  preds <- stack_preds(stack, data)
   
   preds_formula <- 
     paste0(colnames(preds)[1], " ~ .") %>%
