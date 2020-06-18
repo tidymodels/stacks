@@ -22,10 +22,10 @@
 #'   
 #' # collate model predictions
 #' st %>%
-#'   stack_predictions()
+#'   stack_preds()
 #'   
 #' @export
-stack_predictions <- function(stack, data, ...) {
+stack_preds <- function(stack, data, ...) {
   
   outcome_name <- get_outcome(stack)
   

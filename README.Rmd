@@ -35,10 +35,10 @@ st %>%
 
 # collate predictions
 st %>%
-  stack_predictions(mtcars)
+  stack_preds(mtcars)
 
 # evaluate model stacking coefficients
-# (calls stack_predictions in the backend)
+# (calls stack_preds in the backend)
 st <- st %>%
   stack_eval(mtcars)
 

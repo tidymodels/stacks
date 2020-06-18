@@ -50,7 +50,7 @@ st %>%
 ``` r
 # collate predictions
 st %>%
-  stack_predictions(mtcars)
+  stack_preds(mtcars)
 ```
 
     ## # A tibble: 32 x 15
@@ -71,7 +71,7 @@ st %>%
 
 ``` r
 # evaluate model stacking coefficients
-# (calls stack_predictions in the backend)
+# (calls stack_preds in the backend)
 st <- st %>%
   stack_eval(mtcars)
 
