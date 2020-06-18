@@ -89,6 +89,9 @@ check_member_name <- function(stack, member) {
   invisible(TRUE)
 }
 
+# predicates
+is_evaluated <- function(stack) {is.null(stack$coefficients)}
+
 # Misc. Utilities
 # ------------------------------------------------------------------------
 
