@@ -30,7 +30,8 @@ Imports:
     dials,
     digest,
     glue,
-    generics
+    generics,
+    ggplot2
 Suggests: 
     testthat,
     workflows (>= 0.1.0),
