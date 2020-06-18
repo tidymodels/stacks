@@ -10,6 +10,8 @@ stack_eval(stack, data, ...)
 \item{stack}{A model \code{stack} object.}
 
 \item{data}{The training data used to generate the resampling object.}
+
+\item{...}{Additional arguments. Currently ignored.}
 }
 \value{
 An evaluated model \code{stack} object.

@@ -7,6 +7,11 @@ dplyr::`%>%`
 # Global Variables
 # ------------------------------------------------------------------------
 utils::globalVariables(c(
+  ":=",
+  ".",
+  ".config",
+  ".pred",
+  "as.formula",
   "stack"
 ))
 

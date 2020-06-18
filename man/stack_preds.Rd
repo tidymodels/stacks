@@ -9,6 +9,8 @@ stack_preds(stack, data, ...)
 \arguments{
 \item{stack}{A model \code{stack} object.}
 
+\item{data}{The training data used to generate the resampling object.}
+
 \item{...}{Additional arguments. Currently ignored.}
 }
 \value{

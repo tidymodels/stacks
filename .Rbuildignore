@@ -7,3 +7,4 @@ notes/
 ^man-roxygen$
 ^codecov\.yml$
 ^\.github$
+README.Rmd

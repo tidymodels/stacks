@@ -1,5 +1,4 @@
 stack_constr <- function(stack) {
-  
   chr_check(stack$rs_hash)
   
   # if there aren't any members left after the operation,

@@ -5,6 +5,7 @@
 #' 
 #' @param stack A model `stack` object.
 #' @param data The training data used to generate the resampling object.
+#' @inheritParams stack_init
 #' 
 #' @return An evaluated model `stack` object.
 #' 
@@ -22,7 +23,6 @@
 #' 
 #' @export
 stack_eval <- function(stack, data, ...) {
-
   preds <- stack_preds(stack, data)
   
   preds_formula <- 

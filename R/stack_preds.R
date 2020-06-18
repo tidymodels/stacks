@@ -6,7 +6,7 @@
 #' in a model stacking pipeline, but is exported for user convenience
 #' for ad-hoc model stacking.
 #' 
-#' @inheritParams stack_add
+#' @inheritParams stack_eval
 #' 
 #' @return A tibble with `nrow(data)` rows and `1 + <number of sub-models>` 
 #'   columns, where each column (besides the first, which contains the true 
@@ -26,7 +26,6 @@
 #'   
 #' @export
 stack_preds <- function(stack, data, ...) {
-  
   outcome_name <- get_outcome(stack)
   
   outcome <- 
@@ -44,7 +43,6 @@ stack_preds <- function(stack, data, ...) {
     dplyr::bind_cols(!!outcome_name := outcome, .) 
   
   tibble::as_tibble(res)
-  
 }
 
 

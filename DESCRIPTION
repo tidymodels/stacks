@@ -34,8 +34,7 @@ Suggests:
     testthat,
     workflows (>= 0.1.0),
     covr
-Remotes:
-    tidymodels/tune
+Remotes: tidymodels/tune
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
