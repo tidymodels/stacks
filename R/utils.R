@@ -88,13 +88,23 @@ check_hash <- function(stack, member, name) {
   stack
 }
 
-check_member_name <- function(stack, member, name) {
+check_member <- function(stack, member, name) {
   # check to make sure that the supplied sub-model set (member) 
   # doesn't have the same name as an existing member
   if (name %in% names(stack$members)) {
     glue_stop(
       "The new member has the ",
       "same object name '{name}' as an existing member."
+    )
+  }
+  
+  new_member_hash <- digest::digest(member)
+  existing_hashes <- purrr::map(stack$members, digest::digest)
+  
+  if (new_member_hash %in% existing_hashes) {
+    glue_stop(
+      "The new member '{name}' is the same as the existing member ",
+      "'{names(stack$members)[which(existing_hashes %in% new_member_hash)]}'."
     )
   }
 }

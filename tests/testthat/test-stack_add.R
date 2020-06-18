@@ -27,4 +27,11 @@ test_that("stack won't add bad members", {
       stack_add(svm_res_new_folds_),
     "same resampling object"
   )
+  
+  svm_res_renamed <- svm_res_
+  
+  expect_error(
+    st_1 %>% stack_add(svm_res_renamed),
+    "new member 'svm_res_renamed' is the same as the existing"
+  )
 })
