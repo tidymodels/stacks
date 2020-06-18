@@ -1,7 +1,10 @@
 #' Evaluate model stack coefficients
 #'
 #' Completes a stacked model specification by estimating the 
-#' stacking/loading coefficients for the model stack.
+#' stacking/loading coefficients for the model stack. Model stack
+#' evaluation assumes that the model members will no longer be
+#' altered—to adjust member models, remove the model evaluation
+#' with \code{stack_uneval()}.
 #' 
 #' @param stack A model `stack` object.
 #' @param data The training data used to generate the resampling object.
@@ -20,6 +23,24 @@
 #' # evaluate the stack
 #' st %>%
 #'   stack_eval(mtcars)
+#'   
+#' # the following code will result in warnings about
+#' # immutability of evaluated model stacks
+#' \dontrun{
+#' 
+#' st %>%
+#'   stack_eval(mtcars) %>%
+#'   stack_rm(spline_res_)
+#' }
+#' 
+#' # to alter an evaluated model stack, unevaluate the
+#' # model before adding or removing models
+#' st_eval <- st %>%
+#'   stack_eval(mtcars)
+#'   
+#' st_eval %>%
+#'   stack_uneval() %>%
+#'   stack_rm(spline_res_)
 #' 
 #' @export
 stack_eval <- function(stack, data, ...) {
@@ -40,6 +61,14 @@ stack_eval <- function(stack, data, ...) {
     )
   
   stack$coefficients <- stack_coefs
+  
+  stack_constr(stack)
+}
+
+#' @rdname stack_eval
+#' @export
+stack_uneval <- function(stack, ...) {
+  stack["coefficients"] <- list(NULL)
   
   stack_constr(stack)
 }

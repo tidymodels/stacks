@@ -1,9 +1,10 @@
 #' @rdname add_rm
 #' @export
 stack_add <- function(stack, member, ...) {
-  stack <- check_hash(stack, member, deparse(substitute(member)))
-  
+  check_evaluated(stack, deparse(substitute(member)), "add")
   check_member_name(stack, member, deparse(substitute(member)))
+  
+  stack <- check_hash(stack, member, deparse(substitute(member)))
   
   stack[["members"]][[deparse(substitute(member))]] <- member
   

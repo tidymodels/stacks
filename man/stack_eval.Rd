@@ -2,9 +2,12 @@
 % Please edit documentation in R/stack_eval.R
 \name{stack_eval}
 \alias{stack_eval}
+\alias{stack_uneval}
 \title{Evaluate model stack coefficients}
 \usage{
 stack_eval(stack, data, ...)
+
+stack_uneval(stack, ...)
 }
 \arguments{
 \item{stack}{A model \code{stack} object.}
@@ -18,7 +21,10 @@ An evaluated model \code{stack} object.
 }
 \description{
 Completes a stacked model specification by estimating the
-stacking/loading coefficients for the model stack.
+stacking/loading coefficients for the model stack. Model stack
+evaluation assumes that the model members will no longer be
+altered—to adjust member models, remove the model evaluation
+with \code{stack_uneval()}.
 }
 \section{Example Data}{
 
@@ -38,5 +44,23 @@ st <- stack_init() \%>\%
 # evaluate the stack
 st \%>\%
   stack_eval(mtcars)
+  
+# the following code will result in warnings about
+# immutability of evaluated model stacks
+\dontrun{
+
+st \%>\%
+  stack_eval(mtcars) \%>\%
+  stack_rm(spline_res_)
+}
+
+# to alter an evaluated model stack, unevaluate the
+# model before adding or removing models
+st_eval <- st \%>\%
+  stack_eval(mtcars)
+  
+st_eval \%>\%
+  stack_uneval() \%>\%
+  stack_rm(spline_res_)
 
 }

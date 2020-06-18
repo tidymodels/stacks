@@ -99,6 +99,23 @@ check_member_name <- function(stack, member, name) {
   }
 }
 
+check_evaluated <- function(stack, name, context) {
+  stack_is_evaluated <- is_evaluated(stack)
+  
+  if (stack_is_evaluated) {
+    glue_warn(
+      "The supplied model stack is already evaluated, and will ",
+      "need to be re-evaluated with the ",
+      if (context == "add") {
+        "new member '{name}' added. "
+      } else {
+        "member '{name}' removed. "
+      },
+      "To silence this warning, first unevaluate the stack ",
+      "with stack_uneval().")
+  }
+}
+
 # predicates
 is_evaluated <- function(stack) {!is.null(stack$coefficients)}
 
@@ -120,6 +137,5 @@ get_all_preds <- function(x) {
   
   pred
 }
-
 
 
