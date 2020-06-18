@@ -1,9 +1,9 @@
 #' @export
 print.stack <- function(stack) {
-  
   cat(glue::glue("# A model stack with {length(stack$members)} member",
-                 "{if (length(stack$members) != 1) 's' else ''}:"))
-  cat("\n")
+                 "{if (length(stack$members) != 1) 's' else ''}",
+                 "{if (length(stack$members) != 0) ':' else '.'}"))
+  if (length(stack$members) != 0) {cat("\n")}
   
   members <- 
     purrr::map2(
@@ -23,5 +23,4 @@ print.stack <- function(stack) {
   
   cat(glue::glue("# Evaluated: {is_evaluated(stack)}"))
   cat("\n")
-  
 }

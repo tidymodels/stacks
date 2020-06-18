@@ -68,14 +68,14 @@ set_outcome <- function(stack, member) {
 }
 
 # checks
-check_hash <- function(stack, member) {
+check_hash <- function(stack, member, name) {
   if (stack$rs_hash == "init") {stack$rs_hash <- digest::digest(member$splits)}
   
   hash_matches <- stack$rs_hash == digest::digest(member$splits)
   
   if (!hash_matches) {
     glue_stop(
-      "It seems like the member you added in {match.call()} doesn't make use ",
+      "It seems like the new member '{name}' doesn't make use ",
       "of the same resampling object as the existing members."
     )
   }
@@ -83,10 +83,15 @@ check_hash <- function(stack, member) {
   stack
 }
 
-check_member_name <- function(stack, member) {
+check_member_name <- function(stack, member, name) {
   # check to make sure that the supplied sub-model set (member) 
   # doesn't have the same name as an existing member
-  invisible(TRUE)
+  if (name %in% names(stack$members)) {
+    glue_stop(
+      "The new member has the ",
+      "same object name '{name}' as an existing member."
+    )
+  }
 }
 
 # predicates

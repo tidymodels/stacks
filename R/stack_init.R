@@ -19,6 +19,6 @@ stack_init <- function(...) {
       outcome = NULL,
       coefficients = NULL
     ),
-    class = "stack"
+    class = c("stack", "list")
   )
 }
