@@ -1,6 +1,11 @@
 Model Stacking Package
 ================
 
+[![Codecov test
+coverage](https://codecov.io/gh/simonpcouch/stack/branch/main/graph/badge.svg)](https://codecov.io/gh/simonpcouch/stack?branch=main)
+[![R build
+status](https://github.com/simonpcouch/stack/workflows/R-CMD-check/badge.svg)](https://github.com/simonpcouch/stack/actions)
+
 An R package for model stacking that aligns with the `tidymodels`.
 
 A quick demo of current functionality:
@@ -16,8 +21,7 @@ st <- stack_init()
 st
 ```
 
-    ## # A model stack with 0 members:
-    ## 
+    ## # A model stack with 0 members.
     ## # Evaluated: FALSE
 
 ``` r
@@ -42,7 +46,7 @@ st %>%
   stack_rm("spline_res_")
 ```
 
-    ## # A model stack with 1 members:
+    ## # A model stack with 1 member:
     ## #   svm_res_: 5 sub-models
     ## # Outcome: mpg
     ## # Evaluated: FALSE
