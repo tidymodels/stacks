@@ -32,11 +32,13 @@ Imports:
     glue,
     generics,
     ggplot2,
-    tune
+    tune,
+    glmnet
 Suggests: 
     testthat,
     workflows (>= 0.1.0),
-    covr
+    covr,
+    kernlab
 Remotes: tidymodels/tune
 Encoding: UTF-8
 LazyData: true
