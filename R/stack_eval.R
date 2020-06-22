@@ -30,7 +30,7 @@
 #' 
 #' st %>%
 #'   stack_eval(mtcars) %>%
-#'   stack_rm(spline_res_)
+#'   stack_rm("spline_res_")
 #' }
 #' 
 #' # to alter an evaluated model stack, unevaluate the
@@ -40,7 +40,7 @@
 #'   
 #' st_eval %>%
 #'   stack_uneval() %>%
-#'   stack_rm(spline_res_)
+#'   stack_rm("spline_res_")
 #' 
 #' @export
 stack_eval <- function(stack, data, ...) {

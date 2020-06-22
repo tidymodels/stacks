@@ -31,7 +31,8 @@ Imports:
     digest,
     glue,
     generics,
-    ggplot2
+    ggplot2,
+    tune
 Suggests: 
     testthat,
     workflows (>= 0.1.0),

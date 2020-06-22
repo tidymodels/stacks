@@ -6,6 +6,11 @@
 \usage{
 \method{fit}{stack}(object, ...)
 }
+\arguments{
+\item{object}{An evaluated model stack.}
+
+\item{...}{Additional arguments. Currently ignored.}
+}
 \description{
 Fit an evaluated model stack.
 }
