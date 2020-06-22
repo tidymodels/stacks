@@ -2,11 +2,10 @@
 #' 
 #' Given a model stack, this function collects the predictions
 #' from each of the members' sub-models and collates them in a tibble.
-#' This is a helper function and will generally not be used (explicitly) 
-#' in a model stacking pipeline, but is exported for user convenience
-#' for ad-hoc model stacking.
 #' 
-#' @inheritParams stack_eval
+#' @param stack A model `stack` object.
+#' @param data The training data used to generate the resampling object.
+#' @inheritParams stack_init
 #' 
 #' @return A tibble with `nrow(data)` rows and `1 + <number of sub-models>` 
 #'   columns, where each column (besides the first, which contains the true 
@@ -22,10 +21,10 @@
 #'   
 #' # collate model predictions
 #' st %>%
-#'   stack_preds(mtcars)
+#'   stack_data(mtcars)
 #'   
 #' @export
-stack_preds <- function(stack, data, ...) {
+stack_data <- function(stack, data, ...) {
   outcome_name <- get_outcome(stack)
   
   outcome <- 
@@ -42,7 +41,12 @@ stack_preds <- function(stack, data, ...) {
     dplyr::bind_cols() %>%
     dplyr::bind_cols(!!outcome_name := outcome, .) 
   
-  tibble::as_tibble(res)
+  structure(
+    list(
+      stacked_data = tibble::as_tibble(res)
+    ),
+    class = c("stacked_data", "list")
+  )
 }
 
 

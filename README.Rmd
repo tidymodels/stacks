@@ -15,7 +15,7 @@ An R package for model stacking that aligns with the `tidymodels`.
 A quick demo of current functionality:
 
 ```{r, message = FALSE, warning = FALSE}
-devtools::load_all()
+library(stack)
 ```
 
 ```{r}
@@ -37,13 +37,12 @@ st %>%
   stack_rm("spline_res_")
 
 # collate predictions
-st %>%
-  stack_preds(mtcars)
+stacked_data <- st %>%
+  stack_data(mtcars)
 
-# evaluate model stacking coefficients
-# (calls stack_preds in the backend)
-st <- st %>%
-  stack_eval(mtcars)
+stacked_data$stacked_data
 
-st
+# fit the model using the stacked data
+stacked_data %>%
+  fit()
 ```
