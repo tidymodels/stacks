@@ -18,3 +18,16 @@ test_that("objects from new resample can be added to 0-member stack", {
   
   expect_false(is_evaluated(st_1_post_rm))
 })
+
+test_that("stack won't add bad members", {
+  expect_error(
+    st_1 %>% stack_rm(svm_res_),
+    "member to remove, svm_res_\\b.*?\\bactual member"
+  )
+  
+  expect_error(
+    st_1 %>%
+      stack_rm("spline_res_"),
+    "member to remove, spline_res_\\b.*?\\bisn't a stack member."
+  )
+})

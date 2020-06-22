@@ -2,7 +2,7 @@
 #' @export
 stack_add <- function(stack, member, ...) {
   check_evaluated(stack, deparse(substitute(member)), "add")
-  check_member(stack, member, deparse(substitute(member)))
+  check_member_add(stack, member, deparse(substitute(member)))
   
   stack <- check_hash(stack, member, deparse(substitute(member)))
   

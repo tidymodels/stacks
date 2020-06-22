@@ -29,7 +29,7 @@ glue_message <- function(..., .sep = "", .envir = parent.frame()) {
   rlang::inform(glue::glue(..., .sep = .sep, .envir = .envir))
 }
 
-chr_check <- function(x) {
+check_chr <- function(x) {
   cl <- match.call()
   
   if (is.null(x)) {
@@ -88,7 +88,7 @@ check_hash <- function(stack, member, name) {
   stack
 }
 
-check_member <- function(stack, member, name) {
+check_member_add <- function(stack, member, name) {
   # check to make sure that the supplied sub-model set (member) 
   # doesn't have the same name as an existing member
   if (name %in% names(stack$members)) {
@@ -108,6 +108,25 @@ check_member <- function(stack, member, name) {
     )
   }
 }
+
+check_member_rm <- function(stack, member, name) {
+  # check to make sure that the member to remove is a character
+  if (!inherits(member, "character")) {
+    glue_stop(
+      "The supplied member to remove, {name}, has class {list(class(member))} ",
+      "rather than character. Did you supply the actual member object rather ",
+      "than its label?"
+    )
+  }
+  
+  if (!member %in% names(stack$members)) {
+    glue_stop(
+      "The supplied member to remove, {name}, isn't a stack member."
+    )
+  }
+
+}
+
 
 check_evaluated <- function(stack, name, context) {
   stack_is_evaluated <- is_evaluated(stack)
