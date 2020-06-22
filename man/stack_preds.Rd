@@ -43,6 +43,6 @@ st <- stack_init() \%>\%
   
 # collate model predictions
 st \%>\%
-  stack_preds()
+  stack_preds(mtcars)
   
 }

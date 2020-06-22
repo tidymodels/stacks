@@ -22,7 +22,7 @@
 #'   
 #' # collate model predictions
 #' st %>%
-#'   stack_preds()
+#'   stack_preds(mtcars)
 #'   
 #' @export
 stack_preds <- function(stack, data, ...) {
