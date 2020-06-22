@@ -35,7 +35,7 @@ fit.stacked_data <- function(object, ...) {
   
   structure(
       list(
-        stacked_data = stacked_preds
+        coefs = stack_coefs
       ),
       class = c("stack_fit", "list")
   )

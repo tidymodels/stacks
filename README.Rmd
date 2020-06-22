@@ -15,7 +15,7 @@ An R package for model stacking that aligns with the `tidymodels`.
 A quick demo of current functionality:
 
 ```{r, message = FALSE, warning = FALSE}
-library(stack)
+devtools::load_all()
 ```
 
 ```{r}

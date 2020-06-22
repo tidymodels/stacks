@@ -53,8 +53,10 @@ st %>%
 
 ``` r
 # collate predictions
-st %>%
-  stack_preds(mtcars)
+stacked_data <- st %>%
+  stack_data(mtcars)
+
+stacked_data$stacked_data
 ```
 
     ## # A tibble: 32 x 15
@@ -74,16 +76,28 @@ st %>%
     ## #   Recipe3 <dbl>, Recipe6 <dbl>, Recipe9 <dbl>
 
 ``` r
-# evaluate model stacking coefficients
-# (calls stack_preds in the backend)
-st <- st %>%
-  stack_eval(mtcars)
-
-st
+# fit the model using the stacked data
+stacked_data %>%
+  fit()
 ```
 
-    ## # A model stack with 2 members:
-    ## #   svm_res_: 5 sub-models
-    ## #   spline_res_: 9 sub-models
-    ## # Outcome: mpg
-    ## # Evaluated: TRUE
+    ## $coefs
+    ## # Tuning results
+    ## # Bootstrap sampling 
+    ## # A tibble: 25 x 4
+    ##    splits          id          .metrics         .notes          
+    ##    <list>          <chr>       <list>           <list>          
+    ##  1 <split [32/12]> Bootstrap01 <tibble [6 × 5]> <tibble [0 × 1]>
+    ##  2 <split [32/14]> Bootstrap02 <tibble [6 × 5]> <tibble [0 × 1]>
+    ##  3 <split [32/12]> Bootstrap03 <tibble [6 × 5]> <tibble [0 × 1]>
+    ##  4 <split [32/12]> Bootstrap04 <tibble [6 × 5]> <tibble [0 × 1]>
+    ##  5 <split [32/11]> Bootstrap05 <tibble [6 × 5]> <tibble [0 × 1]>
+    ##  6 <split [32/10]> Bootstrap06 <tibble [6 × 5]> <tibble [0 × 1]>
+    ##  7 <split [32/12]> Bootstrap07 <tibble [6 × 5]> <tibble [0 × 1]>
+    ##  8 <split [32/11]> Bootstrap08 <tibble [6 × 5]> <tibble [0 × 1]>
+    ##  9 <split [32/13]> Bootstrap09 <tibble [6 × 5]> <tibble [0 × 1]>
+    ## 10 <split [32/16]> Bootstrap10 <tibble [6 × 5]> <tibble [0 × 1]>
+    ## # … with 15 more rows
+    ## 
+    ## attr(,"class")
+    ## [1] "stack_fit" "list"
