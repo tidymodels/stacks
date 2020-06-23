@@ -131,24 +131,19 @@ check_member_rm <- function(stack, member, name) {
 # ------------------------------------------------------------------------
 
 collate_member <- function(stack, member) {
-  
-}
-
-get_all_preds <- function(x) {
-  
-  params <- attributes(x)$parameters$id
-  
-  pred <-
-    tune::collect_predictions(x, summarize = TRUE) %>%
+  member_cols <-
+    tune::collect_predictions(member, summarize = TRUE) %>%
     dplyr::ungroup() %>%
     dplyr::select(.row, .pred, .config) %>%
     tidyr::pivot_wider(id_cols = ".row", 
                        names_from = ".config", 
-                       values_from = ".pred") %>%
-    dplyr::select(-.row)
+                       values_from = ".pred")
   
-  pred
+  if (nrow(stack) == 0) {
+    
+  } else {
+    stack %>% full_join(member_cols)
+  }
 }
-
 
 
