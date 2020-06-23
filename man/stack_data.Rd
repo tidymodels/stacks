@@ -34,9 +34,9 @@ fitting \code{mpg} with all other variables in \code{mtcars} as predictors!
 \examples{
  
 # initialize a model stack and add some members
-st <- stack_init() \%>\%
-  stack_add(svm_res_) \%>\%
-  stack_add(spline_res_)
+st <- model_stack() \%>\%
+  members_add(svm_res_) \%>\%
+  members_add(spline_res_)
   
 # collate model predictions
 st \%>\%

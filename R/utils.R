@@ -59,7 +59,7 @@ names0 <- function(num, prefix = "x") {
 get_outcome <- function(stack) {stack$outcome}
 
 # setters
-set_outcome <- function(stack, member) {
+check_outcome <- function(stack, member) {
   if (!is.null(get_outcome(stack)) && 
       get_outcome(stack) != tune::outcome_names(member)) {
     glue_stop("The member you've tried to add to the stack has ",
@@ -91,22 +91,22 @@ check_hash <- function(stack, member, name) {
 check_member_add <- function(stack, member, name) {
   # check to make sure that the supplied sub-model set (member) 
   # doesn't have the same name as an existing member
-  if (name %in% names(stack$members)) {
-    glue_stop(
-      "The new member has the ",
-      "same object name '{name}' as an existing member."
-    )
-  }
+  # if (name %in% names(stack$members)) {
+  #   glue_stop(
+  #     "The new member has the ",
+  #     "same object name '{name}' as an existing member."
+  #   )
+  # }
   
   new_member_hash <- digest::digest(member)
-  existing_hashes <- purrr::map(stack$members, digest::digest)
-  
-  if (new_member_hash %in% existing_hashes) {
-    glue_stop(
-      "The new member '{name}' is the same as the existing member ",
-      "'{names(stack$members)[which(existing_hashes %in% new_member_hash)]}'."
-    )
-  }
+  # existing_hashes <- purrr::map(stack$members, digest::digest)
+  # 
+  # if (new_member_hash %in% existing_hashes) {
+  #   glue_stop(
+  #     "The new member '{name}' is the same as the existing member ",
+  #     "'{names(stack$members)[which(existing_hashes %in% new_member_hash)]}'."
+  #   )
+  # }
 }
 
 check_member_rm <- function(stack, member, name) {
@@ -119,37 +119,20 @@ check_member_rm <- function(stack, member, name) {
     )
   }
   
-  if (!member %in% names(stack$members)) {
-    glue_stop(
-      "The supplied member to remove, {name}, isn't a stack member."
-    )
-  }
+  # if (!member %in% names(stack$members)) {
+  #   glue_stop(
+  #     "The supplied member to remove, {name}, isn't a stack member."
+  #   )
+  # }
 
 }
-
-
-check_evaluated <- function(stack, name, context) {
-  stack_is_evaluated <- is_evaluated(stack)
-  
-  if (stack_is_evaluated) {
-    glue_warn(
-      "The supplied model stack is already evaluated, and will ",
-      "need to be re-evaluated with the ",
-      if (context == "add") {
-        "new member '{name}' added. "
-      } else {
-        "member '{name}' removed. "
-      },
-      "To silence this warning, first unevaluate the stack ",
-      "with stack_uneval().")
-  }
-}
-
-# predicates
-is_evaluated <- function(stack) {!is.null(stack$coefficients)}
 
 # Misc. Utilities
 # ------------------------------------------------------------------------
+
+collate_member <- function(stack, member) {
+  
+}
 
 get_all_preds <- function(x) {
   
@@ -166,5 +149,6 @@ get_all_preds <- function(x) {
   
   pred
 }
+
 
 

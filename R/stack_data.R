@@ -5,7 +5,7 @@
 #' 
 #' @param stack A model `stack` object.
 #' @param data The training data used to generate the resampling object.
-#' @inheritParams stack_init
+#' @inheritParams model_stack
 #' 
 #' @return A tibble with `nrow(data)` rows and `1 + <number of sub-models>` 
 #'   columns, where each column (besides the first, which contains the true 
@@ -15,9 +15,9 @@
 #'  
 #' @examples  
 #' # initialize a model stack and add some members
-#' st <- stack_init() %>%
-#'   stack_add(svm_res_) %>%
-#'   stack_add(spline_res_)
+#' st <- model_stack() %>%
+#'   members_add(svm_res_) %>%
+#'   members_add(spline_res_)
 #'   
 #' # collate model predictions
 #' st %>%

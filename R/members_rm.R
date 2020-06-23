@@ -1,6 +1,6 @@
 #' @rdname add_rm
 #' @export
-stack_rm <- function(stack, member, ...) {
+members_rm <- function(stack, member, ...) {
   check_evaluated(stack, member, "rm")
   check_member_rm(stack, member, deparse(substitute(member)))
   

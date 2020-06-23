@@ -3,8 +3,8 @@ title: "Model Stacking Package"
 output: github_document
 ---
 
-[![Codecov test coverage](https://codecov.io/gh/simonpcouch/stack/branch/main/graph/badge.svg)](https://codecov.io/gh/simonpcouch/stack?branch=main) 
-[![R build status](https://github.com/simonpcouch/stack/workflows/R-CMD-check/badge.svg)](https://github.com/simonpcouch/stack/actions)
+<!-- [![Codecov test coverage](https://codecov.io/gh/simonpcouch/stack/branch/main/graph/badge.svg)](https://codecov.io/gh/simonpcouch/stack?branch=main)  -->
+<!-- [![R build status](https://github.com/simonpcouch/stack/workflows/R-CMD-check/badge.svg)](https://github.com/simonpcouch/stack/actions) -->
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -12,37 +12,4 @@ knitr::opts_chunk$set(echo = TRUE)
 
 An R package for model stacking that aligns with the `tidymodels`.
 
-A quick demo of current functionality:
-
-```{r, message = FALSE, warning = FALSE}
-devtools::load_all()
-```
-
-```{r}
-# initialize the model stack object
-st <- stack_init()
-
-st
-
-# add some members
-st <- 
-  st %>%
-  stack_add(svm_res_) %>%
-  stack_add(spline_res_)
-
-st
-
-# remove a member
-st %>%
-  stack_rm("spline_res_")
-
-# collate predictions
-stacked_data <- st %>%
-  stack_data(mtcars)
-
-stacked_data$stacked_data
-
-# fit the model using the stacked data
-stacked_data %>%
-  fit()
-```
+![](figs/diagram.png)
