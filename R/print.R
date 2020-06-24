@@ -1,5 +1,6 @@
-# #' @export
-# print.stack <- function(x, ...) {
+#' @export
+print.stack <- function(x, ...) {
+  print(tibble::as_tibble(x))
 #   cat(glue::glue("# A model stack with {length(x$members)} member",
 #                  "{if (length(x$members) != 1) 's' else ''}",
 #                  "{if (length(x$members) != 0) ':' else '.'}"))
@@ -23,4 +24,4 @@
 # 
 #   cat(glue::glue("# Evaluated: {is_evaluated(x)}"))
 #   cat("\n")
-# }
+}

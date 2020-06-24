@@ -1,9 +1,9 @@
 stack_constr <- function(stack) {
-  check_chr(stack$rs_hash)
+  check_chr(attr(stack, "rs_hash"))
   
   # if there aren't any members left after the operation,
   # allow the object to accept tune_results from new resampling objects
-  if (length(stack$members) == 0) {
+  if (ncol(stack) <= 1) {
     stack <- model_stack()
   }
   

@@ -56,10 +56,11 @@ names0 <- function(num, prefix = "x") {
 # ------------------------------------------------------------------------
 
 # getters
-get_outcome <- function(stack) {stack$outcome}
+get_outcome <- function(stack) {attr(stack, "outcome")}
+get_hash <- function(stack) {attr(stack, "rs_hash")}
 
 # setters
-check_outcome <- function(stack, member) {
+set_outcome <- function(stack, member) {
   if (!is.null(get_outcome(stack)) && 
       get_outcome(stack) != tune::outcome_names(member)) {
     glue_stop("The member you've tried to add to the stack has ",
@@ -67,16 +68,18 @@ check_outcome <- function(stack, member) {
               "while the stack's outcome variable is {get_outcome(stack)}.")
   }
   
-  stack$outcome <- tune::outcome_names(member)
+  attr(stack, "outcome") <- tune::.get_tune_outcome_names(member)
   
   stack
 }
 
 # checks
-check_hash <- function(stack, member, name) {
-  if (stack$rs_hash == "init") {stack$rs_hash <- digest::digest(member$splits)}
+set_hash <- function(stack, member, name) {
+  if (get_hash(stack) == "init") {
+    new_hash <- digest::digest(member$splits)
+  }
   
-  hash_matches <- stack$rs_hash == digest::digest(member$splits)
+  hash_matches <- get_hash(stack) %in% c("init", new_hash)
   
   if (!hash_matches) {
     glue_stop(
@@ -84,6 +87,8 @@ check_hash <- function(stack, member, name) {
       "of the same resampling object as the existing members."
     )
   }
+  
+  attr(stack, "rs_hash") <- new_hash
   
   stack
 }
@@ -134,16 +139,32 @@ collate_member <- function(stack, member) {
   member_cols <-
     tune::collect_predictions(member, summarize = TRUE) %>%
     dplyr::ungroup() %>%
-    dplyr::select(.row, .pred, .config) %>%
-    tidyr::pivot_wider(id_cols = ".row", 
+    dplyr::select(.row, .pred, .config, !!get_outcome(member)) %>%
+    tidyr::pivot_wider(id_cols = c(".row", !!get_outcome(member)), 
                        names_from = ".config", 
-                       values_from = ".pred")
+                       values_from = ".pred") %>%
+    dplyr::select(-.row)
   
   if (nrow(stack) == 0) {
-    
+    update_stack_data(
+      stack, 
+      member_cols
+    )
   } else {
-    stack %>% full_join(member_cols)
+    update_stack_data(
+      stack,
+      bind_cols(stack, dplyr::select(member_cols, -!!get_outcome(member)))
+    )
   }
 }
 
-
+# update the data in the stack while preserving attributes and class
+update_stack_data <- function(stack, new_data) {
+  attr(new_data, "rs_hash") <- attr(stack, "rs_hash")
+  attr(new_data, "outcome") <- attr(stack, "outcome")
+  
+  structure(
+    new_data,
+    class = c("stack", class(new_data))
+  )
+}
