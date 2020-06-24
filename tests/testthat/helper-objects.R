@@ -8,15 +8,15 @@ st_0 <- model_stack()
 st_1 <- model_stack() %>%
   members_add(svm_res_)
 
-# st_0_rm <- st_1 %>%
-#   members_rm("svm_res_")
+st_0_rm <- st_1 %>%
+  members_rm("svm_res_")
 
 st_2 <- model_stack() %>%
   members_add(svm_res_) %>%
   members_add(spline_res_)
 
-# st_1_rm <- st_2 %>%
-#   members_rm("spline_res_")
+st_1_rm <- st_2 %>%
+  members_rm("spline_res_")
   
 # Resampling Objects
 # ------------------------------------------------------------------------
@@ -25,6 +25,8 @@ st_2 <- model_stack() %>%
 set.seed(2)
 
 folds_ <- rsample::vfold_cv(mtcars, v = 3)
+
+ctrl <- control_grid(save_pred = TRUE)
 
 car_rec_ <- 
   recipes::recipe(mpg ~ ., data = mtcars) %>%
@@ -45,5 +47,6 @@ svm_res_new_folds_ <-
     object = svm_mod_, 
     preprocessor = car_rec_, 
     resamples = folds_, 
-    grid = 5
+    grid = 5,
+    control = ctrl
   )

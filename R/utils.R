@@ -119,23 +119,37 @@ set_model_defs <- function(stack, members, name) {
   stack
 }
 
-check_member_rm <- function(stack, member, name) {
-  # check to make sure that the member to remove is a character
-  # if (!inherits(member, "character")) {
-  #   glue_stop(
-  #     "The supplied member to remove, {name}, has class {list(class(member))} ",
-  #     "rather than character. Did you supply the actual member object rather ",
-  #     "than its label?"
-  #   )
-  # }
+# remove members helpers
+rm_members_checks <- function(stack, name) {
+  if (!inherits(name, "character")) {
+    glue_stop(
+      "The supplied member to remove, {name}, has class {list(class(name))} ",
+      "rather than character. Did you supply the actual member object rather ",
+      "than its label?"
+    )
+  }
   
-  # if (!member %in% names(stack$members)) {
-  #   glue_stop(
-  #     "The supplied member to remove, {name}, isn't a stack member."
-  #   )
-  # }
-
+  if (!name %in% attr(stack, "model_def_names")) {
+    glue_stop(
+      "The supplied member to remove, {name}, isn't a stack member."
+    )
+  }
+  
+  stack
 }
+
+rm_members <- function(stack, name) {
+  members_pos <- which(name == attr(stack, "model_def_names"))
+  
+  attr(stack, "model_def_hashes") <- attr(stack, "model_def_hashes")[-members_pos]
+  attr(stack, "model_def_names") <- attr(stack, "model_def_names")[-members_pos]
+  
+  update_stack_data(
+    stack,
+    stack %>% dplyr::select(-dplyr::contains(name))
+  )
+}
+
 
 # Misc. Utilities
 # ------------------------------------------------------------------------

@@ -2,6 +2,8 @@
 #' @export
 members_add <- function(stack, members, 
                         name = deparse(substitute(members)), ...) {
+  check_chr(name)
+  
   stack <- 
     stack %>%
     set_rs_hash(members, name) %>%
