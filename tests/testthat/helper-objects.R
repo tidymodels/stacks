@@ -3,18 +3,18 @@ context("helpers")
 
 # Stacks
 # ------------------------------------------------------------------------
-# st_0 <- model_stack()
-# 
-# st_1 <- model_stack() %>%
-#   members_add(svm_res_)
-# 
+st_0 <- model_stack()
+
+st_1 <- model_stack() %>%
+  members_add(svm_res_)
+
 # st_0_rm <- st_1 %>%
 #   members_rm("svm_res_")
-# 
-# st_2 <- model_stack() %>%
-#   members_add(svm_res_) %>%
-#   members_add(spline_res_)
-# 
+
+st_2 <- model_stack() %>%
+  members_add(svm_res_) %>%
+  members_add(spline_res_)
+
 # st_1_rm <- st_2 %>%
 #   members_rm("spline_res_")
   

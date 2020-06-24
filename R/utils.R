@@ -75,9 +75,7 @@ set_outcome <- function(stack, member) {
 
 # checks
 set_hash <- function(stack, member, name) {
-  if (get_hash(stack) == "init") {
-    new_hash <- digest::digest(member$splits)
-  }
+  new_hash <- digest::digest(member$splits)
   
   hash_matches <- get_hash(stack) %in% c("init", new_hash)
   
@@ -103,7 +101,7 @@ check_member_add <- function(stack, member, name) {
   #   )
   # }
   
-  new_member_hash <- digest::digest(member)
+  # new_member_hash <- digest::digest(member)
   # existing_hashes <- purrr::map(stack$members, digest::digest)
   # 
   # if (new_member_hash %in% existing_hashes) {
@@ -116,13 +114,13 @@ check_member_add <- function(stack, member, name) {
 
 check_member_rm <- function(stack, member, name) {
   # check to make sure that the member to remove is a character
-  if (!inherits(member, "character")) {
-    glue_stop(
-      "The supplied member to remove, {name}, has class {list(class(member))} ",
-      "rather than character. Did you supply the actual member object rather ",
-      "than its label?"
-    )
-  }
+  # if (!inherits(member, "character")) {
+  #   glue_stop(
+  #     "The supplied member to remove, {name}, has class {list(class(member))} ",
+  #     "rather than character. Did you supply the actual member object rather ",
+  #     "than its label?"
+  #   )
+  # }
   
   # if (!member %in% names(stack$members)) {
   #   glue_stop(
@@ -153,7 +151,10 @@ collate_member <- function(stack, member) {
   } else {
     update_stack_data(
       stack,
-      bind_cols(stack, dplyr::select(member_cols, -!!get_outcome(member)))
+      bind_cols(
+        tibble::as_tibble(stack), 
+        dplyr::select(member_cols, -!!get_outcome(member))
+      )
     )
   }
 }
