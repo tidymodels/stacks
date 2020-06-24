@@ -6,17 +6,17 @@
 \alias{add_rm}
 \title{Add or remove stack members}
 \usage{
-members_add(stack, member, ...)
+members_add(stack, members, name = deparse(substitute(members)), ...)
 
-members_rm(stack, member, ...)
+members_rm(stack, members, ...)
 }
 \arguments{
 \item{stack}{A model \code{stack} object.}
 
+\item{...}{Additional arguments. Currently ignored.}
+
 \item{member}{A \code{tune_results} object (or, if removing, its name)
 outputted by \code{\link[tune:tune_grid]{tune::tune_grid()}} or \code{\link[tune:tune_bayes]{tune::tune_bayes()}}.}
-
-\item{...}{Additional arguments. Currently ignored.}
 }
 \value{
 A model \code{stack} object--see \code{\link[=model_stack]{model_stack()}} for more details!

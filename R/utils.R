@@ -58,13 +58,15 @@ names0 <- function(num, prefix = "x") {
 # getters
 get_outcome <- function(stack) {attr(stack, "outcome")}
 get_hash <- function(stack) {attr(stack, "rs_hash")}
+get_model_def_names <- function(stack) {attr(stack, "model_def_names")}
+get_model_def_hashes <- function(stack) {attr(stack, "model_def_hashes")}
 
 # setters
 set_outcome <- function(stack, member) {
   if (!is.null(get_outcome(stack)) && 
       get_outcome(stack) != tune::outcome_names(member)) {
-    glue_stop("The member you've tried to add to the stack has ",
-              "outcome variable {tune::outcome_names(member)}, ",
+    glue_stop("The model definition you've tried to add to the stack has ",
+              "outcome variable {list(tune::outcome_names(member))}, ",
               "while the stack's outcome variable is {get_outcome(stack)}.")
   }
   
@@ -73,8 +75,7 @@ set_outcome <- function(stack, member) {
   stack
 }
 
-# checks
-set_hash <- function(stack, member, name) {
+set_rs_hash <- function(stack, member, name) {
   new_hash <- digest::digest(member$splits)
   
   hash_matches <- get_hash(stack) %in% c("init", new_hash)
@@ -91,25 +92,31 @@ set_hash <- function(stack, member, name) {
   stack
 }
 
-check_member_add <- function(stack, member, name) {
-  # check to make sure that the supplied sub-model set (member) 
-  # doesn't have the same name as an existing member
-  # if (name %in% names(stack$members)) {
-  #   glue_stop(
-  #     "The new member has the ",
-  #     "same object name '{name}' as an existing member."
-  #   )
-  # }
+# note that this function sets both the model definition names and hashes
+set_model_defs <- function(stack, members, name) {
+  # check to make sure that the supplied model def name
+  # doesn't have the same name or hash as an existing model def
+  if (name %in% attr(stack, "model_def_names")) {
+    glue_stop(
+      "The new model definition has the ",
+      "same object name '{name}' as an existing model definition."
+    )
+  }
   
-  # new_member_hash <- digest::digest(member)
-  # existing_hashes <- purrr::map(stack$members, digest::digest)
-  # 
-  # if (new_member_hash %in% existing_hashes) {
-  #   glue_stop(
-  #     "The new member '{name}' is the same as the existing member ",
-  #     "'{names(stack$members)[which(existing_hashes %in% new_member_hash)]}'."
-  #   )
-  # }
+  new_hash <- digest::digest(members)
+  existing_hashes <- get_model_def_hashes(stack)
+
+  if (new_hash %in% existing_hashes) {
+    glue_stop(
+      "The new member '{name}' is the same as the existing member ",
+      "'{get_model_def_names(stack)[which(existing_hashes == new_hash)]}'."
+    )
+  }
+  
+  attr(stack, "model_def_names") <- c(get_model_def_names(stack), name)
+  attr(stack, "model_def_hashes") <- c(get_model_def_hashes(stack), new_hash)
+  
+  stack
 }
 
 check_member_rm <- function(stack, member, name) {
@@ -133,15 +140,22 @@ check_member_rm <- function(stack, member, name) {
 # Misc. Utilities
 # ------------------------------------------------------------------------
 
-collate_member <- function(stack, member) {
+collate_member <- function(stack, members, name) {
   member_cols <-
-    tune::collect_predictions(member, summarize = TRUE) %>%
+    tune::collect_predictions(members, summarize = TRUE) %>%
     dplyr::ungroup() %>%
-    dplyr::select(.row, .pred, .config, !!get_outcome(member)) %>%
-    tidyr::pivot_wider(id_cols = c(".row", !!get_outcome(member)), 
+    dplyr::select(.row, .pred, .config, !!get_outcome(members)) %>%
+    dplyr::mutate(
+      .config = stringi::stri_replace_all_fixed(
+        .config,
+        c("Model", "Recipe"),
+        name,
+        vectorize_all = FALSE
+    )) %>%
+    tidyr::pivot_wider(id_cols = c(".row", !!get_outcome(members)), 
                        names_from = ".config", 
                        values_from = ".pred") %>%
-    dplyr::select(-.row)
+    dplyr::select(-.row) 
   
   if (nrow(stack) == 0) {
     update_stack_data(
@@ -153,7 +167,7 @@ collate_member <- function(stack, member) {
       stack,
       bind_cols(
         tibble::as_tibble(stack), 
-        dplyr::select(member_cols, -!!get_outcome(member))
+        dplyr::select(member_cols, -!!get_outcome(members))
       )
     )
   }
@@ -163,6 +177,8 @@ collate_member <- function(stack, member) {
 update_stack_data <- function(stack, new_data) {
   attr(new_data, "rs_hash") <- attr(stack, "rs_hash")
   attr(new_data, "outcome") <- attr(stack, "outcome")
+  attr(new_data, "model_def_names") <- attr(stack, "model_def_names")
+  attr(new_data, "model_def_hashes") <- attr(stack, "model_def_hashes")
   
   structure(
     new_data,

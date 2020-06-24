@@ -17,6 +17,8 @@ model_stack <- function(...) {
   
   attr(res, "rs_hash") <- "init"
   attr(res, "outcome") <- NULL
+  attr(res, "model_def_names") <- NULL
+  attr(res, "model_def_hashes") <- NULL
   
   structure(
     res,

@@ -1,12 +1,14 @@
 #' @rdname add_rm
 #' @export
-members_add <- function(stack, member, ...) {
-  check_member_add(stack, member, deparse(substitute(member)))
+members_add <- function(stack, members, 
+                        name = deparse(substitute(members)), ...) {
+  stack <- 
+    stack %>%
+    set_rs_hash(members, name) %>%
+    set_outcome(members) %>%
+    set_model_defs(members, name)
   
-  stack <- set_hash(stack, member, deparse(substitute(member)))
-  stack <- set_outcome(stack, member)
-  
-  stack <- collate_member(stack, member)
+  stack <- collate_member(stack, members, name)
   
   stack_constr(stack)
 }
