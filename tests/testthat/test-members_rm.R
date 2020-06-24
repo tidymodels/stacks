@@ -1,6 +1,6 @@
 context("members_rm")
 
-test_that("0-member stack is like model_stack()", {
+test_that("0-member stack is like new_stack()", {
   expect_true(inherits(st_0_rm, "stack"))
   expect_true(inherits(st_0_rm, "tbl_df"))
   
@@ -19,12 +19,12 @@ test_that("objects from new resample can be added to 0-member stack", {
 test_that("stack won't add bad members", {
   expect_error(
     st_1 %>% members_rm(svm_res_),
-    "member to remove, svm_res_\\b.*?\\bactual member"
+    "definition to remove, svm_res_\\b.*?\\bactual model definition"
   )
   
   expect_error(
     st_1 %>%
       members_rm("spline_res_"),
-    "spline_res_\\b.*?\\bisn't a stack member"
+    "spline_res_\\b.*?\\bin the stack"
   )
 })

@@ -62,15 +62,15 @@ get_model_def_names <- function(stack) {attr(stack, "model_def_names")}
 get_model_def_hashes <- function(stack) {attr(stack, "model_def_hashes")}
 
 # setters
-set_outcome <- function(stack, member) {
+set_outcome <- function(stack, members) {
   if (!is.null(get_outcome(stack)) && 
-      get_outcome(stack) != tune::outcome_names(member)) {
+      get_outcome(stack) != tune::.get_tune_outcome_names(members)) {
     glue_stop("The model definition you've tried to add to the stack has ",
-              "outcome variable {list(tune::outcome_names(member))}, ",
+              "outcome variable {list(tune::.get_tune_outcome_names(members))}, ",
               "while the stack's outcome variable is {get_outcome(stack)}.")
   }
   
-  attr(stack, "outcome") <- tune::.get_tune_outcome_names(member)
+  attr(stack, "outcome") <- tune::.get_tune_outcome_names(members)
   
   stack
 }
@@ -120,18 +120,19 @@ set_model_defs <- function(stack, members, name) {
 }
 
 # remove members helpers
-rm_members_checks <- function(stack, name) {
-  if (!inherits(name, "character")) {
+rm_members_checks <- function(stack, members, obj_name) {
+  if (!inherits(members, "character")) {
     glue_stop(
-      "The supplied member to remove, {name}, has class {list(class(name))} ",
-      "rather than character. Did you supply the actual member object rather ",
-      "than its label?"
+      "The supplied model definition to remove, {obj_name}, ",
+      "has class {list(class(members))} ",
+      "rather than character. Did you supply the actual model definition ", 
+      "object rather than its label?"
     )
   }
   
-  if (!name %in% attr(stack, "model_def_names")) {
+  if (!members %in% attr(stack, "model_def_names")) {
     glue_stop(
-      "The supplied member to remove, {name}, isn't a stack member."
+      "The supplied model definition to remove, {obj_name}, isn't in the stack."
     )
   }
   
@@ -179,7 +180,7 @@ collate_member <- function(stack, members, name) {
   } else {
     update_stack_data(
       stack,
-      bind_cols(
+      dplyr::bind_cols(
         tibble::as_tibble(stack), 
         dplyr::select(member_cols, -!!get_outcome(members))
       )

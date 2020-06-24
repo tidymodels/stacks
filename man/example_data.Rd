@@ -31,6 +31,8 @@ set.seed(1)
 
 folds_ <- rsample::vfold_cv(mtcars, v = 3)
 
+ctrl <- control_grid(save_pred = TRUE)
+
 car_rec_ <- 
   recipes::recipe(mpg ~ ., data = mtcars) \%>\%
   recipes::step_normalize(recipes::all_predictors())
@@ -52,7 +54,8 @@ svm_res_ <-
     object = svm_mod_, 
     preprocessor = car_rec_, 
     resamples = folds_, 
-    grid = 5
+    grid = 5,
+    control = ctrl
   )
 
 # spline regression ---------------------------------------
@@ -73,7 +76,8 @@ spline_res_ <-
     object = lin_mod_,
     preprocessor = spline_rec_, 
     resamples = folds_, 
-    grid = spline_grid_
+    grid = spline_grid_,
+    control = ctrl
   )
 }
 }

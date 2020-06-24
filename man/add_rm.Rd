@@ -8,10 +8,10 @@
 \usage{
 members_add(stack, members, name = deparse(substitute(members)), ...)
 
-members_rm(stack, members, ...)
+members_rm(stack, name, ...)
 }
 \arguments{
-\item{stack}{A model \code{stack} object.}
+\item{stack}{A \code{stack} object.}
 
 \item{...}{Additional arguments. Currently ignored.}
 
@@ -19,10 +19,10 @@ members_rm(stack, members, ...)
 outputted by \code{\link[tune:tune_grid]{tune::tune_grid()}} or \code{\link[tune:tune_bayes]{tune::tune_bayes()}}.}
 }
 \value{
-A model \code{stack} object--see \code{\link[=model_stack]{model_stack()}} for more details!
+A \code{stack} object--see \code{\link[=new_stack]{new_stack()}} for more details!
 }
 \description{
-Add or remove models from a model stack specification.
+Add or remove members from a stack.
 }
 \section{Example Data}{
 
@@ -36,7 +36,7 @@ fitting \code{mpg} with all other variables in \code{mtcars} as predictors!
 \examples{
 
 # initialize a model stack
-st <- model_stack()
+st <- new_stack()
 
 # add some members to the stack
 st <- st \%>\%

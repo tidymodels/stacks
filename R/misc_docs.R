@@ -1,20 +1,20 @@
 #' Add or remove stack members
 #'
-#' Add or remove models from a model stack specification.
+#' Add or remove members from a stack.
 #'
-#' @param stack A model `stack` object.
+#' @param stack A `stack` object.
 #' @param member A `tune_results` object (or, if removing, its name)
 #'   outputted by [tune::tune_grid()] or [tune::tune_bayes()].
-#' @inheritParams model_stack
+#' @inheritParams new_stack
 #' 
-#' @return A model `stack` object--see [model_stack()] for more details! 
+#' @return A `stack` object--see [new_stack()] for more details! 
 #' 
 #' @template note_example_data
 #' 
 #' @examples 
 #' 
 #' # initialize a model stack
-#' st <- model_stack()
+#' st <- new_stack()
 #' 
 #' # add some members to the stack
 #' st <- st %>%

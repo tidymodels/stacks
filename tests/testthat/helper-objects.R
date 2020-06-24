@@ -3,15 +3,15 @@ context("helpers")
 
 # Stacks
 # ------------------------------------------------------------------------
-st_0 <- model_stack()
+st_0 <- new_stack()
 
-st_1 <- model_stack() %>%
+st_1 <- new_stack() %>%
   members_add(svm_res_)
 
 st_0_rm <- st_1 %>%
   members_rm("svm_res_")
 
-st_2 <- model_stack() %>%
+st_2 <- new_stack() %>%
   members_add(svm_res_) %>%
   members_add(spline_res_)
 
@@ -26,7 +26,7 @@ set.seed(2)
 
 folds_ <- rsample::vfold_cv(mtcars, v = 3)
 
-ctrl <- control_grid(save_pred = TRUE)
+ctrl <- tune::control_grid(save_pred = TRUE)
 
 car_rec_ <- 
   recipes::recipe(mpg ~ ., data = mtcars) %>%
