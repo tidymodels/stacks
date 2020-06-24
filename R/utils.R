@@ -56,7 +56,9 @@ names0 <- function(num, prefix = "x") {
 # ------------------------------------------------------------------------
 
 # getters
-get_outcome <- function(stack) {attr(stack, "outcome")}
+get_outcome <- function(stack) {
+  if (ncol(stack) == 0) {NULL} else {colnames(stack)[1]}
+}
 get_hash <- function(stack) {attr(stack, "rs_hash")}
 get_model_def_names <- function(stack) {attr(stack, "model_def_names")}
 get_model_def_hashes <- function(stack) {attr(stack, "model_def_hashes")}
@@ -69,8 +71,6 @@ set_outcome <- function(stack, members) {
               "outcome variable {list(tune::.get_tune_outcome_names(members))}, ",
               "while the stack's outcome variable is {get_outcome(stack)}.")
   }
-  
-  attr(stack, "outcome") <- tune::.get_tune_outcome_names(members)
   
   stack
 }
@@ -159,7 +159,7 @@ collate_member <- function(stack, members, name) {
   member_cols <-
     tune::collect_predictions(members, summarize = TRUE) %>%
     dplyr::ungroup() %>%
-    dplyr::select(.row, .pred, .config, !!get_outcome(members)) %>%
+    dplyr::select(!!tune::.get_tune_outcome_names(members), .row, .pred, .config) %>%
     dplyr::mutate(
       .config = stringi::stri_replace_all_fixed(
         .config,
@@ -167,7 +167,7 @@ collate_member <- function(stack, members, name) {
         name,
         vectorize_all = FALSE
     )) %>%
-    tidyr::pivot_wider(id_cols = c(".row", !!get_outcome(members)), 
+    tidyr::pivot_wider(id_cols = c(".row", !!tune::.get_tune_outcome_names(members)), 
                        names_from = ".config", 
                        values_from = ".pred") %>%
     dplyr::select(-.row) 
@@ -182,7 +182,7 @@ collate_member <- function(stack, members, name) {
       stack,
       dplyr::bind_cols(
         tibble::as_tibble(stack), 
-        dplyr::select(member_cols, -!!get_outcome(members))
+        dplyr::select(member_cols, -!!get_outcome(stack))
       )
     )
   }
@@ -191,7 +191,6 @@ collate_member <- function(stack, members, name) {
 # update the data in the stack while preserving attributes and class
 update_stack_data <- function(stack, new_data) {
   attr(new_data, "rs_hash") <- attr(stack, "rs_hash")
-  attr(new_data, "outcome") <- attr(stack, "outcome")
   attr(new_data, "model_def_names") <- attr(stack, "model_def_names")
   attr(new_data, "model_def_hashes") <- attr(stack, "model_def_hashes")
   
