@@ -5,25 +5,25 @@
 #' @param stack A `stack` object.
 #' @param member A `tune_results` object (or, if removing, its name)
 #'   outputted by [tune::tune_grid()] or [tune::tune_bayes()].
-#' @inheritParams new_stack
+#' @inheritParams pancakes
 #' 
-#' @return A `stack` object--see [new_stack()] for more details! 
+#' @return A `stack` object--see [pancakes()] for more details! 
 #' 
 #' @template note_example_data
 #' 
 #' @examples 
 #' 
 #' # initialize a model stack
-#' st <- new_stack()
+#' st <- pancakes()
 #' 
 #' # add some members to the stack
 #' st <- st %>%
-#'   members_add(svm_res_) %>%
-#'   members_add(spline_res_)
+#'   add_members(svm_res_) %>%
+#'   add_members(spline_res_)
 #' 
 #' # remove the spline regression stack member
 #' st <- st %>%
-#'   members_rm("spline_res_")
+#'   remove_members("spline_res_")
 #' 
 #' @name add_rm
 NULL

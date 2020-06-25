@@ -139,19 +139,19 @@ With these three model definitions fully specified, we're ready to start putting
 The first step to building an ensemble with `stack` is to create a `stack` object—in this package, stacks are tibbles (with some extra attributes) that contain the out-of-sample predictions for each member.
 
 ```{r}
-new_stack()
+pancakes()
 ```
 
-The `new_stack()` function works sort of like the `ggplot()` constructor from ggplot2—the function creates a basic structure that the object will be built on top of—except you'll pipe the outputs rather than adding them with `+`.
+The `pancakes()` function works sort of like the `ggplot()` constructor from ggplot2—the function creates a basic structure that the object will be built on top of—except you'll pipe the outputs rather than adding them with `+`.
 
-The `members_add()` function will add ensemble members to the stack.
+The `add_members()` function will add ensemble members to the stack.
 
 ```{r}
 penguins_stack <- 
-  new_stack() %>%
-  members_add(lin_reg_res) %>%
-  members_add(spline_res) %>%
-  members_add(svm_res)
+  pancakes() %>%
+  add_members(lin_reg_res) %>%
+  add_members(spline_res) %>%
+  add_members(svm_res)
 
 penguins_stack
 ```

@@ -1,6 +1,6 @@
 #' @rdname add_rm
 #' @export
-members_add <- function(stack, members, 
+add_members <- function(stack, members, 
                         name = deparse(substitute(members)), ...) {
   check_chr(name)
   

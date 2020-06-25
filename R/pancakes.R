@@ -8,10 +8,10 @@
 #' 
 #' @return A `stack` object.
 #' 
-#' @seealso [members_add()], [members_rm()]
+#' @seealso [add_members()], [remove_members()]
 #' 
 #' @export
-new_stack <- function(...) {
+pancakes <- function(...) {
   
   res <- tibble::tibble()
   

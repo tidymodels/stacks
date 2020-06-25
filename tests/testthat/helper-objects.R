@@ -3,20 +3,20 @@ context("helpers")
 
 # Stacks
 # ------------------------------------------------------------------------
-st_0 <- new_stack()
+st_0 <- pancakes()
 
-st_1 <- new_stack() %>%
-  members_add(svm_res_)
+st_1 <- pancakes() %>%
+  add_members(svm_res_)
 
 st_0_rm <- st_1 %>%
-  members_rm("svm_res_")
+  remove_members("svm_res_")
 
-st_2 <- new_stack() %>%
-  members_add(svm_res_) %>%
-  members_add(spline_res_)
+st_2 <- pancakes() %>%
+  add_members(svm_res_) %>%
+  add_members(spline_res_)
 
 st_1_rm <- st_2 %>%
-  members_rm("spline_res_")
+  remove_members("spline_res_")
   
 # Resampling Objects
 # ------------------------------------------------------------------------
