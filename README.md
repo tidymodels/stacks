@@ -1,12 +1,12 @@
-Model Stacking Package
-================
 
-<!-- [![Codecov test coverage](https://codecov.io/gh/simonpcouch/stack/branch/main/graph/badge.svg)](https://codecov.io/gh/simonpcouch/stack?branch=main)  -->
+<!-- [![Codecov test coverage](https://codecov.io/gh/simonpcouch/pancakes/branch/main/graph/badge.svg)](https://codecov.io/gh/simonpcouch/pancakes?branch=main)  -->
 
-<!-- [![R build status](https://github.com/simonpcouch/stack/workflows/R-CMD-check/badge.svg)](https://github.com/simonpcouch/stack/actions) -->
+<!-- [![R build status](https://github.com/simonpcouch/pancakes/workflows/R-CMD-check/badge.svg)](https://github.com/simonpcouch/pancakes/actions) -->
 
-`stack` is an R package for model stacking that aligns with the
-`tidymodels`. Model stacking is an ensembling method that takes the
+# pancakes - tidy model stacking
+
+pancakes is an R package for model stacking that aligns with the
+tidymodels. Model stacking is an ensembling method that takes the
 outputs of many models and combines them to generate a new
 model—referred to as an *ensemble* in this package—that generates
 predictions informed by each of its *members*.

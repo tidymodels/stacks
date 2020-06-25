@@ -1,16 +1,17 @@
 ---
-title: "Model Stacking Package"
 output: github_document
 ---
 
-<!-- [![Codecov test coverage](https://codecov.io/gh/simonpcouch/stack/branch/main/graph/badge.svg)](https://codecov.io/gh/simonpcouch/stack?branch=main)  -->
-<!-- [![R build status](https://github.com/simonpcouch/stack/workflows/R-CMD-check/badge.svg)](https://github.com/simonpcouch/stack/actions) -->
+<!-- [![Codecov test coverage](https://codecov.io/gh/simonpcouch/pancakes/branch/main/graph/badge.svg)](https://codecov.io/gh/simonpcouch/pancakes?branch=main)  -->
+<!-- [![R build status](https://github.com/simonpcouch/pancakes/workflows/R-CMD-check/badge.svg)](https://github.com/simonpcouch/pancakes/actions) -->
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-`stack` is an R package for model stacking that aligns with the `tidymodels`. Model stacking is an ensembling method that takes the outputs of many models and combines them to generate a new model—referred to as an _ensemble_ in this package—that generates predictions informed by each of its _members_.
+# pancakes - tidy model stacking
+
+pancakes is an R package for model stacking that aligns with the tidymodels. Model stacking is an ensembling method that takes the outputs of many models and combines them to generate a new model—referred to as an _ensemble_ in this package—that generates predictions informed by each of its _members_.
 
 At the highest level, ensembles are formed from _model definitions_. In this package, model definitions are an instance of a _model specification_, as defined in the [parsnip](https://parsnip.tidymodels.org/) package.
 
