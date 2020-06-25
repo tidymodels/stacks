@@ -17,7 +17,8 @@ print.stack <- function(x, ...) {
       function(name) {
         cat(glue::glue(
             "#   {name}: ",
-            "{sum(stringi::stri_detect_fixed(colnames(x), name))} sub-models")
+            "{sum(stringi::stri_detect_fixed(colnames(x), name))} sub-model",
+            "{if (sum(stringi::stri_detect_fixed(colnames(x), name)) != 1) 's' else ''}")
           )
         cat("\n")
       }

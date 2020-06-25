@@ -159,6 +159,7 @@ collate_member <- function(stack, members, name) {
   member_cols <-
     tune::collect_predictions(members, summarize = TRUE) %>%
     dplyr::ungroup() %>%
+    dplyr::mutate(.config = if (".config" %in% names(.)) .config else "Model1") %>%
     dplyr::select(!!tune::.get_tune_outcome_names(members), .row, .pred, .config) %>%
     dplyr::mutate(
       .config = stringi::stri_replace_all_fixed(
