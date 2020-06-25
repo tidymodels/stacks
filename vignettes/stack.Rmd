@@ -164,7 +164,18 @@ as_tibble(penguins_stack)
 
 A stack is a just a tibble, where the first row gives the first response value, and the remaining columns give the out of sample predictions for each ensemble member. Since we're in the regression case, there's only one column per ensemble member.
 
+That's it! The stack is ready to fit!
 
+# Fit the stack
+
+The outputs from each of these ensemble members are highly correlated, so the `fit` method performs regularization to figure out how we can combine the outputs from the stack members to come up with a final prediction.
+
+```{r}
+penguins_fit <-
+  penguins_stack %>%
+  fit(penguins_train)
+
+```
 
 
 

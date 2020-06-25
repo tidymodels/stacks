@@ -16,27 +16,28 @@ generics::fit
 #' 
 #' @rdname fit
 #' @export
-fit.stacked_data <- function(object, ...) {
-  stacked_preds <- object$stacked_data
-  
+fit.stack <- function(object, train_dat, ...) {
   preds_formula <- 
-    paste0(colnames(stacked_preds)[1], " ~ .") %>%
+    paste0(colnames(object)[1], " ~ .") %>%
     as.formula()
   
-  stack_coefs <- 
+  model_spec <- 
     parsnip::linear_reg(penalty = tune::tune(), mixture = 1) %>%
-    parsnip::set_engine("glmnet", lower.limits = 0) %>%
+    parsnip::set_engine("glmnet", lower.limits = 0)
+  
+  stack_coefs <- 
+    model_spec %>%
     tune::tune_grid(
       preds_formula,
-      resamples = rsample::bootstraps(stacked_preds),
+      resamples = rsample::bootstraps(tibble::as_tibble(object)),
       grid = tibble::tibble(penalty = 10 ^ (-6:-1)),
-      metrics = yardstick::metric_set(yardstick::rmse)
+      metrics = yardstick::metric_set(yardstick::rmse),
+      control = tune::control_grid(save_pred = TRUE)
     )
   
-  structure(
-      list(
-        coefs = stack_coefs
-      ),
-      class = c("stack_fit", "list")
-  )
+  fit <-
+    model_spec %>%
+    tune::finalize_model(tune::select_best(stack_coefs)) %>%
+    generics::fit(formula = preds_formula, data = penguins_train)
+    
 }
