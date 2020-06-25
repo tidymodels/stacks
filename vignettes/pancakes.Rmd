@@ -1,8 +1,8 @@
 ---
-title: "stack"
+title: "pancakes"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{stack}
+  %\VignetteIndexEntry{pancakes}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-In this article, we'll be working through an example of the basic workflow of model stacking the stack package. If you're unfamiliar with the language used in this vignette, please see the package README. At a high level, the workflow looks something like this:
+In this article, we'll be working through an example of the basic workflow of model stacking with the pancakes package. If you're unfamiliar with the language used in this vignette, please see the package README. At a high level, the workflow looks something like this:
 
 * Fit constituent model definitions
 * Initialize a `stack`
