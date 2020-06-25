@@ -43,10 +43,11 @@ Suggests:
     knitr,
     rmarkdown,
     palmerpenguins
-Remotes: tidymodels/tune
+Remotes: 
+    tidymodels/tune
+    allisonhorst/palmerpenguins
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0.9000
 VignetteBuilder: knitr
-Remotes: allisonhorst/palmerpenguins
