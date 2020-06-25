@@ -1,0 +1,78 @@
+---
+title: "stack"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{stack}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+In this article, we'll be working through an example of the basic workflow of model stacking the stack package. If you're unfamiliar with the language used in this vignette, please see the package README. At a high level, the workflow looks something like this:
+
+* Fit constituent model definitions
+* Initialize a `stack`
+* Add stack members
+* Fit the stack
+* Predict on new data!
+
+The package is closely integrated with the rest of the functionality in tidymodels—we'll load those packages as well. 
+
+```{r setup}
+library(tidymodels)
+library(stack)
+```
+
+In this example, we'll make use of the `palmerpenguins::penguins` data, giving measurements taken from three different species of penguins from three different antarctic islands! We'll start out with predicting beak length based on other attributes.
+
+```{r}
+library(palmerpenguins)
+data("penguins")
+
+str(penguins)
+```
+
+# Fit constituent model definitions
+
+Fitting the constituent model definitions is undoubtedly the longest part of building an ensemble with `stack`. If you're familiar with tidymodels proper, you're probably fine to skip this section, keeping a few things in mind:
+
+* You'll need to save the out-of-sample predictions in your `tune_grid()` or `fit_resamples()` objects by setting the `control` argument to `control_grid(save_pred = TRUE)`
+* Each model definition should share the same rsample `rset` object (by either sending your model specification through `tune_grid()`, if you need to tune hyperparameters, or `fit_resamples()` if not.)
+
+We'll first start out with splitting up the training data, generating resamples, and setting some options that will be used by each model definition.
+
+```{r}
+# some setup: resampling and a basic recipe
+set.seed(1)
+
+ctrl <- control_grid(save_pred = TRUE)
+
+penguins_split <- initial_split(penguins)
+penguins_train <- training(penguins_split)
+penguins_test  <- testing(penguins_split)
+
+folds <- rsample::vfold_cv(penguins_train, v = 3)
+
+penguins_rec <- 
+  recipe(body_mass_g ~ ., data = penguins) %>%
+  step_dummy(all_nominal()) %>%
+  step_naomit(all_predictors()) %>%
+  step_zv(all_predictors())
+
+metric <- metric_set(rmse)
+```
+
+
+
+
+
+
+
+
+

@@ -33,14 +33,20 @@ Imports:
     generics,
     ggplot2,
     tune,
-    glmnet
+    glmnet,
+    rsample
 Suggests: 
     testthat,
     workflows (>= 0.1.0),
     covr,
-    kernlab
+    kernlab,
+    knitr,
+    rmarkdown,
+    palmerpenguins
 Remotes: tidymodels/tune
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0.9000
+VignetteBuilder: knitr
+Remotes: allisonhorst/palmerpenguins
