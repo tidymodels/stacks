@@ -44,7 +44,7 @@ Suggests:
     rmarkdown,
     palmerpenguins
 Remotes: 
-    tidymodels/tune
+    tidymodels/tune,
     allisonhorst/palmerpenguins
 Encoding: UTF-8
 LazyData: true
