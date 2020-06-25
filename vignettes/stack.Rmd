@@ -29,20 +29,22 @@ library(tidymodels)
 library(stack)
 ```
 
-In this example, we'll make use of the `palmerpenguins::penguins` data, giving measurements taken from three different species of penguins from three different antarctic islands! We'll start out with predicting beak length based on other attributes.
+In this example, we'll make use of the `palmerpenguins::penguins` data, giving measurements taken from three different species of penguins from three different antarctic islands! We'll start out with predicting bill length based on other attributes.
 
 ```{r}
 library(palmerpenguins)
 data("penguins")
 
 str(penguins)
+
+penguins <- penguins[!is.na(penguins$sex),]
 ```
 
 # Fit constituent model definitions
 
 Fitting the constituent model definitions is undoubtedly the longest part of building an ensemble with `stack`. If you're familiar with tidymodels proper, you're probably fine to skip this section, keeping a few things in mind:
 
-* You'll need to save the out-of-sample predictions in your `tune_grid()` or `fit_resamples()` objects by setting the `control` argument to `control_grid(save_pred = TRUE)`
+* You'll need to save the out-of-sample predictions in your `tune_grid()` or `fit_resamples()` objects by setting the `control` argument to `control_grid(save_pred = TRUE)` or `control_resamples(save_pred = TRUE)`, respectively.
 * Each model definition should share the same rsample `rset` object (by either sending your model specification through `tune_grid()`, if you need to tune hyperparameters, or `fit_resamples()` if not.)
 
 We'll first start out with splitting up the training data, generating resamples, and setting some options that will be used by each model definition.
@@ -51,7 +53,8 @@ We'll first start out with splitting up the training data, generating resamples,
 # some setup: resampling and a basic recipe
 set.seed(1)
 
-ctrl <- control_grid(save_pred = TRUE)
+ctrl_grid <- control_grid(save_pred = TRUE)
+ctrl_res <- control_grid(save_pred = TRUE)
 
 penguins_split <- initial_split(penguins)
 penguins_train <- training(penguins_split)
@@ -60,13 +63,106 @@ penguins_test  <- testing(penguins_split)
 folds <- rsample::vfold_cv(penguins_train, v = 3)
 
 penguins_rec <- 
-  recipe(body_mass_g ~ ., data = penguins) %>%
+  recipe(body_mass_g ~ ., data = penguins_train) %>%
   step_dummy(all_nominal()) %>%
-  step_naomit(all_predictors()) %>%
   step_zv(all_predictors())
 
 metric <- metric_set(rmse)
 ```
+
+We'll fit three different models to try to predict bill length—a linear model, a spline model (with hyperparameters to tune), and a support vector machine model (again, with hyperparameters to tune).
+
+Starting out with linear regression:
+
+```{r}
+# create a linear model definition
+lin_reg_spec <-
+  linear_reg() %>%
+  set_engine("lm")
+
+lin_reg_res <- 
+  fit_resamples(
+    object = lin_reg_spec,
+    preprocessor = penguins_rec,
+    resamples = folds,
+    metrics = metric,
+    control = ctrl_res
+  )
+```
+
+Since this model definition only has one sub-model, we use `fit_resamples()` rather than `tune_grid()`.
+
+Now, moving on to the spline model:
+
+```{r}
+# modify the recipe and use the same linear reg spec
+spline_rec <- 
+  penguins_rec %>%
+  step_ns(bill_length_mm, deg_free = tune::tune("length")) %>%
+  step_ns(bill_depth_mm, deg_free = tune::tune("depth"))
+
+spline_res <- 
+  tune_grid(
+    object = lin_reg_spec,
+    preprocessor = spline_rec,
+    resamples = folds,
+    metrics = metric,
+    control = ctrl_grid
+  )
+```
+
+Finally, putting together the model definition for the support vector machine:
+
+```{r}
+svm_spec <- 
+  svm_rbf(
+    cost = tune(), 
+    rbf_sigma = tune()
+  ) %>%
+  set_engine("kernlab") %>%
+  set_mode("regression")
+
+svm_res <- 
+  tune_grid(
+    object = svm_spec, 
+    preprocessor = penguins_rec, 
+    resamples = folds, 
+    grid = 5,
+    control = ctrl_grid
+  )
+```
+
+With these three model definitions fully specified, we're ready to start putting together an ensemble!
+
+# Putting together a stack
+
+The first step to building an ensemble with `stack` is to create a `stack` object—in this package, stacks are tibbles (with some extra attributes) that contain the out-of-sample predictions for each member.
+
+```{r}
+new_stack()
+```
+
+The `new_stack()` function works sort of like the `ggplot()` constructor from ggplot2—the function creates a basic structure that the object will be built on top of—except you'll pipe the outputs rather than adding them with `+`.
+
+The `members_add()` function will add ensemble members to the stack.
+
+```{r}
+penguins_stack <- 
+  new_stack() %>%
+  members_add(lin_mod_res) %>%
+  members_add(spline_res) %>%
+  members_add(svm_res)
+
+penguins_stack
+```
+
+As mentioned before, under the hood, a `stack` object is really just a tibble. Checking out the actual data:
+
+```{r}
+as_tibble(penguins_stack)
+```
+
+A stack is a just a tibble, where the first row gives the first response value, and the remaining columns give the out of sample predictions for each ensemble member. Since we're in the regression case, there's only one column per ensemble member.
 
 
 

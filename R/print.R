@@ -4,7 +4,7 @@ print.stack <- function(x, ...) {
   n_model_defs <- length(attr(x, "model_def_names"))
   outcome_name <- colnames(x)[1]
   
-  cat(glue::glue("# A model stack with {n_model_defs} model definition",
+  cat(glue::glue("# A stack with {n_model_defs} model definition",
                  "{if (n_model_defs != 1) 's ' else ' '}",
                  "and {n_members} member",
                  "{if (n_members != 1) 's' else ''}",
