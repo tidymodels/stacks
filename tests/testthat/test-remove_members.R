@@ -4,7 +4,7 @@ test_that("remove members") {
   skip("deprecate for now.")
 }
 
-# test_that("0-member stack is like pancakes()", {
+# test_that("0-member stack is like stacks()", {
 #   expect_true(inherits(st_0_rm, "stack"))
 #   expect_true(inherits(st_0_rm, "tbl_df"))
 #   

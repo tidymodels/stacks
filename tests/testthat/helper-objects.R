@@ -3,15 +3,15 @@ context("helpers")
 
 # Stacks
 # ------------------------------------------------------------------------
-st_0 <- pancakes()
+st_0 <- stacks()
 
-st_1 <- pancakes() %>%
+st_1 <- stacks() %>%
   stack_resamples(svm_res_)
 
 st_0_rm <- st_1 %>%
   remove_members("svm_res_")
 
-st_2 <- pancakes() %>%
+st_2 <- stacks() %>%
   stack_resamples(svm_res_) %>%
   stack_resamples(spline_res_)
 

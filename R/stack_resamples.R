@@ -9,16 +9,16 @@
 #' [tune::tune_grid()], [tune::tune_bayes()], or [tune::fit_resamples()]
 #' @param name The label for the model definition---defaults to the name
 #' of the model definition object.
-#' @inheritParams pancakes
+#' @inheritParams stacks
 #' 
-#' @return A `resample_stack` object--see [pancakes()] for more details! 
+#' @return A `resample_stack` object--see [stacks()] for more details! 
 #' 
 #' @template note_example_data
 #' 
 #' @examples 
 #' 
 #' # initialize a model stack
-#' st <- pancakes()
+#' st <- stacks()
 #' 
 #' # add some members to the stack
 #' st <- st %>%

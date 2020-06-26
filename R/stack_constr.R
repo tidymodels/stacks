@@ -4,7 +4,7 @@ stack_constr <- function(stack) {
   # if there aren't any members left after the operation,
   # allow the object to accept tune_results from new resampling objects
   if (ncol(stack) <= 1) {
-    stack <- pancakes()
+    stack <- stacks()
   }
   
   stack

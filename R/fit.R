@@ -12,7 +12,7 @@ generics::fit
 # before initiating subset selection.
 # @param bag_p Numeric in (0, 1]—the proportion of models in the bag at
 # each iteration.
-#' @inheritParams pancakes
+#' @inheritParams stacks
 #' 
 #' @rdname fit
 #' @export

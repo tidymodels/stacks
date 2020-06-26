@@ -1,17 +1,15 @@
-#' Initialize a stack
+#' Initialize a resample stack
 #' 
-#' This function initializes a `stack` object. Principally, `stack`
-#' objects contain out-of-sample predictions from ensemble members as well
-#' as metadata identifying their connections.
+#' Initializes a `resample_stack` object.
 #' 
 #' @param ... Additional arguments. Currently ignored.
 #' 
-#' @return A `stack` object.
+#' @return A `resample_stack` object.
 #' 
-#' @seealso [stack_resamples()], [remove_members()]
+#' @seealso [stack_resamples()]
 #' 
 #' @export
-pancakes <- function(...) {
+stacks <- function(...) {
   
   res <- tibble::tibble()
   
