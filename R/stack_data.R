@@ -25,6 +25,6 @@
 #'   stack_data()
 #'   
 #' @export
-stack_data <- function(resample_stack) {
+stack_data <- function(resample_stack, ...) {
   
 }

@@ -12,6 +12,8 @@ stack_resamples(
 )
 }
 \arguments{
+\item{resample_stack}{A \code{resample_stack} object.}
+
 \item{members}{A model definition: either a \code{tune_results}
 or \code{resample_results} object outputted from
 \code{\link[tune:tune_grid]{tune::tune_grid()}}, \code{\link[tune:tune_bayes]{tune::tune_bayes()}}, or \code{\link[tune:fit_resamples]{tune::fit_resamples()}}}
@@ -20,8 +22,6 @@ or \code{resample_results} object outputted from
 of the model definition object.}
 
 \item{...}{Additional arguments. Currently ignored.}
-
-\item{stack}{A \code{resample_stack} object.}
 }
 \value{
 A \code{resample_stack} object--see \code{\link[=stacks]{stacks()}} for more details!

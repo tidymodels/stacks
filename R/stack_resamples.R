@@ -3,7 +3,7 @@
 #' Add the workflow and resampling objects for potential ensemble members 
 #' to a resample stack.
 #'
-#' @param stack A `resample_stack` object.
+#' @param resample_stack A `resample_stack` object.
 #' @param members A model definition: either a `tune_results` 
 #' or `resample_results` object outputted from
 #' [tune::tune_grid()], [tune::tune_bayes()], or [tune::fit_resamples()]
