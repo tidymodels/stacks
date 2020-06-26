@@ -1,11 +1,11 @@
 
-<!-- [![Codecov test coverage](https://codecov.io/gh/simonpcouch/pancakes/branch/main/graph/badge.svg)](https://codecov.io/gh/simonpcouch/pancakes?branch=main)  -->
+<!-- [![Codecov test coverage](https://codecov.io/gh/simonpcouch/stacks/branch/main/graph/badge.svg)](https://codecov.io/gh/simonpcouch/stacks?branch=main)  -->
 
-<!-- [![R build status](https://github.com/simonpcouch/pancakes/workflows/R-CMD-check/badge.svg)](https://github.com/simonpcouch/pancakes/actions) -->
+<!-- [![R build status](https://github.com/simonpcouch/stacks/workflows/R-CMD-check/badge.svg)](https://github.com/simonpcouch/stacks/actions) -->
 
-# pancakes - tidy model stacking
+# stacks - tidy model stacking
 
-pancakes is an R package for model stacking that aligns with the
+stacks is an R package for model stacking that aligns with the
 tidymodels. Model stacking is an ensembling method that takes the
 outputs of many models and combines them to generate a new
 model—referred to as an *ensemble* in this package—that generates

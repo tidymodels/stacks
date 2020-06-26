@@ -11,7 +11,7 @@
 #' \dontrun{
 #' # setup: packages, data, resample, basic recipe ------------------------
 #' library(tidymodels)
-#' library(pancakes)
+#' library(stacks)
 #' data("penguins")
 #' 
 #' penguins <- penguins[!is.na(penguins$sex),]

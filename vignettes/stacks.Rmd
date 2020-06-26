@@ -1,8 +1,8 @@
 ---
-title: "pancakes"
+title: "stacks"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{pancakes}
+  %\VignetteIndexEntry{stacks}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-In this article, we'll be working through an example of the basic workflow of model stacking with the pancakes package. If you're unfamiliar with the language used in this vignette, please see the package README. At a high level, the workflow looks something like this:
+In this article, we'll be working through an example of the basic workflow of model stacking with the stacks package. If you're unfamiliar with the language used in this vignette, please see the package README. At a high level, the workflow looks something like this:
 
 * Fit constituent model definitions
 * Initialize a `stack`
@@ -139,19 +139,19 @@ With these three model definitions fully specified, we're ready to start putting
 The first step to building an ensemble with `stack` is to create a `stack` object—in this package, stacks are tibbles (with some extra attributes) that contain the out-of-sample predictions for each member.
 
 ```{r}
-pancakes()
+stacks()
 ```
 
-The `pancakes()` function works sort of like the `ggplot()` constructor from ggplot2—the function creates a basic structure that the object will be built on top of—except you'll pipe the outputs rather than adding them with `+`.
+The `stacks()` function works sort of like the `ggplot()` constructor from ggplot2—the function creates a basic structure that the object will be built on top of—except you'll pipe the outputs rather than adding them with `+`.
 
-The `add_members()` function will add ensemble members to the stack.
+The `stack_resamples()` function will add ensemble members to the stack.
 
 ```{r}
 penguins_stack <- 
-  pancakes() %>%
-  add_members(lin_reg_res) %>%
-  add_members(spline_res) %>%
-  add_members(svm_res)
+  stacks() %>%
+  stack_resamples(lin_reg_res) %>%
+  stack_resamples(spline_res) %>%
+  stack_resamples(svm_res)
 
 penguins_stack
 ```
