@@ -38,6 +38,6 @@ fit.stack <- function(object, train_dat, ...) {
   fit <-
     model_spec %>%
     tune::finalize_model(tune::select_best(stack_coefs)) %>%
-    generics::fit(formula = preds_formula, data = penguins_train)
+    generics::fit(formula = preds_formula, data = train_dat)
     
 }

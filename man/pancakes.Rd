@@ -18,5 +18,5 @@ objects contain out-of-sample predictions from ensemble members as well
 as metadata identifying their connections.
 }
 \seealso{
-\code{\link[=add_members]{add_members()}}, \code{\link[=remove_members]{remove_members()}}
+\code{\link[=stack_resamples]{stack_resamples()}}, \code{\link[=remove_members]{remove_members()}}
 }

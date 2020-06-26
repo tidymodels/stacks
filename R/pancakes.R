@@ -8,7 +8,7 @@
 #' 
 #' @return A `stack` object.
 #' 
-#' @seealso [add_members()], [remove_members()]
+#' @seealso [stack_resamples()], [remove_members()]
 #' 
 #' @export
 pancakes <- function(...) {

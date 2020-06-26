@@ -1,5 +1,3 @@
-#' @rdname add_rm
-#' @export
 remove_members <- function(stack, name, ...) {
   obj_name <- deparse(substitute(name))
   
