@@ -1,4 +1,4 @@
-stack_constr <- function(stack) {
+stack_constr <- function(stack, which) {
   check_chr(attr(stack, "rs_hash"))
   
   # if there aren't any members left after the operation,

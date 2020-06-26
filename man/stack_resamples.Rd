@@ -4,11 +4,14 @@
 \alias{stack_resamples}
 \title{Add members to a resample stack}
 \usage{
-stack_resamples(stack, members, name = deparse(substitute(members)), ...)
+stack_resamples(
+  resample_stack,
+  members,
+  name = deparse(substitute(members)),
+  ...
+)
 }
 \arguments{
-\item{stack}{A \code{resample_stack} object.}
-
 \item{members}{A model definition: either a \code{tune_results}
 or \code{resample_results} object outputted from
 \code{\link[tune:tune_grid]{tune::tune_grid()}}, \code{\link[tune:tune_bayes]{tune::tune_bayes()}}, or \code{\link[tune:fit_resamples]{tune::fit_resamples()}}}
@@ -17,6 +20,8 @@ or \code{resample_results} object outputted from
 of the model definition object.}
 
 \item{...}{Additional arguments. Currently ignored.}
+
+\item{stack}{A \code{resample_stack} object.}
 }
 \value{
 A \code{resample_stack} object--see \code{\link[=stacks]{stacks()}} for more details!
@@ -37,12 +42,10 @@ with all other variables in \link[palmerpenguins:penguins]{palmerpenguins::pengu
 
 \examples{
 
-# initialize a model stack
-st <- stacks()
-
-# add some members to the stack
-st <- st \%>\%
-  stack_resample(lin_reg_res_) \%>\%
+# initialize a resample stack and add some members
+st <- 
+  stacks() \%>\%
+  stack_resamples(lin_reg_res_) \%>\%
   stack_resamples(svm_res_) \%>\%
   stack_resamples(spline_res_)
   

@@ -17,17 +17,15 @@
 #' 
 #' @examples 
 #' 
-#' # initialize a model stack
-#' st <- stacks()
-#' 
-#' # add some members to the stack
-#' st <- st %>%
-#'   stack_resample(lin_reg_res_) %>%
+#' # initialize a resample stack and add some members
+#' st <- 
+#'   stacks() %>%
+#'   stack_resamples(lin_reg_res_) %>%
 #'   stack_resamples(svm_res_) %>%
 #'   stack_resamples(spline_res_)
 #'   
 #' @export
-stack_resamples <- function(stack, members, 
+stack_resamples <- function(resample_stack, members, 
                             name = deparse(substitute(members)), ...) {
   check_chr(name)
   
