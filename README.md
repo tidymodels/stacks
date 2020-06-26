@@ -16,7 +16,7 @@ this package, model definitions are an instance of a *model
 specification*, as defined in the
 [parsnip](https://parsnip.tidymodels.org/) package.
 
-![](figs/level1.png)
+![](inst/figs/level1.png)
 
 To be used in the same ensemble, each of these model definitions must
 share the same *resample*. This
@@ -24,7 +24,7 @@ share the same *resample*. This
 with the model definitions, can be used to generate the *ensemble
 members*.
 
-![](figs/level2.png)
+![](inst/figs/level2.png)
 
 The package will sometimes refer to *sub-models*. The difference between
 sub-models and ensemble members is only philosophical—a sub-model is an
@@ -41,7 +41,7 @@ one column per ensemble member. Multi-way classification requires more
 columns.) They also bring along a few extra attributes to keep track of
 model definitions.
 
-![](figs/level3.png)
+![](inst/figs/level3.png)
 
 Finally, the stack can be fitted—depending on the arguments you choose,
 the structure of the model can vary quite a bit. A few things to keep in
@@ -54,11 +54,11 @@ coefficients for the inputs of (possibly) many of the members will zero
 out—their predictions will have no influence on the final output, and
 those terms will thus be thrown out.
 
-![](figs/level4.png)
+![](inst/figs/level4.png)
 
 The coefficients make up the fit, which can be used to predict new
 values\!
 
 Altogether, the pieces fit together like this:
 
-![](figs/diagram.png)
+![](inst/figs/diagram.png)
