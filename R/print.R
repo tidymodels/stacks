@@ -1,5 +1,5 @@
 #' @export
-print.stack <- function(x, ...) {
+print.data_stack <- function(x, ...) {
   n_members <- if (ncol(x) == 0) {0} else {ncol(x) - 1}
   n_model_defs <- length(attr(x, "model_def_names"))
   outcome_name <- colnames(x)[1]

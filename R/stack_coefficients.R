@@ -28,5 +28,26 @@
 #' 
 #' @export
 stack_coefficients <- function(stack_data, ...) {
+  preds_formula <- 
+    paste0(colnames(object)[1], " ~ .") %>%
+    as.formula()
   
+  model_spec <- 
+    parsnip::linear_reg(penalty = tune::tune(), mixture = 1) %>%
+    parsnip::set_engine("glmnet", lower.limits = 0)
+  
+  stack_coefs <- 
+    model_spec %>%
+    tune::tune_grid(
+      preds_formula,
+      resamples = rsample::bootstraps(tibble::as_tibble(object)),
+      grid = tibble::tibble(penalty = 10 ^ (-6:-1)),
+      metrics = yardstick::metric_set(yardstick::rmse),
+      control = tune::control_grid(save_pred = TRUE)
+    )
+  
+  fit <-
+    model_spec %>%
+    tune::finalize_model(tune::select_best(stack_coefs)) %>%
+    generics::fit(formula = preds_formula, data = train_dat)
 }
