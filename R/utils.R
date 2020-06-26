@@ -57,9 +57,9 @@ names0 <- function(num, prefix = "x") {
 
 # getters
 get_outcome <- function(stack) {
-  if (ncol(stack) == 0) {NULL} else {colnames(stack)[1]}
+  if (length(stack) == 0) {NULL} else {colnames(stack)[1]}
 }
-get_hash <- function(stack) {attr(stack, "rs_hash")}
+get_rs_hash <- function(stack) {attr(stack, "rs_hash")}
 get_model_def_names <- function(stack) {attr(stack, "model_def_names")}
 get_model_def_hashes <- function(stack) {attr(stack, "model_def_hashes")}
 
@@ -72,13 +72,15 @@ set_outcome <- function(stack, members) {
               "while the stack's outcome variable is {get_outcome(stack)}.")
   }
   
+  attr(stack, "outcome") <- tune::.get_tune_outcome_names(members)
+  
   stack
 }
 
-set_rs_hash <- function(stack, member, name) {
-  new_hash <- digest::digest(member$splits)
+set_rs_hash <- function(stack, members, name) {
+  new_hash <- digest::digest(members$splits)
   
-  hash_matches <- get_hash(stack) %in% c("init", new_hash)
+  hash_matches <- get_rs_hash(stack) %in% c("init_", new_hash)
   
   if (!hash_matches) {
     glue_stop(
@@ -154,8 +156,14 @@ rm_members <- function(stack, name) {
 
 # Misc. Utilities
 # ------------------------------------------------------------------------
+set_resample_members <- function(stack, members, name) {
+  stack[["members"]][[name]] <- members
+  
+  stack
+}
 
-collate_member <- function(stack, members, name) {
+
+collate_member_cols <- function(stack, members, name) {
   member_cols <-
     tune::collect_predictions(members, summarize = TRUE) %>%
     dplyr::ungroup() %>%

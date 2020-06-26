@@ -9,6 +9,7 @@
 #' [tune::tune_grid()], [tune::tune_bayes()], or [tune::fit_resamples()]
 #' @param name The label for the model definition---defaults to the name
 #' of the model definition object.
+#' @param workflow The workflow used to define the model definition.
 #' @inheritParams stacks
 #' 
 #' @return A `resample_stack` object--see [stacks()] for more details! 
@@ -25,17 +26,15 @@
 #'   stack_resamples(spline_res_)
 #'   
 #' @export
-stack_resamples <- function(resample_stack, members, 
+stack_resamples <- function(resample_stack, members, workflow,
                             name = deparse(substitute(members)), ...) {
   check_chr(name)
   
   stack <- 
-    stack %>%
+    resample_stack %>%
     set_rs_hash(members, name) %>%
     set_outcome(members) %>%
-    set_model_defs(members, name)
+    set_resample_members(members, name)
   
-  stack <- collate_member(stack, members, name)
-  
-  stack_constr(stack)
+  stack_constr(stack, "resample")
 }

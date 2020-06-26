@@ -7,6 +7,7 @@
 stack_resamples(
   resample_stack,
   members,
+  workflow,
   name = deparse(substitute(members)),
   ...
 )
@@ -17,6 +18,8 @@ stack_resamples(
 \item{members}{A model definition: either a \code{tune_results}
 or \code{resample_results} object outputted from
 \code{\link[tune:tune_grid]{tune::tune_grid()}}, \code{\link[tune:tune_bayes]{tune::tune_bayes()}}, or \code{\link[tune:fit_resamples]{tune::fit_resamples()}}}
+
+\item{workflow}{The workflow used to define the model definition.}
 
 \item{name}{The label for the model definition---defaults to the name
 of the model definition object.}

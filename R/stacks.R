@@ -10,16 +10,24 @@
 #' 
 #' @export
 stacks <- function(...) {
+  stack <- list()
   
-  res <- tibble::tibble()
+  attr(stack, "rs_hash") <- "init_"
+  attr(stack, "outcome") <- "init_"
   
-  attr(res, "rs_hash") <- "init"
-  attr(res, "outcome") <- NULL
-  attr(res, "model_def_names") <- NULL
-  attr(res, "model_def_hashes") <- NULL
+  # should check recipe outcome variable if workflows are
+  # eventually not included in the resampling object
+  # $pre$actions$recipe$recipe$var_info
+  #attr(stack, "wf_hash") <- "init_"
   
-  structure(
-    res,
-    class = c("stack", class(res))
-  )
+  #attr(stack, "model_def_names") <- NULL
+  #attr(stack, "model_def_hashes") <- NULL
+  
+  stack <- 
+    structure(
+      stack,
+      class = c("resample_stack", class(stack))
+    )
+  
+  stack_constr(stack, "resample")
 }
