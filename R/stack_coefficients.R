@@ -28,7 +28,7 @@
 #' @export
 stack_coefficients <- function(stack, method = "glm", ...) {
   preds_formula <- 
-    paste0(colnames(stack[["data"]])[1], " ~ .") %>%
+    paste0(colnames(stack)[1], " ~ .") %>%
     as.formula()
   
   model_spec <- 
@@ -39,7 +39,7 @@ stack_coefficients <- function(stack, method = "glm", ...) {
     model_spec %>%
     tune::tune_grid(
       preds_formula,
-      resamples = rsample::bootstraps(stack[["data"]]),
+      resamples = rsample::bootstraps(stack),
       grid = tibble::tibble(penalty = 10 ^ (-6:-1)),
       metrics = yardstick::metric_set(yardstick::rmse),
       control = tune::control_grid(save_pred = TRUE)
@@ -48,9 +48,9 @@ stack_coefficients <- function(stack, method = "glm", ...) {
   coefs <-
     model_spec %>%
     tune::finalize_model(tune::select_best(candidates)) %>%
-    generics::fit(formula = preds_formula, data = stack[["data"]])
+    generics::fit(formula = preds_formula, data = stack)
   
-  stack[["coefs"]] <- coefs
+  attr(stack, "coefs") <- coefs
   
   stack
 }

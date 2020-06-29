@@ -27,17 +27,23 @@
 #' stack_ensemble(st_res, st_coefs)
 #' 
 #' @export
-stack_ensemble <- function(stack) {
+stack_ensemble <- function(stack, data) {
   # pick out which models have nonzero coefs
+  coefs <- get_glmn_coefs(attr(stack, "coefs")[["fit"]])
   
   # fit each of them
+  member_fits <- 
+    purrr::map(
+      attr(stack, "model_defs"),
+      generics::fit,
+      data = data
+    )
+  
+  structure(
+    list(
+      coefs = coefs,
+      member_fits = fits
+    ),
+    class = c("ensemble", "list")
+  )
 }
-
-
-
-
-
-
-
-
-

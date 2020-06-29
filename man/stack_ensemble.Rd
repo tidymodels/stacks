@@ -4,7 +4,10 @@
 \alias{stack_ensemble}
 \title{Fit a stack ensemble}
 \usage{
-stack_ensemble(stack)
+stack_ensemble(stack, data)
+}
+\arguments{
+\item{stack}{A \code{stack} object.}
 }
 \value{
 A \code{ensemble_stack} object---this fitted model contains the necessary

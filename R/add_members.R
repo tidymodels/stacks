@@ -3,7 +3,7 @@
 #' Add the workflow and resampling objects for potential ensemble members 
 #' to a resample stack.
 #'
-#' @param resample_stack A `resample_stack` object.
+#' @param stack A `stack` object.
 #' @param members A model definition: either a `tune_results` 
 #' or `resample_results` object outputted from
 #' [tune::tune_grid()], [tune::tune_bayes()], or [tune::fit_resamples()]
@@ -26,12 +26,12 @@
 #'   add_members(spline_res_, spline_wf_)
 #'   
 #' @export
-add_members <- function(resample_stack, members, workflow,
-                            name = deparse(substitute(members)), ...) {
+add_members <- function(stack, members, workflow,
+                        name = deparse(substitute(members)), ...) {
   check_chr(name)
   
   stack <- 
-    resample_stack %>%
+    stack %>%
     set_rs_hash(members, name) %>%
     set_outcome(members) %>%
     set_model_defs_members(workflow, name) %>%

@@ -4,16 +4,10 @@
 \alias{add_members}
 \title{Add members to a resample stack}
 \usage{
-add_members(
-  resample_stack,
-  members,
-  workflow,
-  name = deparse(substitute(members)),
-  ...
-)
+add_members(stack, members, workflow, name = deparse(substitute(members)), ...)
 }
 \arguments{
-\item{resample_stack}{A \code{resample_stack} object.}
+\item{stack}{A \code{stack} object.}
 
 \item{members}{A model definition: either a \code{tune_results}
 or \code{resample_results} object outputted from

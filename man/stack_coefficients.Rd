@@ -7,6 +7,8 @@
 stack_coefficients(stack, method = "glm", ...)
 }
 \arguments{
+\item{stack}{A \code{stack} object.}
+
 \item{...}{Additional arguments. Currently ignored.}
 
 \item{data_stack}{A \code{data_stack} object outputted from \code{\link[=stack_data]{stack_data()}}}

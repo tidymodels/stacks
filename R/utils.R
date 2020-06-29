@@ -57,11 +57,12 @@ names0 <- function(num, prefix = "x") {
 
 # getters
 get_outcome <- function(stack) {
-  if (length(stack[["data"]]) == 0) {NULL} else {colnames(stack[["data"]])[1]}
+  if (ncol(stack) == 0) {NULL} else {colnames(stack)[1]}
 }
+
 get_rs_hash <- function(stack) {attr(stack, "rs_hash")}
-get_model_def_names <- function(stack) {attr(stack, "model_def_names")}
-get_model_def_hashes <- function(stack) {attr(stack, "model_def_hashes")}
+get_model_def_names <- function(stack) {names(attr(stack, "model_defs"))}
+get_model_hashes <- function(stack) {attr(stack, "model_def_hashes")}
 
 # setters
 set_outcome <- function(stack, members) {
@@ -106,7 +107,7 @@ set_model_defs <- function(stack, members, name) {
   }
   
   new_hash <- digest::digest(members)
-  existing_hashes <- get_model_def_hashes(stack)
+  existing_hashes <- get_model_hashes(stack)
 
   if (new_hash %in% existing_hashes) {
     glue_stop(
@@ -115,8 +116,7 @@ set_model_defs <- function(stack, members, name) {
     )
   }
   
-  attr(stack, "model_def_names") <- c(get_model_def_names(stack), name)
-  attr(stack, "model_def_hashes") <- c(get_model_def_hashes(stack), new_hash)
+  attr(stack, "model_hashes") <- c(get_model_hashes(stack), new_hash)
   
   stack
 }
@@ -157,7 +157,9 @@ rm_members <- function(stack, name) {
 # Misc. Utilities
 # ------------------------------------------------------------------------
 set_model_defs_members <- function(stack, members, name) {
-  stack[["model_defs"]][[name]] <- members
+  model_defs <- attr(stack, "model_defs")
+  model_defs[[name]] <- members
+  attr(stack, "model_defs") <- model_defs
   
   stack
 }
@@ -181,14 +183,21 @@ set_data_members <- function(stack, members, name) {
                        values_from = ".pred") %>%
     dplyr::select(-.row) 
   
-  if (nrow(stack[["data"]]) == 0) {
-    stack[["data"]] <- member_cols
+  if (nrow(stack) == 0) {
+    stack <- 
+      update_stack_data(
+        stack, 
+        member_cols
+      )
   } else {
-    stack[["data"]] <- 
-      dplyr::bind_cols(
-        stack[["data"]], 
-        dplyr::select(member_cols, -!!get_outcome(stack))
+    stack <- 
+      update_stack_data(
+        stack,
+        dplyr::bind_cols(
+          tibble::as_tibble(stack), 
+          dplyr::select(member_cols, -!!get_outcome(stack))
         )
+      )
   }
   
   stack <- log_resample_cols(stack, member_cols, name)
@@ -200,22 +209,40 @@ set_data_members <- function(stack, members, name) {
 log_resample_cols <- function(stack, member_cols, name) {
   new_cols <- colnames(member_cols)
   
-  cols_map <- stack[["cols_map"]]
+  cols_map <- attr(stack, "cols_map")
   cols_map[[name]] <- new_cols[2:length(new_cols)]
-  stack[["cols_map"]] <- cols_map
+  attr(stack, "cols_map") <- cols_map
   
   stack
 }
 
 
 # update the data in the stack while preserving attributes and class
-# update_stack_data <- function(stack, new_data) {
-#   attr(new_data, "rs_hash") <- attr(stack, "rs_hash")
-#   attr(new_data, "model_def_names") <- attr(stack, "model_def_names")
-#   attr(new_data, "model_def_hashes") <- attr(stack, "model_def_hashes")
-#   
-#   structure(
-#     new_data,
-#     class = c("stack", class(new_data))
-#   )
-# }
+update_stack_data <- function(stack, new_data) {
+  attr(new_data, "rs_hash") <- attr(stack, "rs_hash")
+  attr(new_data, "outcome")  <- attr(stack, "outcome") 
+  attr(new_data, "model_defs")  <- attr(stack, "model_defs") 
+  attr(new_data, "cols_map") <- attr(stack, "cols_map")
+  attr(new_data, "coefs") <- attr(stack, "coefs") 
+  attr(new_data, "model_hashes") <- attr(stack, "model_hashes") 
+
+  structure(
+    new_data,
+    class = c("stack", class(new_data))
+  )
+}
+
+get_glmn_coefs <- function(x, penalty = 0.01) {
+  x <- coef(x, s = penalty)
+  x <- as.matrix(x)
+  colnames(x) <- "estimate"
+  rn <- rownames(x)
+  x <- tibble::as_tibble(x) %>% dplyr::mutate(terms = rn, penalty = penalty)
+  x <- dplyr::select(x, terms, estimate, penalty)
+  if (is.list(x$estimate)) {
+    x$estimate <- purrr::map(x$estimate, ~ as_tibble(as.matrix(.x), rownames = "terms"))
+    x <- tidyr::unnest(x, cols = c(estimate), names_repair = "minimal")
+    names(x) <- c("class", "terms", "estimate", "penalty")
+  }
+  x
+}

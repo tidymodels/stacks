@@ -3,7 +3,7 @@ stack_constr <- function(stack, which) {
   
   # if there aren't any members left after the operation,
   # allow the object to accept tune_results from new resampling objects
-  if (length(stack) <= 1) {
+  if (ncol(stack) <= 1) {
     stack <- stacks()
   }
   
