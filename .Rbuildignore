@@ -9,3 +9,4 @@ notes/
 ^\.github$
 README.Rmd
 ^inst$
+^CODE_OF_CONDUCT\.md$
