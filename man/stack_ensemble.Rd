@@ -33,9 +33,9 @@ with all other variables in \link[palmerpenguins:penguins]{palmerpenguins::pengu
 # initialize a resample stack and add some members
 st_res <- 
   stacks() \%>\%
-  stack_resamples(lin_reg_res_) \%>\%
-  stack_resamples(svm_res_) \%>\%
-  stack_resamples(spline_res_)
+  add_members(lin_reg_res_) \%>\%
+  add_members(svm_res_) \%>\%
+  add_members(spline_res_)
   
 # evaluate the resample stack
 st_coefs <-

@@ -5,7 +5,7 @@
 #' from ensemble members.
 #' 
 #' @param data_stack A `data_stack` object outputted from [stack_data()]
-#' @inheritParams stack_resamples
+#' @inheritParams add_members
 #' 
 #' @return A `data_stack` object---a `model_fit` subclass, giving loading
 #' coefficients for each ensemble member.
@@ -17,9 +17,9 @@
 #' # evaluate a resample stack
 #' st <- 
 #'   stacks() %>%
-#'   stack_resamples(lin_reg_res_) %>%
-#'   stack_resamples(svm_res_) %>%
-#'   stack_resamples(spline_res_) %>% 
+#'   add_members(lin_reg_res_) %>%
+#'   add_members(svm_res_) %>%
+#'   add_members(spline_res_) %>% 
 #'   stack_data()
 #'   
 #' # evaluate the data stack

@@ -21,12 +21,12 @@
 #' # initialize a resample stack and add some members
 #' st <- 
 #'   stacks() %>%
-#'   stack_resamples(lin_reg_res_, lin_reg_wf_) %>%
-#'   stack_resamples(svm_res_, svm_wf_) %>%
-#'   stack_resamples(spline_res_, spline_wf_)
+#'   add_members(lin_reg_res_, lin_reg_wf_) %>%
+#'   add_members(svm_res_, svm_wf_) %>%
+#'   add_members(spline_res_, spline_wf_)
 #'   
 #' @export
-stack_resamples <- function(resample_stack, members, workflow,
+add_members <- function(resample_stack, members, workflow,
                             name = deparse(substitute(members)), ...) {
   check_chr(name)
   

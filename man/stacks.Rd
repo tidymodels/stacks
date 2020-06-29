@@ -16,5 +16,5 @@ A \code{resample_stack} object.
 Initializes a \code{resample_stack} object.
 }
 \seealso{
-\code{\link[=stack_resamples]{stack_resamples()}}
+\code{\link[=add_members]{add_members()}}
 }

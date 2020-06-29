@@ -6,7 +6,7 @@
 #' 
 #' @return A `resample_stack` object.
 #' 
-#' @seealso [stack_resamples()]
+#' @seealso [add_members()]
 #' 
 #' @export
 stacks <- function(...) {

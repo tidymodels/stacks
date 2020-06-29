@@ -2,8 +2,8 @@
 
 S3method(print,stack)
 export("%>%")
+export(add_members)
 export(stack_coefficients)
 export(stack_ensemble)
-export(stack_resamples)
 export(stacks)
 importFrom(dplyr,"%>%")

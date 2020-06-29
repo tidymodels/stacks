@@ -15,7 +15,7 @@ test_that("remove members") {
 # 
 # test_that("objects from new resample can be added to 0-member stack", {
 #   st_1_post_rm <- st_0_rm %>%
-#     stack_resamples(svm_res_new_folds_)
+#     add_members(svm_res_new_folds_)
 #   
 #   expect_true(inherits(st_1_post_rm, "stack"))
 # })

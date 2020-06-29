@@ -144,14 +144,14 @@ stacks()
 
 The `stacks()` function works sort of like the `ggplot()` constructor from ggplot2—the function creates a basic structure that the object will be built on top of—except you'll pipe the outputs rather than adding them with `+`.
 
-The `stack_resamples()` function will add ensemble members to the stack.
+The `add_members()` function will add ensemble members to the stack.
 
 ```{r}
 penguins_stack <- 
   stacks() %>%
-  stack_resamples(lin_reg_res) %>%
-  stack_resamples(spline_res) %>%
-  stack_resamples(svm_res)
+  add_members(lin_reg_res) %>%
+  add_members(spline_res) %>%
+  add_members(svm_res)
 
 penguins_stack
 ```

@@ -1,6 +1,6 @@
 #' Fit a stack ensemble
 #' 
-#' @inheritParams stack_resamples
+#' @inheritParams add_members
 #' @param coefficient_stack A coefficient stack outputted by [stack_coefficients()]
 # @param n The total number of sub-models to incorporate in the stack.
 # @param replace Logical—whether to sample the sub-models to incorporate
@@ -19,9 +19,9 @@
 #' # initialize a resample stack and add some members
 #' st_res <- 
 #'   stacks() %>%
-#'   stack_resamples(lin_reg_res_) %>%
-#'   stack_resamples(svm_res_) %>%
-#'   stack_resamples(spline_res_)
+#'   add_members(lin_reg_res_) %>%
+#'   add_members(svm_res_) %>%
+#'   add_members(spline_res_)
 #'   
 #' # evaluate the resample stack
 #' st_coefs <-
