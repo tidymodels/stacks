@@ -57,7 +57,7 @@ names0 <- function(num, prefix = "x") {
 
 # getters
 get_outcome <- function(stack) {
-  if (length(stack) == 0) {NULL} else {colnames(stack)[1]}
+  if (length(stack[["data"]]) == 0) {NULL} else {colnames(stack[["data"]])[1]}
 }
 get_rs_hash <- function(stack) {attr(stack, "rs_hash")}
 get_model_def_names <- function(stack) {attr(stack, "model_def_names")}
@@ -157,13 +157,13 @@ rm_members <- function(stack, name) {
 # Misc. Utilities
 # ------------------------------------------------------------------------
 set_resample_members <- function(stack, members, name) {
-  stack[["members"]][[name]] <- members
+  stack[["resamples"]][[name]] <- members
   
   stack
 }
 
 
-collate_member_cols <- function(stack, members, name) {
+set_data_members <- function(stack, members, name) {
   member_cols <-
     tune::collect_predictions(members, summarize = TRUE) %>%
     dplyr::ungroup() %>%
@@ -181,30 +181,41 @@ collate_member_cols <- function(stack, members, name) {
                        values_from = ".pred") %>%
     dplyr::select(-.row) 
   
-  if (nrow(stack) == 0) {
-    update_stack_data(
-      stack, 
-      member_cols
-    )
+  if (nrow(stack[["data"]]) == 0) {
+    stack[["data"]] <- member_cols
   } else {
-    update_stack_data(
-      stack,
+    stack[["data"]] <- 
       dplyr::bind_cols(
-        tibble::as_tibble(stack), 
+        stack[["data"]], 
         dplyr::select(member_cols, -!!get_outcome(stack))
-      )
-    )
+        )
   }
+  
+  stack <- log_resample_cols(stack, member_cols, name)
+  
+  stack
 }
 
-# update the data in the stack while preserving attributes and class
-update_stack_data <- function(stack, new_data) {
-  attr(new_data, "rs_hash") <- attr(stack, "rs_hash")
-  attr(new_data, "model_def_names") <- attr(stack, "model_def_names")
-  attr(new_data, "model_def_hashes") <- attr(stack, "model_def_hashes")
+# logs which columns in the data stack came from which members
+log_resample_cols <- function(stack, member_cols, name) {
+  new_cols <- colnames(member_cols)
   
-  structure(
-    new_data,
-    class = c("stack", class(new_data))
-  )
+  cols_map <- stack[["cols_map"]]
+  cols_map[[name]] <- new_cols
+  stack[["cols_map"]] <- cols_map
+  
+  stack
 }
+
+
+# update the data in the stack while preserving attributes and class
+# update_stack_data <- function(stack, new_data) {
+#   attr(new_data, "rs_hash") <- attr(stack, "rs_hash")
+#   attr(new_data, "model_def_names") <- attr(stack, "model_def_names")
+#   attr(new_data, "model_def_hashes") <- attr(stack, "model_def_hashes")
+#   
+#   structure(
+#     new_data,
+#     class = c("stack", class(new_data))
+#   )
+# }

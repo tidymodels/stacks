@@ -34,7 +34,8 @@ stack_resamples <- function(resample_stack, members, workflow,
     resample_stack %>%
     set_rs_hash(members, name) %>%
     set_outcome(members) %>%
-    set_resample_members(members, name)
+    set_resample_members(members, name) %>%
+    set_data_members(members, name)
   
   stack_constr(stack, "resample")
 }

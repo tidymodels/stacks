@@ -15,6 +15,11 @@ stacks <- function(...) {
   attr(stack, "rs_hash") <- "init_"
   attr(stack, "outcome") <- "init_"
   
+  
+  stack[["resamples"]] <- list()
+  stack[["data"]] <- tibble::tibble()
+  stack[["cols_map"]] <- list()
+  
   # should check recipe outcome variable if workflows are
   # eventually not included in the resampling object
   # $pre$actions$recipe$recipe$var_info
