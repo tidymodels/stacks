@@ -16,7 +16,7 @@ stacks <- function(...) {
   attr(stack, "outcome") <- "init_"
   
   
-  stack[["resamples"]] <- list()
+  stack[["model_defs"]] <- list()
   stack[["data"]] <- tibble::tibble()
   stack[["cols_map"]] <- list()
   

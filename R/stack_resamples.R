@@ -21,9 +21,9 @@
 #' # initialize a resample stack and add some members
 #' st <- 
 #'   stacks() %>%
-#'   stack_resamples(lin_reg_res_) %>%
-#'   stack_resamples(svm_res_) %>%
-#'   stack_resamples(spline_res_)
+#'   stack_resamples(lin_reg_res_, lin_reg_wf_) %>%
+#'   stack_resamples(svm_res_, svm_wf_) %>%
+#'   stack_resamples(spline_res_, spline_wf_)
 #'   
 #' @export
 stack_resamples <- function(resample_stack, members, workflow,
@@ -34,7 +34,7 @@ stack_resamples <- function(resample_stack, members, workflow,
     resample_stack %>%
     set_rs_hash(members, name) %>%
     set_outcome(members) %>%
-    set_resample_members(members, name) %>%
+    set_model_defs_members(workflow, name) %>%
     set_data_members(members, name)
   
   stack_constr(stack, "resample")

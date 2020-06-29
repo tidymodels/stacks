@@ -156,8 +156,8 @@ rm_members <- function(stack, name) {
 
 # Misc. Utilities
 # ------------------------------------------------------------------------
-set_resample_members <- function(stack, members, name) {
-  stack[["resamples"]][[name]] <- members
+set_model_defs_members <- function(stack, members, name) {
+  stack[["model_defs"]][[name]] <- members
   
   stack
 }
@@ -201,7 +201,7 @@ log_resample_cols <- function(stack, member_cols, name) {
   new_cols <- colnames(member_cols)
   
   cols_map <- stack[["cols_map"]]
-  cols_map[[name]] <- new_cols
+  cols_map[[name]] <- new_cols[2:length(new_cols)]
   stack[["cols_map"]] <- cols_map
   
   stack

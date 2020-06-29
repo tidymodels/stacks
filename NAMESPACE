@@ -3,7 +3,6 @@
 S3method(print,data_stack)
 export("%>%")
 export(stack_coefficients)
-export(stack_data)
 export(stack_ensemble)
 export(stack_resamples)
 export(stacks)

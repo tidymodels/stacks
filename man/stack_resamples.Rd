@@ -48,8 +48,8 @@ with all other variables in \link[palmerpenguins:penguins]{palmerpenguins::pengu
 # initialize a resample stack and add some members
 st <- 
   stacks() \%>\%
-  stack_resamples(lin_reg_res_) \%>\%
-  stack_resamples(svm_res_) \%>\%
-  stack_resamples(spline_res_)
+  stack_resamples(lin_reg_res_, lin_reg_wf_) \%>\%
+  stack_resamples(svm_res_, svm_wf_) \%>\%
+  stack_resamples(spline_res_, spline_wf_)
   
 }
