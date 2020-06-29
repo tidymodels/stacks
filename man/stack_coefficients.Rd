@@ -2,9 +2,9 @@
 % Please edit documentation in R/stack_coefficients.R
 \name{stack_coefficients}
 \alias{stack_coefficients}
-\title{Evaluate a data stack}
+\title{Evaluate a stack}
 \usage{
-stack_coefficients(stack_data, ...)
+stack_coefficients(stack, method = "glm", ...)
 }
 \arguments{
 \item{...}{Additional arguments. Currently ignored.}
@@ -12,11 +12,11 @@ stack_coefficients(stack_data, ...)
 \item{data_stack}{A \code{data_stack} object outputted from \code{\link[=stack_data]{stack_data()}}}
 }
 \value{
-A \code{data_stack} object---a \code{model_fit} subclass, giving loading
+A \code{stack} object---a \code{model_fit} subclass, giving loading
 coefficients for each ensemble member.
 }
 \description{
-Evaluates a data stack by performing regularization on the out-of-sample
+Evaluates a stack by performing regularization on the out-of-sample
 predictions to determine coefficients for the combining of predictions
 from ensemble members.
 }
@@ -32,15 +32,14 @@ with all other variables in \link[palmerpenguins:penguins]{palmerpenguins::pengu
 
 \examples{
 
-# evaluate a resample stack
+# evaluate a stack
 st <- 
   stacks() \%>\%
   add_members(lin_reg_res_) \%>\%
   add_members(svm_res_) \%>\%
-  add_members(spline_res_) \%>\% 
-  stack_data()
+  add_members(spline_res_)
   
-# evaluate the data stack
+# evaluate the stack
 st \%>\%
   stack_coefficients()
 

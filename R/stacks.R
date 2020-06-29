@@ -19,6 +19,7 @@ stacks <- function(...) {
   stack[["model_defs"]] <- list()
   stack[["data"]] <- tibble::tibble()
   stack[["cols_map"]] <- list()
+  stack[["coefs"]] <- list()
   
   # should check recipe outcome variable if workflows are
   # eventually not included in the resampling object

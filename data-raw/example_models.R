@@ -2,7 +2,8 @@
 
 # setup: packages, data, resample, basic recipe ------------------------
 devtools::load_all()
-data("penguins")
+library(tidymodels)
+data("penguins", package = "palmerpenguins")
 
 penguins <- penguins[!is.na(penguins$sex),]
 
@@ -15,7 +16,7 @@ penguins_split <- initial_split(penguins)
 penguins_train <- training(penguins_split)
 penguins_test  <- testing(penguins_split)
 
-folds <- rsample::vfold_cv(penguins_train, v = 5)
+folds <- vfold_cv(penguins_train, v = 5)
 
 penguins_rec <- 
   recipe(body_mass_g ~ ., data = penguins_train) %>%
