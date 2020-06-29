@@ -28,6 +28,4 @@ stacks <- function(...) {
       stack,
       class = c("resample_stack", class(stack))
     )
-  
-  stack_constr(stack, "resample")
 }
