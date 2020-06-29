@@ -31,6 +31,6 @@ stacks <- function(...) {
   stack <- 
     structure(
       stack,
-      class = c("resample_stack", class(stack))
+      class = c("stack", class(stack))
     )
 }

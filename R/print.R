@@ -1,8 +1,8 @@
 #' @export
-print.data_stack <- function(x, ...) {
-  n_members <- if (ncol(x) == 0) {0} else {ncol(x) - 1}
-  n_model_defs <- length(attr(x, "model_def_names"))
-  outcome_name <- colnames(x)[1]
+print.stack <- function(x, ...) {
+  n_members <- if (ncol(x[["data"]]) == 0) {0} else {ncol(x[["data"]]) - 1}
+  n_model_defs <- length(x[["model_defs"]])
+  outcome_name <- colnames(x[["data"]])[1]
   
   cat(glue::glue("# A stack with {n_model_defs} model definition",
                  "{if (n_model_defs != 1) 's ' else ' '}",
@@ -13,16 +13,16 @@ print.data_stack <- function(x, ...) {
   
   n_by_model_defs <-
     purrr::map(
-      attr(x, "model_def_names"),
+      names(x[["cols_map"]]),
       function(name) {
         cat(glue::glue(
             "#   {name}: ",
-            "{sum(stringi::stri_detect_fixed(colnames(x), name))} sub-model",
-            "{if (sum(stringi::stri_detect_fixed(colnames(x), name)) != 1) 's' else ''}")
+            "{length(x[['cols_map']][[name]])} sub-model",
+            "{if (length(x[['cols_map']][[name]]) != 1) 's' else ''}")
           )
         cat("\n")
       }
     )
 
-  cat(glue::glue("# Outcome: {get_outcome(x)}\n"))
+  cat(glue::glue("# Outcome: {outcome_name}\n"))
 }
