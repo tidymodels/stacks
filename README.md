@@ -21,45 +21,52 @@ specification*, as defined in the
 To be used in the same ensemble, each of these model definitions must
 share the same *resample*. This
 [rsample](https://rsample.tidymodels.org/) `rset` object, when paired
-with the model definitions, can be used to generate the *ensemble
-members*.
+with the model definitions, can be used to generate the candidate
+*ensemble members*.
 
 ![](inst/figs/level2.png)
 
 The package will sometimes refer to *sub-models*. The difference between
-sub-models and ensemble members is only philosophical—a sub-model is an
-ensemble member when it’s membership as an element of a model definition
-is disregarded, and an ensemble member is a sub-model when it is
-regarded as resulting from a specific model definition.
+sub-models and ensemble members is mostly philosophical—an ensemble
+member is a sub-model that has actually been selected and trained for
+use in the ensemble (via nonzero stacking coefficients) that is not
+regarded as resulting from a specific model definition, where-as a
+sub-model is an untrained candidate ensemble member.
 
-In this package, ensemble members come together in a *stack*.
-Principally, `stack` objects are just
-[tibbles](https://tibble.tidyverse.org/), where the first row gives the
-true outcome, and the remaining rows give the out-of-sample-predictions
-from each ensemble member. (When the outcome is numeric, there’s only
-one column per ensemble member. Multi-way classification requires more
-columns.) They also bring along a few extra attributes to keep track of
-model definitions.
+Sub-models first come together in a *data stack*. Principally, these
+objects are just [tibbles](https://tibble.tidyverse.org/), where the
+first column gives the true outcome in the assessment set, and the
+remaining columns give the predictions from each candidate ensemble
+member. (When the outcome is numeric, there’s only one column per
+ensemble member. Multi-way classification requires more columns.) They
+also bring along a few extra attributes to keep track of model
+definitions.
 
 ![](inst/figs/level3.png)
 
-Finally, the stack can be fitted—depending on the arguments you choose,
-the structure of the model can vary quite a bit. A few things to keep in
-mind, though: \* The fitting process is not sensitive to model
-definition membership. That is, while fitting an ensemble from a stack,
-the components are referred to as ensemble members rather than
-sub-models. \* The outputs of each member are likely highly correlated.
-Thus, depending on the degree of regularization you choose, the
-coefficients for the inputs of (possibly) many of the members will zero
-out—their predictions will have no influence on the final output, and
-those terms will thus be thrown out.
+Finally, the data stack can be fitted—depending on the arguments you
+choose, the structure of the model can vary quite a bit. A few things to
+keep in mind, though:
+
+  - The fitting process is not sensitive to model definition membership.
+    That is, while fitting an ensemble from a stack, the components are
+    referred to as ensemble members rather than sub-models.  
+  - The outputs of each member are likely highly correlated. Thus,
+    depending on the degree of regularization you choose, the
+    coefficients for the inputs of (possibly) many of the members will
+    zero out—their predictions will have no influence on the final
+    output, and those terms will thus be thrown out.
 
 ![](inst/figs/level4.png)
 
-The coefficients make up the fit, which can be used to predict new
-values\!
+These stacking coefficients, along with the trained ensemble members,
+make up the fit, which can be used to predict new values\!
 
-Altogether, the pieces fit together like this:
+At a high level, the process follows these steps:
+
+![](inst/figs/basic_steps.png)
+
+With a bit more detail:
 
 ![](inst/figs/diagram.png)
 
