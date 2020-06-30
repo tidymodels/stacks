@@ -29,7 +29,7 @@
 #' @export
 linear_stack <- function(data_stack, ...) {
   preds_formula <- 
-    paste0(colnames(stack)[1], " ~ .") %>%
+    paste0(colnames(data_stack)[1], " ~ .") %>%
     as.formula()
   
   model_spec <- 
@@ -40,7 +40,7 @@ linear_stack <- function(data_stack, ...) {
     model_spec %>%
     tune::tune_grid(
       preds_formula,
-      resamples = rsample::bootstraps(tibble::as_tibble(stack)),
+      resamples = rsample::bootstraps(tibble::as_tibble(data_stack)),
       grid = tibble::tibble(penalty = 10 ^ (-6:-1)),
       metrics = yardstick::metric_set(yardstick::rmse),
       control = tune::control_grid(save_pred = TRUE)
@@ -49,17 +49,18 @@ linear_stack <- function(data_stack, ...) {
   coefs <-
     model_spec %>%
     tune::finalize_model(tune::select_best(candidates)) %>%
-    generics::fit(formula = preds_formula, data = stack)
+    generics::fit(formula = preds_formula, data = data_stack)
   
-  ensemble <- 
+  model_stack <- 
     structure(
-      list(model_defs = attr(stack, "model_defs"),
+      list(model_defs = attr(data_stack, "model_defs"),
            coefs = coefs,
-           cols_map = attr(stack, "cols_map"),
-           model_metrics = attr(stack, "model_metrics"),
-           train = attr(stack, "train")),
+           cols_map = attr(data_stack, "cols_map"),
+           model_metrics = attr(data_stack, "model_metrics"),
+           train = attr(data_stack, "train"),
+           outcome = attr(data_stack, "outcome")),
       class = c("linear_stack", "model_stack", "list")
     )
   
-  model_stack_constr(ensemble)
+  model_stack_constr(model_stack)
 }

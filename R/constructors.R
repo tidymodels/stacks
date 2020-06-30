@@ -8,7 +8,7 @@ data_stack_constr <- function(data_stack) {
   purrr::map(attr(data_stack, "model_defs"), check_inherits, "workflow")
   purrr::map(attr(data_stack, "model_metrics"), check_inherits, "tbl_df")
   
-  model_stack
+  data_stack
 }
 
 model_stack_constr <- function(model_stack) {
