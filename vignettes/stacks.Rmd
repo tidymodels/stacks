@@ -182,12 +182,12 @@ That's it! The stack is ready to fit!
 
 # Fit the stack
 
-The outputs from each of these ensemble members are highly correlated, so the `fit` method performs regularization to figure out how we can combine the outputs from the stack members to come up with a final prediction.
+The outputs from each of these ensemble members are highly correlated, so the `evaluate_coefficients` method performs regularization to figure out how we can combine the outputs from the stack members to come up with a final prediction.
 
 ```{r, eval = FALSE}
 penguins_fit <-
   penguins_stack %>%
-  fit(penguins_train)
+  evaluate_coefficients(penguins_train)
 
 ```
 
