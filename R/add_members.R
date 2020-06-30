@@ -34,6 +34,7 @@ add_members <- function(stack, members, workflow,
     stack %>%
     set_rs_hash(members, name) %>%
     set_outcome(members) %>%
+    set_training_data(members, name) %>%
     set_model_defs_members(members, workflow, name) %>%
     set_data_members(members, name)
   

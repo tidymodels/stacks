@@ -55,7 +55,8 @@ stack_coefficients <- function(stack, method = "glm", ...) {
       list(model_defs = attr(stack, "model_defs"),
            coefs = coefs,
            cols_map = attr(stack, "cols_map"),
-           model_metrics = attr(stack, "model_metrics")),
+           model_metrics = attr(stack, "model_metrics"),
+           train = attr(stack, "train")),
       class = c("ensemble", "list")
     )
   

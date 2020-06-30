@@ -14,6 +14,7 @@ stacks <- function(...) {
   
   attr(stack, "rs_hash") <- "init_"
   attr(stack, "outcome") <- "init_"
+  attr(stack, "train") <- "init_"
   attr(stack, "model_defs") <- list()
   attr(stack, "cols_map") <- list()
   attr(stack, "model_hashes") <- list()

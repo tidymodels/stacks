@@ -31,7 +31,12 @@
 # add_members(lin_reg_res_, lin_reg_wf_) %>% 
 # stack_coefficients()
 #' @export
-stack_ensemble <- function(ensemble, data) {
+stack_ensemble <- function(ensemble, data = NULL) {
+  
+  if (is.null(data)) {
+    data <- ensemble[["train"]]
+  }
+  
   # pick out which models have nonzero coefs
   members <- get_glmn_coefs(ensemble[["coefs"]][["fit"]]) %>%
     dplyr::filter(c(TRUE, coefs$estimate != 0)) %>%

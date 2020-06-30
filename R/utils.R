@@ -160,11 +160,27 @@ set_model_defs_members <- function(stack, member_tune, member_wf, name) {
   model_defs <- attr(stack, "model_defs")
   model_metrics <- attr(stack, "model_metrics")
   
-  model_defs[[name]] <- members
+  model_defs[[name]] <- member_wf
   model_metrics[[name]] <- tune::collect_metrics(member_tune)
   
   attr(stack, "model_defs") <- model_defs
   attr(stack, "model_metrics") <- model_metrics
+  
+  stack
+}
+
+set_training_data <- function(stack, members, name) {
+  training_data <- attr(stack, "train")
+  new_data <- members[["splits"]][[1]][["data"]]
+  
+  if (!inherits(training_data, "character")) {
+    if (!all.equal(training_data, new_data)) {
+      glue_stop("The newly added member, {name}",
+                "uses a different assessment set than the existing members.")
+    }
+  }
+  
+  attr(stack, "train") <- new_data
   
   stack
 }
@@ -230,6 +246,7 @@ update_stack_data <- function(stack, new_data) {
   attr(new_data, "cols_map") <- attr(stack, "cols_map")
   attr(new_data, "model_hashes") <- attr(stack, "model_hashes") 
   attr(new_data, "model_metrics")  <- attr(stack, "model_metrics") 
+  attr(new_data, "train") <- attr(stack, "train")
 
   structure(
     new_data,
