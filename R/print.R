@@ -36,8 +36,8 @@ print.model_stack <- function(x, n = 10, ...) {
     dplyr::filter(estimate != 0) %>%
     dplyr::select(term = terms, estimate)
   
-  cat(glue::glue("# A model stack with {nrow(member_weights)} member",
-                 "{if (nrow(member_weights) != 1) 's.' else '.'}"))
+  cat(glue::glue("# A model stack with {nrow(member_weights) - 1} member",
+                 "{if (nrow(member_weights) - 1 != 1) 's.' else '.'}"))
   cat("\n")
   
   print(member_weights, n = min(n, nrow(member_weights)))
