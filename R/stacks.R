@@ -28,7 +28,7 @@ stacks <- function(...) {
   stack <- 
     structure(
       stack,
-      class = c("stack", class(stack))
+      class = c("data_stack", class(stack))
     )
   
   stack_constr(stack)

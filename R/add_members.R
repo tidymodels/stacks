@@ -3,7 +3,7 @@
 #' Add the workflow and resampling objects for potential ensemble members 
 #' to a resample stack.
 #'
-#' @param stack A `stack` object.
+#' @param stack A `data_stack` object.
 #' @param members A model definition: either a `tune_results` 
 #' or `resample_results` object outputted from
 #' [tune::tune_grid()], [tune::tune_bayes()], or [tune::fit_resamples()]
@@ -12,7 +12,7 @@
 #' @param workflow The workflow used to define the model definition.
 #' @inheritParams stacks
 #' 
-#' @return A `stack` object--see [stacks()] for more details! 
+#' @return A `data_stack` object--see [stacks()] for more details! 
 #' 
 #' @template note_example_data
 #' 
@@ -38,5 +38,5 @@ add_members <- function(stack, members, workflow,
     set_model_defs_members(members, workflow, name) %>%
     set_data_members(members, name)
   
-  stack_constr(stack)
+  data_stack_constr(stack)
 }

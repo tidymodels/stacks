@@ -4,10 +4,10 @@
 #' predictions to determine coefficients for the combining of predictions
 #' from ensemble members.
 #' 
-#' @param data_stack A `stack` object
+#' @param data_stack A `data_stack` object
 #' @inheritParams add_members
 #' 
-#' @return An `ensemble` object
+#' @return A `model_stack` object
 #' 
 #' @template note_example_data
 #' 
@@ -22,10 +22,10 @@
 #'   
 #' # evaluate the stack
 #' st %>%
-#'   stack_coefficients()
+#'   linear_stack()
 #' 
 #' @export
-stack_coefficients <- function(stack, method = "glm", ...) {
+linear_stack <- function(data_stack, ...) {
   preds_formula <- 
     paste0(colnames(stack)[1], " ~ .") %>%
     as.formula()
@@ -56,8 +56,8 @@ stack_coefficients <- function(stack, method = "glm", ...) {
            cols_map = attr(stack, "cols_map"),
            model_metrics = attr(stack, "model_metrics"),
            train = attr(stack, "train")),
-      class = c("ensemble", "list")
+      class = c("linear_stack", "model_stack", "list")
     )
   
-  ensemble_constr(ensemble)
+  model_stack_constr(ensemble)
 }

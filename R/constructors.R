@@ -1,24 +1,24 @@
-stack_constr <- function(stack) {
-  check_inherits(attr(stack, "rs_hash"), "character")
-  check_inherits(attr(stack, "outcome"), "character")
-  check_inherits(attr(stack, "train"), "tbl_df")
+data_stack_constr <- function(data_stack) {
+  check_inherits(attr(data_stack, "rs_hash"), "character")
+  check_inherits(attr(data_stack, "outcome"), "character")
+  check_inherits(attr(data_stack, "train"), "tbl_df")
   
-  purrr::map(attr(stack, "cols_map"), check_inherits, "character")
-  purrr::map(attr(stack, "model_hashes"), check_inherits, "character")
-  purrr::map(attr(stack, "model_defs"), check_inherits, "workflow")
-  purrr::map(attr(stack, "model_metrics"), check_inherits, "tbl_df")
+  purrr::map(attr(data_stack, "cols_map"), check_inherits, "character")
+  purrr::map(attr(data_stack, "model_hashes"), check_inherits, "character")
+  purrr::map(attr(data_stack, "model_defs"), check_inherits, "workflow")
+  purrr::map(attr(data_stack, "model_metrics"), check_inherits, "tbl_df")
   
-  stack
+  model_stack
 }
 
-ensemble_constr <- function(ensemble) {
-  check_inherits(ensemble[["coefs"]], "_elnet")
-  check_inherits(ensemble[["train"]], "tbl_df")
+model_stack_constr <- function(model_stack) {
+  check_inherits(model_stack[["coefs"]], "_elnet")
+  check_inherits(model_stack[["train"]], "tbl_df")
   
-  purrr::map(ensemble[["model_defs"]], check_inherits, "workflow")
-  purrr::map(ensemble[["cols_map"]], check_inherits, "character")
-  purrr::map(ensemble[["model_metrics"]], check_inherits, "tbl_df")
-  purrr::map(ensemble[["member_fits"]], check_inherits, "workflow")
+  purrr::map(model_stack[["model_defs"]], check_inherits, "workflow")
+  purrr::map(model_stack[["cols_map"]], check_inherits, "character")
+  purrr::map(model_stack[["model_metrics"]], check_inherits, "tbl_df")
+  purrr::map(model_stack[["member_fits"]], check_inherits, "workflow")
   
-  ensemble
+  model_stack
 }

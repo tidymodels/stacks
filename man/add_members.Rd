@@ -7,7 +7,7 @@
 add_members(stack, members, workflow, name = deparse(substitute(members)), ...)
 }
 \arguments{
-\item{stack}{A \code{stack} object.}
+\item{stack}{A \code{data_stack} object.}
 
 \item{members}{A model definition: either a \code{tune_results}
 or \code{resample_results} object outputted from
@@ -21,7 +21,7 @@ of the model definition object.}
 \item{...}{Additional arguments. Currently ignored.}
 }
 \value{
-A \code{stack} object--see \code{\link[=stacks]{stacks()}} for more details!
+A \code{data_stack} object--see \code{\link[=stacks]{stacks()}} for more details!
 }
 \description{
 Add the workflow and resampling objects for potential ensemble members
