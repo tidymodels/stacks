@@ -2,7 +2,7 @@
 % Please edit documentation in R/linear_stack.R
 \name{linear_stack}
 \alias{linear_stack}
-\title{Evaluate a stack}
+\title{Evaluate a data stack}
 \usage{
 linear_stack(data_stack, ...)
 }
@@ -12,7 +12,9 @@ linear_stack(data_stack, ...)
 \item{...}{Additional arguments. Currently ignored.}
 }
 \value{
-A \code{model_stack} object
+A \code{model_stack} object—while \code{model_stacks} largely contain the
+same elements as \code{data_stack}s, the primary data objects shift from the
+assessment set predictions to the member models.
 }
 \description{
 Evaluates a stack by performing regularization on the out-of-sample
@@ -31,14 +33,14 @@ with all other variables in \link[palmerpenguins:penguins]{palmerpenguins::pengu
 
 \examples{
 
-# evaluate a stack
+# put together a data stack
 st <- 
   stacks() \%>\%
-  add_members(lin_reg_res_) \%>\%
-  add_members(svm_res_) \%>\%
-  add_members(spline_res_)
+  add_members(lin_reg_res_, lin_reg_wf_) \%>\%
+  add_members(svm_res_, svm_wf_) \%>\%
+  add_members(spline_res_, spline_wf_)
   
-# evaluate the stack
+# evaluate the data stack
 st \%>\%
   linear_stack()
 

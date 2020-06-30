@@ -29,15 +29,16 @@ with all other variables in \link[palmerpenguins:penguins]{palmerpenguins::pengu
 
 \examples{
 
-# initialize a linear model stack
-st_res <- 
+# put together a data stack
+st <- 
   stacks() \%>\%
   add_members(lin_reg_res_, lin_reg_wf_) \%>\%
   add_members(svm_res_, svm_wf_) \%>\%
-  add_members(spline_res_, spline_wf_) \%>\%
-  linear_stack()
+  add_members(spline_res_, spline_wf_)
 
-# fit the member models
-fit_members(st_res, st_coefs)
+# evaluate the data stack and fit the member models
+st \%>\%
+  linear_stack() \%>\%
+  fit_members()
 
 }

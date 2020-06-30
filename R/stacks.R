@@ -1,10 +1,16 @@
-#' Initialize a resample stack
+#' Initialize a data stack
 #' 
-#' Initializes a `resample_stack` object.
+#' Initializes a `data_stack` object. Principally, `data_stack`s are just
+#' tibbles, where the first column gives the true outcome in the assessment set,
+#' and the remaining columns give the predictions from each candidate ensemble 
+#' member. (When the outcome is numeric, there’s only one column per ensemble 
+#' member. Multi-way classification requires more columns.) They also bring 
+#' along a few extra attributes to keep track of model definitions, resamples,
+#' and training data.
 #' 
 #' @param ... Additional arguments. Currently ignored.
 #' 
-#' @return A `resample_stack` object.
+#' @return A `data_stack` object.
 #' 
 #' @seealso [add_members()]
 #' 

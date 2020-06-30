@@ -1,4 +1,4 @@
-#' Evaluate a stack
+#' Evaluate a data stack
 #'
 #' Evaluates a stack by performing regularization on the out-of-sample
 #' predictions to determine coefficients for the combining of predictions
@@ -7,20 +7,22 @@
 #' @param data_stack A `data_stack` object
 #' @inheritParams add_members
 #' 
-#' @return A `model_stack` object
+#' @return A `model_stack` object—while `model_stacks` largely contain the
+#' same elements as `data_stack`s, the primary data objects shift from the
+#' assessment set predictions to the member models.
 #' 
 #' @template note_example_data
 #' 
 #' @examples 
 #' 
-#' # evaluate a stack
+#' # put together a data stack
 #' st <- 
 #'   stacks() %>%
-#'   add_members(lin_reg_res_) %>%
-#'   add_members(svm_res_) %>%
-#'   add_members(spline_res_)
+#'   add_members(lin_reg_res_, lin_reg_wf_) %>%
+#'   add_members(svm_res_, svm_wf_) %>%
+#'   add_members(spline_res_, spline_wf_)
 #'   
-#' # evaluate the stack
+#' # evaluate the data stack
 #' st %>%
 #'   linear_stack()
 #' 

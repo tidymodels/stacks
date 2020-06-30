@@ -1,15 +1,15 @@
-#' Add members to a resample stack
+#' Add model definitions to a data stack
 #'
-#' Add the workflow and resampling objects for potential ensemble members 
-#' to a resample stack.
+#' Collates assessment set predictions and appends workflows and additional 
+#' attributes to a `data_stack`.
 #'
 #' @param stack A `data_stack` object.
 #' @param members A model definition: either a `tune_results` 
 #' or `resample_results` object outputted from
 #' [tune::tune_grid()], [tune::tune_bayes()], or [tune::fit_resamples()]
-#' @param name The label for the model definition---defaults to the name
-#' of the model definition object.
 #' @param workflow The workflow used to define the model definition.
+#' @param name The label for the model definition---defaults to the name
+#' of the `members` object.
 #' @inheritParams stacks
 #' 
 #' @return A `data_stack` object--see [stacks()] for more details! 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_members.R
 \name{add_members}
 \alias{add_members}
-\title{Add members to a resample stack}
+\title{Add model definitions to a data stack}
 \usage{
 add_members(stack, members, workflow, name = deparse(substitute(members)), ...)
 }
@@ -16,7 +16,7 @@ or \code{resample_results} object outputted from
 \item{workflow}{The workflow used to define the model definition.}
 
 \item{name}{The label for the model definition---defaults to the name
-of the model definition object.}
+of the \code{members} object.}
 
 \item{...}{Additional arguments. Currently ignored.}
 }
@@ -24,8 +24,8 @@ of the model definition object.}
 A \code{data_stack} object--see \code{\link[=stacks]{stacks()}} for more details!
 }
 \description{
-Add the workflow and resampling objects for potential ensemble members
-to a resample stack.
+Collates assessment set predictions and appends workflows and additional
+attributes to a \code{data_stack}.
 }
 \section{Example Data}{
 
