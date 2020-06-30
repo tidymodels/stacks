@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 In this article, we'll be working through an example of the basic workflow of model stacking with the stacks package. If you're unfamiliar with the language used in this vignette, please see the package README. At a high level, the workflow looks something like this:
 
 * Fit constituent model definitions
-* Initialize a `stack`
+* Initialize a `data_stack`
 * Add stack members
 * Fit the stack
 * Predict on new data!
@@ -42,8 +42,9 @@ penguins <- penguins[!is.na(penguins$sex),]
 
 # Fit constituent model definitions
 
-Fitting the constituent model definitions is undoubtedly the longest part of building an ensemble with `stack`. If you're familiar with tidymodels proper, you're probably fine to skip this section, keeping a few things in mind:
+Fitting the constituent model definitions is undoubtedly the longest part of building an ensemble with `stacks`. If you're familiar with tidymodels "proper," you're probably fine to skip this section, keeping a few things in mind:
 
+* The model specifications must be embedded in `workflows` objects.
 * You'll need to save the out-of-sample predictions in your `tune_grid()` or `fit_resamples()` objects by setting the `control` argument to `control_grid(save_pred = TRUE)` or `control_resamples(save_pred = TRUE)`, respectively.
 * Each model definition should share the same rsample `rset` object (by either sending your model specification through `tune_grid()`, if you need to tune hyperparameters, or `fit_resamples()` if not.)
 
@@ -150,7 +151,7 @@ With these three model definitions fully specified, we're ready to start putting
 
 # Putting together a stack
 
-The first step to building an ensemble with `stack` is to create a `stack` object—in this package, stacks are tibbles (with some extra attributes) that contain the out-of-sample predictions for each member.
+The first step to building an ensemble with `stacks` is to create a `data_stack` object—in this package, stacks are tibbles (with some extra attributes) that contain the out-of-sample predictions for each member.
 
 ```{r}
 stacks()
@@ -161,19 +162,19 @@ The `stacks()` function works sort of like the `ggplot()` constructor from ggplo
 The `add_members()` function will add ensemble members to the stack.
 
 ```{r}
-penguins_stack <- 
+penguins_data_st <- 
   stacks() %>%
   add_members(lin_reg_res, workflow = lin_reg_wflow) %>%
   add_members(spline_res, workflow = spline_wflow) %>%
   add_members(svm_res, workflow = svm_wflow)
 
-penguins_stack
+penguins_data_st
 ```
 
-As mentioned before, under the hood, a `stack` object is really just a tibble. Checking out the actual data:
+As mentioned before, under the hood, a `data_stack` object is really just a tibble. Checking out the actual data:
 
 ```{r}
-as_tibble(penguins_stack)
+as_tibble(penguins_data_st)
 ```
 
 A stack is a just a tibble, where the first row gives the first response value, and the remaining columns give the out of sample predictions for each ensemble member. Since we're in the regression case, there's only one column per ensemble member.
@@ -182,18 +183,20 @@ That's it! The stack is ready to fit!
 
 # Fit the stack
 
-The outputs from each of these ensemble members are highly correlated, so the `evaluate_coefficients` method performs regularization to figure out how we can combine the outputs from the stack members to come up with a final prediction.
+The outputs from each of these ensemble members are highly correlated, so the `linear_stack` method performs regularization to figure out how we can combine the outputs from the stack members to come up with a final prediction. There will eventually be several `*_stack` methods providing different options for combining model output.
 
 ```{r, eval = FALSE}
-penguins_fit <-
-  penguins_stack %>%
-  evaluate_coefficients(penguins_train)
-
+penguins_model_st <-
+  penguins_data_st %>%
+  linear_stack()
 ```
 
+The `linear_stack` function determines how member model output will ultimately be combined in the final prediction. Now that we know how to combine models, we can fit the models that we know we need.
 
+```{r, eval = FALSE}
+penguins_model_st <-
+  penguins_model_st %>%
+  fit_members()
+```
 
-
-
-
-
+This object is now ready to predict with new data!
