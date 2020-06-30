@@ -26,7 +26,7 @@ The package is closely integrated with the rest of the functionality in tidymode
 
 ```{r setup}
 library(tidymodels)
-library(stack)
+library(stacks)
 ```
 
 In this example, we'll make use of the `palmerpenguins::penguins` data, giving measurements taken from three different species of penguins from three different antarctic islands! We'll start out with predicting bill length based on other attributes.
@@ -67,6 +67,10 @@ penguins_rec <-
   step_dummy(all_nominal()) %>%
   step_zv(all_predictors())
 
+penguins_wflow <- 
+  workflow() %>% 
+  add_recipe(penguins_rec)
+
 metric <- metric_set(rmse)
 ```
 
@@ -80,10 +84,13 @@ lin_reg_spec <-
   linear_reg() %>%
   set_engine("lm")
 
+lin_reg_wflow <- 
+  penguins_wflow %>% 
+  add_model(lin_reg_spec)
+
 lin_reg_res <- 
   fit_resamples(
-    object = lin_reg_spec,
-    preprocessor = penguins_rec,
+    lm_wflow,
     resamples = folds,
     metrics = metric,
     control = ctrl_res
@@ -101,10 +108,14 @@ spline_rec <-
   step_ns(bill_length_mm, deg_free = tune::tune("length")) %>%
   step_ns(bill_depth_mm, deg_free = tune::tune("depth"))
 
+spline_wflow <- 
+  workflow() %>% 
+  add_recipe(spline_rec) %>% 
+  add_model(lin_reg_spec)
+
 spline_res <- 
   tune_grid(
-    object = lin_reg_spec,
-    preprocessor = spline_rec,
+    spline_wflow,
     resamples = folds,
     metrics = metric,
     control = ctrl_grid
@@ -122,10 +133,13 @@ svm_spec <-
   set_engine("kernlab") %>%
   set_mode("regression")
 
+svm_wflow <- 
+  penguins_wflow %>% 
+  add_model(svm_spec)
+  
 svm_res <- 
   tune_grid(
-    object = svm_spec, 
-    preprocessor = penguins_rec, 
+    svm_wflow, 
     resamples = folds, 
     grid = 5,
     control = ctrl_grid
@@ -149,9 +163,9 @@ The `add_members()` function will add ensemble members to the stack.
 ```{r}
 penguins_stack <- 
   stacks() %>%
-  add_members(lin_reg_res) %>%
-  add_members(spline_res) %>%
-  add_members(svm_res)
+  add_members(lin_reg_res, workflow = lin_reg_wflow) %>%
+  add_members(spline_res, workflow = spline_wflow) %>%
+  add_members(svm_res, workflow = svm_wflow)
 
 penguins_stack
 ```
@@ -170,7 +184,7 @@ That's it! The stack is ready to fit!
 
 The outputs from each of these ensemble members are highly correlated, so the `fit` method performs regularization to figure out how we can combine the outputs from the stack members to come up with a final prediction.
 
-```{r}
+```{r, eval = FALSE}
 penguins_fit <-
   penguins_stack %>%
   fit(penguins_train)
