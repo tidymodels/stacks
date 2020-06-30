@@ -37,12 +37,13 @@ stack_ensemble <- function(ensemble, data = NULL) {
     data <- ensemble[["train"]]
   }
   
-  # pick out which models have nonzero coefs
-  members <- get_glmn_coefs(ensemble[["coefs"]][["fit"]]) %>%
-    dplyr::filter(c(TRUE, coefs$estimate != 0)) %>%
+  # pick out which submodels have nonzero coefs
+  member_names <- get_glmn_coefs(ensemble[["coefs"]][["fit"]]) %>%
+    dplyr::filter(estimate != 0) %>%
     dplyr::pull(terms)
   
-  # make model spec with the chosen parameters
+  # make model specs with the chosen parameters
+  # for chosen sub-models
   metrics_dict <- 
     tibble::enframe(ensemble[["model_metrics"]]) %>%
     tidyr::unnest(cols = value) %>%
@@ -58,32 +59,24 @@ stack_ensemble <- function(ensemble, data = NULL) {
         !is.na(.config) ~ paste0(name, .config),
         TRUE ~ NA_character_
       )
-    )
+    ) %>%
+    dplyr::filter(.metric == "rmse")
   
   members_map <- 
     tibble::as_tibble(ensemble[["cols_map"]]) %>%
     tidyr::pivot_longer(dplyr::everything()) %>%
-    dplyr::inner_join(metrics_dict, by = c("value" = ".config"))
+    dplyr::full_join(metrics_dict, by = c("value" = ".config"))
   
   # fit each of them
   member_fits <- 
-    purrr::map2(
-      ensemble$model_defs[members],
-      ensemble,
-      generics::fit,
-      data = data
+    purrr::map(
+      member_names[c(member_names != "(Intercept)")],
+      fit_member,
+      wflows = ensemble[["model_defs"]],
+      members_map = members_map,
+      train_dat = data
     )
   
-  structure(
-    list(
-      coefs = coefs,
-      member_fits = fits
-    ),
-    class = c("ensemble", "list")
-  )
-}
-
-
-fit_member <- function(member_wf, member_metrics, training) {
-  
+  ensemble[["member_fits"]] <- 
+    setNames(member_fits, member_names[2:length(member_names)])
 }

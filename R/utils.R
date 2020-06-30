@@ -268,3 +268,37 @@ get_glmn_coefs <- function(x, penalty = 0.01) {
   }
   x
 }
+
+fit_member <- function(name, wflows, members_map, train_dat) {
+  needs_finalizing <- 
+    members_map %>%
+    dplyr::filter(value == name) %>%
+    dplyr::pull(name.y)
+  
+  if (!is.na(needs_finalizing[1])) {
+    member_metrics <-
+      members_map %>%
+      dplyr::filter(value == name)
+    
+    member_spec <- 
+      wflows[[member_metrics$name.x]] %>%
+      workflows::pull_workflow_spec()
+    
+    new_member <- 
+      tune::finalize_model(member_spec, member_metrics) %>%
+      workflows::update_model(wflows[[member_metrics$name.x]], .) %>%
+      generics::fit(data = train_dat)
+  } else {
+    member_model <-
+      members_map %>%
+      dplyr::filter(value == name) %>%
+      dplyr::select(name.x) %>%
+      dplyr::pull()
+    
+    new_member <-
+      generics::fit(wflows[[member_model[1]]], data = train_dat)
+  }
+  
+  new_member
+}
+
