@@ -60,5 +60,5 @@ stack_coefficients <- function(stack, method = "glm", ...) {
       class = c("ensemble", "list")
     )
   
-  ensemble
+  ensemble_constr(ensemble)
 }

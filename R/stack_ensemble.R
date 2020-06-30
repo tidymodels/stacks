@@ -79,4 +79,6 @@ stack_ensemble <- function(ensemble, data = NULL) {
   
   ensemble[["member_fits"]] <- 
     setNames(member_fits, member_names[2:length(member_names)])
+  
+  ensemble_constr(ensemble)
 }
