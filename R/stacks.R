@@ -16,8 +16,8 @@ stacks <- function(...) {
   attr(stack, "outcome") <- "init_"
   attr(stack, "model_defs") <- list()
   attr(stack, "cols_map") <- list()
-  attr(stack, "coefs") <- list()
   attr(stack, "model_hashes") <- list()
+  attr(stack, "model_metrics") <- list()
   
   # should check recipe outcome variable if workflows are
   # eventually not included in the resampling object

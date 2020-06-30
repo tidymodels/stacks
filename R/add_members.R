@@ -34,7 +34,7 @@ add_members <- function(stack, members, workflow,
     stack %>%
     set_rs_hash(members, name) %>%
     set_outcome(members) %>%
-    set_model_defs_members(workflow, name) %>%
+    set_model_defs_members(members, workflow, name) %>%
     set_data_members(members, name)
   
   stack_constr(stack, "resample")

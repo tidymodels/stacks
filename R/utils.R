@@ -156,10 +156,15 @@ rm_members <- function(stack, name) {
 
 # Misc. Utilities
 # ------------------------------------------------------------------------
-set_model_defs_members <- function(stack, members, name) {
+set_model_defs_members <- function(stack, member_tune, member_wf, name) {
   model_defs <- attr(stack, "model_defs")
+  model_metrics <- attr(stack, "model_metrics")
+  
   model_defs[[name]] <- members
+  model_metrics[[name]] <- tune::collect_metrics(member_tune)
+  
   attr(stack, "model_defs") <- model_defs
+  attr(stack, "model_metrics") <- model_metrics
   
   stack
 }
@@ -223,8 +228,8 @@ update_stack_data <- function(stack, new_data) {
   attr(new_data, "outcome")  <- attr(stack, "outcome") 
   attr(new_data, "model_defs")  <- attr(stack, "model_defs") 
   attr(new_data, "cols_map") <- attr(stack, "cols_map")
-  attr(new_data, "coefs") <- attr(stack, "coefs") 
   attr(new_data, "model_hashes") <- attr(stack, "model_hashes") 
+  attr(new_data, "model_metrics")  <- attr(stack, "model_metrics") 
 
   structure(
     new_data,

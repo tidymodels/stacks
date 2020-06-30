@@ -39,7 +39,7 @@ stack_coefficients <- function(stack, method = "glm", ...) {
     model_spec %>%
     tune::tune_grid(
       preds_formula,
-      resamples = rsample::bootstraps(stack),
+      resamples = rsample::bootstraps(tibble::as_tibble(stack)),
       grid = tibble::tibble(penalty = 10 ^ (-6:-1)),
       metrics = yardstick::metric_set(yardstick::rmse),
       control = tune::control_grid(save_pred = TRUE)
@@ -50,7 +50,14 @@ stack_coefficients <- function(stack, method = "glm", ...) {
     tune::finalize_model(tune::select_best(candidates)) %>%
     generics::fit(formula = preds_formula, data = stack)
   
-  attr(stack, "coefs") <- coefs
+  ensemble <- 
+    structure(
+      list(model_defs = attr(stack, "model_defs"),
+           coefs = coefs,
+           cols_map = attr(stack, "cols_map"),
+           model_metrics = attr(stack, "model_metrics")),
+      class = c("ensemble", "list")
+    )
   
-  stack
+  ensemble
 }
