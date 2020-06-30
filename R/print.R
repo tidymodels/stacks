@@ -13,8 +13,8 @@ print.stack <- function(x, ...) {
   
   n_by_model_defs <-
     purrr::map2(
-      attr(x, "model_defs"),
-      names(attr(x, "model_defs")),
+      attr(x, "cols_map"),
+      names(attr(x, "cols_map")),
       function(submodels, name) {
         cat(glue::glue(
           "#   {name}: ",

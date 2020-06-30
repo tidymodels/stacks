@@ -43,6 +43,17 @@ check_chr <- function(x) {
   invisible(TRUE)
 }
 
+check_inherits <- function(x, what) {
+  cl <- match.call()
+  
+  if (!inherits(x, what)) {
+    glue_stop("Element `{list(cl$x)}` needs to inherit from `{what}`, but its ",
+              "class is `{list(class(x))}`.")
+  }
+  
+  invisible(TRUE)
+}
+
 # more easily arranged names (from recipes)
 names0 <- function(num, prefix = "x") {
   if (num < 1)
@@ -173,11 +184,10 @@ set_training_data <- function(stack, members, name) {
   training_data <- attr(stack, "train")
   new_data <- members[["splits"]][[1]][["data"]]
   
-  if (!inherits(training_data, "character")) {
-    if (!all.equal(training_data, new_data)) {
+  if ((!identical(training_data, tibble::tibble())) &&
+        (!identical(training_data, new_data))) {
       glue_stop("The newly added member, {name}",
                 "uses a different assessment set than the existing members.")
-    }
   }
   
   attr(stack, "train") <- new_data

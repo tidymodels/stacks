@@ -38,5 +38,5 @@ add_members <- function(stack, members, workflow,
     set_model_defs_members(members, workflow, name) %>%
     set_data_members(members, name)
   
-  stack_constr(stack, "resample")
+  stack_constr(stack)
 }
