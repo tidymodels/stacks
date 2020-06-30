@@ -11,11 +11,10 @@ stack_coefficients(stack, method = "glm", ...)
 
 \item{...}{Additional arguments. Currently ignored.}
 
-\item{data_stack}{A \code{data_stack} object outputted from \code{\link[=stack_data]{stack_data()}}}
+\item{data_stack}{A \code{stack} object}
 }
 \value{
-A \code{stack} object---a \code{model_fit} subclass, giving loading
-coefficients for each ensemble member.
+An \code{ensemble} object
 }
 \description{
 Evaluates a stack by performing regularization on the out-of-sample

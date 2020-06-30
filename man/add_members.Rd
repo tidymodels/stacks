@@ -21,7 +21,7 @@ of the model definition object.}
 \item{...}{Additional arguments. Currently ignored.}
 }
 \value{
-A \code{resample_stack} object--see \code{\link[=stacks]{stacks()}} for more details!
+A \code{stack} object--see \code{\link[=stacks]{stacks()}} for more details!
 }
 \description{
 Add the workflow and resampling objects for potential ensemble members
@@ -39,7 +39,7 @@ with all other variables in \link[palmerpenguins:penguins]{palmerpenguins::pengu
 
 \examples{
 
-# initialize a resample stack and add some members
+# initialize a stack and add some members
 st <- 
   stacks() \%>\%
   add_members(lin_reg_res_, lin_reg_wf_) \%>\%

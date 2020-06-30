@@ -4,11 +4,10 @@
 #' predictions to determine coefficients for the combining of predictions
 #' from ensemble members.
 #' 
-#' @param data_stack A `data_stack` object outputted from [stack_data()]
+#' @param data_stack A `stack` object
 #' @inheritParams add_members
 #' 
-#' @return A `stack` object---a `model_fit` subclass, giving loading
-#' coefficients for each ensemble member.
+#' @return An `ensemble` object
 #' 
 #' @template note_example_data
 #' 

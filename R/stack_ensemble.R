@@ -8,7 +8,7 @@
 # before initiating subset selection.
 # @param bag_p Numeric in (0, 1]—the proportion of models in the bag at
 # each iteration.
-#' @return A `ensemble_stack` object---this fitted model contains the necessary
+#' @return A `ensemble` object---this fitted model contains the necessary
 #' components to predict on new data.
 #' 
 #' @template note_example_data

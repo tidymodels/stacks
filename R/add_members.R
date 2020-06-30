@@ -12,13 +12,13 @@
 #' @param workflow The workflow used to define the model definition.
 #' @inheritParams stacks
 #' 
-#' @return A `resample_stack` object--see [stacks()] for more details! 
+#' @return A `stack` object--see [stacks()] for more details! 
 #' 
 #' @template note_example_data
 #' 
 #' @examples 
 #' 
-#' # initialize a resample stack and add some members
+#' # initialize a stack and add some members
 #' st <- 
 #'   stacks() %>%
 #'   add_members(lin_reg_res_, lin_reg_wf_) %>%
