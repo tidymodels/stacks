@@ -5,31 +5,80 @@
 \alias{example_data}
 \alias{svm_res_}
 \alias{spline_res_}
+\alias{lin_reg_res_}
+\alias{nnet_res_}
+\alias{rand_forest_res_}
+\alias{svm_wf_}
+\alias{spline_wf_}
+\alias{lin_reg_wf_}
+\alias{nnet_wf_}
+\alias{rand_forest_wf_}
 \title{Example Data}
 \format{
 An object of class \code{tune_results} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 5 columns.
 
 An object of class \code{tune_results} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 5 columns.
+
+An object of class \code{resample_results} (inherits from \code{tune_results}, \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 5 columns.
+
+An object of class \code{resample_results} (inherits from \code{tune_results}, \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 5 columns.
+
+An object of class \code{tune_results} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 5 columns.
+
+An object of class \code{workflow} of length 4.
+
+An object of class \code{workflow} of length 4.
+
+An object of class \code{workflow} of length 4.
+
+An object of class \code{workflow} of length 4.
+
+An object of class \code{workflow} of length 4.
 }
 \usage{
 svm_res_
 
 spline_res_
+
+lin_reg_res_
+
+nnet_res_
+
+rand_forest_res_
+
+svm_wf_
+
+spline_wf_
+
+lin_reg_wf_
+
+nnet_wf_
+
+rand_forest_wf_
 }
 \description{
 This package provides some workflow and resampling objects for use in examples
-and tests. \link{lin_reg_res}, \link{svm_res_}, and \link{spline_res_} contain tuning results
+and tests.
+}
+\details{
+\link{lin_reg_res_}, \link{svm_res_}, and \link{spline_res_} contain tuning results
 for a linear regression, support vector machine, and spline model, respectively,
 fitting \code{body_mass_g} in the \code{palmerpenguins::penguins} data
-using all of the other variables as predictors. The source code for
-generating these objects is given below.
+using all of the other variables as predictors.
+
+\link{rand_forest_res_} and \link{nnet_res_}, contain tuning results
+for a random forest and neural network classification model, respectively,
+fitting \code{species} in the \code{palmerpenguins::penguins} data
+using all of the other variables as predictors.
+
+The source code for generating these objects is given below.
 }
 \examples{
 \dontrun{
 # setup: packages, data, resample, basic recipe ------------------------
 library(tidymodels)
 library(stacks)
-data("penguins")
+data("penguins", package = "palmerpenguins")
 
 penguins <- penguins[!is.na(penguins$sex),]
 
@@ -44,7 +93,7 @@ penguins_test  <- testing(penguins_split)
 
 folds <- vfold_cv(penguins_train, v = 5)
 
-penguins_rec <- 
+penguins_reg_rec <- 
   recipe(body_mass_g ~ ., data = penguins_train) \%>\%
   step_dummy(all_nominal()) \%>\%
   step_zv(all_predictors())
@@ -59,18 +108,18 @@ lin_reg_spec <-
 lin_reg_wf_ <- 
   workflow() \%>\%
   add_model(lin_reg_spec) \%>\%
-  add_recipe(penguins_rec)
+  add_recipe(penguins_reg_rec)
 
 lin_reg_res_ <- 
   fit_resamples(
     object = lin_reg_spec,
-    preprocessor = penguins_rec,
+    preprocessor = penguins_reg_rec,
     resamples = folds,
     metrics = metric,
     control = ctrl_res
   )
 
-# support vector machine ----------------------------------
+# SVM regression ----------------------------------
 svm_spec <- 
   svm_rbf(
     cost = tune(), 
@@ -82,12 +131,12 @@ svm_spec <-
 svm_wf_ <- 
   workflow() \%>\%
   add_model(svm_spec) \%>\%
-  add_recipe(penguins_rec)
+  add_recipe(penguins_reg_rec)
 
 svm_res_ <- 
   tune_grid(
     object = svm_spec, 
-    preprocessor = penguins_rec, 
+    preprocessor = penguins_reg_rec, 
     resamples = folds, 
     grid = 5,
     control = ctrl_grid
@@ -95,7 +144,7 @@ svm_res_ <-
 
 # spline regression ---------------------------------------
 spline_rec <- 
-  penguins_rec \%>\%
+  penguins_reg_rec \%>\%
   step_ns(bill_length_mm, deg_free = tune::tune("length")) \%>\%
   step_ns(bill_depth_mm, deg_free = tune::tune("depth"))
 
@@ -111,6 +160,57 @@ spline_res_ <-
     resamples = folds,
     metrics = metric,
     control = ctrl_grid
+  )
+
+# classification - preliminaries -----------------------------------
+penguins_class_rec <- 
+  recipe(species ~ ., data = penguins_train) \%>\%
+  step_dummy(all_nominal(), -species) \%>\%
+  step_zv(all_predictors()) \%>\%
+  step_normalize(all_numeric())
+
+# random forest classification --------------------------------------
+rand_forest_spec <- 
+  rand_forest(
+    mtry = tune(),
+    trees = 500,
+    min_n = tune()
+  ) \%>\%
+  set_mode("classification") \%>\%
+  set_engine("ranger")
+
+rand_forest_wf_ <-
+  workflow() \%>\%
+  add_recipe(penguins_class_rec) \%>\%
+  add_model(rand_forest_spec_)
+
+rand_forest_res_ <- 
+  tune_grid(
+    object = rand_forest_spec, 
+    preprocessor = penguins_class_rec, 
+    resamples = folds, 
+    grid = 10,
+    control = ctrl_grid
+  )
+
+
+# neural network classification -------------------------------------
+nnet_spec <-
+  mlp(epochs = 100, hidden_units = 5, dropout = 0.1) \%>\%
+  set_mode("classification") \%>\%
+  set_engine("keras", verbose = 0)
+
+nnet_wf_ <- 
+  workflow() \%>\%
+  add_recipe(penguins_class_rec) \%>\%
+  add_model(nnet_spec)
+
+nnet_res_ <-
+  fit_resamples(
+    object = nnet_spec, 
+    preprocessor = penguins_class_rec, 
+    resamples = folds, 
+    control = ctrl_res
   )
 }
 }

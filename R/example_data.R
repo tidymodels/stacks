@@ -1,18 +1,26 @@
 #' Example Data
 #'
 #' This package provides some workflow and resampling objects for use in examples
-#' and tests. [lin_reg_res], [svm_res_], and [spline_res_] contain tuning results
+#' and tests. 
+#' 
+#' [lin_reg_res_], [svm_res_], and [spline_res_] contain tuning results
 #' for a linear regression, support vector machine, and spline model, respectively, 
 #' fitting \code{body_mass_g} in the \code{palmerpenguins::penguins} data 
-#' using all of the other variables as predictors. The source code for 
-#' generating these objects is given below.
+#' using all of the other variables as predictors. 
+#' 
+#' [rand_forest_res_] and [nnet_res_], contain tuning results
+#' for a random forest and neural network classification model, respectively, 
+#' fitting \code{species} in the \code{palmerpenguins::penguins} data 
+#' using all of the other variables as predictors.
+#' 
+#' The source code for generating these objects is given below.
 #' 
 #' @examples 
 #' \dontrun{
 #' # setup: packages, data, resample, basic recipe ------------------------
 #' library(tidymodels)
 #' library(stacks)
-#' data("penguins")
+#' data("penguins", package = "palmerpenguins")
 #' 
 #' penguins <- penguins[!is.na(penguins$sex),]
 #' 
@@ -27,7 +35,7 @@
 #' 
 #' folds <- vfold_cv(penguins_train, v = 5)
 #' 
-#' penguins_rec <- 
+#' penguins_reg_rec <- 
 #'   recipe(body_mass_g ~ ., data = penguins_train) %>%
 #'   step_dummy(all_nominal()) %>%
 #'   step_zv(all_predictors())
@@ -42,18 +50,18 @@
 #' lin_reg_wf_ <- 
 #'   workflow() %>%
 #'   add_model(lin_reg_spec) %>%
-#'   add_recipe(penguins_rec)
+#'   add_recipe(penguins_reg_rec)
 #' 
 #' lin_reg_res_ <- 
 #'   fit_resamples(
 #'     object = lin_reg_spec,
-#'     preprocessor = penguins_rec,
+#'     preprocessor = penguins_reg_rec,
 #'     resamples = folds,
 #'     metrics = metric,
 #'     control = ctrl_res
 #'   )
 #' 
-#' # support vector machine ----------------------------------
+#' # SVM regression ----------------------------------
 #' svm_spec <- 
 #'   svm_rbf(
 #'     cost = tune(), 
@@ -65,12 +73,12 @@
 #' svm_wf_ <- 
 #'   workflow() %>%
 #'   add_model(svm_spec) %>%
-#'   add_recipe(penguins_rec)
+#'   add_recipe(penguins_reg_rec)
 #' 
 #' svm_res_ <- 
 #'   tune_grid(
 #'     object = svm_spec, 
-#'     preprocessor = penguins_rec, 
+#'     preprocessor = penguins_reg_rec, 
 #'     resamples = folds, 
 #'     grid = 5,
 #'     control = ctrl_grid
@@ -78,7 +86,7 @@
 #' 
 #' # spline regression ---------------------------------------
 #' spline_rec <- 
-#'   penguins_rec %>%
+#'   penguins_reg_rec %>%
 #'   step_ns(bill_length_mm, deg_free = tune::tune("length")) %>%
 #'   step_ns(bill_depth_mm, deg_free = tune::tune("depth"))
 #' 
@@ -95,12 +103,79 @@
 #'     metrics = metric,
 #'     control = ctrl_grid
 #'   )
+#' 
+#' # classification - preliminaries -----------------------------------
+#' penguins_class_rec <- 
+#'   recipe(species ~ ., data = penguins_train) %>%
+#'   step_dummy(all_nominal(), -species) %>%
+#'   step_zv(all_predictors()) %>%
+#'   step_normalize(all_numeric())
+#' 
+#' # random forest classification --------------------------------------
+#' rand_forest_spec <- 
+#'   rand_forest(
+#'     mtry = tune(),
+#'     trees = 500,
+#'     min_n = tune()
+#'   ) %>%
+#'   set_mode("classification") %>%
+#'   set_engine("ranger")
+#' 
+#' rand_forest_wf_ <-
+#'   workflow() %>%
+#'   add_recipe(penguins_class_rec) %>%
+#'   add_model(rand_forest_spec_)
+#' 
+#' rand_forest_res_ <- 
+#'   tune_grid(
+#'     object = rand_forest_spec, 
+#'     preprocessor = penguins_class_rec, 
+#'     resamples = folds, 
+#'     grid = 10,
+#'     control = ctrl_grid
+#'   )
+#' 
+#' 
+#' # neural network classification -------------------------------------
+#' nnet_spec <-
+#'   mlp(epochs = 100, hidden_units = 5, dropout = 0.1) %>%
+#'   set_mode("classification") %>%
+#'   set_engine("keras", verbose = 0)
+#' 
+#' nnet_wf_ <- 
+#'   workflow() %>%
+#'   add_recipe(penguins_class_rec) %>%
+#'   add_model(nnet_spec)
+#' 
+#' nnet_res_ <-
+#'   fit_resamples(
+#'     object = nnet_spec, 
+#'     preprocessor = penguins_class_rec, 
+#'     resamples = folds, 
+#'     control = ctrl_res
+#'   )
 #' }
 #' @name example_data
 NULL
 
 #' @rdname example_data
 "svm_res_"
-
 #' @rdname example_data
 "spline_res_"
+#' @rdname example_data
+"lin_reg_res_"
+#' @rdname example_data
+"nnet_res_"
+#' @rdname example_data
+"rand_forest_res_"
+
+#' @rdname example_data
+"svm_wf_"
+#' @rdname example_data
+"spline_wf_"
+#' @rdname example_data
+"lin_reg_wf_"
+#' @rdname example_data
+"nnet_wf_"
+#' @rdname example_data
+"rand_forest_wf_"
