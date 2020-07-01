@@ -13,8 +13,9 @@ data_stack_constr <- function(data_stack) {
 }
 
 model_stack_constr <- function(model_stack) {
-  check_inherits(model_stack[["coefs"]], "_elnet")
+  check_inherits(model_stack[["coefs"]], "model_fit")
   check_inherits(model_stack[["train"]], "tbl_df")
+  check_inherits(model_stack[["mode"]], "character")
   
   purrr::map(model_stack[["model_defs"]], check_inherits, "workflow")
   purrr::map(model_stack[["cols_map"]], check_inherits, "character")

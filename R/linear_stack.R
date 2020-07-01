@@ -36,9 +36,20 @@ linear_stack <- function(data_stack, ...) {
     paste0(colnames(data_stack)[1], " ~ .") %>%
     as.formula()
   
-  model_spec <- 
-    parsnip::linear_reg(penalty = tune::tune(), mixture = 1) %>%
-    parsnip::set_engine("glmnet", lower.limits = 0)
+  if (attr(data_stack, "mode") == "regression") {
+    model_spec <- 
+      parsnip::linear_reg(penalty = tune::tune(), mixture = 1) %>%
+      parsnip::set_engine("glmnet", lower.limits = 0)
+    
+    metric <- yardstick::metric_set(yardstick::rmse)
+  } else {
+    model_spec <-
+      parsnip::multinom_reg(penalty = tune::tune(), mixture = 1) %>% 
+      parsnip::set_engine("glmnet", lower.limits = 0) %>% 
+      parsnip::set_mode("classification")
+    
+    metric <- yardstick::metric_set(yardstick::accuracy)
+  }
   
   candidates <- 
     model_spec %>%
@@ -46,7 +57,7 @@ linear_stack <- function(data_stack, ...) {
       preds_formula,
       resamples = rsample::bootstraps(tibble::as_tibble(data_stack)),
       grid = tibble::tibble(penalty = 10 ^ (-6:-1)),
-      metrics = yardstick::metric_set(yardstick::rmse),
+      metrics = metric,
       control = tune::control_grid(save_pred = TRUE)
     )
   
@@ -62,7 +73,8 @@ linear_stack <- function(data_stack, ...) {
            cols_map = attr(data_stack, "cols_map"),
            model_metrics = attr(data_stack, "model_metrics"),
            train = attr(data_stack, "train"),
-           outcome = attr(data_stack, "outcome")),
+           outcome = attr(data_stack, "outcome"),
+           mode = attr(data_stack, "mode")),
       class = c("linear_stack", "model_stack", "list")
     )
   
