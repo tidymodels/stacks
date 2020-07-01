@@ -134,7 +134,7 @@ set_model_defs <- function(stack, members, name) {
 
 # note whether classification or regression
 set_mode <- function(stack, workflow, name) {
-  wf_spec <- workflows::pull_workflow_spec(nnet_wf_)
+  wf_spec <- workflows::pull_workflow_spec(workflow)
   
   new_mode <- wf_spec$mode
   old_mode <- attr(stack, "mode")
