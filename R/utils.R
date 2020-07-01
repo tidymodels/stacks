@@ -77,8 +77,7 @@ get_model_hashes <- function(stack) {attr(stack, "model_def_hashes")}
 
 # setters
 set_outcome <- function(stack, members) {
-  if (!is.null(get_outcome(stack)) && 
-      get_outcome(stack) != tune::.get_tune_outcome_names(members)) {
+  if (!get_outcome(stack) %in% c("init_", tune::.get_tune_outcome_names(members))) {
     glue_stop("The model definition you've tried to add to the stack has ",
               "outcome variable {list(tune::.get_tune_outcome_names(members))}, ",
               "while the stack's outcome variable is {get_outcome(stack)}.")

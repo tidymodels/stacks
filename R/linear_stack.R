@@ -73,7 +73,8 @@ linear_stack <- function(data_stack, ...) {
            cols_map = attr(data_stack, "cols_map"),
            model_metrics = attr(data_stack, "model_metrics"),
            train = attr(data_stack, "train"),
-           mode = attr(data_stack, "mode")),
+           mode = attr(data_stack, "mode"),
+           data_stack = tibble::as_tibble(data_stack)),
       class = c("linear_stack", "model_stack", "list")
     )
   

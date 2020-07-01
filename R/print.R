@@ -46,15 +46,38 @@ print.data_stack <- function(x, ...) {
 
 #' @export
 print.model_stack <- function(x, n = 10, ...) {
-  outcome_name <- x[["outcome"]]
+  mode <- x[["mode"]]
+  x_ <- x[["data_stack"]]
   
-  member_weights <- get_glmn_coefs(x[["coefs"]][["fit"]]) %>%
-    dplyr::filter(estimate != 0) %>%
-    dplyr::select(term = terms, estimate)
+  if (mode == "regression") {
+    n_members <- if (ncol(x_) == 0) {0} else {ncol(x_) - 1}
+    n_model_defs <- length(x[["model_defs"]])
+    outcome_name <- colnames(x_)[1]
+    submodel_lengths <- purrr::map(x[["cols_map"]], length)
+    model_names <- names(x[["cols_map"]])
+  } else {
+    n_groups <- length(unique(dplyr::pull(x[["train"]][,get_outcome(x)])))
+    n_members <- if (ncol(x_) == 0) {0} else {
+      (ncol(x_) - 1) / n_groups
+    }
+    n_model_defs <- length(x[["model_defs"]])
+    outcome_name <- colnames(x_)[1]
+    submodel_lengths <- 
+      purrr::map_dbl(x[["cols_map"]], length) / n_groups
+    model_names <- names(x[["cols_map"]])
+  }
   
-  cat(glue::glue("# A model stack with {nrow(member_weights) - 1} member",
-                 "{if (nrow(member_weights) - 1 != 1) 's.' else '.'}"))
-  cat("\n")
-  
-  print(member_weights, n = min(n, nrow(member_weights)))
+  if (!is.null(x[["member_fits"]])) {
+    cat(glue::glue("# A fitted model stack with {length(x$member_fits)} member",
+                   "{if (length(x$member_fits) != 1) 's:' else ':'}"))
+    cat("\n#   ")
+    cat(paste0(names(x$member_fits), collapse = ", "))
+  } else {
+    cat(glue::glue("# An unfitted model stack with ",
+                   "{n_members} potential member",
+                   "{if (n_members != 1) 's ' else ' '}",
+                   "from {n_model_defs} model definition",
+                   "{if (n_model_defs != 1) 's.' else '.'}"))
+    cat("\n")
+  }
 }
