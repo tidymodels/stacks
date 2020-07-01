@@ -12,39 +12,42 @@ model—referred to as an *ensemble* in this package—that generates
 predictions informed by each of its *members*.
 
 At the highest level, ensembles are formed from *model definitions*. In
-this package, model definitions are an instance of a *model
-specification*, as defined in the
-[parsnip](https://parsnip.tidymodels.org/) package.
+this package, model definitions are an instance of a minimal
+[workflow](https://workflows.tidymodels.org/), containing a *model
+specification* (as defined in the
+[parsnip](https://parsnip.tidymodels.org/) package) and, optionally, a
+*preprocessor* (as defined in the
+[recipes](https://recipes.tidymodels.org/) package).
 
-![](inst/figs/level1.png)
+![](inst/figs/model_defs.png)
 
 To be used in the same ensemble, each of these model definitions must
 share the same *resample*. This
 [rsample](https://rsample.tidymodels.org/) `rset` object, when paired
-with the model definitions, can be used to generate the candidate
-*ensemble members*.
+with the model definitions, can be used to generate the the resampling
+objects for the candidate *ensemble members*.
 
-![](inst/figs/level2.png)
+![](inst/figs/submodels.png)
 
 The package will sometimes refer to *sub-models*. The difference between
 sub-models and ensemble members is mostly philosophical—an ensemble
-member is a sub-model that has actually been selected and trained for
-use in the ensemble (via nonzero stacking coefficients) that is not
-regarded as resulting from a specific model definition, where-as a
-sub-model is an untrained candidate ensemble member.
+member is a sub-model that has actually been selected (and possibly
+trained) for use in the ensemble (via nonzero stacking coefficients)
+that is not regarded as resulting from a specific model definition,
+where-as a sub-model is an untrained candidate ensemble member.
 
-Sub-models first come together in a *data stack*. Principally, these
-objects are just [tibbles](https://tibble.tidyverse.org/), where the
-first column gives the true outcome in the assessment set, and the
+Sub-models first come together in a `data_stack` object. Principally,
+these objects are just [tibbles](https://tibble.tidyverse.org/), where
+the first column gives the true outcome in the assessment set, and the
 remaining columns give the predictions from each candidate ensemble
 member. (When the outcome is numeric, there’s only one column per
-ensemble member. Multi-way classification requires more columns.) They
-also bring along a few extra attributes to keep track of model
-definitions.
+ensemble member. Multi-way classification requires as many columns as
+there are levels in the outcome variable.) They also bring along a few
+extra attributes to keep track of model definitions.
 
-![](inst/figs/level3.png)
+![](inst/figs/data_stack.png)
 
-Finally, the data stack can be fitted—depending on the arguments you
+Then, the data stack can be fitted—depending on the arguments you
 choose, the structure of the model can vary quite a bit. A few things to
 keep in mind, though:
 
@@ -57,18 +60,33 @@ keep in mind, though:
     zero out—their predictions will have no influence on the final
     output, and those terms will thus be thrown out.
 
-![](inst/figs/level4.png)
+![](inst/figs/coefs.png)
 
-These stacking coefficients, along with the trained ensemble members,
-make up the fit, which can be used to predict new values\!
+These stacking coefficients decide then which sub-models will be
+ensemble members—sub-models with non-zero stacking coefficients are then
+fitted, altogether making up a `model_stack` object.
+
+![](inst/figs/model_stack.png)
 
 At a high level, the process follows these steps:
 
-![](inst/figs/basic_steps.png)
+![](inst/figs/object_types.png)
 
-With a bit more detail:
+The API for the package closely mirrors these ideas.
 
-![](inst/figs/diagram.png)
+![](inst/figs/code_steps.png)
+
+See the `stacks` vignette for an overview of how this grammar is
+implemented\!
+
+## Installation
+
+You can install the development version of the package with the
+following code:
+
+``` r
+devtools::install_github("simonpcouch/stacks")
+```
 
 ## Contributing
 
