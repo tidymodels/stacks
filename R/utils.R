@@ -242,6 +242,14 @@ set_data_members <- function(stack, members, name) {
     ) %>%
     dplyr::select(-.row) 
   
+  pred_class_idx <- 
+    stringi::stri_detect_fixed(
+      colnames(member_cols), 
+      ".pred_class"
+    )
+  
+  member_cols <- member_cols[,!pred_class_idx]
+  
   if (nrow(stack) == 0) {
     stack <- 
       update_stack_data(

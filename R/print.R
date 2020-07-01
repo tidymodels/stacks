@@ -11,12 +11,12 @@ print.data_stack <- function(x, ...) {
   } else {
     n_groups <- length(unique(dplyr::pull(attr(x, "train")[,get_outcome(x)])))
     n_members <- if (ncol(x) == 0) {0} else {
-      (ncol(x) - 1) / (n_groups + 1)
+      (ncol(x) - 1) / n_groups
     }
     n_model_defs <- length(attr(x, "model_defs"))
     outcome_name <- colnames(x)[1]
     submodel_lengths <- 
-      purrr::map_dbl(attr(x, "cols_map"), length) / (n_groups + 1)
+      purrr::map_dbl(attr(x, "cols_map"), length) / n_groups
     model_names <- names(attr(x, "cols_map"))
   }
   
