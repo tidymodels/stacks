@@ -101,13 +101,13 @@ rand_forest_spec <-
     trees = 500,
     min_n = tune()
   ) %>%
-  set_mode("classification") %>%
+  parsnip::set_mode("classification") %>%
   set_engine("ranger")
 
 rand_forest_wf_ <-
   workflow() %>%
   add_recipe(penguins_class_rec) %>%
-  add_model(rand_forest_spec_)
+  add_model(rand_forest_spec)
 
 rand_forest_res_ <- 
   tune_grid(
@@ -122,7 +122,7 @@ rand_forest_res_ <-
 # neural network classification -------------------------------------
 nnet_spec <-
   mlp(epochs = 100, hidden_units = 5, dropout = 0.1) %>%
-  set_mode("classification") %>%
+  parsnip::set_mode("classification") %>%
   set_engine("keras", verbose = 0)
 
 nnet_wf_ <- 

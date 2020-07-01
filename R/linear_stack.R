@@ -26,6 +26,10 @@
 #' st %>%
 #'   linear_stack()
 #' 
+# data_stack <- 
+#   stacks() %>% 
+#   add_members(nnet_res_, nnet_wf_) %>% 
+#   add_members(rand_forest_res_, rand_forest_wf_)
 #' @export
 linear_stack <- function(data_stack, ...) {
   preds_formula <- 

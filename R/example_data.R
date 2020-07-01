@@ -124,7 +124,7 @@
 #' rand_forest_wf_ <-
 #'   workflow() %>%
 #'   add_recipe(penguins_class_rec) %>%
-#'   add_model(rand_forest_spec_)
+#'   add_model(rand_forest_spec)
 #' 
 #' rand_forest_res_ <- 
 #'   tune_grid(
