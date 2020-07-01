@@ -20,6 +20,7 @@ stacks <- function(...) {
   
   attr(stack, "rs_hash") <- "init_"
   attr(stack, "outcome") <- "init_"
+  attr(stack, "mode") <- "init_"
   attr(stack, "train") <- tibble::tibble()
   attr(stack, "model_defs") <- list()
   attr(stack, "cols_map") <- list()

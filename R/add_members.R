@@ -3,7 +3,7 @@
 #' Collates assessment set predictions and appends workflows and additional 
 #' attributes to a `data_stack`.
 #'
-#' @param stack A `data_stack` object.
+#' @param data_stack A `data_stack` object.
 #' @param members A model definition: either a `tune_results` 
 #' or `resample_results` object outputted from
 #' [tune::tune_grid()], [tune::tune_bayes()], or [tune::fit_resamples()]
@@ -25,15 +25,21 @@
 #'   add_members(svm_res_, svm_wf_) %>%
 #'   add_members(spline_res_, spline_wf_)
 #'   
+#' # do the same with classification models
+#' st <- 
+#'   stacks() %>%
+#'   add_members(nnet_res_, nnet_wf_) %>%
+#'   add_members(rand_forest_res_, rand_forest_wf_)  
 #' @export
-add_members <- function(stack, members, workflow,
+add_members <- function(data_stack, members, workflow,
                         name = deparse(substitute(members)), ...) {
   check_chr(name)
   
   stack <- 
-    stack %>%
+    data_stack %>%
     set_rs_hash(members, name) %>%
     set_outcome(members) %>%
+    set_mode(workflow, name) %>%
     set_training_data(members, name) %>%
     set_model_defs_members(members, workflow, name) %>%
     set_data_members(members, name)

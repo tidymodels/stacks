@@ -132,6 +132,25 @@ set_model_defs <- function(stack, members, name) {
   stack
 }
 
+# note whether classification or regression
+set_mode <- function(stack, workflow, name) {
+  wf_spec <- workflows::pull_workflow_spec(nnet_wf_)
+  
+  new_mode <- wf_spec$mode
+  old_mode <- attr(stack, "mode")
+  
+  if (!old_mode %in% c("init_", new_mode)) {
+    glue_stop(
+      "The current mode for the stack is {old_mode}, while the mode for the ",
+      "newly added member `{name}` is {new_mode}."
+    )
+  }
+  
+  attr(stack, "mode") <- new_mode
+  
+  stack
+}
+
 # remove members helpers
 rm_members_checks <- function(stack, members, obj_name) {
   if (!inherits(members, "character")) {
@@ -186,7 +205,7 @@ set_training_data <- function(stack, members, name) {
   
   if ((!identical(training_data, tibble::tibble())) &&
         (!identical(training_data, new_data))) {
-      glue_stop("The newly added member, {name}",
+      glue_stop("The newly added member, `{name}`, ",
                 "uses a different assessment set than the existing members.")
   }
   
@@ -200,8 +219,15 @@ set_data_members <- function(stack, members, name) {
   member_cols <-
     tune::collect_predictions(members, summarize = TRUE) %>%
     dplyr::ungroup() %>%
-    dplyr::mutate(.config = if (".config" %in% names(.)) .config else "Model1") %>%
-    dplyr::select(!!tune::.get_tune_outcome_names(members), .row, .pred, .config) %>%
+    dplyr::mutate(
+      .config = if (".config" %in% names(.)) .config else "Model1"
+    ) %>%
+    dplyr::select(
+      !!tune::.get_tune_outcome_names(members), 
+      .row, 
+      dplyr::contains(".pred"), 
+      .config
+    ) %>%
     dplyr::mutate(
       .config = stringi::stri_replace_all_fixed(
         .config,
@@ -209,9 +235,11 @@ set_data_members <- function(stack, members, name) {
         name,
         vectorize_all = FALSE
     )) %>%
-    tidyr::pivot_wider(id_cols = c(".row", !!tune::.get_tune_outcome_names(members)), 
-                       names_from = ".config", 
-                       values_from = ".pred") %>%
+    tidyr::pivot_wider(
+      id_cols = c(".row", !!tune::.get_tune_outcome_names(members)), 
+      names_from = ".config", 
+      values_from = dplyr::contains(".pred")
+    ) %>%
     dplyr::select(-.row) 
   
   if (nrow(stack) == 0) {
@@ -252,6 +280,7 @@ log_resample_cols <- function(stack, member_cols, name) {
 update_stack_data <- function(stack, new_data) {
   attr(new_data, "rs_hash") <- attr(stack, "rs_hash")
   attr(new_data, "outcome")  <- attr(stack, "outcome") 
+  attr(new_data, "mode")  <- attr(stack, "mode") 
   attr(new_data, "model_defs")  <- attr(stack, "model_defs") 
   attr(new_data, "cols_map") <- attr(stack, "cols_map")
   attr(new_data, "model_hashes") <- attr(stack, "model_hashes") 
@@ -260,7 +289,7 @@ update_stack_data <- function(stack, new_data) {
 
   structure(
     new_data,
-    class = c("stack", class(new_data))
+    class = c("data_stack", class(new_data))
   )
 }
 
@@ -311,4 +340,3 @@ fit_member <- function(name, wflows, members_map, train_dat) {
   
   new_member
 }
-

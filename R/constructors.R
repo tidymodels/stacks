@@ -1,6 +1,7 @@
 data_stack_constr <- function(data_stack) {
   check_inherits(attr(data_stack, "rs_hash"), "character")
   check_inherits(attr(data_stack, "outcome"), "character")
+  check_inherits(attr(data_stack, "mode"), "character")
   check_inherits(attr(data_stack, "train"), "tbl_df")
   
   purrr::map(attr(data_stack, "cols_map"), check_inherits, "character")

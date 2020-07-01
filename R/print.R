@@ -1,8 +1,24 @@
 #' @export
 print.data_stack <- function(x, ...) {
-  n_members <- if (ncol(x) == 0) {0} else {ncol(x) - 1}
-  n_model_defs <- length(attr(x, "model_defs"))
-  outcome_name <- colnames(x)[1]
+  mode <- attr(x, "mode")
+  
+  if (mode == "regression") {
+    n_members <- if (ncol(x) == 0) {0} else {ncol(x) - 1}
+    n_model_defs <- length(attr(x, "model_defs"))
+    outcome_name <- colnames(x)[1]
+    submodel_lengths <- purrr::map(attr(x, "cols_map"), length)
+    model_names <- names(attr(x, "cols_map"))
+  } else {
+    n_groups <- length(unique(dplyr::pull(attr(x, "train")[,get_outcome(x)])))
+    n_members <- if (ncol(x) == 0) {0} else {
+      (ncol(x) - 1) / (n_groups + 1)
+    }
+    n_model_defs <- length(attr(x, "model_defs"))
+    outcome_name <- colnames(x)[1]
+    submodel_lengths <- 
+      purrr::map_dbl(attr(x, "cols_map"), length) / (n_groups + 1)
+    model_names <- names(attr(x, "cols_map"))
+  }
   
   cat(glue::glue("# A data stack with {n_model_defs} model definition",
                  "{if (n_model_defs != 1) 's' else ''}",
@@ -13,13 +29,13 @@ print.data_stack <- function(x, ...) {
   
   n_by_model_defs <-
     purrr::map2(
-      attr(x, "cols_map"),
-      names(attr(x, "cols_map")),
+      submodel_lengths,
+      model_names,
       function(submodels, name) {
         cat(glue::glue(
           "#   {name}: ",
-          "{length(submodels)} sub-model",
-          "{if (length(submodels) != 1) 's' else ''}")
+          "{submodels} sub-model",
+          "{if (submodels != 1) 's' else ''}")
         )
         cat("\n")
       }
