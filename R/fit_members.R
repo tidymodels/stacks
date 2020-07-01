@@ -41,8 +41,15 @@ fit_members <- function(model_stack, data = NULL, ...) {
   
   # pick out which submodels have nonzero coefs
   member_names <- get_glmn_coefs(model_stack[["coefs"]][["fit"]]) %>%
-    dplyr::filter(estimate != 0) %>%
+    dplyr::filter(estimate != 0 & terms != "(Intercept)") %>%
     dplyr::pull(terms)
+  
+  if (model_stack[["mode"]] == "classification") {
+    member_dict <- 
+      sanitize_classification_names(model_stack, member_names)
+    
+    member_names <- member_dict$new %>% unique()
+  }
   
   # make model specs with the chosen parameters
   # for chosen sub-models
@@ -59,20 +66,31 @@ fit_members <- function(model_stack, data = NULL, ...) {
     dplyr::mutate(
       .config = dplyr::case_when(
         !is.na(.config) ~ paste0(name, .config),
-        TRUE ~ NA_character_
+        TRUE ~ paste0(name, "1")
       )
     ) %>%
-    dplyr::filter(.metric == "rmse")
+    dplyr::filter(.metric %in% c("rmse", "accuracy"))
   
-  members_map <- 
-    tibble::as_tibble(model_stack[["cols_map"]]) %>%
-    tidyr::pivot_longer(dplyr::everything()) %>%
-    dplyr::full_join(metrics_dict, by = c("value" = ".config"))
+  if (model_stack[["mode"]] == "regression") {
+    members_map <- 
+      tibble::enframe(model_stack[["cols_map"]]) %>%
+      tidyr::unnest(cols = value) %>%
+      dplyr::full_join(metrics_dict, by = c("value" = ".config"))
+  } else {
+    members_map <- 
+      tibble::enframe(model_stack[["cols_map"]]) %>%
+      tidyr::unnest(cols = value) %>%
+      dplyr::full_join(member_dict, by = c("value" = "old")) %>%
+      dplyr::filter(!is.na(new)) %>%
+      dplyr::select(name, value = new) %>%
+      dplyr::filter(!duplicated(.$value)) %>%
+      dplyr::full_join(metrics_dict, by = c("value" = ".config"))
+  }
   
   # fit each of them
   member_fits <- 
     purrr::map(
-      member_names[c(member_names != "(Intercept)")],
+      member_names,
       fit_member,
       wflows = model_stack[["model_defs"]],
       members_map = members_map,
@@ -80,7 +98,7 @@ fit_members <- function(model_stack, data = NULL, ...) {
     )
   
   model_stack[["member_fits"]] <- 
-    setNames(member_fits, member_names[2:length(member_names)])
+    setNames(member_fits, member_names)
   
   model_stack_constr(model_stack)
 }

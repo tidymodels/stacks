@@ -73,10 +73,11 @@ linear_stack <- function(data_stack, ...) {
            cols_map = attr(data_stack, "cols_map"),
            model_metrics = attr(data_stack, "model_metrics"),
            train = attr(data_stack, "train"),
-           outcome = attr(data_stack, "outcome"),
            mode = attr(data_stack, "mode")),
       class = c("linear_stack", "model_stack", "list")
     )
+  
+  attr(model_stack, "outcome") <- attr(data_stack, "outcome")
   
   model_stack_constr(model_stack)
 }

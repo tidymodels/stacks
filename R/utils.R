@@ -68,7 +68,7 @@ names0 <- function(num, prefix = "x") {
 
 # getters
 get_outcome <- function(stack) {
-  if (ncol(stack) == 0) {NULL} else {colnames(stack)[1]}
+  attr(stack, "outcome")
 }
 
 get_rs_hash <- function(stack) {attr(stack, "rs_hash")}
@@ -347,4 +347,28 @@ fit_member <- function(name, wflows, members_map, train_dat) {
   }
   
   new_member
+}
+
+sanitize_classification_names <- function(model_stack, member_names) {
+  outcome_levels <-
+    model_stack[["train"]] %>%
+    dplyr::select(!!get_outcome(model_stack)) %>%
+    dplyr::pull() %>%
+    as.character() %>%
+    unique()
+  
+  pred_strings <- paste0(".pred_", outcome_levels, "_")
+  
+  new_member_names <- 
+    stringi::stri_replace_all_fixed(
+      member_names,
+      pred_strings,
+      "",
+      vectorize_all = FALSE
+    )
+  
+  tibble::tibble(
+    old = member_names,
+    new = new_member_names
+  )
 }
