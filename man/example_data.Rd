@@ -3,16 +3,20 @@
 \docType{data}
 \name{example_data}
 \alias{example_data}
-\alias{svm_res_}
-\alias{spline_res_}
-\alias{lin_reg_res_}
-\alias{nnet_res_}
-\alias{rand_forest_res_}
-\alias{svm_wf_}
-\alias{spline_wf_}
-\alias{lin_reg_wf_}
-\alias{nnet_wf_}
-\alias{rand_forest_wf_}
+\alias{reg_res_svm}
+\alias{reg_res_sp}
+\alias{reg_res_lr}
+\alias{class_res_nn}
+\alias{class_res_rf}
+\alias{log_res_nn}
+\alias{log_res_rf}
+\alias{reg_wf_svm}
+\alias{reg_wf_sp}
+\alias{reg_wf_lr}
+\alias{class_wf_nn}
+\alias{class_wf_rf}
+\alias{log_wf_nn}
+\alias{log_wf_rf}
 \title{Example Data}
 \format{
 An object of class \code{tune_results} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 5 columns.
@@ -25,6 +29,14 @@ An object of class \code{resample_results} (inherits from \code{tune_results}, \
 
 An object of class \code{tune_results} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 5 columns.
 
+An object of class \code{resample_results} (inherits from \code{tune_results}, \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 5 columns.
+
+An object of class \code{tune_results} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 5 columns.
+
+An object of class \code{workflow} of length 4.
+
+An object of class \code{workflow} of length 4.
+
 An object of class \code{workflow} of length 4.
 
 An object of class \code{workflow} of length 4.
@@ -36,48 +48,60 @@ An object of class \code{workflow} of length 4.
 An object of class \code{workflow} of length 4.
 }
 \usage{
-svm_res_
+reg_res_svm
 
-spline_res_
+reg_res_sp
 
-lin_reg_res_
+reg_res_lr
 
-nnet_res_
+class_res_nn
 
-rand_forest_res_
+class_res_rf
 
-svm_wf_
+log_res_nn
 
-spline_wf_
+log_res_rf
 
-lin_reg_wf_
+reg_wf_svm
 
-nnet_wf_
+reg_wf_sp
 
-rand_forest_wf_
+reg_wf_lr
+
+class_wf_nn
+
+class_wf_rf
+
+log_wf_nn
+
+log_wf_rf
 }
 \description{
 This package provides some workflow and resampling objects for use in examples
 and tests.
 }
 \details{
-\link{lin_reg_res_}, \link{svm_res_}, and \link{spline_res_} contain tuning results
+\link{reg_res_lr}, \link{reg_res_svm}, and \link{reg_res_sp} contain regression tuning results
 for a linear regression, support vector machine, and spline model, respectively,
 fitting \code{body_mass_g} in the \code{palmerpenguins::penguins} data
 using all of the other variables as predictors.
 
-\link{rand_forest_res_} and \link{nnet_res_}, contain tuning results
+\link{class_res_rf} and \link{class_res_nn}, contain multiclass classification tuning
+results for a random forest and neural network classification model,
+respectively, fitting \code{species} in the \code{palmerpenguins::penguins}
+data using all of the other variables as predictors.
+
+\link{log_res_rf} and \link{log_res_nn}, contain binary classification tuning results
 for a random forest and neural network classification model, respectively,
-fitting \code{species} in the \code{palmerpenguins::penguins} data
+fitting \code{sex} in the \code{palmerpenguins::penguins} data
 using all of the other variables as predictors.
 
 The source code for generating these objects is given below.
 }
 \examples{
 \dontrun{
-# setup: packages, data, resample, basic recipe ------------------------
+devtools::load_all()
 library(tidymodels)
-library(stacks)
 data("penguins", package = "palmerpenguins")
 
 penguins <- penguins[!is.na(penguins$sex),]
@@ -105,15 +129,14 @@ lin_reg_spec <-
   linear_reg() \%>\%
   set_engine("lm")
 
-lin_reg_wf_ <- 
+reg_wf_lr <- 
   workflow() \%>\%
   add_model(lin_reg_spec) \%>\%
   add_recipe(penguins_reg_rec)
 
-lin_reg_res_ <- 
+reg_res_lr <- 
   fit_resamples(
-    object = lin_reg_spec,
-    preprocessor = penguins_reg_rec,
+    object = reg_wf_lr,
     resamples = folds,
     metrics = metric,
     control = ctrl_res
@@ -128,15 +151,14 @@ svm_spec <-
   set_engine("kernlab") \%>\%
   set_mode("regression")
 
-svm_wf_ <- 
+reg_wf_svm <- 
   workflow() \%>\%
   add_model(svm_spec) \%>\%
   add_recipe(penguins_reg_rec)
 
-svm_res_ <- 
+reg_res_svm <- 
   tune_grid(
-    object = svm_spec, 
-    preprocessor = penguins_reg_rec, 
+    object = reg_wf_svm,
     resamples = folds, 
     grid = 5,
     control = ctrl_grid
@@ -148,15 +170,14 @@ spline_rec <-
   step_ns(bill_length_mm, deg_free = tune::tune("length")) \%>\%
   step_ns(bill_depth_mm, deg_free = tune::tune("depth"))
 
-spline_wf_ <- 
+reg_wf_sp <- 
   workflow() \%>\%
   add_model(lin_reg_spec) \%>\%
   add_recipe(spline_rec)
 
-spline_res_ <- 
+reg_res_sp <- 
   tune_grid(
-    object = lin_reg_spec,
-    preprocessor = spline_rec,
+    object = reg_wf_sp,
     resamples = folds,
     metrics = metric,
     control = ctrl_grid
@@ -179,20 +200,18 @@ rand_forest_spec <-
   set_mode("classification") \%>\%
   set_engine("ranger")
 
-rand_forest_wf_ <-
+class_wf_rf <-
   workflow() \%>\%
   add_recipe(penguins_class_rec) \%>\%
-  add_model(rand_forest_spec_)
+  add_model(rand_forest_spec)
 
-rand_forest_res_ <- 
+class_res_rf <- 
   tune_grid(
-    object = rand_forest_spec, 
-    preprocessor = penguins_class_rec, 
+    object = class_wf_rf, 
     resamples = folds, 
     grid = 10,
     control = ctrl_grid
   )
-
 
 # neural network classification -------------------------------------
 nnet_spec <-
@@ -200,15 +219,60 @@ nnet_spec <-
   set_mode("classification") \%>\%
   set_engine("keras", verbose = 0)
 
-nnet_wf_ <- 
+class_wf_nn <- 
   workflow() \%>\%
   add_recipe(penguins_class_rec) \%>\%
   add_model(nnet_spec)
 
-nnet_res_ <-
+class_res_nn <-
   fit_resamples(
-    object = nnet_spec, 
-    preprocessor = penguins_class_rec, 
+    object = class_wf_nn, 
+    resamples = folds, 
+    control = ctrl_res
+  )
+
+# binary classification --------------------------------
+penguins_2_class_rec <- 
+  recipe(sex ~ ., data = penguins_train) \%>\%
+  step_dummy(all_nominal(), -sex) \%>\%
+  step_zv(all_predictors()) \%>\%
+  step_normalize(all_numeric())
+
+rand_forest_spec_2 <- 
+  rand_forest(
+    mtry = tune(),
+    trees = 500,
+    min_n = tune()
+  ) \%>\%
+  set_mode("classification") \%>\%
+  set_engine("ranger")
+
+log_wf_rf <-
+  workflow() \%>\%
+  add_recipe(penguins_2_class_rec) \%>\%
+  add_model(rand_forest_spec_2)
+
+log_res_rf <- 
+  tune_grid(
+    object = log_wf_rf, 
+    resamples = folds, 
+    grid = 10,
+    control = ctrl_grid
+  )
+
+nnet_spec_2 <-
+  mlp(epochs = 100, hidden_units = 5, dropout = 0.1) \%>\%
+  set_mode("classification") \%>\%
+  set_engine("keras", verbose = 0)
+
+log_wf_nn <- 
+  workflow() \%>\%
+  add_recipe(penguins_2_class_rec) \%>\%
+  add_model(nnet_spec_2)
+
+log_res_nn <-
+  fit_resamples(
+    object = log_wf_nn, 
     resamples = folds, 
     control = ctrl_res
   )

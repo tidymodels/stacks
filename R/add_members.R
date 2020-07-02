@@ -21,15 +21,15 @@
 #' # initialize a stack and add some members
 #' st <- 
 #'   stacks() %>%
-#'   add_members(lin_reg_res_, lin_reg_wf_) %>%
-#'   add_members(svm_res_, svm_wf_) %>%
-#'   add_members(spline_res_, spline_wf_)
+#'   add_members(reg_res_lr, reg_wf_lr) %>%
+#'   add_members(reg_res_svm, reg_wf_svm) %>%
+#'   add_members(reg_res_sp, reg_wf_sp)
 #'   
 #' # do the same with classification models
 #' st <- 
 #'   stacks() %>%
-#'   add_members(nnet_res_, nnet_wf_) %>%
-#'   add_members(rand_forest_res_, rand_forest_wf_)  
+#'   add_members(class_res_nn, class_wf_nn) %>%
+#'   add_members(class_res_rf, class_wf_rf)  
 #' @export
 add_members <- function(data_stack, members, workflow,
                         name = deparse(substitute(members)), ...) {

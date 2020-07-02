@@ -30,15 +30,14 @@ lin_reg_spec <-
   linear_reg() %>%
   set_engine("lm")
 
-lin_reg_wf_ <- 
+reg_wf_lr <- 
   workflow() %>%
   add_model(lin_reg_spec) %>%
   add_recipe(penguins_reg_rec)
 
-lin_reg_res_ <- 
+reg_res_lr <- 
   fit_resamples(
-    object = lin_reg_spec,
-    preprocessor = penguins_reg_rec,
+    object = reg_wf_lr,
     resamples = folds,
     metrics = metric,
     control = ctrl_res
@@ -53,15 +52,14 @@ svm_spec <-
   set_engine("kernlab") %>%
   set_mode("regression")
 
-svm_wf_ <- 
+reg_wf_svm <- 
   workflow() %>%
   add_model(svm_spec) %>%
   add_recipe(penguins_reg_rec)
 
-svm_res_ <- 
+reg_res_svm <- 
   tune_grid(
-    object = svm_spec, 
-    preprocessor = penguins_reg_rec, 
+    object = reg_wf_svm,
     resamples = folds, 
     grid = 5,
     control = ctrl_grid
@@ -73,15 +71,14 @@ spline_rec <-
   step_ns(bill_length_mm, deg_free = tune::tune("length")) %>%
   step_ns(bill_depth_mm, deg_free = tune::tune("depth"))
 
-spline_wf_ <- 
+reg_wf_sp <- 
   workflow() %>%
   add_model(lin_reg_spec) %>%
   add_recipe(spline_rec)
 
-spline_res_ <- 
+reg_res_sp <- 
   tune_grid(
-    object = lin_reg_spec,
-    preprocessor = spline_rec,
+    object = reg_wf_sp,
     resamples = folds,
     metrics = metric,
     control = ctrl_grid
@@ -104,20 +101,18 @@ rand_forest_spec <-
   set_mode("classification") %>%
   set_engine("ranger")
 
-rand_forest_wf_ <-
+class_wf_rf <-
   workflow() %>%
   add_recipe(penguins_class_rec) %>%
   add_model(rand_forest_spec)
 
-rand_forest_res_ <- 
+class_res_rf <- 
   tune_grid(
-    object = rand_forest_spec, 
-    preprocessor = penguins_class_rec, 
+    object = class_wf_rf, 
     resamples = folds, 
     grid = 10,
     control = ctrl_grid
   )
-
 
 # neural network classification -------------------------------------
 nnet_spec <-
@@ -125,20 +120,19 @@ nnet_spec <-
   set_mode("classification") %>%
   set_engine("keras", verbose = 0)
 
-nnet_wf_ <- 
+class_wf_nn <- 
   workflow() %>%
   add_recipe(penguins_class_rec) %>%
   add_model(nnet_spec)
 
-nnet_res_ <-
+class_res_nn <-
   fit_resamples(
-    object = nnet_spec, 
-    preprocessor = penguins_class_rec, 
+    object = class_wf_nn, 
     resamples = folds, 
     control = ctrl_res
   )
 
-# binary classification - just for testing for now -------------------
+# binary classification --------------------------------
 penguins_2_class_rec <- 
   recipe(sex ~ ., data = penguins_train) %>%
   step_dummy(all_nominal(), -sex) %>%
@@ -154,15 +148,14 @@ rand_forest_spec_2 <-
   set_mode("classification") %>%
   set_engine("ranger")
 
-rand_forest_wf_2_ <-
+log_wf_rf <-
   workflow() %>%
   add_recipe(penguins_2_class_rec) %>%
   add_model(rand_forest_spec_2)
 
-rand_forest_res_2_ <- 
+log_res_rf <- 
   tune_grid(
-    object = rand_forest_spec_2, 
-    preprocessor = penguins_2_class_rec, 
+    object = log_wf_rf, 
     resamples = folds, 
     grid = 10,
     control = ctrl_grid
@@ -173,28 +166,31 @@ nnet_spec_2 <-
   set_mode("classification") %>%
   set_engine("keras", verbose = 0)
 
-nnet_wf_2_ <- 
+log_wf_nn <- 
   workflow() %>%
   add_recipe(penguins_2_class_rec) %>%
   add_model(nnet_spec_2)
 
-nnet_res_2_ <-
+log_res_nn <-
   fit_resamples(
-    object = nnet_spec_2, 
-    preprocessor = penguins_2_class_rec, 
+    object = log_wf_nn, 
     resamples = folds, 
     control = ctrl_res
   )
 
 # save workflows and resamples -------------------------------------
-# usethis::use_data(lin_reg_wf_, overwrite = TRUE)
-# usethis::use_data(svm_wf_, overwrite = TRUE)
-# usethis::use_data(spline_wf_, overwrite = TRUE)
-# usethis::use_data(rand_forest_wf_, overwrite = TRUE)
-# usethis::use_data(nnet_wf_, overwrite = TRUE)
-# 
-# usethis::use_data(lin_reg_res_, overwrite = TRUE)
-# usethis::use_data(svm_res_, overwrite = TRUE)
-# usethis::use_data(spline_res_, overwrite = TRUE)
-# usethis::use_data(rand_forest_res_, overwrite = TRUE)
-# usethis::use_data(nnet_res_, overwrite = TRUE)
+usethis::use_data(reg_wf_lr, overwrite = TRUE)
+usethis::use_data(reg_wf_svm, overwrite = TRUE)
+usethis::use_data(reg_wf_sp, overwrite = TRUE)
+usethis::use_data(class_wf_rf, overwrite = TRUE)
+usethis::use_data(class_wf_nn, overwrite = TRUE)
+usethis::use_data(log_wf_rf, overwrite = TRUE)
+usethis::use_data(log_wf_nn, overwrite = TRUE)
+
+usethis::use_data(reg_res_lr, overwrite = TRUE)
+usethis::use_data(reg_res_svm, overwrite = TRUE)
+usethis::use_data(reg_res_sp, overwrite = TRUE)
+usethis::use_data(class_res_rf, overwrite = TRUE)
+usethis::use_data(class_res_nn, overwrite = TRUE)
+usethis::use_data(log_res_rf, overwrite = TRUE)
+usethis::use_data(log_res_nn, overwrite = TRUE)

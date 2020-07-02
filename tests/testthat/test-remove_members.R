@@ -15,20 +15,20 @@ test_that("remove members") {
 # 
 # test_that("objects from new resample can be added to 0-member stack", {
 #   st_1_post_rm <- st_0_rm %>%
-#     add_members(svm_res_new_folds_)
+#     add_members(reg_res_svmnew_folds_)
 #   
 #   expect_true(inherits(st_1_post_rm, "stack"))
 # })
 # 
 # test_that("stack won't add bad members", {
 #   expect_error(
-#     st_1 %>% remove_members(svm_res_),
-#     "definition to remove, svm_res_\\b.*?\\bactual model definition"
+#     st_1 %>% remove_members(reg_res_svm),
+#     "definition to remove, reg_res_svm\\b.*?\\bactual model definition"
 #   )
 #   
 #   expect_error(
 #     st_1 %>%
-#       remove_members("spline_res_"),
-#     "spline_res_\\b.*?\\bin the stack"
+#       remove_members("reg_res_sp"),
+#     "reg_res_sp\\b.*?\\bin the stack"
 #   )
 # })

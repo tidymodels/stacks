@@ -4,10 +4,16 @@
 \alias{add_members}
 \title{Add model definitions to a data stack}
 \usage{
-add_members(stack, members, workflow, name = deparse(substitute(members)), ...)
+add_members(
+  data_stack,
+  members,
+  workflow,
+  name = deparse(substitute(members)),
+  ...
+)
 }
 \arguments{
-\item{stack}{A \code{data_stack} object.}
+\item{data_stack}{A \code{data_stack} object.}
 
 \item{members}{A model definition: either a \code{tune_results}
 or \code{resample_results} object outputted from
@@ -31,7 +37,7 @@ attributes to a \code{data_stack}.
 
 
 See \code{?example_data} to learn more about the \code{lin_reg_res},
-\code{svm_res_}, and \code{spline_res_} objects used in the examples below.
+\code{reg_res_svm}, and \code{reg_res_sp} objects used in the examples below.
 Long story short, they're resample objects outputted from
 \code{\link[tune:fit_resamples]{tune::fit_resamples()}} or \code{\link[tune:tune_grid]{tune::tune_grid()}} fitting \code{body_mass_g}
 with all other variables in \link[palmerpenguins:penguins]{palmerpenguins::penguins} as predictors!
@@ -42,8 +48,13 @@ with all other variables in \link[palmerpenguins:penguins]{palmerpenguins::pengu
 # initialize a stack and add some members
 st <- 
   stacks() \%>\%
-  add_members(lin_reg_res_, lin_reg_wf_) \%>\%
-  add_members(svm_res_, svm_wf_) \%>\%
-  add_members(spline_res_, spline_wf_)
+  add_members(reg_res_lr, reg_wf_lr) \%>\%
+  add_members(reg_res_svm, reg_wf_svm) \%>\%
+  add_members(reg_res_sp, reg_wf_sp)
   
+# do the same with classification models
+st <- 
+  stacks() \%>\%
+  add_members(class_res_nn, class_wf_nn) \%>\%
+  add_members(class_res_rf, class_wf_rf)  
 }

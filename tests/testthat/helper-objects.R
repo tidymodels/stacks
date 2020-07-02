@@ -6,17 +6,17 @@ context("helpers")
 # st_0 <- stacks()
 # 
 # st_1 <- stacks() %>%
-#   add_members(svm_res_)
+#   add_members(reg_res_svm)
 # 
 # st_0_rm <- st_1 %>%
-#   remove_members("svm_res_")
+#   remove_members("reg_res_svm")
 # 
 # st_2 <- stacks() %>%
-#   add_members(svm_res_) %>%
-#   add_members(spline_res_)
+#   add_members(reg_res_svm) %>%
+#   add_members(reg_res_sp)
 # 
 # st_1_rm <- st_2 %>%
-#   remove_members("spline_res_")
+#   remove_members("reg_res_sp")
   
 # Resampling Objects
 # ------------------------------------------------------------------------
