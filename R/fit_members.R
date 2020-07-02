@@ -69,7 +69,7 @@ fit_members <- function(model_stack, data = NULL, ...) {
         TRUE ~ paste0(name, "1")
       )
     ) %>%
-    dplyr::filter(.metric %in% c("rmse", "accuracy"))
+    dplyr::filter(.metric %in% c("rmse", "roc_auc"))
   
   if (model_stack[["mode"]] == "regression") {
     members_map <- 

@@ -316,23 +316,27 @@ get_glmn_coefs <- function(x, penalty = 0.01) {
 }
 
 fit_member <- function(name, wflows, members_map, train_dat) {
-  needs_finalizing <- 
+  member_row <- 
     members_map %>%
-    dplyr::filter(value == name) %>%
-    dplyr::pull(name.y)
+    dplyr::filter(value == name)
   
-  if (!is.na(needs_finalizing[1])) {
+  member_params <- 
+    wflows[[member_row$name.x]] %>%
+    dials::parameters() %>%
+    dplyr::pull(id)
+  
+  needs_finalizing <- length(member_params) != 0
+  
+  if (needs_finalizing) {
     member_metrics <-
       members_map %>%
       dplyr::filter(value == name)
     
-    member_spec <- 
-      wflows[[member_metrics$name.x]] %>%
-      workflows::pull_workflow_spec()
+    member_wf <- 
+      wflows[[member_metrics$name.x]]
     
     new_member <- 
-      tune::finalize_model(member_spec, member_metrics) %>%
-      workflows::update_model(wflows[[member_metrics$name.x]], .) %>%
+      tune::finalize_workflow(member_wf, member_metrics[,member_params]) %>%
       generics::fit(data = train_dat)
   } else {
     member_model <-
