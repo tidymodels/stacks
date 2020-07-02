@@ -375,3 +375,11 @@ sanitize_classification_names <- function(model_stack, member_names) {
     new = new_member_names
   )
 }
+
+# takes in a workflow and returns a minimal workflow for
+# use in the stack
+stack_workflow <- function(x) {
+  workflows::workflow() %>%
+    recipes::add_model(workflows::pull_workflow_spec(x)) %>%
+    recipes::add_recipe(workflows::pull_workflow_preprocessor(x))
+}

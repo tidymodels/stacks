@@ -9,10 +9,8 @@ penguins <- penguins[!is.na(penguins$sex),]
 
 set.seed(1)
 
-ctrl_grid <- control_grid(save_pred = TRUE,
-                          extract = identity)
-ctrl_res <- control_grid(save_pred = TRUE,
-                         extract = identity)
+ctrl_grid <- control_grid(save_pred = TRUE)
+ctrl_res <- control_grid(save_pred = TRUE)
 
 penguins_split <- initial_split(penguins)
 penguins_train <- training(penguins_split)
