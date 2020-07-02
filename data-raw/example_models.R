@@ -101,7 +101,7 @@ rand_forest_spec <-
     trees = 500,
     min_n = tune()
   ) %>%
-  parsnip::set_mode("classification") %>%
+  set_mode("classification") %>%
   set_engine("ranger")
 
 rand_forest_wf_ <-
@@ -122,7 +122,7 @@ rand_forest_res_ <-
 # neural network classification -------------------------------------
 nnet_spec <-
   mlp(epochs = 100, hidden_units = 5, dropout = 0.1) %>%
-  parsnip::set_mode("classification") %>%
+  set_mode("classification") %>%
   set_engine("keras", verbose = 0)
 
 nnet_wf_ <- 
@@ -138,15 +138,63 @@ nnet_res_ <-
     control = ctrl_res
   )
 
-# save workflows and resamples -------------------------------------
-usethis::use_data(lin_reg_wf_, overwrite = TRUE)
-usethis::use_data(svm_wf_, overwrite = TRUE)
-usethis::use_data(spline_wf_, overwrite = TRUE)
-usethis::use_data(rand_forest_wf_, overwrite = TRUE)
-usethis::use_data(nnet_wf_, overwrite = TRUE)
+# binary classification - just for testing for now -------------------
+penguins_2_class_rec <- 
+  recipe(sex ~ ., data = penguins_train) %>%
+  step_dummy(all_nominal(), -sex) %>%
+  step_zv(all_predictors()) %>%
+  step_normalize(all_numeric())
 
-usethis::use_data(lin_reg_res_, overwrite = TRUE)
-usethis::use_data(svm_res_, overwrite = TRUE)
-usethis::use_data(spline_res_, overwrite = TRUE)
-usethis::use_data(rand_forest_res_, overwrite = TRUE)
-usethis::use_data(nnet_res_, overwrite = TRUE)
+rand_forest_spec_2 <- 
+  rand_forest(
+    mtry = tune(),
+    trees = 500,
+    min_n = tune()
+  ) %>%
+  set_mode("classification") %>%
+  set_engine("ranger")
+
+rand_forest_wf_2_ <-
+  workflow() %>%
+  add_recipe(penguins_2_class_rec) %>%
+  add_model(rand_forest_spec_2)
+
+rand_forest_res_2_ <- 
+  tune_grid(
+    object = rand_forest_spec_2, 
+    preprocessor = penguins_2_class_rec, 
+    resamples = folds, 
+    grid = 10,
+    control = ctrl_grid
+  )
+
+nnet_spec_2 <-
+  mlp(epochs = 100, hidden_units = 5, dropout = 0.1) %>%
+  set_mode("classification") %>%
+  set_engine("keras", verbose = 0)
+
+nnet_wf_2_ <- 
+  workflow() %>%
+  add_recipe(penguins_2_class_rec) %>%
+  add_model(nnet_spec_2)
+
+nnet_res_2_ <-
+  fit_resamples(
+    object = nnet_spec_2, 
+    preprocessor = penguins_2_class_rec, 
+    resamples = folds, 
+    control = ctrl_res
+  )
+
+# save workflows and resamples -------------------------------------
+# usethis::use_data(lin_reg_wf_, overwrite = TRUE)
+# usethis::use_data(svm_wf_, overwrite = TRUE)
+# usethis::use_data(spline_wf_, overwrite = TRUE)
+# usethis::use_data(rand_forest_wf_, overwrite = TRUE)
+# usethis::use_data(nnet_wf_, overwrite = TRUE)
+# 
+# usethis::use_data(lin_reg_res_, overwrite = TRUE)
+# usethis::use_data(svm_res_, overwrite = TRUE)
+# usethis::use_data(spline_res_, overwrite = TRUE)
+# usethis::use_data(rand_forest_res_, overwrite = TRUE)
+# usethis::use_data(nnet_res_, overwrite = TRUE)

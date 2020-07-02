@@ -43,12 +43,18 @@ linear_stack <- function(data_stack, ...) {
     
     metric <- yardstick::metric_set(yardstick::rmse)
   } else {
-    model_spec <-
-      parsnip::multinom_reg(penalty = tune::tune(), mixture = 1) %>% 
-      parsnip::set_engine("glmnet", lower.limits = 0) %>% 
-      parsnip::set_mode("classification")
-    
-    metric <- yardstick::metric_set(yardstick::accuracy)
+    if (length(unique(data_stack[,1])) == 2) {
+      model_spec <-
+        parsnip::logistic_reg(penalty = tune::tune(), mixture = 1) %>% 
+        parsnip::set_engine("glmnet", lower.limits = 0) %>% 
+        parsnip::set_mode("classification")
+    } else {
+      model_spec <-
+        parsnip::multinom_reg(penalty = tune::tune(), mixture = 1) %>% 
+        parsnip::set_engine("glmnet", lower.limits = 0) %>% 
+        parsnip::set_mode("classification")
+    }
+    metric <- yardstick::metric_set(yardstick::roc_auc)
   }
   
   candidates <- 
