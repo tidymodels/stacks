@@ -164,9 +164,9 @@ The `add_members()` function will add ensemble members to the stack.
 ```{r}
 penguins_data_st <- 
   stacks() %>%
-  add_members(lin_reg_res, workflow = lin_reg_wflow) %>%
-  add_members(spline_res, workflow = spline_wflow) %>%
-  add_members(svm_res, workflow = svm_wflow)
+  add_members(lin_reg_res) %>%
+  add_members(spline_res) %>%
+  add_members(svm_res)
 
 penguins_data_st
 ```

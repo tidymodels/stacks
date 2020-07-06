@@ -18,9 +18,9 @@
 #' # put together a data stack
 #' st <- 
 #'   stacks() %>%
-#'   add_members(reg_res_lr, reg_wf_lr) %>%
-#'   add_members(reg_res_svm, reg_wf_svm) %>%
-#'   add_members(reg_res_sp, reg_wf_sp)
+#'   add_members(reg_res_lr) %>%
+#'   add_members(reg_res_svm) %>%
+#'   add_members(reg_res_sp)
 #'   
 #' # evaluate the data stack
 #' st %>%
@@ -28,8 +28,8 @@
 #' 
 # data_stack <- 
 #   stacks() %>% 
-#   add_members(class_res_nn, class_wf_nn) %>% 
-#   add_members(class_res_rf, class_wf_rf)
+#   add_members(class_res_nn) %>% 
+#   add_members(class_res_rf)
 #' @export
 linear_stack <- function(data_stack, ...) {
   preds_formula <- 

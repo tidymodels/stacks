@@ -19,9 +19,9 @@
 #' # put together a data stack
 #' st <- 
 #'   stacks() %>%
-#'   add_members(reg_res_lr, reg_wf_lr) %>%
-#'   add_members(reg_res_svm, reg_wf_svm) %>%
-#'   add_members(reg_res_sp, reg_wf_sp)
+#'   add_members(reg_res_lr) %>%
+#'   add_members(reg_res_svm) %>%
+#'   add_members(reg_res_sp)
 #'
 #' # evaluate the data stack and fit the member models
 #' st %>%
@@ -29,8 +29,8 @@
 #'   fit_members()
 #' 
 # ensemble <- stacks() %>% 
-# add_members(reg_res_svm, reg_wf_svm) %>% 
-# add_members(reg_res_lr, reg_wf_lr) %>% 
+# add_members(reg_res_svm) %>% 
+# add_members(reg_res_lr) %>% 
 # linear_stack()
 #' @export
 fit_members <- function(model_stack, data = NULL, ...) {

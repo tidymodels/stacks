@@ -132,8 +132,10 @@ set_model_defs <- function(stack, members, name) {
 }
 
 # note whether classification or regression
-set_mode_ <- function(stack, workflow, name) {
-  wf_spec <- workflows::pull_workflow_spec(workflow)
+set_mode_ <- function(stack, members, name) {
+  wf_spec <- 
+    attr(members, "workflow") %>%
+    workflows::pull_workflow_spec()
   
   new_mode <- wf_spec$mode
   old_mode <- attr(stack, "mode")
@@ -185,12 +187,12 @@ rm_members <- function(stack, name) {
 
 # Misc. Utilities
 # ------------------------------------------------------------------------
-set_model_defs_members <- function(stack, member_tune, member_wf, name) {
+set_model_defs_members <- function(stack, members, name) {
   model_defs <- attr(stack, "model_defs")
   model_metrics <- attr(stack, "model_metrics")
   
-  model_defs[[name]] <- member_wf
-  model_metrics[[name]] <- tune::collect_metrics(member_tune)
+  model_defs[[name]] <- attr(members, "workflow") %>% stack_workflow()
+  model_metrics[[name]] <- tune::collect_metrics(members)
   
   attr(stack, "model_defs") <- model_defs
   attr(stack, "model_metrics") <- model_metrics

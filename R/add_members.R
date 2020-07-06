@@ -6,8 +6,11 @@
 #' @param data_stack A `data_stack` object.
 #' @param members A model definition: either a `tune_results` 
 #' or `resample_results` object outputted from
-#' [tune::tune_grid()], [tune::tune_bayes()], or [tune::fit_resamples()]
-#' @param workflow The workflow used to define the model definition.
+#' [tune::tune_grid()], [tune::tune_bayes()], or [tune::fit_resamples()].
+#' These results must have been fitted with the `control` settings
+#' `save_pred = TRUE, save_workflow = TRUE`—see the [control_stack_grid()],
+#' [control_stack_bayes()], and [control_stack_resamples()]
+#' documentation for helper functions.
 #' @param name The label for the model definition---defaults to the name
 #' of the `members` object.
 #' @inheritParams stacks
@@ -21,17 +24,17 @@
 #' # initialize a stack and add some members
 #' st <- 
 #'   stacks() %>%
-#'   add_members(reg_res_lr, reg_wf_lr) %>%
-#'   add_members(reg_res_svm, reg_wf_svm) %>%
-#'   add_members(reg_res_sp, reg_wf_sp)
+#'   add_members(reg_res_lr) %>%
+#'   add_members(reg_res_svm) %>%
+#'   add_members(reg_res_sp)
 #'   
 #' # do the same with classification models
 #' st <- 
 #'   stacks() %>%
-#'   add_members(class_res_nn, class_wf_nn) %>%
-#'   add_members(class_res_rf, class_wf_rf)  
+#'   add_members(class_res_nn) %>%
+#'   add_members(class_res_rf)  
 #' @export
-add_members <- function(data_stack, members, workflow,
+add_members <- function(data_stack, members,
                         name = deparse(substitute(members)), ...) {
   check_chr(name)
   
@@ -39,9 +42,9 @@ add_members <- function(data_stack, members, workflow,
     data_stack %>%
     set_rs_hash(members, name) %>%
     set_outcome(members) %>%
-    set_mode_(workflow, name) %>%
+    set_mode_(members, name) %>%
     set_training_data(members, name) %>%
-    set_model_defs_members(members, workflow, name) %>%
+    set_model_defs_members(members, name) %>%
     set_data_members(members, name)
   
   data_stack_constr(stack)

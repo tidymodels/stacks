@@ -3,9 +3,9 @@
 # regression ---------------------------------------------------------------
 reg_data_stack <-
   stacks() %>%
-  add_members(reg_res_lr, reg_wf_lr) %>%
-  add_members(reg_res_sp, reg_wf_sp) %>%
-  add_members(reg_res_svm, reg_wf_svm)
+  add_members(reg_res_lr) %>%
+  add_members(reg_res_sp) %>%
+  add_members(reg_res_svm)
   
 reg_linear_stack <-
   reg_data_stack %>%
@@ -18,8 +18,8 @@ reg_model_stack <-
 # multi-class classification -----------------------------------------------
 class_data_stack <-
   stacks() %>%
-  add_members(class_res_nn, class_wf_nn) %>%
-  add_members(class_res_rf, class_wf_rf)
+  add_members(class_res_nn) %>%
+  add_members(class_res_rf)
 
 class_linear_stack <-
   class_data_stack %>%
@@ -32,8 +32,8 @@ class_model_stack <-
 # two-way classification ---------------------------------------------------
 log_data_stack <-
   stacks() %>%
-  add_members(log_res_nn, log_wf_nn) %>%
-  add_members(log_res_rf, log_wf_rf)
+  add_members(log_res_nn) %>%
+  add_members(log_res_rf)
 
 log_linear_stack <-
   log_data_stack %>%

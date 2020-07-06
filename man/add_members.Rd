@@ -4,22 +4,18 @@
 \alias{add_members}
 \title{Add model definitions to a data stack}
 \usage{
-add_members(
-  data_stack,
-  members,
-  workflow,
-  name = deparse(substitute(members)),
-  ...
-)
+add_members(data_stack, members, name = deparse(substitute(members)), ...)
 }
 \arguments{
 \item{data_stack}{A \code{data_stack} object.}
 
 \item{members}{A model definition: either a \code{tune_results}
 or \code{resample_results} object outputted from
-\code{\link[tune:tune_grid]{tune::tune_grid()}}, \code{\link[tune:tune_bayes]{tune::tune_bayes()}}, or \code{\link[tune:fit_resamples]{tune::fit_resamples()}}}
-
-\item{workflow}{The workflow used to define the model definition.}
+\code{\link[tune:tune_grid]{tune::tune_grid()}}, \code{\link[tune:tune_bayes]{tune::tune_bayes()}}, or \code{\link[tune:fit_resamples]{tune::fit_resamples()}}.
+These results must have been fitted with the \code{control} settings
+\verb{save_pred = TRUE, save_workflow = TRUE}—see the \code{\link[=control_stack_grid]{control_stack_grid()}},
+\code{\link[=control_stack_bayes]{control_stack_bayes()}}, and \code{\link[=control_stack_resamples]{control_stack_resamples()}}
+documentation for helper functions.}
 
 \item{name}{The label for the model definition---defaults to the name
 of the \code{members} object.}
@@ -48,13 +44,13 @@ with all other variables in \link[palmerpenguins:penguins]{palmerpenguins::pengu
 # initialize a stack and add some members
 st <- 
   stacks() \%>\%
-  add_members(reg_res_lr, reg_wf_lr) \%>\%
-  add_members(reg_res_svm, reg_wf_svm) \%>\%
-  add_members(reg_res_sp, reg_wf_sp)
+  add_members(reg_res_lr) \%>\%
+  add_members(reg_res_svm) \%>\%
+  add_members(reg_res_sp)
   
 # do the same with classification models
 st <- 
   stacks() \%>\%
-  add_members(class_res_nn, class_wf_nn) \%>\%
-  add_members(class_res_rf, class_wf_rf)  
+  add_members(class_res_nn) \%>\%
+  add_members(class_res_rf)  
 }
