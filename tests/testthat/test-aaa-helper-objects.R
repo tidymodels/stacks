@@ -5,12 +5,30 @@ context("helpers")
 # ------------------------------------------------------------------------
 st_0 <- stacks()
 
-st_1 <- stacks() %>%
+st_reg_1 <- 
+  stacks() %>%
   add_candidates(reg_res_svm)
 
-st_2 <- stacks() %>%
+st_reg_2 <- 
+  stacks() %>%
   add_candidates(reg_res_svm) %>%
   add_candidates(reg_res_sp)
+
+st_class_1 <- 
+  stacks() %>%
+  add_candidates(class_res_rf)
+
+st_class_2 <- 
+  st_class_1 %>%
+  add_candidates(class_res_nn)
+
+st_log_1 <- 
+  stacks() %>%
+  add_candidates(log_res_rf)
+
+st_log_2 <- 
+  st_log_1 %>%
+  add_candidates(log_res_nn)
   
 # Resampling Objects
 # ------------------------------------------------------------------------
