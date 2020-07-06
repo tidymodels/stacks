@@ -19,7 +19,7 @@ or \link[tune:control_grid]{tune::control_resamples} object.
 \description{
 Supply these light wrappers as the \code{control} argument in a
 \link[tune:tune_grid]{tune::tune_grid}, \link[tune:tune_bayes]{tune::tune_bayes}, or \link[tune:fit_resamples]{tune::fit_resamples}
-call to return the needed workflow elements for use in a data stack.
+call to return the needed elements for use in a data stack.
 These functions will return the appropriate control grid to ensure that
 assessment set predictions and information on model specifications and
 preprocessors, is supplied in the resampling results object!

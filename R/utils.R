@@ -383,3 +383,4 @@ stack_workflow <- function(x) {
     recipes::add_model(workflows::pull_workflow_spec(x)) %>%
     recipes::add_recipe(workflows::pull_workflow_preprocessor(x))
 }
+

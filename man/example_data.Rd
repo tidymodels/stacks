@@ -10,13 +10,6 @@
 \alias{class_res_rf}
 \alias{log_res_nn}
 \alias{log_res_rf}
-\alias{reg_wf_svm}
-\alias{reg_wf_sp}
-\alias{reg_wf_lr}
-\alias{class_wf_nn}
-\alias{class_wf_rf}
-\alias{log_wf_nn}
-\alias{log_wf_rf}
 \title{Example Data}
 \format{
 An object of class \code{tune_results} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 5 columns.
@@ -32,20 +25,6 @@ An object of class \code{tune_results} (inherits from \code{tbl_df}, \code{tbl},
 An object of class \code{resample_results} (inherits from \code{tune_results}, \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 5 columns.
 
 An object of class \code{tune_results} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 5 columns.
-
-An object of class \code{workflow} of length 4.
-
-An object of class \code{workflow} of length 4.
-
-An object of class \code{workflow} of length 4.
-
-An object of class \code{workflow} of length 4.
-
-An object of class \code{workflow} of length 4.
-
-An object of class \code{workflow} of length 4.
-
-An object of class \code{workflow} of length 4.
 }
 \usage{
 reg_res_svm
@@ -61,20 +40,6 @@ class_res_rf
 log_res_nn
 
 log_res_rf
-
-reg_wf_svm
-
-reg_wf_sp
-
-reg_wf_lr
-
-class_wf_nn
-
-class_wf_rf
-
-log_wf_nn
-
-log_wf_rf
 }
 \description{
 This package provides some workflow and resampling objects for use in examples
@@ -108,8 +73,17 @@ penguins <- penguins[!is.na(penguins$sex),]
 
 set.seed(1)
 
-ctrl_grid <- control_grid(save_pred = TRUE)
-ctrl_res <- control_grid(save_pred = TRUE)
+ctrl_grid <- 
+  control_grid(
+    save_pred = TRUE,
+    save_workflow = TRUE
+  )
+
+ctrl_res <- 
+  control_resamples(
+    save_pred = TRUE,
+    save_workflow = TRUE
+  )
 
 penguins_split <- initial_split(penguins)
 penguins_train <- training(penguins_split)

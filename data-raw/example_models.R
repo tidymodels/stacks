@@ -9,8 +9,17 @@ penguins <- penguins[!is.na(penguins$sex),]
 
 set.seed(1)
 
-ctrl_grid <- control_grid(save_pred = TRUE)
-ctrl_res <- control_grid(save_pred = TRUE)
+ctrl_grid <- 
+  control_grid(
+    save_pred = TRUE,
+    save_workflow = TRUE
+  )
+
+ctrl_res <- 
+  control_resamples(
+    save_pred = TRUE,
+    save_workflow = TRUE
+  )
 
 penguins_split <- initial_split(penguins)
 penguins_train <- training(penguins_split)
@@ -179,14 +188,6 @@ log_res_nn <-
   )
 
 # save workflows and resamples -------------------------------------
-usethis::use_data(reg_wf_lr, overwrite = TRUE)
-usethis::use_data(reg_wf_svm, overwrite = TRUE)
-usethis::use_data(reg_wf_sp, overwrite = TRUE)
-usethis::use_data(class_wf_rf, overwrite = TRUE)
-usethis::use_data(class_wf_nn, overwrite = TRUE)
-usethis::use_data(log_wf_rf, overwrite = TRUE)
-usethis::use_data(log_wf_nn, overwrite = TRUE)
-
 usethis::use_data(reg_res_lr, overwrite = TRUE)
 usethis::use_data(reg_res_svm, overwrite = TRUE)
 usethis::use_data(reg_res_sp, overwrite = TRUE)
