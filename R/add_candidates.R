@@ -4,7 +4,7 @@
 #' attributes to a `data_stack`.
 #'
 #' @param data_stack A `data_stack` object.
-#' @param members A model definition: either a `tune_results` 
+#' @param candidates A model definition: either a `tune_results` 
 #' or `resample_results` object outputted from
 #' [tune::tune_grid()], [tune::tune_bayes()], or [tune::fit_resamples()].
 #' These results must have been fitted with the `control` settings
@@ -12,7 +12,7 @@
 #' [control_stack_bayes()], and [control_stack_resamples()]
 #' documentation for helper functions.
 #' @param name The label for the model definition---defaults to the name
-#' of the `members` object.
+#' of the `candidates` object.
 #' @inheritParams stacks
 #' 
 #' @return A `data_stack` object--see [stacks()] for more details! 
@@ -24,18 +24,18 @@
 #' # initialize a stack and add some members
 #' st <- 
 #'   stacks() %>%
-#'   add_members(reg_res_lr) %>%
-#'   add_members(reg_res_svm) %>%
-#'   add_members(reg_res_sp)
+#'   add_candidates(reg_res_lr) %>%
+#'   add_candidates(reg_res_svm) %>%
+#'   add_candidates(reg_res_sp)
 #'   
 #' # do the same with classification models
 #' st <- 
 #'   stacks() %>%
-#'   add_members(class_res_nn) %>%
-#'   add_members(class_res_rf)  
+#'   add_candidates(class_res_nn) %>%
+#'   add_candidates(class_res_rf)  
 #' @export
-add_members <- function(data_stack, members,
-                        name = deparse(substitute(members)), ...) {
+add_candidates <- function(data_stack, candidates,
+                           name = deparse(substitute(members)), ...) {
   check_chr(name)
   
   stack <- 

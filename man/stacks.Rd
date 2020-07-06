@@ -22,5 +22,5 @@ along a few extra attributes to keep track of model definitions, resamples,
 and training data.
 }
 \seealso{
-\code{\link[=add_members]{add_members()}}
+\code{\link[=add_candidates]{add_candidates()}}
 }

@@ -3,42 +3,42 @@
 # regression ---------------------------------------------------------------
 reg_data_stack <-
   stacks() %>%
-  add_members(reg_res_lr) %>%
-  add_members(reg_res_sp) %>%
-  add_members(reg_res_svm)
+  add_candidates(reg_res_lr) %>%
+  add_candidates(reg_res_sp) %>%
+  add_candidates(reg_res_svm)
   
-reg_linear_stack <-
+reg_stack_linear <-
   reg_data_stack %>%
-  linear_stack()
+  stack_linear()
 
 reg_model_stack <-
-  reg_linear_stack %>%
+  reg_stack_linear %>%
   fit_members()
 
 # multi-class classification -----------------------------------------------
 class_data_stack <-
   stacks() %>%
-  add_members(class_res_nn) %>%
-  add_members(class_res_rf)
+  add_candidates(class_res_nn) %>%
+  add_candidates(class_res_rf)
 
-class_linear_stack <-
+class_stack_linear <-
   class_data_stack %>%
-  linear_stack()
+  stack_linear()
 
 class_model_stack <-
-  class_linear_stack %>%
+  class_stack_linear %>%
   fit_members()
 
 # two-way classification ---------------------------------------------------
 log_data_stack <-
   stacks() %>%
-  add_members(log_res_nn) %>%
-  add_members(log_res_rf)
+  add_candidates(log_res_nn) %>%
+  add_candidates(log_res_rf)
 
-log_linear_stack <-
+log_stack_linear <-
   log_data_stack %>%
-  linear_stack()
+  stack_linear()
 
 log_model_stack <-
-  log_linear_stack %>%
+  log_stack_linear %>%
   fit_members()

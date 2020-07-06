@@ -12,7 +12,7 @@
 #' 
 #' @return A `data_stack` object.
 #' 
-#' @seealso [add_members()]
+#' @seealso [add_candidates()]
 #' 
 #' @export
 stacks <- function(...) {

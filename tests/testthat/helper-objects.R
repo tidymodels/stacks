@@ -6,14 +6,14 @@ context("helpers")
 # st_0 <- stacks()
 # 
 # st_1 <- stacks() %>%
-#   add_members(reg_res_svm)
+#   add_candidates(reg_res_svm)
 # 
 # st_0_rm <- st_1 %>%
 #   remove_members("reg_res_svm")
 # 
 # st_2 <- stacks() %>%
-#   add_members(reg_res_svm) %>%
-#   add_members(reg_res_sp)
+#   add_candidates(reg_res_svm) %>%
+#   add_candidates(reg_res_sp)
 # 
 # st_1_rm <- st_2 %>%
 #   remove_members("reg_res_sp")

@@ -159,14 +159,14 @@ stacks()
 
 The `stacks()` function works sort of like the `ggplot()` constructor from ggplot2—the function creates a basic structure that the object will be built on top of—except you'll pipe the outputs rather than adding them with `+`.
 
-The `add_members()` function will add ensemble members to the stack.
+The `add_candidates()` function will add ensemble members to the stack.
 
 ```{r}
 penguins_data_st <- 
   stacks() %>%
-  add_members(lin_reg_res) %>%
-  add_members(spline_res) %>%
-  add_members(svm_res)
+  add_candidates(lin_reg_res) %>%
+  add_candidates(spline_res) %>%
+  add_candidates(svm_res)
 
 penguins_data_st
 ```
@@ -183,15 +183,15 @@ That's it! The stack is ready to fit!
 
 # Fit the stack
 
-The outputs from each of these ensemble members are highly correlated, so the `linear_stack` method performs regularization to figure out how we can combine the outputs from the stack members to come up with a final prediction. There will eventually be several `*_stack` methods providing different options for combining model output.
+The outputs from each of these ensemble members are highly correlated, so the `stack_linear` method performs regularization to figure out how we can combine the outputs from the stack members to come up with a final prediction. There will eventually be several `*_stack` methods providing different options for combining model output.
 
 ```{r, eval = FALSE}
 penguins_model_st <-
   penguins_data_st %>%
-  linear_stack()
+  stack_linear()
 ```
 
-The `linear_stack` function determines how member model output will ultimately be combined in the final prediction. Now that we know how to combine models, we can fit the models that we know we need.
+The `stack_linear` function determines how member model output will ultimately be combined in the final prediction. Now that we know how to combine models, we can fit the models that we know we need.
 
 ```{r, eval = FALSE}
 penguins_model_st <-

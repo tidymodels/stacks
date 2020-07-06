@@ -5,7 +5,7 @@
 #' from ensemble members.
 #' 
 #' @param data_stack A `data_stack` object
-#' @inheritParams add_members
+#' @inheritParams add_candidates
 #' 
 #' @return A `model_stack` object—while `model_stacks` largely contain the
 #' same elements as `data_stack`s, the primary data objects shift from the
@@ -18,20 +18,20 @@
 #' # put together a data stack
 #' st <- 
 #'   stacks() %>%
-#'   add_members(reg_res_lr) %>%
-#'   add_members(reg_res_svm) %>%
-#'   add_members(reg_res_sp)
+#'   add_candidates(reg_res_lr) %>%
+#'   add_candidates(reg_res_svm) %>%
+#'   add_candidates(reg_res_sp)
 #'   
 #' # evaluate the data stack
 #' st %>%
-#'   linear_stack()
+#'   stack_linear()
 #' 
 # data_stack <- 
 #   stacks() %>% 
-#   add_members(class_res_nn) %>% 
-#   add_members(class_res_rf)
+#   add_candidates(class_res_nn) %>% 
+#   add_candidates(class_res_rf)
 #' @export
-linear_stack <- function(data_stack, ...) {
+stack_linear <- function(data_stack, ...) {
   preds_formula <- 
     paste0(colnames(data_stack)[1], " ~ .") %>%
     as.formula()
@@ -81,7 +81,7 @@ linear_stack <- function(data_stack, ...) {
            train = attr(data_stack, "train"),
            mode = attr(data_stack, "mode"),
            data_stack = tibble::as_tibble(data_stack)),
-      class = c("linear_stack", "model_stack", "list")
+      class = c("stack_linear", "model_stack", "list")
     )
   
   attr(model_stack, "outcome") <- attr(data_stack, "outcome")

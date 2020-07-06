@@ -1,6 +1,6 @@
 #' Fit model stack members
 #' 
-#' @inheritParams add_members
+#' @inheritParams add_candidates
 # @param n The total number of sub-models to incorporate in the stack.
 # @param replace Logical—whether to sample the sub-models to incorporate
 # in the stack with replacement.
@@ -19,19 +19,19 @@
 #' # put together a data stack
 #' st <- 
 #'   stacks() %>%
-#'   add_members(reg_res_lr) %>%
-#'   add_members(reg_res_svm) %>%
-#'   add_members(reg_res_sp)
+#'   add_candidates(reg_res_lr) %>%
+#'   add_candidates(reg_res_svm) %>%
+#'   add_candidates(reg_res_sp)
 #'
 #' # evaluate the data stack and fit the member models
 #' st %>%
-#'   linear_stack() %>%
+#'   stack_linear() %>%
 #'   fit_members()
 #' 
 # ensemble <- stacks() %>% 
-# add_members(reg_res_svm) %>% 
-# add_members(reg_res_lr) %>% 
-# linear_stack()
+# add_candidates(reg_res_svm) %>% 
+# add_candidates(reg_res_lr) %>% 
+# stack_linear()
 #' @export
 fit_members <- function(model_stack, data = NULL, ...) {
   

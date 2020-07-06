@@ -32,13 +32,13 @@ with all other variables in \link[palmerpenguins:penguins]{palmerpenguins::pengu
 # put together a data stack
 st <- 
   stacks() \%>\%
-  add_members(reg_res_lr) \%>\%
-  add_members(reg_res_svm) \%>\%
-  add_members(reg_res_sp)
+  add_candidates(reg_res_lr) \%>\%
+  add_candidates(reg_res_svm) \%>\%
+  add_candidates(reg_res_sp)
 
 # evaluate the data stack and fit the member models
 st \%>\%
-  linear_stack() \%>\%
+  stack_linear() \%>\%
   fit_members()
 
 }
