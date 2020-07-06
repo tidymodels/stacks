@@ -73,7 +73,7 @@ get_outcome <- function(stack) {
 
 get_rs_hash <- function(stack) {attr(stack, "rs_hash")}
 get_model_def_names <- function(stack) {names(attr(stack, "model_defs"))}
-get_model_hashes <- function(stack) {attr(stack, "model_def_hashes")}
+get_model_hashes <- function(stack) {attr(stack, "model_hashes")}
 
 # setters
 set_outcome <- function(stack, members) {
@@ -101,32 +101,6 @@ set_rs_hash <- function(stack, members, name) {
   }
   
   attr(stack, "rs_hash") <- new_hash
-  
-  stack
-}
-
-# note that this function sets both the model definition names and hashes
-set_model_defs <- function(stack, members, name) {
-  # check to make sure that the supplied model def name
-  # doesn't have the same name or hash as an existing model def
-  if (name %in% attr(stack, "model_def_names")) {
-    glue_stop(
-      "The new model definition has the ",
-      "same object name '{name}' as an existing model definition."
-    )
-  }
-  
-  new_hash <- digest::digest(members)
-  existing_hashes <- get_model_hashes(stack)
-
-  if (new_hash %in% existing_hashes) {
-    glue_stop(
-      "The new member '{name}' is the same as the existing member ",
-      "'{get_model_def_names(stack)[which(existing_hashes == new_hash)]}'."
-    )
-  }
-  
-  attr(stack, "model_hashes") <- c(get_model_hashes(stack), new_hash)
   
   stack
 }
@@ -188,6 +162,25 @@ rm_members <- function(stack, name) {
 # Misc. Utilities
 # ------------------------------------------------------------------------
 set_model_defs_members <- function(stack, members, name) {
+  # check to make sure that the supplied model def name
+  # doesn't have the same name or hash as an existing model def
+  if (name %in% get_model_def_names(stack)) {
+    glue_stop(
+      "The new model definition has the ",
+      "same object name '{name}' as an existing model definition."
+    )
+  }
+  
+  new_hash <- digest::digest(members)
+  existing_hashes <- get_model_hashes(stack)
+  
+  if (new_hash %in% existing_hashes) {
+    glue_stop(
+      "The new member '{name}' is the same as the existing member ",
+      "'{get_model_def_names(stack)[which(existing_hashes == new_hash)]}'."
+    )
+  }
+  
   model_defs <- attr(stack, "model_defs")
   model_metrics <- attr(stack, "model_metrics")
   
@@ -196,6 +189,7 @@ set_model_defs_members <- function(stack, members, name) {
   
   attr(stack, "model_defs") <- model_defs
   attr(stack, "model_metrics") <- model_metrics
+  attr(stack, "model_hashes") <- c(get_model_hashes(stack), new_hash)
   
   stack
 }

@@ -35,17 +35,17 @@
 #'   add_candidates(class_res_rf)  
 #' @export
 add_candidates <- function(data_stack, candidates,
-                           name = deparse(substitute(members)), ...) {
+                           name = deparse(substitute(candidates)), ...) {
   check_chr(name)
   
   stack <- 
     data_stack %>%
-    set_rs_hash(members, name) %>%
-    set_outcome(members) %>%
-    set_mode_(members, name) %>%
-    set_training_data(members, name) %>%
-    set_model_defs_members(members, name) %>%
-    set_data_members(members, name)
+    set_rs_hash(candidates, name) %>%
+    set_outcome(candidates) %>%
+    set_mode_(candidates, name) %>%
+    set_training_data(candidates, name) %>%
+    set_model_defs_members(candidates, name) %>%
+    set_data_members(candidates, name)
   
   data_stack_constr(stack)
 }
