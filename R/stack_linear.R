@@ -86,5 +86,5 @@ stack_linear <- function(data_stack, ...) {
   
   attr(model_stack, "outcome") <- attr(data_stack, "outcome")
   
-  model_stack_constr(model_stack)
+  if (model_stack_constr(model_stack)) {model_stack}
 }

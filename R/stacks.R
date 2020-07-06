@@ -33,5 +33,5 @@ stacks <- function(...) {
       class = c("data_stack", class(stack))
     )
   
-  data_stack_constr(stack)
+  if (data_stack_constr(stack)) {stack}
 }

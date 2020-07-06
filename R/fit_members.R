@@ -100,5 +100,5 @@ fit_members <- function(model_stack, data = NULL, ...) {
   model_stack[["member_fits"]] <- 
     setNames(member_fits, member_names)
   
-  model_stack_constr(model_stack)
+  if (model_stack_constr(model_stack)) {model_stack}
 }

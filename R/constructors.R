@@ -9,7 +9,7 @@ data_stack_constr <- function(data_stack) {
   purrr::map(attr(data_stack, "model_defs"), check_inherits, "workflow")
   purrr::map(attr(data_stack, "model_metrics"), check_inherits, "tbl_df")
   
-  data_stack
+  invisible(TRUE)
 }
 
 model_stack_constr <- function(model_stack) {
@@ -23,5 +23,5 @@ model_stack_constr <- function(model_stack) {
   purrr::map(model_stack[["model_metrics"]], check_inherits, "tbl_df")
   purrr::map(model_stack[["member_fits"]], check_inherits, "workflow")
   
-  model_stack
+  invisible(TRUE)
 }

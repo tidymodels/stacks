@@ -47,5 +47,5 @@ add_candidates <- function(data_stack, candidates,
     set_model_defs_members(candidates, name) %>%
     set_data_members(candidates, name)
   
-  data_stack_constr(stack)
+  if (data_stack_constr(stack)) {stack}
 }
