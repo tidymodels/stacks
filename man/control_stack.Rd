@@ -21,8 +21,8 @@ Supply these light wrappers as the \code{control} argument in a
 \link[tune:tune_grid]{tune::tune_grid}, \link[tune:tune_bayes]{tune::tune_bayes}, or \link[tune:fit_resamples]{tune::fit_resamples}
 call to return the needed workflow elements for use in a data stack.
 These functions will return the appropriate control grid to ensure that
-a minimal workflow giving details on model specifications and
-preprocessors is supplied in the resampling results object!
+assessment set predictions and information on model specifications and
+preprocessors, is supplied in the resampling results object!
 }
 \seealso{
 See \link{example_data} for examples of these functions used in context.
