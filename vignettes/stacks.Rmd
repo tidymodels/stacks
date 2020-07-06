@@ -54,8 +54,8 @@ We'll first start out with splitting up the training data, generating resamples,
 # some setup: resampling and a basic recipe
 set.seed(1)
 
-ctrl_grid <- control_grid(save_pred = TRUE)
-ctrl_res <- control_grid(save_pred = TRUE)
+ctrl_grid <- control_grid(save_pred = TRUE, save_workflow = TRUE)
+ctrl_res <- control_grid(save_pred = TRUE, save_workflow = TRUE)
 
 penguins_split <- initial_split(penguins)
 penguins_train <- training(penguins_split)
@@ -91,7 +91,7 @@ lin_reg_wflow <-
 
 lin_reg_res <- 
   fit_resamples(
-    lm_wflow,
+    lin_reg_wflow,
     resamples = folds,
     metrics = metric,
     control = ctrl_res

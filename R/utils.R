@@ -382,7 +382,7 @@ sanitize_classification_names <- function(model_stack, member_names) {
 # use in the stack
 stack_workflow <- function(x) {
   workflows::workflow() %>%
-    recipes::add_model(workflows::pull_workflow_spec(x)) %>%
-    recipes::add_recipe(workflows::pull_workflow_preprocessor(x))
+    workflows::add_model(workflows::pull_workflow_spec(x)) %>%
+    workflows::add_recipe(workflows::pull_workflow_preprocessor(x))
 }
 
