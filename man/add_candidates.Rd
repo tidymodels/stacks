@@ -7,7 +7,7 @@
 add_candidates(
   data_stack,
   candidates,
-  name = deparse(substitute(members)),
+  name = deparse(substitute(candidates)),
   ...
 )
 }

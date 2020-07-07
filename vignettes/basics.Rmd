@@ -16,11 +16,12 @@ knitr::opts_chunk$set(
 
 In this article, we'll be working through an example of the basic workflow of model stacking with the stacks package. If you're unfamiliar with the language used in this vignette, please see the package README. At a high level, the workflow looks something like this:
 
-* Fit constituent model definitions
-* Initialize a `data_stack`
-* Add stack members
-* Fit the stack
-* Predict on new data!
+1. Define candidate ensemble members using functionality from rsample, parsnip, workflows, recipes, and tune
+2. Initialize a `data_stack` object with `stacks()`  
+3. Iteratively add candidate ensemble members to the `data_stack` with `add_candidates()`  
+4. Evaluate how to combine their predictions with `stack_linear()`  
+5. Fit candidate ensemble members with non-zero stacking coefficients with `fit_members()`  
+6. Predict on new data with `predict()`!  
 
 The package is closely integrated with the rest of the functionality in tidymodels—we'll load those packages as well. 
 
@@ -40,22 +41,18 @@ str(penguins)
 penguins <- penguins[!is.na(penguins$sex),]
 ```
 
-# Fit constituent model definitions
+# Define candidate ensemble members
 
-Fitting the constituent model definitions is undoubtedly the longest part of building an ensemble with `stacks`. If you're familiar with tidymodels "proper," you're probably fine to skip this section, keeping a few things in mind:
+Defining the constituent model definitions is undoubtedly the longest part of building an ensemble with `stacks`. If you're familiar with tidymodels "proper," you're probably fine to skip this section, keeping a few things in mind:
 
-* The model specifications must be embedded in `workflows` objects.
-* You'll need to save the out-of-sample predictions in your `tune_grid()` or `fit_resamples()` objects by setting the `control` argument to `control_grid(save_pred = TRUE)` or `control_resamples(save_pred = TRUE)`, respectively.
-* Each model definition should share the same rsample `rset` object (by either sending your model specification through `tune_grid()`, if you need to tune hyperparameters, or `fit_resamples()` if not.)
+* You'll need to save the assessment set predictions and workflow utilized in your `tune_grid()`, `tune_bayes()`, or `fit_resamples()` objects by setting the `control` arguments  `save_pred = TRUE` and `save_workflow = TRUE`. Note the use of the `control_stack_*()` convenience functions below!
+* Each model definition must share the same rsample `rset` object.
 
 We'll first start out with splitting up the training data, generating resamples, and setting some options that will be used by each model definition.
 
 ```{r}
 # some setup: resampling and a basic recipe
 set.seed(1)
-
-ctrl_grid <- control_grid(save_pred = TRUE, save_workflow = TRUE)
-ctrl_res <- control_grid(save_pred = TRUE, save_workflow = TRUE)
 
 penguins_split <- initial_split(penguins)
 penguins_train <- training(penguins_split)
@@ -73,6 +70,15 @@ penguins_wflow <-
   add_recipe(penguins_rec)
 
 metric <- metric_set(rmse)
+```
+
+Tuning and fitting results for use in ensembles need to be fitted with the control arguments `save_pred = TRUE` and `save_workflow = TRUE`—these settings ensure that the assessment set predictions, as well as the workflow used to fit the resamples, are stored in the resulting object. For convenience, stacks supplies some `control_stack_*()` functions to generate the appropriate objects for you. 
+
+In this example, we'll be working with `tune_grid()` and `fit_resamples()` from the tune package, so we will use the following control settings:
+
+```{r}
+ctrl_grid <- control_stack_grid()
+ctrl_res <- control_stack_resamples()
 ```
 
 We'll fit three different models to try to predict bill length—a linear model, a spline model (with hyperparameters to tune), and a support vector machine model (again, with hyperparameters to tune).
@@ -151,7 +157,7 @@ With these three model definitions fully specified, we're ready to start putting
 
 # Putting together a stack
 
-The first step to building an ensemble with `stacks` is to create a `data_stack` object—in this package, stacks are tibbles (with some extra attributes) that contain the out-of-sample predictions for each member.
+The first step to building an ensemble with stacks is to create a `data_stack` object—in this package, data stacks are tibbles (with some extra attributes) that contain the assessment set predictions for each candidate ensemble member.
 
 ```{r}
 stacks()
@@ -159,7 +165,7 @@ stacks()
 
 The `stacks()` function works sort of like the `ggplot()` constructor from ggplot2—the function creates a basic structure that the object will be built on top of—except you'll pipe the outputs rather than adding them with `+`.
 
-The `add_candidates()` function will add ensemble members to the stack.
+The `add_candidates()` function adds ensemble members to the stack.
 
 ```{r}
 penguins_data_st <- 
@@ -177,13 +183,13 @@ As mentioned before, under the hood, a `data_stack` object is really just a tibb
 as_tibble(penguins_data_st)
 ```
 
-A stack is a just a tibble, where the first row gives the first response value, and the remaining columns give the out of sample predictions for each ensemble member. Since we're in the regression case, there's only one column per ensemble member.
+A stack is a just a tibble, where the first row gives the first response value, and the remaining columns give the assessment set predictions for each ensemble member. Since we're in the regression case, there's only one column per ensemble member. In classification settings, there are as many columns as there are levels of the outcome variable per candidate ensemble member.
 
-That's it! The stack is ready to fit!
+That's it! We're now ready to evaluate how it is that we need to combine predictions from each candidate ensemble member.
 
 # Fit the stack
 
-The outputs from each of these ensemble members are highly correlated, so the `stack_linear` method performs regularization to figure out how we can combine the outputs from the stack members to come up with a final prediction. There will eventually be several `*_stack` methods providing different options for combining model output.
+The outputs from each of these candidate ensemble members are highly correlated, so the `stack_linear` method performs regularization to figure out how we can combine the outputs from the stack members to come up with a final prediction.
 
 ```{r, eval = FALSE}
 penguins_model_st <-
@@ -191,7 +197,7 @@ penguins_model_st <-
   stack_linear()
 ```
 
-The `stack_linear` function determines how member model output will ultimately be combined in the final prediction. Now that we know how to combine models, we can fit the models that we know we need.
+The `stack_linear` function determines how member model output will ultimately be combined in the final prediction. Now that we know how to combine our model output, we can fit the models that we now know we need.
 
 ```{r, eval = FALSE}
 penguins_model_st <-

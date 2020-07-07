@@ -3,7 +3,7 @@
 
 <!-- [![R build status](https://github.com/simonpcouch/stacks/workflows/R-CMD-check/badge.svg)](https://github.com/simonpcouch/stacks/actions) -->
 
-# stacks - tidy model stacking
+## stacks - tidy model stacking
 
 stacks is an R package for model stacking that aligns with the
 tidymodels. Model stacking is an ensembling method that takes the
@@ -11,30 +11,61 @@ outputs of many models and combines them to generate a new
 model—referred to as an *ensemble* in this package—that generates
 predictions informed by each of its *members*.
 
+The process goes something like this:
+
+1.  Define candidate ensemble members using functionality from
+    [rsample](https://rsample.tidymodels.org/),
+    [parsnip](https://parsnip.tidymodels.org/),
+    [workflows](https://workflows.tidymodels.org/),
+    [recipes](https://recipes.tidymodels.org/), and
+    [tune](http://tune.tidymodels.org/)
+2.  Initialize a `data_stack` object with `stacks()`  
+3.  Iteratively add candidate ensemble members to the `data_stack` with
+    `add_candidates()`  
+4.  Evaluate how to combine their predictions with `stack_linear()`  
+5.  Fit candidate ensemble members with non-zero stacking coefficients
+    with `fit_members()`  
+6.  Predict on new data with `predict()`
+
+You can install the (unstable) development version of this package with
+the following code\!
+
+``` r
+remotes::install_github("simonpcouch/stacks")
+```
+
+Rather than diving right into the implementation, we’ll focus here on
+how the pieces fit together, conceptually, in building an ensemble with
+`stacks`. See the `basics` vignette for an example of the API in
+action\!
+
+## a grammar
+
 At the highest level, ensembles are formed from *model definitions*. In
 this package, model definitions are an instance of a minimal
 [workflow](https://workflows.tidymodels.org/), containing a *model
 specification* (as defined in the
 [parsnip](https://parsnip.tidymodels.org/) package) and, optionally, a
 *preprocessor* (as defined in the
-[recipes](https://recipes.tidymodels.org/) package).
+[recipes](https://recipes.tidymodels.org/) package). Model definitions
+specify the form of candidate ensemble members.
 
 ![](inst/figs/model_defs.png)
 
 To be used in the same ensemble, each of these model definitions must
 share the same *resample*. This
 [rsample](https://rsample.tidymodels.org/) `rset` object, when paired
-with the model definitions, can be used to generate the the resampling
-objects for the candidate *ensemble members*.
+with the model definitions, can be used to generate the tuning/fitting
+results objects for the candidate *ensemble members* with
+[tune](http://tune.tidymodels.org/).
 
 ![](inst/figs/submodels.png)
 
-The package will sometimes refer to *sub-models*. The difference between
-sub-models and ensemble members is mostly philosophical—an ensemble
-member is a sub-model that has actually been selected (and possibly
-trained) for use in the ensemble (via nonzero stacking coefficients)
-that is not regarded as resulting from a specific model definition,
-where-as a sub-model is an untrained candidate ensemble member.
+The package will sometimes refer to *sub-models*. An ensemble member is
+a sub-model that has actually been selected (and possibly trained) for
+use in the ensemble (via nonzero stacking coefficients, usually) that is
+not regarded as resulting from a specific model definition, where-as a
+sub-model is an untrained candidate ensemble member.
 
 Sub-models first come together in a `data_stack` object. Principally,
 these objects are just [tibbles](https://tibble.tidyverse.org/), where
@@ -72,23 +103,10 @@ At a high level, the process follows these steps:
 
 ![](inst/figs/object_types.png)
 
-The API for the package closely mirrors these ideas.
+The API for the package closely mirrors these ideas. See the `basics`
+vignette for an overview of how this grammar is implemented\!
 
-![](inst/figs/code_steps.png)
-
-See the `stacks` vignette for an overview of how this grammar is
-implemented\!
-
-## Installation
-
-You can install the development version of the package with the
-following code:
-
-``` r
-devtools::install_github("simonpcouch/stacks")
-```
-
-## Contributing
+## contributing
 
 This project is released with a [Contributor Code of
 Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree
