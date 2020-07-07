@@ -5,7 +5,7 @@
 #' from ensemble members.
 #' 
 #' @param data_stack A `data_stack` object
-#' @inheritParams add_candidates
+#' @inheritParams stack_add
 #' 
 #' @return A `model_stack` object—while `model_stacks` largely contain the
 #' same elements as `data_stack`s, the primary data objects shift from the
@@ -18,20 +18,20 @@
 #' # put together a data stack
 #' st <- 
 #'   stacks() %>%
-#'   add_candidates(reg_res_lr) %>%
-#'   add_candidates(reg_res_svm) %>%
-#'   add_candidates(reg_res_sp)
+#'   stack_add(reg_res_lr) %>%
+#'   stack_add(reg_res_svm) %>%
+#'   stack_add(reg_res_sp)
 #'   
 #' # evaluate the data stack
 #' st %>%
-#'   stack_linear()
+#'   stack_blend()
 #' 
 # data_stack <- 
 #   stacks() %>% 
-#   add_candidates(class_res_nn) %>% 
-#   add_candidates(class_res_rf)
+#   stack_add(class_res_nn) %>% 
+#   stack_add(class_res_rf)
 #' @export
-stack_linear <- function(data_stack, ...) {
+stack_blend <- function(data_stack, ...) {
   preds_formula <- 
     paste0(colnames(data_stack)[1], " ~ .") %>%
     as.formula()

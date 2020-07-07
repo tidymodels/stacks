@@ -24,17 +24,17 @@
 #' # initialize a stack and add some candidate members
 #' st <- 
 #'   stacks() %>%
-#'   add_candidates(reg_res_lr) %>%
-#'   add_candidates(reg_res_svm) %>%
-#'   add_candidates(reg_res_sp)
+#'   stack_add(reg_res_lr) %>%
+#'   stack_add(reg_res_svm) %>%
+#'   stack_add(reg_res_sp)
 #'   
 #' # do the same with classification models
 #' st2 <- 
 #'   stacks() %>%
-#'   add_candidates(class_res_nn) %>%
-#'   add_candidates(class_res_rf)  
+#'   stack_add(class_res_nn) %>%
+#'   stack_add(class_res_rf)  
 #' @export
-add_candidates <- function(data_stack, candidates,
+stack_add <- function(data_stack, candidates,
                            name = deparse(substitute(candidates)), ...) {
   check_chr(name)
   

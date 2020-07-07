@@ -4,7 +4,8 @@
 #' tibbles, where the first column gives the true outcome in the assessment set,
 #' and the remaining columns give the predictions from each candidate ensemble 
 #' member. (When the outcome is numeric, there’s only one column per candidate 
-#' member. Multi-way classification requires more columns.) They also bring 
+#' member. For classification, there are as many columns per candidate
+#' member as there are levels in the outcome variable.) They also bring 
 #' along a few extra attributes to keep track of model definitions, resamples,
 #' and training data.
 #' 
@@ -12,7 +13,7 @@
 #' 
 #' @return A `data_stack` object.
 #' 
-#' @seealso [add_candidates()]
+#' @seealso [stack_add()]
 #' 
 #' @export
 stacks <- function(...) {

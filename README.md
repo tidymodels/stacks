@@ -21,10 +21,10 @@ The process goes something like this:
     [tune](http://tune.tidymodels.org/)
 2.  Initialize a `data_stack` object with `stacks()`  
 3.  Iteratively add candidate ensemble members to the `data_stack` with
-    `add_candidates()`  
-4.  Evaluate how to combine their predictions with `stack_linear()`  
+    `stack_add()`  
+4.  Evaluate how to combine their predictions with `stack_blend()`  
 5.  Fit candidate ensemble members with non-zero stacking coefficients
-    with `fit_members()`  
+    with `stack_fit()`  
 6.  Predict on new data with `predict()`
 
 You can install the (unstable) development version of this package with
