@@ -80,11 +80,10 @@ stack_linear <- function(data_stack, ...) {
            model_metrics = attr(data_stack, "model_metrics"),
            train = attr(data_stack, "train"),
            mode = attr(data_stack, "mode"),
+           outcome = attr(data_stack, "outcome"),
            data_stack = tibble::as_tibble(data_stack)),
-      class = c("stack_linear", "model_stack", "list")
+      class = c("linear_stack", "model_stack", "list")
     )
-  
-  attr(model_stack, "outcome") <- attr(data_stack, "outcome")
   
   if (model_stack_constr(model_stack)) {model_stack}
 }

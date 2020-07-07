@@ -68,9 +68,15 @@ names0 <- function(num, prefix = "x") {
 
 # getters
 get_outcome <- function(stack) {
-  attr(stack, "outcome")
+  if (!is.null(attr(stack, "outcome"))) {
+    attr(stack, "outcome")
+  } else {
+    stack[["outcome"]]
+  }
 }
+
 get_rs_hash <- function(stack) {attr(stack, "rs_hash")}
+
 get_model_def_names <- function(stack) {
   if (!is.null(names(attr(stack, "model_defs")))) {
     names(attr(stack, "model_defs"))
@@ -78,6 +84,7 @@ get_model_def_names <- function(stack) {
     names(stack[["model_defs"]])
   }
 }
+
 get_model_hashes <- function(stack) {unlist(attr(stack, "model_hashes"))}
 
 # setters
