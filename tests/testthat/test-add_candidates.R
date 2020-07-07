@@ -1,4 +1,5 @@
 context("add_candidates")
+source(test_path("test-aaa-helper-functions.R"))
 
 test_that("stack can add candidates (regression)", {
   expect_equal(
@@ -10,6 +11,10 @@ test_that("stack can add candidates (regression)", {
     st_reg_1 %>% add_candidates(reg_res_sp),
     st_reg_2
   )
+  
+  expect_true(data_stack_constr(st_0))
+  expect_true(data_stack_constr(st_reg_1))
+  expect_true(data_stack_constr(st_reg_2))
 })
 
 test_that("stack can add candidates (multinomial classification)", {
@@ -22,6 +27,9 @@ test_that("stack can add candidates (multinomial classification)", {
     st_class_1 %>% add_candidates(class_res_nn),
     st_class_2
   )
+  
+  expect_true(data_stack_constr(st_class_1))
+  expect_true(data_stack_constr(st_class_2))
 })
 
 test_that("stack can add candidates (two-way classification)", {
@@ -34,12 +42,15 @@ test_that("stack can add candidates (two-way classification)", {
     st_log_1 %>% add_candidates(log_res_nn),
     st_log_2
   )
+  
+  expect_true(data_stack_constr(st_log_1))
+  expect_true(data_stack_constr(st_log_2))
 })
 
 test_that("stack won't add bad members", {
   expect_error(
     st_reg_1 %>% add_candidates(reg_res_svm),
-    "has the same object name 'reg_res_svm'"
+    "has the same name 'reg_res_svm'"
   )
 
   expect_error(
@@ -54,5 +65,49 @@ test_that("stack won't add bad members", {
   expect_error(
     st_reg_1 %>% add_candidates(reg_res_svm_renamed),
     "new member 'reg_res_svm_renamed' is the same as the existing"
+  )
+})
+
+test_that("model definition naming works as expected", {
+  st_reg_1_newname <- 
+    stacks() %>%
+    add_candidates(reg_res_svm, name = "boop")
+
+  st_class_1_newname <-
+    stacks() %>%
+    add_candidates(class_res_rf, name = "boop")
+    
+  st_log_1_newname <-
+    stacks() %>%
+    add_candidates(log_res_rf, name = "boop")
+  
+  expect_true(ncol_with_name(st_reg_1, "reg_res_svm") > 0)
+  expect_true(ncol_with_name(st_class_1, "class_res_rf") > 0)
+  expect_true(ncol_with_name(st_log_1, "log_res_rf") > 0)
+  
+  expect_true(ncol_with_name(st_reg_1_newname, "boop") > 0)
+  expect_true(ncol_with_name(st_class_1_newname, "boop") > 0)
+  expect_true(ncol_with_name(st_log_1_newname, "boop") > 0)
+  
+  expect_equal(ncol_with_name(st_reg_1_newname, "reg_res_svm"), 0)
+  expect_equal(ncol_with_name(st_class_1_newname, "class_res_rf"), 0)
+  expect_equal(ncol_with_name(st_class_1_newname, "log_res_rf"), 0)
+  
+  expect_error(
+    st_reg_1 %>% 
+      add_candidates(reg_res_sp, "reg_res_svm"),
+    "has the same name"
+  )
+  
+  expect_error(
+    st_class_1 %>% 
+      add_candidates(class_res_nn, "class_res_rf"),
+    "has the same name"
+  )
+  
+  expect_error(
+    st_log_1 %>% 
+      add_candidates(log_res_nn, "log_res_rf"),
+    "has the same name"
   )
 })

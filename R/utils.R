@@ -167,7 +167,7 @@ set_model_defs_members <- function(stack, members, name) {
   if (name %in% get_model_def_names(stack)) {
     glue_stop(
       "The new model definition has the ",
-      "same object name '{name}' as an existing model definition."
+      "same name '{name}' as an existing model definition."
     )
   }
   
