@@ -46,7 +46,7 @@ with all other variables in \link[palmerpenguins:penguins]{palmerpenguins::pengu
 
 \examples{
 
-# initialize a stack and add some members
+# initialize a stack and add some candidate members
 st <- 
   stacks() \%>\%
   add_candidates(reg_res_lr) \%>\%
@@ -54,7 +54,7 @@ st <-
   add_candidates(reg_res_sp)
   
 # do the same with classification models
-st <- 
+st2 <- 
   stacks() \%>\%
   add_candidates(class_res_nn) \%>\%
   add_candidates(class_res_rf)  

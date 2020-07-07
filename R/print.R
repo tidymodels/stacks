@@ -25,7 +25,7 @@ print.data_stack <- function(x, ...) {
   
   cat(glue::glue("# A data stack with {n_model_defs} model definition",
                  "{if (n_model_defs != 1) 's' else ''}",
-                 " and {n_members} potential member",
+                 " and {n_members} candidate member",
                  "{if (n_members != 1) 's' else ''}",
                  "{if (n_model_defs != 0) ':' else '.'}"))
   if (n_model_defs != 0) {cat("\n")}
@@ -79,7 +79,7 @@ print.model_stack <- function(x, n = 10, ...) {
     cat(paste0(names(x$member_fits), collapse = ", "))
   } else {
     cat(glue::glue("# An unfitted model stack with ",
-                   "{n_members} potential member",
+                   "{n_members} candidate member",
                    "{if (n_members != 1) 's ' else ' '}",
                    "from {n_model_defs} model definition",
                    "{if (n_model_defs != 1) 's.' else '.'}"))

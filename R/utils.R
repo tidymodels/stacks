@@ -15,7 +15,7 @@ utils::globalVariables(c(
   "stack"
 ))
 
-# Utility Functions
+# Checks and Prompts
 # ------------------------------------------------------------------------
 glue_stop <- function(..., .sep = "", .envir = parent.frame()) {
   rlang::abort(glue::glue(..., .sep = .sep, .envir = .envir))
@@ -54,19 +54,11 @@ check_inherits <- function(x, what) {
   invisible(TRUE)
 }
 
-# more easily arranged names (from recipes)
-names0 <- function(num, prefix = "x") {
-  if (num < 1)
-    rlang::abort("`num` should be > 0.")
-  ind <- format(1:num)
-  ind <- gsub(" ", "0", ind)
-  paste0(prefix, ind)
-}
-
 # Constructor Utilities
 # ------------------------------------------------------------------------
 
 # getters
+
 get_outcome <- function(stack) {
   if (!is.null(attr(stack, "outcome"))) {
     attr(stack, "outcome")
@@ -88,27 +80,30 @@ get_model_def_names <- function(stack) {
 get_model_hashes <- function(stack) {unlist(attr(stack, "model_hashes"))}
 
 # setters
-set_outcome <- function(stack, members) {
-  if (!get_outcome(stack) %in% c("init_", tune::.get_tune_outcome_names(members))) {
+
+set_outcome <- function(stack, candidates) {
+  if (!get_outcome(stack) %in% c("init_", tune::.get_tune_outcome_names(candidates))) {
     glue_stop("The model definition you've tried to add to the stack has ",
-              "outcome variable {list(tune::.get_tune_outcome_names(members))}, ",
+              "outcome variable {list(tune::.get_tune_outcome_names(candidates))}, ",
               "while the stack's outcome variable is {get_outcome(stack)}.")
   }
   
-  attr(stack, "outcome") <- tune::.get_tune_outcome_names(members)
+  attr(stack, "outcome") <- tune::.get_tune_outcome_names(candidates)
   
   stack
 }
 
-set_rs_hash <- function(stack, members, name) {
-  new_hash <- digest::digest(members$splits)
+# checks that the hash for the resampling object
+# is appropriate and then sets it
+set_rs_hash <- function(stack, candidates, name) {
+  new_hash <- digest::digest(candidates$splits)
   
   hash_matches <- get_rs_hash(stack) %in% c("init_", new_hash)
   
   if (!hash_matches) {
     glue_stop(
-      "It seems like the new member '{name}' doesn't make use ",
-      "of the same resampling object as the existing members."
+      "It seems like the new candidate member '{name}' doesn't make use ",
+      "of the same resampling object as the existing candidates."
     )
   }
   
@@ -118,9 +113,9 @@ set_rs_hash <- function(stack, members, name) {
 }
 
 # note whether classification or regression
-set_mode_ <- function(stack, members, name) {
+set_mode_ <- function(stack, candidates, name) {
   wf_spec <- 
-    attr(members, "workflow") %>%
+    attr(candidates, "workflow") %>%
     workflows::pull_workflow_spec()
   
   new_mode <- wf_spec$mode
@@ -129,7 +124,7 @@ set_mode_ <- function(stack, members, name) {
   if (!old_mode %in% c("init_", new_mode)) {
     glue_stop(
       "The current mode for the stack is {old_mode}, while the mode for the ",
-      "newly added member `{name}` is {new_mode}."
+      "newly added candidate member `{name}` is {new_mode}."
     )
   }
   
@@ -138,44 +133,10 @@ set_mode_ <- function(stack, members, name) {
   stack
 }
 
-# remove members helpers
-rm_members_checks <- function(stack, members, obj_name) {
-  if (!inherits(members, "character")) {
-    glue_stop(
-      "The supplied model definition to remove, {obj_name}, ",
-      "has class {list(class(members))} ",
-      "rather than character. Did you supply the actual model definition ", 
-      "object rather than its label?"
-    )
-  }
-  
-  if (!members %in% attr(stack, "model_def_names")) {
-    glue_stop(
-      "The supplied model definition to remove, {obj_name}, isn't in the stack."
-    )
-  }
-  
-  stack
-}
-
-rm_members <- function(stack, name) {
-  members_pos <- which(name == attr(stack, "model_def_names"))
-  
-  attr(stack, "model_def_hashes") <- attr(stack, "model_def_hashes")[-members_pos]
-  attr(stack, "model_def_names") <- attr(stack, "model_def_names")[-members_pos]
-  
-  update_stack_data(
-    stack,
-    stack %>% dplyr::select(-dplyr::contains(name))
-  )
-}
-
-
-# Misc. Utilities
-# ------------------------------------------------------------------------
-set_model_defs_members <- function(stack, members, name) {
-  # check to make sure that the supplied model def name
-  # doesn't have the same name or hash as an existing model def
+# check to make sure that the supplied model def name
+# doesn't have the same name or hash as an existing model def
+# and then appends the model definition, hash, and metrics
+set_model_defs_candidates <- function(stack, candidates, name) {
   if (name %in% get_model_def_names(stack)) {
     glue_stop(
       "The new model definition has the ",
@@ -183,12 +144,12 @@ set_model_defs_members <- function(stack, members, name) {
     )
   }
   
-  new_hash <- digest::digest(members)
+  new_hash <- digest::digest(candidates)
   existing_hashes <- get_model_hashes(stack)
   
   if (new_hash %in% existing_hashes) {
     glue_stop(
-      "The new member '{name}' is the same as the existing member ",
+      "The new candidate member '{name}' is the same as the existing candidate ",
       "'{get_model_def_names(stack)[which(existing_hashes == new_hash)]}'."
     )
   }
@@ -196,8 +157,8 @@ set_model_defs_members <- function(stack, members, name) {
   model_defs <- attr(stack, "model_defs")
   model_metrics <- attr(stack, "model_metrics")
   
-  model_defs[[name]] <- attr(members, "workflow") %>% stack_workflow()
-  model_metrics[[name]] <- tune::collect_metrics(members)
+  model_defs[[name]] <- attr(candidates, "workflow") %>% stack_workflow()
+  model_metrics[[name]] <- tune::collect_metrics(candidates)
   
   attr(stack, "model_defs") <- model_defs
   attr(stack, "model_metrics") <- model_metrics
@@ -206,14 +167,17 @@ set_model_defs_members <- function(stack, members, name) {
   stack
 }
 
-set_training_data <- function(stack, members, name) {
+# checks that the training data in a newly added candidate
+# is the same is that from existing candidates, and sets the
+# training data if the new candidate is the first in the stack
+set_training_data <- function(stack, candidates, name) {
   training_data <- attr(stack, "train")
-  new_data <- members[["splits"]][[1]][["data"]]
+  new_data <- candidates[["splits"]][[1]][["data"]]
   
   if ((!identical(training_data, tibble::tibble())) &&
-        (!identical(training_data, new_data))) {
-      glue_stop("The newly added member, `{name}`, ",
-                "uses a different assessment set than the existing members.")
+      (!identical(training_data, new_data))) {
+    glue_stop("The newly added candidate member, `{name}`, ",
+              "uses different training data than the existing candidates.")
   }
   
   attr(stack, "train") <- new_data
@@ -221,16 +185,16 @@ set_training_data <- function(stack, members, name) {
   stack
 }
 
-
-set_data_members <- function(stack, members, name) {
-  member_cols <-
-    tune::collect_predictions(members, summarize = TRUE) %>%
+# appends assessment set predictions to a data stack
+set_data_candidates <- function(stack, candidates, name) {
+  candidate_cols <-
+    tune::collect_predictions(candidates, summarize = TRUE) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(
       .config = if (".config" %in% names(.)) .config else "Model1"
     ) %>%
     dplyr::select(
-      !!tune::.get_tune_outcome_names(members), 
+      !!tune::.get_tune_outcome_names(candidates), 
       .row, 
       dplyr::contains(".pred"), 
       .config
@@ -241,9 +205,9 @@ set_data_members <- function(stack, members, name) {
         c("Model", "Recipe"),
         name,
         vectorize_all = FALSE
-    )) %>%
+      )) %>%
     tidyr::pivot_wider(
-      id_cols = c(".row", !!tune::.get_tune_outcome_names(members)), 
+      id_cols = c(".row", !!tune::.get_tune_outcome_names(candidates)), 
       names_from = ".config", 
       values_from = dplyr::contains(".pred")
     ) %>%
@@ -251,17 +215,17 @@ set_data_members <- function(stack, members, name) {
   
   pred_class_idx <- 
     stringi::stri_detect_fixed(
-      colnames(member_cols), 
+      colnames(candidate_cols), 
       ".pred_class"
     )
   
-  member_cols <- member_cols[,!pred_class_idx]
+  candidate_cols <- candidate_cols[,!pred_class_idx]
   
   if (nrow(stack) == 0) {
     stack <- 
       update_stack_data(
         stack, 
-        member_cols
+        candidate_cols
       )
   } else {
     stack <- 
@@ -269,19 +233,31 @@ set_data_members <- function(stack, members, name) {
         stack,
         dplyr::bind_cols(
           tibble::as_tibble(stack), 
-          dplyr::select(member_cols, -!!get_outcome(stack))
+          dplyr::select(candidate_cols, -!!get_outcome(stack))
         )
       )
   }
   
-  stack <- log_resample_cols(stack, member_cols, name)
+  stack <- log_resample_cols(stack, candidate_cols, name)
   
   stack
 }
 
-# logs which columns in the data stack came from which members
-log_resample_cols <- function(stack, member_cols, name) {
-  new_cols <- colnames(member_cols)
+# Misc. Utilities
+# ------------------------------------------------------------------------
+
+# more easily arranged names (from recipes)
+names0 <- function(num, prefix = "x") {
+  if (num < 1)
+    rlang::abort("`num` should be > 0.")
+  ind <- format(1:num)
+  ind <- gsub(" ", "0", ind)
+  paste0(prefix, ind)
+}
+
+# logs which columns in the data stack came from which candidates
+log_resample_cols <- function(stack, candidate_cols, name) {
+  new_cols <- colnames(candidate_cols)
   
   cols_map <- attr(stack, "cols_map")
   cols_map[[name]] <- new_cols[2:length(new_cols)]
@@ -289,7 +265,6 @@ log_resample_cols <- function(stack, member_cols, name) {
   
   stack
 }
-
 
 # update the data in the stack while preserving attributes and class
 update_stack_data <- function(stack, new_data) {
@@ -308,6 +283,7 @@ update_stack_data <- function(stack, new_data) {
   )
 }
 
+# get the coefficients from the best glmnet result
 get_glmn_coefs <- function(x, penalty = 0.01) {
   x <- coef(x, s = penalty)
   x <- as.matrix(x)
@@ -323,6 +299,7 @@ get_glmn_coefs <- function(x, penalty = 0.01) {
   x
 }
 
+# fit one member of the ensemble
 fit_member <- function(name, wflows, members_map, train_dat) {
   member_row <- 
     members_map %>%
@@ -360,6 +337,8 @@ fit_member <- function(name, wflows, members_map, train_dat) {
   new_member
 }
 
+# creates a map for column / entry names resulting
+# from tuning in the classification setting
 sanitize_classification_names <- function(model_stack, member_names) {
   outcome_levels <-
     model_stack[["train"]] %>%
@@ -391,4 +370,3 @@ stack_workflow <- function(x) {
     workflows::add_model(workflows::pull_workflow_spec(x)) %>%
     workflows::add_recipe(workflows::pull_workflow_preprocessor(x))
 }
-

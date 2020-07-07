@@ -16,7 +16,7 @@ A \code{data_stack} object.
 Initializes a \code{data_stack} object. Principally, \code{data_stack}s are just
 tibbles, where the first column gives the true outcome in the assessment set,
 and the remaining columns give the predictions from each candidate ensemble
-member. (When the outcome is numeric, there’s only one column per ensemble
+member. (When the outcome is numeric, there’s only one column per candidate
 member. Multi-way classification requires more columns.) They also bring
 along a few extra attributes to keep track of model definitions, resamples,
 and training data.

@@ -21,7 +21,7 @@
 #' 
 #' @examples 
 #' 
-#' # initialize a stack and add some members
+#' # initialize a stack and add some candidate members
 #' st <- 
 #'   stacks() %>%
 #'   add_candidates(reg_res_lr) %>%
@@ -29,7 +29,7 @@
 #'   add_candidates(reg_res_sp)
 #'   
 #' # do the same with classification models
-#' st <- 
+#' st2 <- 
 #'   stacks() %>%
 #'   add_candidates(class_res_nn) %>%
 #'   add_candidates(class_res_rf)  
@@ -44,8 +44,8 @@ add_candidates <- function(data_stack, candidates,
     set_outcome(candidates) %>%
     set_mode_(candidates, name) %>%
     set_training_data(candidates, name) %>%
-    set_model_defs_members(candidates, name) %>%
-    set_data_members(candidates, name)
+    set_model_defs_candidates(candidates, name) %>%
+    set_data_candidates(candidates, name)
   
   if (data_stack_constr(stack)) {stack}
 }
