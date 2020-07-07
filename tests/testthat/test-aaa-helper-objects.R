@@ -7,28 +7,43 @@ st_0 <- stacks()
 
 st_reg_1 <- 
   stacks() %>%
-  add_candidates(reg_res_svm)
+  stack_add(reg_res_svm)
+
+st_reg_1_ <-
+  st_reg_1 %>%
+  stack_blend() %>%
+  stack_fit()
 
 st_reg_2 <- 
   stacks() %>%
-  add_candidates(reg_res_svm) %>%
-  add_candidates(reg_res_sp)
+  stack_add(reg_res_svm) %>%
+  stack_add(reg_res_sp)
 
 st_class_1 <- 
   stacks() %>%
-  add_candidates(class_res_rf)
+  stack_add(class_res_rf)
+
+st_class_1_ <-
+  st_class_1 %>%
+  stack_blend() %>%
+  stack_fit()
 
 st_class_2 <- 
   st_class_1 %>%
-  add_candidates(class_res_nn)
+  stack_add(class_res_nn)
 
 st_log_1 <- 
   stacks() %>%
-  add_candidates(log_res_rf)
+  stack_add(log_res_rf)
+
+st_log_1_ <-
+  st_log_1 %>%
+  stack_blend() %>%
+  stack_fit()
 
 st_log_2 <- 
   st_log_1 %>%
-  add_candidates(log_res_nn)
+  stack_add(log_res_nn)
   
 # Resampling Objects
 # ------------------------------------------------------------------------
