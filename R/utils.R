@@ -59,7 +59,7 @@ check_inherits <- function(x, what) {
 
 # getters
 
-get_outcome <- function(stack) {
+.get_outcome <- function(stack) {
   if (!is.null(attr(stack, "outcome"))) {
     attr(stack, "outcome")
   } else {
@@ -67,9 +67,9 @@ get_outcome <- function(stack) {
   }
 }
 
-get_rs_hash <- function(stack) {attr(stack, "rs_hash")}
+.get_rs_hash <- function(stack) {attr(stack, "rs_hash")}
 
-get_model_def_names <- function(stack) {
+.get_model_def_names <- function(stack) {
   if (!is.null(names(attr(stack, "model_defs")))) {
     names(attr(stack, "model_defs"))
   } else {
@@ -77,15 +77,15 @@ get_model_def_names <- function(stack) {
   }
 }
 
-get_model_hashes <- function(stack) {unlist(attr(stack, "model_hashes"))}
+.get_model_hashes <- function(stack) {unlist(attr(stack, "model_hashes"))}
 
 # setters
 
-set_outcome <- function(stack, candidates) {
-  if (!get_outcome(stack) %in% c("init_", tune::.get_tune_outcome_names(candidates))) {
+.set_outcome <- function(stack, candidates) {
+  if (!.get_outcome(stack) %in% c("init_", tune::.get_tune_outcome_names(candidates))) {
     glue_stop("The model definition you've tried to add to the stack has ",
               "outcome variable {list(tune::.get_tune_outcome_names(candidates))}, ",
-              "while the stack's outcome variable is {get_outcome(stack)}.")
+              "while the stack's outcome variable is {.get_outcome(stack)}.")
   }
   
   attr(stack, "outcome") <- tune::.get_tune_outcome_names(candidates)
@@ -95,10 +95,10 @@ set_outcome <- function(stack, candidates) {
 
 # checks that the hash for the resampling object
 # is appropriate and then sets it
-set_rs_hash <- function(stack, candidates, name) {
+.set_rs_hash <- function(stack, candidates, name) {
   new_hash <- digest::digest(candidates$splits)
   
-  hash_matches <- get_rs_hash(stack) %in% c("init_", new_hash)
+  hash_matches <- .get_rs_hash(stack) %in% c("init_", new_hash)
   
   if (!hash_matches) {
     glue_stop(
@@ -113,7 +113,7 @@ set_rs_hash <- function(stack, candidates, name) {
 }
 
 # note whether classification or regression
-set_mode_ <- function(stack, candidates, name) {
+.set_mode_ <- function(stack, candidates, name) {
   wf_spec <- 
     attr(candidates, "workflow") %>%
     workflows::pull_workflow_spec()
@@ -136,8 +136,8 @@ set_mode_ <- function(stack, candidates, name) {
 # check to make sure that the supplied model def name
 # doesn't have the same name or hash as an existing model def
 # and then appends the model definition, hash, and metrics
-set_model_defs_candidates <- function(stack, candidates, name) {
-  if (name %in% get_model_def_names(stack)) {
+.set_model_defs_candidates <- function(stack, candidates, name) {
+  if (name %in% .get_model_def_names(stack)) {
     glue_stop(
       "The new model definition has the ",
       "same name '{name}' as an existing model definition."
@@ -145,12 +145,12 @@ set_model_defs_candidates <- function(stack, candidates, name) {
   }
   
   new_hash <- digest::digest(candidates)
-  existing_hashes <- get_model_hashes(stack)
+  existing_hashes <- .get_model_hashes(stack)
   
   if (new_hash %in% existing_hashes) {
     glue_stop(
       "The new candidate member '{name}' is the same as the existing candidate ",
-      "'{get_model_def_names(stack)[which(existing_hashes == new_hash)]}'."
+      "'{.get_model_def_names(stack)[which(existing_hashes == new_hash)]}'."
     )
   }
   
@@ -162,7 +162,7 @@ set_model_defs_candidates <- function(stack, candidates, name) {
   
   attr(stack, "model_defs") <- model_defs
   attr(stack, "model_metrics") <- model_metrics
-  attr(stack, "model_hashes") <- c(get_model_hashes(stack), new_hash)
+  attr(stack, "model_hashes") <- c(.get_model_hashes(stack), new_hash)
   
   stack
 }
@@ -170,7 +170,7 @@ set_model_defs_candidates <- function(stack, candidates, name) {
 # checks that the training data in a newly added candidate
 # is the same is that from existing candidates, and sets the
 # training data if the new candidate is the first in the stack
-set_training_data <- function(stack, candidates, name) {
+.set_training_data <- function(stack, candidates, name) {
   training_data <- attr(stack, "train")
   new_data <- candidates[["splits"]][[1]][["data"]]
   
@@ -186,7 +186,7 @@ set_training_data <- function(stack, candidates, name) {
 }
 
 # appends assessment set predictions to a data stack
-set_data_candidates <- function(stack, candidates, name) {
+.set_data_candidates <- function(stack, candidates, name) {
   candidate_cols <-
     tune::collect_predictions(candidates, summarize = TRUE) %>%
     dplyr::ungroup() %>%
@@ -233,7 +233,7 @@ set_data_candidates <- function(stack, candidates, name) {
         stack,
         dplyr::bind_cols(
           tibble::as_tibble(stack), 
-          dplyr::select(candidate_cols, -!!get_outcome(stack))
+          dplyr::select(candidate_cols, -!!.get_outcome(stack))
         )
       )
   }
@@ -284,7 +284,7 @@ update_stack_data <- function(stack, new_data) {
 }
 
 # get the coefficients from the best glmnet result
-get_glmn_coefs <- function(x, penalty = 0.01) {
+.get_glmn_coefs <- function(x, penalty = 0.01) {
   x <- coef(x, s = penalty)
   x <- as.matrix(x)
   colnames(x) <- "estimate"
@@ -342,7 +342,7 @@ fit_member <- function(name, wflows, members_map, train_dat) {
 sanitize_classification_names <- function(model_stack, member_names) {
   outcome_levels <-
     model_stack[["train"]] %>%
-    dplyr::select(!!get_outcome(model_stack)) %>%
+    dplyr::select(!!.get_outcome(model_stack)) %>%
     dplyr::pull() %>%
     as.character() %>%
     unique()

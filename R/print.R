@@ -9,7 +9,7 @@ print.data_stack <- function(x, ...) {
     submodel_lengths <- purrr::map(attr(x, "cols_map"), length)
     model_names <- names(attr(x, "cols_map"))
   } else if (mode == "classification") {
-    n_groups <- length(unique(dplyr::pull(attr(x, "train")[,get_outcome(x)])))
+    n_groups <- length(unique(dplyr::pull(attr(x, "train")[,.get_outcome(x)])))
     n_members <- if (ncol(x) == 0) {0} else {
       (ncol(x) - 1) / n_groups
     }
@@ -45,7 +45,7 @@ print.data_stack <- function(x, ...) {
     )
   
   cat(glue::glue(
-    "# Outcome: {if (get_outcome(x) == 'init_') {NULL} else {get_outcome(x)}}\n"
+    "# Outcome: {if (.get_outcome(x) == 'init_') {NULL} else {.get_outcome(x)}}\n"
   ))
 }
 
@@ -61,7 +61,7 @@ print.model_stack <- function(x, n = 10, ...) {
     submodel_lengths <- purrr::map(x[["cols_map"]], length)
     model_names <- names(x[["cols_map"]])
   } else {
-    n_groups <- length(unique(dplyr::pull(x[["train"]][,get_outcome(x)])))
+    n_groups <- length(unique(dplyr::pull(x[["train"]][,.get_outcome(x)])))
     n_members <- if (ncol(x_) == 0) {0} else {
       (ncol(x_) - 1) / n_groups
     }

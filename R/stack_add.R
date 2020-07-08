@@ -40,12 +40,12 @@ stack_add <- function(data_stack, candidates,
   
   stack <- 
     data_stack %>%
-    set_rs_hash(candidates, name) %>%
-    set_outcome(candidates) %>%
-    set_mode_(candidates, name) %>%
-    set_training_data(candidates, name) %>%
-    set_model_defs_candidates(candidates, name) %>%
-    set_data_candidates(candidates, name)
+    .set_rs_hash(candidates, name) %>%
+    .set_outcome(candidates) %>%
+    .set_mode_(candidates, name) %>%
+    .set_training_data(candidates, name) %>%
+    .set_model_defs_candidates(candidates, name) %>%
+    .set_data_candidates(candidates, name)
   
   if (data_stack_constr(stack)) {stack}
 }
