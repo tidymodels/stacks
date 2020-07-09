@@ -11,7 +11,10 @@ st_reg_1 <-
 
 st_reg_1_ <-
   st_reg_1 %>%
-  stack_blend() %>%
+  stack_blend()
+
+st_reg_1__ <-
+  st_reg_1_ %>%
   stack_fit()
 
 st_reg_2 <- 
@@ -25,7 +28,10 @@ st_class_1 <-
 
 st_class_1_ <-
   st_class_1 %>%
-  stack_blend() %>%
+  stack_blend()
+
+st_class_1__ <- 
+  st_class_1_ %>%
   stack_fit()
 
 st_class_2 <- 
@@ -38,7 +44,10 @@ st_log_1 <-
 
 st_log_1_ <-
   st_log_1 %>%
-  stack_blend() %>%
+  stack_blend()
+
+st_log_1__ <-
+  st_log_1_ %>%
   stack_fit()
 
 st_log_2 <- 
