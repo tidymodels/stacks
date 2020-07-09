@@ -50,7 +50,7 @@
 #' 
 #' penguins_reg_rec <- 
 #'   recipe(body_mass_g ~ ., data = penguins_train) %>%
-#'   step_dummy(all_nominal()) %>%
+#'   step_dummy(recipes::all_nominal()) %>%
 #'   step_zv(all_predictors())
 #' 
 #' metric <- metric_set(rmse)
@@ -117,7 +117,7 @@
 #' # classification - preliminaries -----------------------------------
 #' penguins_class_rec <- 
 #'   recipe(species ~ ., data = penguins_train) %>%
-#'   step_dummy(all_nominal(), -species) %>%
+#'   step_dummy(recipes::all_nominal(), -species) %>%
 #'   step_zv(all_predictors()) %>%
 #'   step_normalize(all_numeric())
 #' 
@@ -165,7 +165,7 @@
 #' # binary classification --------------------------------
 #' penguins_2_class_rec <- 
 #'   recipe(sex ~ ., data = penguins_train) %>%
-#'   step_dummy(all_nominal(), -sex) %>%
+#'   step_dummy(recipes::all_nominal(), -sex) %>%
 #'   step_zv(all_predictors()) %>%
 #'   step_normalize(all_numeric())
 #' 

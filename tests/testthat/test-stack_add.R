@@ -1,5 +1,4 @@
 context("stack_add")
-source(test_path("test-aaa-helper-functions.R"))
 
 test_that("stack can add candidates (regression)", {
   expect_equal(
@@ -64,7 +63,7 @@ test_that("stack won't add bad members", {
 
   expect_error(
     st_reg_1 %>% stack_add(reg_res_svm_renamed),
-    "new member 'reg_res_svm_renamed' is the same as the existing"
+    "new candidate member 'reg_res_svm_renamed' is the same as the existing"
   )
 })
 

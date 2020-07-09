@@ -1,3 +1,5 @@
+context("helpers")
+
 test_that("object types relate as expected", {
   atts_d <- attributes(st_reg_1)
   

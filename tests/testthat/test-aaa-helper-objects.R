@@ -1,5 +1,5 @@
 # Some objects for use throughout unit tests.
-context("helpers")
+library(recipes)
 
 # Stacks
 # ------------------------------------------------------------------------
