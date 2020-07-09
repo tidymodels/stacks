@@ -1,3 +1,6 @@
+# Load these objects when running unit tests, but not on load_all. :-)
+if (! interactive() || ! any(grepl("\\bload_all\\b", as.character(sys.calls()[1])))) {
+
 # Some objects for use throughout unit tests.
 library(recipes)
 
@@ -91,3 +94,4 @@ reg_res_svm_new_folds <-
     grid = 5,
     control = control_stack_grid()
   )
+}

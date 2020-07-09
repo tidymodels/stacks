@@ -32,7 +32,7 @@ with all other variables in \link[palmerpenguins:penguins]{palmerpenguins::pengu
 }
 
 \examples{
-
+\donttest{
 # put together a data stack
 st <- 
   stacks() \%>\%
@@ -43,5 +43,5 @@ st <-
 # evaluate the data stack
 st \%>\%
   stack_blend()
-
+}
 }

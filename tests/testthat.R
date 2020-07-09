@@ -1,5 +1,5 @@
 library(testthat)
-library(stack)
+library(stacks)
 library(recipes)
 
-test_check("stack")
+test_check("stacks")

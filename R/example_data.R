@@ -21,8 +21,8 @@
 #' The source code for generating these objects is given below.
 #' 
 #' @examples 
-#' \dontrun{
-#' devtools::load_all()
+#' \donttest{
+#' library(stacks)
 #' library(tune)
 #' library(rsample)
 #' library(parsnip)

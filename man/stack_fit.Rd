@@ -7,6 +7,13 @@
 stack_fit(model_stack, data = NULL, ...)
 }
 \arguments{
+\item{model_stack}{A \code{model_stack} object outputted by \code{stack_blend()} or
+\code{stack_fit()}}
+
+\item{data}{The data used in generating the original tuning/fitting results.
+Can generally be extracted from the \code{model_stack} object, so defaults to
+\code{NULL}.}
+
 \item{...}{Additional arguments. Currently ignored.}
 }
 \value{
@@ -28,7 +35,7 @@ with all other variables in \link[palmerpenguins:penguins]{palmerpenguins::pengu
 }
 
 \examples{
-
+\donttest{
 # put together a data stack
 st <- 
   stacks() \%>\%
@@ -40,5 +47,5 @@ st <-
 st \%>\%
   stack_blend() \%>\%
   stack_fit()
-
+}
 }

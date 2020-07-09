@@ -1,7 +1,7 @@
 # This script implements some basic model definition for use in examples and tests.
 
 # setup: packages, data, resample, basic recipe ------------------------
-devtools::load_all()
+library(stacks)
 library(tune)
 library(rsample)
 library(parsnip)

@@ -14,7 +14,7 @@
 #' @template note_example_data
 #' 
 #' @examples 
-#' \dontrun{
+#' \donttest{
 #' # put together a data stack
 #' st <- 
 #'   stacks() %>%
