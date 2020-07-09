@@ -13,11 +13,16 @@ Authors@R: c(
     person("RStudio", 
            role = "cph")
     )
-Description: What the package does (one paragraph).
+Description: `stacks` provides an API for model stacking/ensembling that
+    aligns with existing functionality from the `tidymodels` packages. The 
+    package contains functions that combine fitted resampling objects to form 
+    models that generate predictions informed by many, diverse statistical 
+    models.
 License: MIT + file LICENSE
 Depends:
     R (>= 2.10)
 Imports:
+    tune (>= 0.1.1),
     dplyr (>= 0.8.5),
     rlang (>= 0.4.0),
     tibble (>= 2.1.3),
@@ -32,7 +37,6 @@ Imports:
     glue,
     generics,
     ggplot2,
-    tune,
     glmnet,
     rsample
 Suggests: 
