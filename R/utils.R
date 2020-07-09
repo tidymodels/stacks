@@ -10,9 +10,19 @@ utils::globalVariables(c(
   ":=",
   ".",
   ".config",
+  ".metric",
   ".pred",
   "as.formula",
-  "stack"
+  "coef",
+  "estimate",
+  "id",
+  "name",
+  "name.x",
+  "new",
+  "setNames",
+  "stack",
+  "terms",
+  "value"
 ))
 
 # Checks and Prompts

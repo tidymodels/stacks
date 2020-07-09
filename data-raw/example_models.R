@@ -2,7 +2,12 @@
 
 # setup: packages, data, resample, basic recipe ------------------------
 devtools::load_all()
-library(tidymodels)
+library(tune)
+library(rsample)
+library(parsnip)
+library(workflows)
+library(recipes)
+library(yardstick)
 data("penguins", package = "palmerpenguins")
 
 penguins <- penguins[!is.na(penguins$sex),]

@@ -8,5 +8,6 @@ notes/
 ^codecov\.yml$
 ^\.github$
 README.Rmd
-^inst$
+inst/figs
 ^CODE_OF_CONDUCT\.md$
+..Rcheck

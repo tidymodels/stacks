@@ -1,6 +1,5 @@
 #' Fit model stack members
 #' 
-#' @inheritParams stack_add
 # @param n The total number of sub-models to incorporate in the stack.
 # @param replace Logical—whether to sample the sub-models to incorporate
 # in the stack with replacement.
@@ -8,6 +7,13 @@
 # before initiating subset selection.
 # @param bag_p Numeric in (0, 1]—the proportion of models in the bag at
 # each iteration.
+#
+#' @param model_stack A `model_stack` object outputted by `stack_blend()` or
+#'   `stack_fit()`
+#' @param data The data used in generating the original tuning/fitting results.
+#'   Can generally be extracted from the `model_stack` object, so defaults to 
+#'   `NULL`.
+#' @inheritParams stacks
 #' @return A `model_stack` object with a subclass inherited from the chosen
 #' `*_stack` method---this fitted model contains the 
 #' necessary components to predict on new data.
@@ -15,7 +21,7 @@
 #' @template note_example_data
 #' 
 #' @examples 
-#' 
+#' \dontrun{
 #' # put together a data stack
 #' st <- 
 #'   stacks() %>%
@@ -27,11 +33,7 @@
 #' st %>%
 #'   stack_blend() %>%
 #'   stack_fit()
-#' 
-# ensemble <- stacks() %>% 
-# stack_add(reg_res_svm) %>% 
-# stack_add(reg_res_lr) %>% 
-# stack_blend()
+#' }
 #' @export
 stack_fit <- function(model_stack, data = NULL, ...) {
   

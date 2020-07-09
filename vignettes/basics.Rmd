@@ -25,8 +25,18 @@ In this article, we'll be working through an example of the basic workflow of mo
 
 The package is closely integrated with the rest of the functionality in tidymodels—we'll load those packages as well. 
 
-```{r setup}
+```{r setup, eval = FALSE}
 library(tidymodels)
+library(stacks)
+```
+
+```{r packages, include = FALSE}
+library(tune)
+library(rsample)
+library(parsnip)
+library(workflows)
+library(recipes)
+library(yardstick)
 library(stacks)
 ```
 

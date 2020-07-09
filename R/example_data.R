@@ -23,7 +23,11 @@
 #' @examples 
 #' \dontrun{
 #' devtools::load_all()
-#' library(tidymodels)
+#' library(tune)
+#' library(rsample)
+#' library(parsnip)
+#' library(workflows)
+#' library(recipes)
 #' data("penguins", package = "palmerpenguins")
 #' 
 #' penguins <- penguins[!is.na(penguins$sex),]

@@ -14,7 +14,7 @@
 #' @template note_example_data
 #' 
 #' @examples 
-#' 
+#' \dontrun{
 #' # put together a data stack
 #' st <- 
 #'   stacks() %>%
@@ -25,11 +25,7 @@
 #' # evaluate the data stack
 #' st %>%
 #'   stack_blend()
-#' 
-# data_stack <- 
-#   stacks() %>% 
-#   stack_add(class_res_nn) %>% 
-#   stack_add(class_res_rf)
+#' }
 #' @export
 stack_blend <- function(data_stack, ...) {
   preds_formula <- 

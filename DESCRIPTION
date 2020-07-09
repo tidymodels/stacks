@@ -29,7 +29,6 @@ Imports:
     purrr (>= 0.3.2), 
     parsnip (>= 0.0.4),
     recipes,
-    rsample,
     yardstick,
     tidyr,
     dials,
@@ -38,7 +37,8 @@ Imports:
     generics,
     ggplot2,
     glmnet,
-    rsample
+    rsample,
+    stringi
 Suggests: 
     testthat,
     workflows (>= 0.1.0),
