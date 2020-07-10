@@ -15,34 +15,49 @@
 #' @export predict.model_stack
 #' @export
 predict.model_stack <- function(object, new_data, type = NULL, opts = list(), ...) {
-  # predict using each member model
-  predictions <- 
-    purrr::map(
-      object[["member_fits"]],
-      predict,
-      new_data = new_data,
-      type = type,
-      opts = opts
-    ) %>%
-    purrr::map(dplyr::pull) %>%
-    tibble::as_tibble()
-  
-  # extract the stacking coefficients
+  type <- check_pred_type(object, type)
+  mode <- object[["mode"]]
+    
   coefs <- 
     .get_glmn_coefs(object[["coefs"]][["fit"]]) %>%
     dplyr::select(terms, estimate)
   
   do.call(
-    paste0("predict_stack_", object[["mode"]]),
+    paste0("predict_", object[["mode"]], "_", type),
     list(
-      predictions = predictions,
+      model_stack = object,
       coefs = coefs,
-      model_stack = object
+      new_data = new_data,
+      opts = opts
     )
   )
 }
 
-predict_stack_regression <- function(predictions, coefs, model_stack) {
+check_pred_type <- function(object, type) {
+  if (is.null(type)) {
+    if (object[["mode"]] == "regression") {
+      type <- "numeric"
+    } else {
+      type <- "class"
+    }
+  }
+  
+  type
+}
+
+predict_regression_numeric <- function(model_stack, coefs, new_data, opts, ...) {
+  # predict using each member model
+  predictions <- 
+    purrr::map(
+      model_stack[["member_fits"]],
+      predict,
+      new_data = new_data,
+      type = "numeric",
+      opts = opts
+    ) %>%
+    purrr::map(dplyr::pull) %>%
+    tibble::as_tibble()
+  
   term_coefs <-
     coefs %>%
     dplyr::filter(estimate !=0 & terms != "(Intercept)") %>%
@@ -61,32 +76,65 @@ predict_stack_regression <- function(predictions, coefs, model_stack) {
   res
 }
 
-predict_stack_classification <- function(predictions, coefs, model_stack) {
+predict_classification_class <- function(model_stack, coefs, new_data, opts, ...) {
+  predictions <- 
+    purrr::map(
+      model_stack[["member_fits"]],
+      predict,
+      new_data = new_data,
+      type = "class",
+      opts = opts
+    ) %>%
+    purrr::map(dplyr::pull) %>%
+    tibble::as_tibble()
+  
+  # needs a voting / tie-breaking procedure
+}
+
+predict_classification_prob <- function(model_stack, coefs, new_data, opts, ...) {
   cols_map_tibble <-
     tibble::enframe(model_stack[["cols_map"]]) %>% 
-    tidyr::unnest(cols = value)
-  
-  term_coefs <-
-    coefs %>%
-    dplyr::filter(estimate !=0 & terms != "(Intercept)") %>%
-    dplyr::left_join(cols_map_tibble, c("terms" = "value")) %>%
+    tidyr::unnest(cols = value) %>%
     dplyr::mutate(sanitize_classification_names(
       model_stack, 
-      terms
+      value
     )) %>%
     dplyr::select(
       model = name,
       member = new,
-      terms,
-      estimate
-    ) %>%
-    tidyr::pivot_wider(values_from = estimate, names_from = terms)
-}
+      term = value
+    )
   
-
-
-
-
-
-
-
+  term_coefs <-
+    coefs %>%
+    dplyr::filter(estimate !=0 & terms != "(Intercept)")
+  
+  predictions <- 
+    purrr::map(
+      model_stack[["member_fits"]],
+      predict,
+      new_data = new_data,
+      type = "prob",
+      opts = opts
+    ) %>%
+    purrr::map(tibble::rowid_to_column) %>%
+    tibble::enframe() %>%
+    tidyr::unnest(cols = value) %>%
+    tidyr::pivot_longer(
+      cols = contains(".pred"), 
+      names_to = "pred_class",
+      values_to  = "estimate"
+    ) %>%
+    tidyr::unite("term", c(pred_class, name), sep = "_", remove = FALSE) %>%
+    dplyr::inner_join(term_coefs, by = c("term" = "terms")) %>%
+    dplyr::mutate(weighted_est = estimate.x * estimate.y) %>%
+    dplyr::select(rowid, name, pred_class, weighted_est) %>%
+    dplyr::group_by(rowid, pred_class) %>%
+    dplyr::summarize(pred_class_sum = sum(weighted_est), .groups = "drop") %>%
+    dplyr::group_by(rowid) %>%
+    dplyr::filter(pred_class_sum == max(pred_class_sum)) %>%
+    dplyr::pull(pred_class) %>%
+    stringi::stri_replace_all_fixed(".pred_", "")
+  
+  predictions
+}
