@@ -32,6 +32,17 @@ predict.model_stack <- function(object, new_data, type = NULL, opts = list(), ..
     .get_glmn_coefs(object[["coefs"]][["fit"]]) %>%
     dplyr::select(terms, estimate)
   
+  do.call(
+    paste0("predict_stack_", object[["mode"]]),
+    list(
+      predictions = predictions,
+      coefs = coefs,
+      model_stack = object
+    )
+  )
+}
+
+predict_stack_regression <- function(predictions, coefs, model_stack) {
   term_coefs <-
     coefs %>%
     dplyr::filter(estimate !=0 & terms != "(Intercept)") %>%
@@ -49,3 +60,33 @@ predict.model_stack <- function(object, new_data, type = NULL, opts = list(), ..
   
   res
 }
+
+predict_stack_classification <- function(predictions, coefs, model_stack) {
+  cols_map_tibble <-
+    tibble::enframe(model_stack[["cols_map"]]) %>% 
+    tidyr::unnest(cols = value)
+  
+  term_coefs <-
+    coefs %>%
+    dplyr::filter(estimate !=0 & terms != "(Intercept)") %>%
+    dplyr::left_join(cols_map_tibble, c("terms" = "value")) %>%
+    dplyr::mutate(sanitize_classification_names(
+      model_stack, 
+      terms
+    )) %>%
+    dplyr::select(
+      model = name,
+      member = new,
+      terms,
+      estimate
+    ) %>%
+    tidyr::pivot_wider(values_from = estimate, names_from = terms)
+}
+  
+
+
+
+
+
+
+
