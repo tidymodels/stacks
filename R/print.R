@@ -3,22 +3,21 @@ print.data_stack <- function(x, ...) {
   mode <- attr(x, "mode")
   
   if (mode == "regression") {
-    n_members <- if (ncol(x) == 0) {0} else {ncol(x) - 1}
+    n_members <- ncol(x) - 1
     n_model_defs <- length(attr(x, "model_defs"))
     outcome_name <- colnames(x)[1]
     submodel_lengths <- purrr::map(attr(x, "cols_map"), length)
     model_names <- names(attr(x, "cols_map"))
   } else if (mode == "classification") {
     n_groups <- length(unique(dplyr::pull(attr(x, "train")[,.get_outcome(x)])))
-    n_members <- if (ncol(x) == 0) {0} else {
-      (ncol(x) - 1) / n_groups
-    }
+    n_members <- (ncol(x) - 1) / n_groups
     n_model_defs <- length(attr(x, "model_defs"))
     outcome_name <- colnames(x)[1]
     submodel_lengths <- 
       purrr::map_dbl(attr(x, "cols_map"), length) / n_groups
     model_names <- names(attr(x, "cols_map"))
   } else {
+    n_members <- 0
     n_groups <- n_members <- n_model_defs <- submodel_lengths <- 0
     outcome_name <- model_names <- NULL
   }
