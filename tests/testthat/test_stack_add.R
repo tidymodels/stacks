@@ -65,6 +65,18 @@ test_that("stack won't add bad members", {
     st_reg_1 %>% stack_add(reg_res_svm_renamed),
     "new candidate member 'reg_res_svm_renamed' is the same as the existing"
   )
+  
+  expect_error(
+    st_reg_1 %>% stack_add(log_res_nn),
+    "has outcome variable sex, while the stack's outcome variable is body_mass_g"
+  )
+  
+  st_reg_1_new_train <- st_reg_1
+  attr(st_reg_1_new_train, "train") <- attr(st_reg_1, "train")[-1,]
+  expect_error(
+    st_reg_1_new_train %>% stack_add(reg_res_lr),
+    "member, `reg_res_lr`, uses different training data"
+  )
 })
 
 test_that("model definition naming works as expected", {

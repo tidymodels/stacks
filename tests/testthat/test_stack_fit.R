@@ -2,7 +2,7 @@ context("stack_fit")
 
 test_that("basic stack_fit works", {
   expect_silent(
-    st_reg_1_ %>% stack_fit()
+    st_reg_1 %>% stack_add(reg_res_lr) %>% stack_blend() %>% stack_fit()
   )
   
   expect_silent(

@@ -42,12 +42,9 @@ glue_message <- function(..., .sep = "", .envir = parent.frame()) {
 check_chr <- function(x) {
   cl <- match.call()
   
-  if (is.null(x)) {
-    glue_stop("Element `{cl$x}` should not be NULL.")
-  }
-  
   if (!is.character(x)) {
-    glue_stop("Element `{cl$x}` should be a character string.")
+    glue_stop("Element `{cl$x}` should be a character string, but is of ",
+              "class {list(class(x))}.")
   }
   
   invisible(TRUE)
@@ -131,12 +128,14 @@ check_inherits <- function(x, what) {
   new_mode <- wf_spec$mode
   old_mode <- attr(stack, "mode")
   
-  if (!old_mode %in% c("init_", new_mode)) {
-    glue_stop(
-      "The current mode for the stack is {old_mode}, while the mode for the ",
-      "newly added candidate member `{name}` is {new_mode}."
-    )
-  }
+  # For now, this check is redundant with existing checks on training dats
+  # and outcome variable name.
+  # if (!old_mode %in% c("init_", new_mode)) {
+  #   glue_stop(
+  #     "The current mode for the stack is {old_mode}, while the mode for the ",
+  #     "newly added candidate member `{name}` is {new_mode}."
+  #   )
+  # }
   
   attr(stack, "mode") <- new_mode
   
@@ -255,15 +254,6 @@ check_inherits <- function(x, what) {
 
 # Misc. Utilities
 # ------------------------------------------------------------------------
-
-# more easily arranged names (from recipes)
-names0 <- function(num, prefix = "x") {
-  if (num < 1)
-    rlang::abort("`num` should be > 0.")
-  ind <- format(1:num)
-  ind <- gsub(" ", "0", ind)
-  paste0(prefix, ind)
-}
 
 # logs which columns in the data stack came from which candidates
 log_resample_cols <- function(stack, candidate_cols, name) {
