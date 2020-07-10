@@ -13,6 +13,8 @@ test_that("basic stack_fit works", {
     st_log_1_ %>% stack_fit()
   )
   
+  # This is functionality that modeltime depends on.
+  # Drop a note in #2 if this changes. :-)
   expect_false(!is.null(st_reg_1_[["member_fits"]]))
   expect_false( is.null(st_reg_1__[["member_fits"]]))
   
