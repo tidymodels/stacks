@@ -138,3 +138,20 @@ predict_classification_prob <- function(model_stack, coefs, new_data, opts, ...)
   
   predictions
 }
+
+#' @importFrom generics augment
+#' @export
+generics::augment
+
+# A barebones augment method to help with testing.
+#' @method augment model_stack
+#' @export augment.model_stack
+augment.model_stack <- function(x, data = x[["train"]], ...) {
+  data$.fitted <- predict(x, data)
+  
+  data
+}
+
+
+
+
