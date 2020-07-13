@@ -11,8 +11,9 @@
 
 \item{new_data}{A rectangular data object, such as a data frame.}
 
-\item{type}{Format of returned predicted values—passed on to
-\link[parsnip:predict.model_fit]{parsnip::predict.model_fit} for each member.}
+\item{type}{Format of returned predicted values—one of "numeric", "class",
+"prob", or "members". When NULL, \code{predict()} will
+choose an appropriate value based on the model's mode.}
 
 \item{opts}{A list of optional arguments to the underlying predict
 function passed on to \link[parsnip:predict.model_fit]{parsnip::predict.model_fit} for each member.}

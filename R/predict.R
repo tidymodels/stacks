@@ -4,8 +4,9 @@
 #'
 #' @param object A model stack with fitted members.
 #' @param new_data A rectangular data object, such as a data frame.
-#' @param type Format of returned predicted values—passed on to 
-#'   [parsnip::predict.model_fit] for each member.
+#' @param type Format of returned predicted values—one of "numeric", "class",
+#'   "prob", or "members". When NULL, `predict()` will
+#'   choose an appropriate value based on the model's mode.
 #' @param opts A list of optional arguments to the underlying predict 
 #'   function passed on to [parsnip::predict.model_fit] for each member.
 #' @inheritParams stacks
@@ -47,6 +48,28 @@ check_pred_type <- function(object, type) {
 
 predict_regression_numeric <- function(model_stack, coefs, new_data, opts, ...) {
   # predict using each member model
+  prediction_members <- 
+    predict_regression_members(model_stack, coefs, new_data, opts, ...)
+  
+  term_coefs <-
+    coefs %>%
+    dplyr::filter(estimate !=0 & terms != "(Intercept)") %>%
+    tidyr::pivot_wider(values_from = estimate, names_from = terms)
+  
+  # multiply the predictions by the appropriate coefficients
+  predictions <- 
+    mapply("*", prediction_members, term_coefs) %>%
+    rowSums() %>%
+    `+`(
+      coefs %>%
+        dplyr::filter(terms == "(Intercept)") %>%
+        dplyr::pull()
+    )
+  
+  predictions
+}
+
+predict_regression_members <- function(model_stack, coefs, new_data, opts, ...) {
   predictions <- 
     purrr::map(
       model_stack[["member_fits"]],
@@ -58,22 +81,7 @@ predict_regression_numeric <- function(model_stack, coefs, new_data, opts, ...) 
     purrr::map(dplyr::pull) %>%
     tibble::as_tibble()
   
-  term_coefs <-
-    coefs %>%
-    dplyr::filter(estimate !=0 & terms != "(Intercept)") %>%
-    tidyr::pivot_wider(values_from = estimate, names_from = terms)
-  
-  # multiply the predictions by the appropriate coefficients
-  res <- 
-    mapply("*", predictions, term_coefs) %>%
-    rowSums() %>%
-    `+`(
-      coefs %>%
-        dplyr::filter(terms == "(Intercept)") %>%
-        dplyr::pull()
-    )
-  
-  res
+  predictions
 }
 
 predict_classification_prob <- function(model_stack, coefs, new_data, opts, ...) {
@@ -131,7 +139,6 @@ predict_classification_prob <- function(model_stack, coefs, new_data, opts, ...)
   predictions
 }
 
-
 predict_classification_class <- function(model_stack, coefs, new_data, opts, ...) {
   prediction_probs <- 
     predict_classification_prob(
@@ -142,7 +149,7 @@ predict_classification_class <- function(model_stack, coefs, new_data, opts, ...
       ...
     )
   
-  res <- 
+  predictions <- 
     prediction_probs %>%
     tibble::rowid_to_column() %>%
     tidyr::pivot_longer(cols = c(dplyr::everything(), -rowid)) %>%
@@ -151,6 +158,23 @@ predict_classification_class <- function(model_stack, coefs, new_data, opts, ...
     dplyr::arrange(rowid) %>%
     dplyr::pull(name) %>%
     stringi::stri_replace_all_fixed(".pred_", "")
+  
+  predictions
+}
+
+predict_classification_members <- function(model_stack, coefs, new_data, opts, ...) {
+  predictions <- 
+    purrr::map(
+      model_stack[["member_fits"]],
+      predict,
+      new_data = new_data,
+      type = "class",
+      opts = opts
+    ) %>%
+    purrr::map(dplyr::pull) %>%
+    tibble::as_tibble()
+  
+  predictions
 }
 
 #' @importFrom generics augment
@@ -165,7 +189,3 @@ augment.model_stack <- function(x, data = x[["train"]], ...) {
   
   data
 }
-
-
-
-
