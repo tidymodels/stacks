@@ -76,21 +76,6 @@ predict_regression_numeric <- function(model_stack, coefs, new_data, opts, ...) 
   res
 }
 
-predict_classification_class <- function(model_stack, coefs, new_data, opts, ...) {
-  predictions <- 
-    purrr::map(
-      model_stack[["member_fits"]],
-      predict,
-      new_data = new_data,
-      type = "class",
-      opts = opts
-    ) %>%
-    purrr::map(dplyr::pull) %>%
-    tibble::as_tibble()
-  
-  # needs a voting / tie-breaking procedure
-}
-
 predict_classification_prob <- function(model_stack, coefs, new_data, opts, ...) {
   cols_map_tibble <-
     tibble::enframe(model_stack[["cols_map"]]) %>% 
@@ -132,11 +117,40 @@ predict_classification_prob <- function(model_stack, coefs, new_data, opts, ...)
     dplyr::group_by(rowid, pred_class) %>%
     dplyr::summarize(pred_class_sum = sum(weighted_est), .groups = "drop") %>%
     dplyr::group_by(rowid) %>%
-    dplyr::filter(pred_class_sum == max(pred_class_sum)) %>%
-    dplyr::pull(pred_class) %>%
-    stringi::stri_replace_all_fixed(".pred_", "")
+    dplyr::mutate(pred_class_sum_norm = pred_class_sum / sum(pred_class_sum)) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(-pred_class_sum) %>%
+    tidyr::pivot_wider(
+      id_cols = c(rowid), 
+      names_from = pred_class, 
+      values_from = pred_class_sum_norm
+    ) %>%
+    dplyr::arrange(rowid) %>%
+    dplyr::select(-rowid)
   
   predictions
+}
+
+
+predict_classification_class <- function(model_stack, coefs, new_data, opts, ...) {
+  prediction_probs <- 
+    predict_classification_prob(
+      model_stack,
+      coefs,
+      new_data,
+      opts,
+      ...
+    )
+  
+  res <- 
+    prediction_probs %>%
+    tibble::rowid_to_column() %>%
+    tidyr::pivot_longer(cols = c(dplyr::everything(), -rowid)) %>%
+    dplyr::group_by(rowid) %>%
+    dplyr::filter(value == max(value)) %>%
+    dplyr::arrange(rowid) %>%
+    dplyr::pull(name) %>%
+    stringi::stri_replace_all_fixed(".pred_", "")
 }
 
 #' @importFrom generics augment
