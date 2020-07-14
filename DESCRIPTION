@@ -47,7 +47,8 @@ Suggests:
     knitr,
     rmarkdown,
     palmerpenguins,
-    ranger
+    ranger,
+    keras
 Remotes: 
     tidymodels/tune,
     allisonhorst/palmerpenguins
