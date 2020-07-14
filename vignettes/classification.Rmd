@@ -1,0 +1,194 @@
+---
+title: "Classification Models With stacks"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{basics}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+In this article, we'll use the stacks package to predict species of penguins using a stacked ensemble on the `palmerpenguins` data. This vignette assumes that you're familiar with tidymodels "proper," as well as the basic grammar of the package, and have seen it implemented on numeric data; if this is not the case, check out the "Getting Started With stacks" vignette!
+
+First, loading packages and data as before
+
+The package is closely integrated with the rest of the functionality in tidymodels—we'll load those packages as well. 
+
+```{r setup, eval = FALSE}
+library(tidymodels)
+library(stacks)
+```
+
+```{r packages, include = FALSE}
+library(tune)
+library(rsample)
+library(parsnip)
+library(workflows)
+library(recipes)
+library(yardstick)
+library(stacks)
+```
+
+We'll make use of the `palmerpenguins::penguins` data, giving measurements taken from three different species of penguins from three different antarctic islands! We'll be predicting penguins species using the rest of the predictors in the data.
+
+```{r, message = FALSE, warning = FALSE}
+library(palmerpenguins)
+data("penguins")
+
+str(penguins)
+
+penguins <- penguins[!is.na(penguins$sex),]
+```
+
+Loading a few tidyverse packages to evaluate our results later on:
+
+```{r, message = FALSE, warning = FALSE}
+library(ggplot2)
+library(dplyr)
+library(purrr)
+```
+
+# Defining candidate ensemble members
+
+As in the numeric prediction setting, defining the candidate ensemble members is undoubtedly the longest part of the ensembling process with stacks. First, splitting up the training data, generating resamples, and setting some options that will be used by each model definition.
+
+```{r}
+# some setup: resampling and a basic recipe
+set.seed(1)
+
+penguins_split <- initial_split(penguins)
+penguins_train <- training(penguins_split)
+penguins_test  <- testing(penguins_split)
+
+folds <- rsample::vfold_cv(penguins_train, v = 5)
+
+penguins_rec <- 
+  recipe(species ~ ., data = penguins_train) %>%
+  step_dummy(all_nominal(), -species) %>%
+  step_zv(all_predictors())
+
+penguins_wflow <- 
+  workflow() %>% 
+  add_recipe(penguins_rec)
+
+metric <- metric_set(roc_auc)
+```
+
+Note that we now use the ROC AUC metric rather than root mean squared error (as in the numeric response setting)—any yardstick metric with classification functionality would work here.
+
+We also need to use the same control settings as in the numeric response setting:
+
+```{r}
+ctrl_grid <- control_stack_grid()
+```
+
+We'll define two different model definitions to try to predict species—a random forest and a neural network.
+
+Starting out with a random forest:
+
+```{r, message = FALSE, warning = FALSE}
+rand_forest_spec <- 
+  rand_forest(
+    mtry = tune(),
+    min_n = tune(),
+    trees = 500
+  ) %>%
+  set_mode("classification") %>%
+  set_engine("ranger")
+
+rand_forest_wflow <-
+  penguins_wflow %>%
+  add_model(rand_forest_spec)
+
+rand_forest_res <- 
+  tune_grid(
+    object = rand_forest_wflow, 
+    resamples = folds, 
+    grid = 10,
+    control = ctrl_grid
+  )
+```
+
+Now, moving on to the neural network model definition:
+
+```{r, message = FALSE, warning = FALSE}
+nnet_spec <-
+  mlp(hidden_units = tune(), dropout = tune(), epochs = 100) %>%
+  set_mode("classification") %>%
+  set_engine("keras", verbose = 0)
+
+nnet_wflow <- 
+  penguins_wflow %>%
+  add_model(nnet_spec)
+
+nnet_res <-
+  tune_grid(
+    object = nnet_wflow, 
+    resamples = folds, 
+    grid = 10,
+    control = ctrl_grid
+  )
+```
+
+With these model definitions fully specified, we're ready to start putting together an ensemble!
+
+# Putting together a stack
+
+Building the stacked ensemble, now, only takes a few lines:
+
+```{r, message = FALSE, warning = FALSE}
+penguins_model_st <- 
+  # initialize the stack
+  stacks() %>%
+  # add candidate members
+  stack_add(rand_forest_res) %>%
+  stack_add(nnet_res) %>%
+  # determine how to combine their predictions
+  stack_blend() %>%
+  # fit the candidates with nonzero stacking coefficients
+  stack_fit()
+
+penguins_model_st
+```
+
+This object is now ready to predict with new data!
+
+```{r}
+penguins_test <- 
+  penguins_test %>%
+  bind_cols(predict(penguins_model_st, ., type = "prob"))
+```
+
+Computing the ROC AUC for the model:
+
+```{r}
+yardstick::roc_auc(
+  penguins_test,
+  truth = species,
+  contains(".pred_")
+  )
+```
+
+Looks like our predictions were pretty strong! How do the stacks predictions perform, though, as compared to the members' predictions? We can use the `type = "members"` argument to generate predictions from each of the ensemble members.
+
+```{r}
+member_preds <- 
+  penguins_test %>%
+  select(species, stack_preds) %>%
+  bind_cols(predict(penguins_model_st, penguins_test, type = "members"))
+```
+
+Now, evaluating the ROC AUC from each model:
+
+```{r}
+map_dfr(member_preds, rmse, truth = body_mass_g, data = member_preds) %>%
+  mutate(member = colnames(member_preds))
+```
+
+Voila! You've now made use of the stacks package to predict penguin species using a stacked ensemble!  

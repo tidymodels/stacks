@@ -76,7 +76,7 @@ penguins_split <- initial_split(penguins)
 penguins_train <- training(penguins_split)
 penguins_test  <- testing(penguins_split)
 
-folds <- rsample::vfold_cv(penguins_train, v = 3)
+folds <- rsample::vfold_cv(penguins_train, v = 5)
 
 penguins_rec <- 
   recipe(body_mass_g ~ ., data = penguins_train) %>%
@@ -99,7 +99,7 @@ ctrl_grid <- control_stack_grid()
 ctrl_res <- control_stack_resamples()
 ```
 
-We'll fit three different models to try to predict bill length—a linear model, a spline model (with hyperparameters to tune), and a support vector machine model (again, with hyperparameters to tune).
+We'll define three different model definitions to try to predict body mass—a linear model, a spline model (with hyperparameters to tune), and a support vector machine model (again, with hyperparameters to tune).
 
 Starting out with linear regression:
 
@@ -124,7 +124,7 @@ lin_reg_res <-
 
 Since this model definition only has one sub-model, we use `fit_resamples()` rather than `tune_grid()`.
 
-Now, moving on to the spline model:
+Now, moving on to the spline model definition:
 
 ```{r}
 # modify the recipe and use the same linear reg spec
