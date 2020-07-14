@@ -4,7 +4,7 @@
 \alias{predict.model_stack}
 \title{Model predictions}
 \usage{
-\method{predict}{model_stack}(object, new_data, type = NULL, opts = list(), ...)
+\method{predict}{model_stack}(object, new_data, type = NULL, members = FALSE, opts = list(), ...)
 }
 \arguments{
 \item{object}{A model stack with fitted members.}
@@ -12,8 +12,11 @@
 \item{new_data}{A rectangular data object, such as a data frame.}
 
 \item{type}{Format of returned predicted values—one of "numeric", "class",
-"prob", or "members". When NULL, \code{predict()} will
+or "prob". When NULL, \code{predict()} will
 choose an appropriate value based on the model's mode.}
+
+\item{members}{Logical. Whether or not to additionally return the predictions
+for each of the ensemble members.}
 
 \item{opts}{A list of optional arguments to the underlying predict
 function passed on to \link[parsnip:predict.model_fit]{parsnip::predict.model_fit} for each member.}
