@@ -1,7 +1,14 @@
 
-<!-- [![Codecov test coverage](https://codecov.io/gh/tidymodels/stacks/branch/main/graph/badge.svg)](https://codecov.io/gh/tidymodels/stacks?branch=main)  -->
+<!-- badges: start -->
 
-<!-- [![R build status](https://github.com/tidymodels/stacks/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/stacks/actions) -->
+[![R build
+status](https://github.com/simonpcouch/stacks/workflows/R-CMD-check/badge.svg)](https://github.com/simonpcouch/stacks/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/tidymodels/stacks/branch/main/graph/badge.svg)](https://codecov.io/gh/tidymodels/stacks?branch=main)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/stacks)](https://CRAN.R-project.org/package=stacks)
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-blue.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+<!-- badges: end -->
 
 ## stacks - tidy model stacking
 
