@@ -23,3 +23,32 @@ function passed on to \link[parsnip:predict.model_fit]{parsnip::predict.model_fi
 \description{
 Apply a model stack to create different types of predictions.
 }
+\examples{
+\donttest{
+# build and fit a regression model stack
+reg_st <-
+  stacks() \%>\%
+  stack_add(reg_res_lr) \%>\%
+  stack_add(reg_res_sp) \%>\%
+  stack_blend() \%>\%
+  stack_fit()
+
+# predict on the penguins data
+predict(reg_st, penguins)
+
+# build and fit a classification model stack
+class_st <-
+  stacks() \%>\%
+  stack_add(class_res_nn) \%>\%
+  stack_add(class_res_rf) \%>\%
+  stack_blend() \%>\%
+  stack_fit()
+
+# predict species, first as a class, then as
+# class probabilities
+predict(class_st, penguins)
+predict(class_st, penguins, type = "prob")
+}
+
+
+}
