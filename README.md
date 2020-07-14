@@ -1,7 +1,7 @@
 
-<!-- [![Codecov test coverage](https://codecov.io/gh/simonpcouch/stacks/branch/main/graph/badge.svg)](https://codecov.io/gh/simonpcouch/stacks?branch=main)  -->
+<!-- [![Codecov test coverage](https://codecov.io/gh/tidymodels/stacks/branch/main/graph/badge.svg)](https://codecov.io/gh/tidymodels/stacks?branch=main)  -->
 
-<!-- [![R build status](https://github.com/simonpcouch/stacks/workflows/R-CMD-check/badge.svg)](https://github.com/simonpcouch/stacks/actions) -->
+<!-- [![R build status](https://github.com/tidymodels/stacks/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/stacks/actions) -->
 
 ## stacks - tidy model stacking
 
@@ -31,7 +31,7 @@ You can install the (unstable) development version of this package with
 the following code\!
 
 ``` r
-remotes::install_github("simonpcouch/stacks")
+remotes::install_github("tidymodels/stacks")
 ```
 
 Rather than diving right into the implementation, we’ll focus here on

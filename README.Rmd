@@ -2,8 +2,8 @@
 output: github_document
 ---
 
-<!-- [![Codecov test coverage](https://codecov.io/gh/simonpcouch/stacks/branch/main/graph/badge.svg)](https://codecov.io/gh/simonpcouch/stacks?branch=main)  -->
-<!-- [![R build status](https://github.com/simonpcouch/stacks/workflows/R-CMD-check/badge.svg)](https://github.com/simonpcouch/stacks/actions) -->
+<!-- [![Codecov test coverage](https://codecov.io/gh/tidymodels/stacks/branch/main/graph/badge.svg)](https://codecov.io/gh/tidymodels/stacks?branch=main)  -->
+<!-- [![R build status](https://github.com/tidymodels/stacks/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/stacks/actions) -->
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -25,7 +25,7 @@ The process goes something like this:
 You can install the (unstable) development version of this package with the following code!
 
 ```{r, eval = FALSE}
-remotes::install_github("simonpcouch/stacks")
+remotes::install_github("tidymodels/stacks")
 ```
 
 Rather than diving right into the implementation, we'll focus here on how the pieces fit together, conceptually, in building an ensemble with `stacks`. See the `basics` vignette for an example of the API in action!
