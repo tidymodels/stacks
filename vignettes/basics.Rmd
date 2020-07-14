@@ -1,8 +1,8 @@
 ---
-title: "stacks"
+title: "Getting Started With stacks"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{stacks}
+  %\VignetteIndexEntry{basics}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-In this article, we'll be working through an example of the basic workflow of model stacking with the stacks package. If you're unfamiliar with the language used in this vignette, please see the package README. At a high level, the workflow looks something like this:
+In this article, we'll be working through an example of the workflow of model stacking with the stacks package. If you're unfamiliar with the language used in this vignette, please see the package README. At a high level, the workflow looks something like this:
 
 1. Define candidate ensemble members using functionality from rsample, parsnip, workflows, recipes, and tune
 2. Initialize a `data_stack` object with `stacks()`  
@@ -40,15 +40,23 @@ library(yardstick)
 library(stacks)
 ```
 
-In this example, we'll make use of the `palmerpenguins::penguins` data, giving measurements taken from three different species of penguins from three different antarctic islands! We'll start out with predicting bill length based on other attributes.
+In this example, we'll make use of the `palmerpenguins::penguins` data, giving measurements taken from three different species of penguins from three different antarctic islands! We'll start out with predicting body mass based on other attributes.
 
-```{r}
+```{r, message = FALSE, warning = FALSE}
 library(palmerpenguins)
 data("penguins")
 
 str(penguins)
 
 penguins <- penguins[!is.na(penguins$sex),]
+```
+
+Finally, we'll load a few tidyverse packages to evaluate our results later on.
+
+```{r, message = FALSE, warning = FALSE}
+library(ggplot2)
+library(dplyr)
+library(purrr)
 ```
 
 # Define candidate ensemble members
@@ -201,7 +209,7 @@ That's it! We're now ready to evaluate how it is that we need to combine predict
 
 The outputs from each of these candidate ensemble members are highly correlated, so the `stack_blend` method performs regularization to figure out how we can combine the outputs from the stack members to come up with a final prediction.
 
-```{r, eval = FALSE}
+```{r}
 penguins_model_st <-
   penguins_data_st %>%
   stack_blend()
@@ -209,10 +217,45 @@ penguins_model_st <-
 
 The `stack_blend` function determines how member model output will ultimately be combined in the final prediction. Now that we know how to combine our model output, we can fit the models that we now know we need.
 
-```{r, eval = FALSE}
+```{r}
 penguins_model_st <-
   penguins_model_st %>%
   stack_fit()
 ```
 
-This object is now ready to predict with new data!
+This object is now ready to predict with new data! 
+
+```{r}
+penguins_test <- 
+  penguins_test %>%
+  mutate(stack_preds = predict(penguins_model_st, .))
+```
+
+Juxtaposing the predictions with the true data:
+
+```{r}
+ggplot(penguins_test) +
+  aes(x = body_mass_g, 
+      y = stack_preds) +
+  geom_point()
+```
+
+Looks like our predictions were pretty strong! How do the stacks predictions perform, though, as compared to the members' predictions? We can use the `type = "members"` argument to generate predictions from each of the ensemble members.
+
+```{r}
+member_preds <- 
+  penguins_test %>%
+  select(body_mass_g, stack_preds) %>%
+  bind_cols(predict(penguins_model_st, penguins_test, type = "members"))
+```
+
+Now, evaluating the root mean squared error from each model:
+
+```{r}
+map_dfr(member_preds, rmse, truth = body_mass_g, data = member_preds) %>%
+  mutate(member = colnames(member_preds))
+```
+As we can see, the stacked ensemble outperforms each of the member models, though is closely followed by one of the spline members.
+
+Voila! You've now made use of the stacks package to predict penguin body mass using a stacked ensemble!  
+
