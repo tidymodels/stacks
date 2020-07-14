@@ -65,10 +65,6 @@ stack_blend <- function(data_stack, ...) {
         recipes::recipe(
           preds_formula, 
           tibble::as_tibble(data_stack)
-          ) %>% 
-          recipes::step_dummy(
-            recipes::all_nominal(), 
-            -outcome
           )
       ) %>%
       workflows::add_model(model_spec)
