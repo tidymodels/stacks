@@ -46,7 +46,8 @@ Suggests:
     kernlab,
     knitr,
     rmarkdown,
-    palmerpenguins
+    palmerpenguins,
+    ranger
 Remotes: 
     tidymodels/tune,
     allisonhorst/palmerpenguins

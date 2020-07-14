@@ -2,7 +2,7 @@
 title: "Classification Models With stacks"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{classification}
+  %\VignetteIndexEntry{Classification Models With stacks}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
