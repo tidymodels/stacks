@@ -119,7 +119,7 @@ Now, moving on to the neural network model definition:
 
 ```{r, message = FALSE, warning = FALSE}
 nnet_spec <-
-  mlp(hidden_units = tune(), dropout = tune(), epochs = 100) %>%
+  mlp(hidden_units = tune(), dropout = .1, epochs = 100) %>%
   set_mode("classification") %>%
   set_engine("keras", verbose = 0)
 
@@ -131,7 +131,7 @@ nnet_res <-
   tune_grid(
     object = nnet_wflow, 
     resamples = folds, 
-    grid = 10,
+    grid = 5,
     control = ctrl_grid
   )
 ```
@@ -160,7 +160,7 @@ penguins_model_st
 This object is now ready to predict with new data!
 
 ```{r, eval = FALSE}
-penguins_test <- 
+penguins_pred <- 
   penguins_test %>%
   bind_cols(predict(penguins_model_st, ., type = "prob"))
 ```
@@ -169,26 +169,26 @@ Computing the ROC AUC for the model:
 
 ```{r, eval = FALSE}
 yardstick::roc_auc(
-  penguins_test,
+  penguins_pred,
   truth = species,
   contains(".pred_")
   )
 ```
 
-Looks like our predictions were pretty strong! How do the stacks predictions perform, though, as compared to the members' predictions? We can use the `type = "members"` argument to generate predictions from each of the ensemble members.
+Looks like our predictions were pretty strong! How do the stacks predictions perform, though, as compared to the members' predictions? We can use the `members` argument to generate predictions from each of the ensemble members.
 
-```{r, eval = FALSE}
-member_preds <- 
+```{r}
+penguins_pred <- 
   penguins_test %>%
-  select(species, stack_preds) %>%
-  bind_cols(predict(penguins_model_st, penguins_test, type = "members"))
-```
-
-Now, evaluating the ROC AUC from each model:
-
-```{r, eval = FALSE}
-map_dfr(member_preds, rmse, truth = body_mass_g, data = member_preds) %>%
-  mutate(member = colnames(member_preds))
+  select(species) %>%
+  bind_cols(
+    predict(
+      penguins_model_st,
+      penguins_test, 
+      type = "class",
+      members = TRUE
+      )
+    )
 ```
 
 Voila! You've now made use of the stacks package to predict penguin species using a stacked ensemble!  
