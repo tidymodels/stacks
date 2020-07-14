@@ -23,6 +23,16 @@ function passed on to \link[parsnip:predict.model_fit]{parsnip::predict.model_fi
 \description{
 Apply a model stack to create different types of predictions.
 }
+\section{Example Data}{
+
+
+See \code{?example_data} to learn more about the \code{lin_reg_res},
+\code{reg_res_svm}, and \code{reg_res_sp} objects used in the examples below.
+Long story short, they're resample objects outputted from
+\code{\link[tune:fit_resamples]{tune::fit_resamples()}} or \code{\link[tune:tune_grid]{tune::tune_grid()}} fitting \code{body_mass_g}
+with all other variables in \link[palmerpenguins:penguins]{palmerpenguins::penguins} as predictors!
+}
+
 \examples{
 \donttest{
 # build and fit a regression model stack
@@ -49,6 +59,5 @@ class_st <-
 predict(class_st, penguins)
 predict(class_st, penguins, type = "prob")
 }
-
 
 }

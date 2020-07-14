@@ -210,9 +210,16 @@ predict_classification_members <- function(model_stack, coefs, new_data, opts, .
 #' @export
 generics::augment
 
-# A barebones augment method to help with testing.
+#' A barebones augment method to help with testing.
+#' 
+#' @param x A `model_stack` object
+#' @param data A `data.frame`-like object to collect predictions on.
+#' @inheritParams stacks
+#' 
+#' @importFrom generics augment
 #' @method augment model_stack
 #' @export augment.model_stack
+#' @export
 augment.model_stack <- function(x, data = x[["train"]], ...) {
   data$.fitted <- predict(x, data)
   

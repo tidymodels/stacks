@@ -14,15 +14,23 @@ utils::globalVariables(c(
   ".pred",
   "as.formula",
   "coef",
+  "contains",
   "estimate",
+  "estimate.x",
+  "estimate.y",
   "id",
   "name",
   "name.x",
   "new",
+  "pred_class",
+  "pred_class_sum",
+  "pred_class_sum_norm",
+  "rowid",
   "setNames",
   "stack",
   "terms",
-  "value"
+  "value",
+  "weighted_est"
 ))
 
 # Checks and Prompts

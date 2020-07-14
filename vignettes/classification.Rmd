@@ -2,7 +2,7 @@
 title: "Classification Models With stacks"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{basics}
+  %\VignetteIndexEntry{classification}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -159,7 +159,7 @@ penguins_model_st
 
 This object is now ready to predict with new data!
 
-```{r}
+```{r, eval = FALSE}
 penguins_test <- 
   penguins_test %>%
   bind_cols(predict(penguins_model_st, ., type = "prob"))
@@ -167,7 +167,7 @@ penguins_test <-
 
 Computing the ROC AUC for the model:
 
-```{r}
+```{r, eval = FALSE}
 yardstick::roc_auc(
   penguins_test,
   truth = species,
@@ -177,7 +177,7 @@ yardstick::roc_auc(
 
 Looks like our predictions were pretty strong! How do the stacks predictions perform, though, as compared to the members' predictions? We can use the `type = "members"` argument to generate predictions from each of the ensemble members.
 
-```{r}
+```{r, eval = FALSE}
 member_preds <- 
   penguins_test %>%
   select(species, stack_preds) %>%
@@ -186,7 +186,7 @@ member_preds <-
 
 Now, evaluating the ROC AUC from each model:
 
-```{r}
+```{r, eval = FALSE}
 map_dfr(member_preds, rmse, truth = body_mass_g, data = member_preds) %>%
   mutate(member = colnames(member_preds))
 ```
