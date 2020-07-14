@@ -38,6 +38,11 @@ stack_blend <- function(data_stack, ...) {
       parsnip::set_engine("glmnet", lower.limits = 0)
     
     metric <- yardstick::metric_set(yardstick::rmse)
+    
+    preds_wf <-
+      workflows::workflow() %>%
+      workflows::add_model(model_spec) %>%
+      workflows::add_formula(preds_formula)
   } else {
     if (length(unique(dplyr::pull(tibble::as_tibble(data_stack)[,1]))) == 2) {
       model_spec <-
@@ -51,12 +56,27 @@ stack_blend <- function(data_stack, ...) {
         parsnip::set_mode("classification")
     }
     metric <- yardstick::metric_set(yardstick::roc_auc)
+    
+    outcome <- attr(data_stack, "outcome")
+    
+    preds_wf <- 
+      workflows::workflow() %>%
+      workflows::add_recipe(
+        recipes::recipe(
+          preds_formula, 
+          tibble::as_tibble(data_stack)
+          ) %>% 
+          recipes::step_dummy(
+            recipes::all_nominal(), 
+            -outcome
+          )
+      ) %>%
+      workflows::add_model(model_spec)
   }
   
   candidates <- 
-    model_spec %>%
+    preds_wf %>%
     tune::tune_grid(
-      preds_formula,
       resamples = rsample::bootstraps(tibble::as_tibble(data_stack)),
       grid = tibble::tibble(penalty = 10 ^ (-6:-1)),
       metrics = metric,
