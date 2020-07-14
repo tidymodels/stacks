@@ -10,7 +10,9 @@
 \alias{class_res_rf}
 \alias{log_res_nn}
 \alias{log_res_rf}
-\title{Example Data}
+\alias{penguins_train}
+\alias{penguins_test}
+\title{Example Objects}
 \format{
 An object of class \code{tune_results} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 5 columns.
 
@@ -25,6 +27,14 @@ An object of class \code{tune_results} (inherits from \code{tbl_df}, \code{tbl},
 An object of class \code{resample_results} (inherits from \code{tune_results}, \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 5 columns.
 
 An object of class \code{tune_results} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 5 columns.
+}
+\source{
+Gorman KB, Williams TD, Fraser WR (2014) Ecological Sexual Dimorphism
+and Environmental Variability within a Community of Antarctic Penguins
+(\emph{Genus Pygoscelis}). PLoS ONE 9(3): e90081.
+\url{https://doi.org/10.1371/journal.pone.0090081}
+
+\url{https://github.com/allisonhorst/palmerpenguins}
 }
 \usage{
 reg_res_svm
@@ -42,35 +52,39 @@ log_res_nn
 log_res_rf
 }
 \description{
-This package provides some workflow and resampling objects for use in examples
-and tests.
+This package provides some resampling objects and datasets for use in examples
+and vignettes derived from a dataset giving measurements on 333 penguins near
+Palmer Station, Antarctica.
 }
 \details{
-\link{reg_res_lr}, \link{reg_res_svm}, and \link{reg_res_sp} contain regression tuning results
+\code{penguins_train} and \code{penguins_test} are training and testing datasets, which
+are subsets of data retrieved from Allison Horst's \code{palmerpenguins} package.
+
+\code{reg_res_lr}, \code{reg_res_svm}, and \code{reg_res_sp} contain regression tuning results
 for a linear regression, support vector machine, and spline model, respectively,
 fitting \code{body_mass_g} in the \code{palmerpenguins::penguins} data
 using all of the other variables as predictors.
 
-\link{class_res_rf} and \link{class_res_nn}, contain multiclass classification tuning
+\code{class_res_rf} and \code{class_res_nn}, contain multiclass classification tuning
 results for a random forest and neural network classification model,
 respectively, fitting \code{species} in the \code{palmerpenguins::penguins}
 data using all of the other variables as predictors.
 
-\link{log_res_rf} and \link{log_res_nn}, contain binary classification tuning results
+\code{log_res_rf} and \code{log_res_nn}, contain binary classification tuning results
 for a random forest and neural network classification model, respectively,
 fitting \code{sex} in the \code{palmerpenguins::penguins} data
 using all of the other variables as predictors.
 
 The source code for generating these objects is given below.
-}
-\examples{
-\donttest{
+
+\if{html}{\out{<div class="r">}}\preformatted{# setup: packages, data, resample, basic recipe ------------------------
 library(stacks)
 library(tune)
 library(rsample)
 library(parsnip)
 library(workflows)
 library(recipes)
+library(yardstick)
 data("penguins", package = "palmerpenguins")
 
 penguins <- penguins[!is.na(penguins$sex),]
@@ -254,6 +268,6 @@ log_res_nn <-
     resamples = folds, 
     control = ctrl_res
   )
-}
+}\if{html}{\out{</div>}}
 }
 \keyword{datasets}

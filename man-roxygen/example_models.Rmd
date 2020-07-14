@@ -1,5 +1,4 @@
-# This script implements some basic model definition for use in examples and tests.
-
+```{r, eval = FALSE}
 # setup: packages, data, resample, basic recipe ------------------------
 library(stacks)
 library(tune)
@@ -191,8 +190,10 @@ log_res_nn <-
     resamples = folds, 
     control = ctrl_res
   )
+```
 
-# save workflows and resamples -------------------------------------
+```{r, eval = FALSE, include = FALSE}
+# save resamples -------------------------------------
 usethis::use_data(reg_res_lr, overwrite = TRUE)
 usethis::use_data(reg_res_svm, overwrite = TRUE)
 usethis::use_data(reg_res_sp, overwrite = TRUE)
@@ -200,3 +201,6 @@ usethis::use_data(class_res_rf, overwrite = TRUE)
 usethis::use_data(class_res_nn, overwrite = TRUE)
 usethis::use_data(log_res_rf, overwrite = TRUE)
 usethis::use_data(log_res_nn, overwrite = TRUE)
+usethis::use_data(penguins_train, overwrite = TRUE)
+usethis::use_data(penguins_test, overwrite = TRUE)
+```
