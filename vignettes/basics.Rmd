@@ -228,7 +228,7 @@ This object is now ready to predict with new data!
 ```{r}
 penguins_test <- 
   penguins_test %>%
-  mutate(stack_preds = predict(penguins_model_st, .))
+  bind_cols(predict(penguins_model_st, .))
 ```
 
 Juxtaposing the predictions with the true data:
@@ -236,7 +236,7 @@ Juxtaposing the predictions with the true data:
 ```{r}
 ggplot(penguins_test) +
   aes(x = body_mass_g, 
-      y = stack_preds) +
+      y = .pred) +
   geom_point()
 ```
 
@@ -245,8 +245,8 @@ Looks like our predictions were pretty strong! How do the stacks predictions per
 ```{r}
 member_preds <- 
   penguins_test %>%
-  select(body_mass_g, stack_preds) %>%
-  bind_cols(predict(penguins_model_st, penguins_test, type = "members"))
+  select(body_mass_g) %>%
+  bind_cols(predict(penguins_model_st, penguins_test, members = TRUE))
 ```
 
 Now, evaluating the root mean squared error from each model:
