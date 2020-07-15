@@ -20,19 +20,35 @@
 #' @template note_example_data
 #' 
 #' @examples 
-#' 
-#' # initialize a stack and add some candidate members
-#' st <- 
+#' \donttest{
+#' # put together a data stack using
+#' # tuning results for regression models
+#' reg_st <- 
 #'   stacks() %>%
 #'   stack_add(reg_res_lr) %>%
 #'   stack_add(reg_res_svm) %>%
 #'   stack_add(reg_res_sp)
 #'   
-#' # do the same with classification models
-#' st2 <- 
+#' # do the same with multinomial classification models
+#' class_st <-
 #'   stacks() %>%
 #'   stack_add(class_res_nn) %>%
-#'   stack_add(class_res_rf)  
+#'   stack_add(class_res_rf)
+#'   
+#' # ...or binomial classification models
+#' log_st <-
+#'   stacks() %>%
+#'   stack_add(log_res_nn) %>%
+#'   stack_add(log_res_rf)
+#'   
+#' # use custom names for each model:
+#' log_st2 <-
+#'   stacks() %>%
+#'   stack_add(log_res_nn, name = "neural_network") %>%
+#'   stack_add(log_res_rf, name = "random_forest")
+#' }
+#' 
+#' @family core verbs
 #' @export
 stack_add <- function(data_stack, candidates,
                            name = deparse(substitute(candidates)), ...) {

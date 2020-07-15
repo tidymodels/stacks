@@ -13,7 +13,7 @@
 #' 
 #' @return A `data_stack` object.
 #' 
-#' @seealso [stack_add()]
+#' @family core verbs
 #' 
 #' @export
 stacks <- function(...) {

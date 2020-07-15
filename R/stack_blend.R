@@ -16,17 +16,32 @@
 #' @examples 
 #' \donttest{
 #' # put together a data stack
-#' st <- 
+#' reg_st <- 
 #'   stacks() %>%
 #'   stack_add(reg_res_lr) %>%
 #'   stack_add(reg_res_svm) %>%
 #'   stack_add(reg_res_sp)
-#'   
+#'
 #' # evaluate the data stack
-#' st %>%
+#' reg_st %>%
+#'   stack_blend()
+#'   
+#' # do the same with multinomial classification models
+#' class_st <-
+#'   stacks() %>%
+#'   stack_add(class_res_nn) %>%
+#'   stack_add(class_res_rf) %>%
+#'   stack_blend()
+#'   
+#' # ...or binomial classification models
+#' log_st <-
+#'   stacks() %>%
+#'   stack_add(log_res_nn) %>%
+#'   stack_add(log_res_rf) %>%
 #'   stack_blend()
 #' }
 #' 
+#' @family core verbs
 #' @export
 stack_blend <- function(data_stack, ...) {
   preds_formula <- 

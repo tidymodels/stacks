@@ -23,18 +23,35 @@
 #' @examples 
 #' \donttest{
 #' # put together a data stack
-#' st <- 
+#' reg_st <- 
 #'   stacks() %>%
 #'   stack_add(reg_res_lr) %>%
 #'   stack_add(reg_res_svm) %>%
 #'   stack_add(reg_res_sp)
 #'
 #' # evaluate the data stack and fit the member models
-#' st %>%
+#' reg_st %>%
+#'   stack_blend() %>%
+#'   stack_fit()
+#'   
+#' # do the same with multinomial classification models
+#' class_st <-
+#'   stacks() %>%
+#'   stack_add(class_res_nn) %>%
+#'   stack_add(class_res_rf) %>%
+#'   stack_blend() %>%
+#'   stack_fit()
+#'   
+#' # ...or binomial classification models
+#' log_st <-
+#'   stacks() %>%
+#'   stack_add(log_res_nn) %>%
+#'   stack_add(log_res_rf) %>%
 #'   stack_blend() %>%
 #'   stack_fit()
 #' }
 #' 
+#' @family core verbs
 #' @export
 stack_fit <- function(model_stack, data = NULL, ...) {
   

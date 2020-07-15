@@ -29,15 +29,53 @@ Apply a model stack to create different types of predictions.
 \section{Example Data}{
 
 
-See \code{?example_data} to learn more about the \code{lin_reg_res},
-\code{reg_res_svm}, and \code{reg_res_sp} objects used in the examples below.
-Long story short, they're resample objects outputted from
-\code{\link[tune:fit_resamples]{tune::fit_resamples()}} or \code{\link[tune:tune_grid]{tune::tune_grid()}} fitting \code{body_mass_g}
-with all other variables in \link[palmerpenguins:penguins]{palmerpenguins::penguins} as predictors!
+These examples make use of data and resampling objects exported with the
+package. All of them are derived from test cases making use of the
+\code{penguins} dataset from Allison Horst's \code{palmerpenguins} package.
+
+The \code{penguins_train} and \code{penguins_test} objects are subsets of the
+penguins data for using in training and testing, respectively.
+
+Objects containing the substring \verb{_res_} are \code{tune_results} objects
+for model specifications. The \code{reg} prefix indicates that the model
+definition is for use in regression, \code{class} indicates multinomial
+classification, and \code{log} (as in logistic) indicates binomial classification.
+The suffix indicates the model definition type. All of these \code{tune_results}
+objects are fitted on a 5-fold cross validation of the \code{penguins_train} data.
+
+For the regression setting, these \code{tune_results} objects reflect
+models specified to fit \code{body_mass_g} using all of the other variables
+as predictors. These objects include:
+\itemize{
+\item \code{reg_res_lr}: Fitted resamples for a linear regression model
+\item \code{reg_res_sp}: Tuning results for a splines model
+\item \code{reg_res_svm}: Tuning results for a support vector machine model
+}
+
+In the multinomial classification setting, the relevant objects reflect
+models specified to fit \code{island} using all of the other variables as
+predictors. These objects include:
+\itemize{
+\item \code{class_res_nn}: Fitted resamples for a neural network model
+\item \code{class_res_rf}: Tuning results for a random forest model
+}
+
+In the binomial classification setting, the relevant objects reflect models
+specified to fit \code{sex} using all of the other variables as predictors.
+These objects include:
+\itemize{
+\item \code{log_res_nn}: Fitted resamples for a neural network model
+\item \code{log_res_rf}: Tuning results for a random forest model
+}
+
+See \code{?example_data} to learn more about these objects, as well as browse
+the source code that generated them.
 }
 
 \examples{
 \donttest{
+data(penguins_test)
+
 # build and fit a regression model stack
 reg_st <-
   stacks() \%>\%
@@ -46,8 +84,11 @@ reg_st <-
   stack_blend() \%>\%
   stack_fit()
 
-# predict on the penguins data
-predict(reg_st, penguins)
+# predict on the penguins testing data
+predict(reg_st, penguins_test)
+
+# include the predictions from the members
+predict(reg_st, penguins_test, members = TRUE)
 
 # build and fit a classification model stack
 class_st <-
@@ -59,8 +100,8 @@ class_st <-
 
 # predict species, first as a class, then as
 # class probabilities
-predict(class_st, penguins)
-predict(class_st, penguins, type = "prob")
+predict(class_st, penguins_test)
+predict(class_st, penguins_test, type = "prob")
 }
 
 }

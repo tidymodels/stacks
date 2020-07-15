@@ -23,5 +23,9 @@ along a few extra attributes to keep track of model definitions, resamples,
 and training data.
 }
 \seealso{
-\code{\link[=stack_add]{stack_add()}}
+Other core verbs: 
+\code{\link{stack_add}()},
+\code{\link{stack_blend}()},
+\code{\link{stack_fit}()}
 }
+\concept{core verbs}

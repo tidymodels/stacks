@@ -17,6 +17,8 @@
 #'
 #' @examples 
 #' \donttest{
+#' data(penguins_test)
+#' 
 #' # build and fit a regression model stack
 #' reg_st <-
 #'   stacks() %>%
@@ -25,8 +27,11 @@
 #'   stack_blend() %>%
 #'   stack_fit()
 #' 
-#' # predict on the penguins data
-#' predict(reg_st, penguins)
+#' # predict on the penguins testing data
+#' predict(reg_st, penguins_test)
+#' 
+#' # include the predictions from the members
+#' predict(reg_st, penguins_test, members = TRUE)
 #' 
 #' # build and fit a classification model stack
 #' class_st <-
@@ -38,8 +43,8 @@
 #' 
 #' # predict species, first as a class, then as
 #' # class probabilities
-#' predict(class_st, penguins)
-#' predict(class_st, penguins, type = "prob")
+#' predict(class_st, penguins_test)
+#' predict(class_st, penguins_test, type = "prob")
 #' }
 #'
 #' @importFrom stats predict
