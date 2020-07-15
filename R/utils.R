@@ -375,7 +375,17 @@ sanitize_classification_names <- function(model_stack, member_names) {
 # takes in a workflow and returns a minimal workflow for
 # use in the stack
 stack_workflow <- function(x) {
-  workflows::workflow() %>%
-    workflows::add_model(workflows::pull_workflow_spec(x)) %>%
-    workflows::add_recipe(workflows::pull_workflow_preprocessor(x))
+  res <-
+    workflows::workflow() %>%
+    workflows::add_model(workflows::pull_workflow_spec(x))
+  
+  pre <- workflows::pull_workflow_preprocessor(x)
+  
+  if (inherits(pre, "formula")) {
+    res <- res %>% add_formula(pre)
+  } else {
+    res <- res %>% add_recipe(pre)
+  }
+   
+  res
 }
