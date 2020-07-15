@@ -35,7 +35,6 @@
 #'   stack_fit()
 #' }
 #' 
-#' @importFrom recipes all_nominal
 #' @export
 stack_fit <- function(model_stack, data = NULL, ...) {
   

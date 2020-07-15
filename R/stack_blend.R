@@ -27,7 +27,6 @@
 #'   stack_blend()
 #' }
 #' 
-#' @importFrom recipes all_nominal
 #' @export
 stack_blend <- function(data_stack, ...) {
   preds_formula <- 

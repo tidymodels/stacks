@@ -382,9 +382,9 @@ stack_workflow <- function(x) {
   pre <- workflows::pull_workflow_preprocessor(x)
   
   if (inherits(pre, "formula")) {
-    res <- res %>% add_formula(pre)
+    res <- res %>% workflows::add_formula(pre)
   } else {
-    res <- res %>% add_recipe(pre)
+    res <- res %>% workflows::add_recipe(pre)
   }
    
   res
