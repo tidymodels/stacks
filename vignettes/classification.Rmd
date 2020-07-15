@@ -18,11 +18,13 @@ In this article, we'll use the stacks package to predict species of penguins usi
 
 First, loading packages and data as before
 
-The package is closely integrated with the rest of the functionality in tidymodels—we'll load those packages as well. 
+The package is closely integrated with the rest of the functionality in tidymodels—we'll load those packages as well, in addition to a few tidyverse packages to evaluate our results later on. 
 
 ```{r setup, eval = FALSE}
 library(tidymodels)
 library(stacks)
+library(purrr)
+library(dplyr)
 ```
 
 ```{r packages, include = FALSE}
@@ -33,6 +35,8 @@ library(workflows)
 library(recipes)
 library(yardstick)
 library(stacks)
+library(purrr)
+library(dplyr)
 ```
 
 We'll make use of the `palmerpenguins::penguins` data, giving measurements taken from three different species of penguins from three different antarctic islands! We'll be predicting penguins species using the rest of the predictors in the data.
@@ -46,13 +50,18 @@ str(penguins)
 penguins <- penguins[!is.na(penguins$sex),]
 ```
 
-Loading a few tidyverse packages to evaluate our results later on:
+Let's plot the data to get a sense for how separable these three species groups are.
 
 ```{r, message = FALSE, warning = FALSE}
 library(ggplot2)
-library(dplyr)
-library(purrr)
+
+ggplot(penguins) +
+  aes(x = bill_length_mm, y = bill_depth_mm, color = species) +
+  geom_point() +
+  labs(x = "Bill Length (mm)", y = "Bill Depth (mm)", col = "Species")
 ```
+
+Just with these two predictors, it seems like we can already separate these species pretty well! Let's see how well the stacked ensemble can classify these penguins.
 
 # Defining candidate ensemble members
 

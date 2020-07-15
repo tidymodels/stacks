@@ -23,11 +23,13 @@ In this article, we'll be working through an example of the workflow of model st
 5. Fit candidate ensemble members with non-zero stacking coefficients with `stack_fit()`  
 6. Predict on new data with `predict()`!  
 
-The package is closely integrated with the rest of the functionality in tidymodels—we'll load those packages as well. 
+The package is closely integrated with the rest of the functionality in tidymodels—we'll load those packages as well, in addition to some tidyverse packages to evaluate our results later on.
 
 ```{r setup, eval = FALSE}
 library(tidymodels)
 library(stacks)
+library(dplyr)
+library(purrr)
 ```
 
 ```{r packages, include = FALSE}
@@ -38,6 +40,8 @@ library(workflows)
 library(recipes)
 library(yardstick)
 library(stacks)
+library(dplyr)
+library(purrr)
 ```
 
 In this example, we'll make use of the `palmerpenguins::penguins` data, giving measurements taken from three different species of penguins from three different antarctic islands! We'll start out with predicting body mass based on other attributes.
@@ -51,13 +55,17 @@ str(penguins)
 penguins <- penguins[!is.na(penguins$sex),]
 ```
 
-Finally, we'll load a few tidyverse packages to evaluate our results later on.
+Taking a quick look at the data, it seems like penguins' body mass is pretty closely related to some of our predictors!
 
 ```{r, message = FALSE, warning = FALSE}
 library(ggplot2)
-library(dplyr)
-library(purrr)
+
+ggplot(penguins) +
+  aes(x = body_mass_g, y = flipper_length_mm, color = species) +
+  geom_point() +
+  labs(x = "Body Mass (g)", y = "Flipper Length (mm)", col = "Species")
 ```
+Let's give this a go!
 
 # Define candidate ensemble members
 
