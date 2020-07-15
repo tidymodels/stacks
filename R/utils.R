@@ -19,6 +19,7 @@ utils::globalVariables(c(
   "estimate.x",
   "estimate.y",
   "id",
+  "member",
   "name",
   "name.x",
   "new",
