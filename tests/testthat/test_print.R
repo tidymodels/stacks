@@ -22,7 +22,7 @@ test_that("data stack printing works", {
   )
   expect_output(
     print(st_class_1__), 
-    "# A fitted model stack with 2 members:\\n#   class_res_rf2, class_res_rf3"
+    "# A fitted model stack with 3 members:\\n#   class_res_rf02"
   )
   
   expect_output(

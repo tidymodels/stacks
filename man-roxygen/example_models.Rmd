@@ -34,7 +34,7 @@ folds <- vfold_cv(penguins_train, v = 5)
 penguins_reg_rec <- 
   recipe(body_mass_g ~ ., data = penguins_train) %>%
   step_dummy(recipes::all_nominal()) %>%
-  step_zv(all_predictors())
+  step_zv(recipes::all_predictors())
 
 metric <- metric_set(rmse)
 
@@ -101,8 +101,8 @@ reg_res_sp <-
 penguins_class_rec <- 
   recipe(island ~ ., data = penguins_train) %>%
   step_dummy(recipes::all_nominal(), -island) %>%
-  step_zv(all_predictors()) %>%
-  step_normalize(all_numeric())
+  step_zv(recipes::all_predictors()) %>%
+  step_normalize(recipes::all_numeric())
 
 # random forest classification --------------------------------------
 rand_forest_spec <- 
@@ -149,8 +149,8 @@ class_res_nn <-
 penguins_2_class_rec <- 
   recipe(sex ~ ., data = penguins_train) %>%
   step_dummy(recipes::all_nominal(), -sex) %>%
-  step_zv(all_predictors()) %>%
-  step_normalize(all_numeric())
+  step_zv(recipes::all_predictors()) %>%
+  step_normalize(recipes::all_numeric())
 
 rand_forest_spec_2 <- 
   rand_forest(
