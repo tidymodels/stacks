@@ -67,7 +67,7 @@ using all of the other variables as predictors.
 
 \code{class_res_rf} and \code{class_res_nn}, contain multiclass classification tuning
 results for a random forest and neural network classification model,
-respectively, fitting \code{species} in the \code{palmerpenguins::penguins}
+respectively, fitting \code{island} in the \code{palmerpenguins::penguins}
 data using all of the other variables as predictors.
 
 \code{log_res_rf} and \code{log_res_nn}, contain binary classification tuning results
@@ -177,8 +177,8 @@ reg_res_sp <-
 
 # classification - preliminaries -----------------------------------
 penguins_class_rec <- 
-  recipe(species ~ ., data = penguins_train) \%>\%
-  step_dummy(recipes::all_nominal(), -species) \%>\%
+  recipe(island ~ ., data = penguins_train) \%>\%
+  step_dummy(recipes::all_nominal(), -island) \%>\%
   step_zv(all_predictors()) \%>\%
   step_normalize(all_numeric())
 

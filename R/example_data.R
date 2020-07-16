@@ -14,7 +14,7 @@
 #' 
 #' `class_res_rf` and `class_res_nn`, contain multiclass classification tuning 
 #' results for a random forest and neural network classification model, 
-#' respectively, fitting \code{species} in the \code{palmerpenguins::penguins} 
+#' respectively, fitting \code{island} in the \code{palmerpenguins::penguins} 
 #' data using all of the other variables as predictors.
 #' 
 #' `log_res_rf` and `log_res_nn`, contain binary classification tuning results

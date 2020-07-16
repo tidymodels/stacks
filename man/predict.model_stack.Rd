@@ -106,7 +106,7 @@ class_st <-
  
 class_st
 
-# predict species, first as a class, then as
+# predict island, first as a class, then as
 # class probabilities
 predict(class_st, penguins_test)
 predict(class_st, penguins_test, type = "prob")

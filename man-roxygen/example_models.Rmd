@@ -99,8 +99,8 @@ reg_res_sp <-
 
 # classification - preliminaries -----------------------------------
 penguins_class_rec <- 
-  recipe(species ~ ., data = penguins_train) %>%
-  step_dummy(recipes::all_nominal(), -species) %>%
+  recipe(island ~ ., data = penguins_train) %>%
+  step_dummy(recipes::all_nominal(), -island) %>%
   step_zv(all_predictors()) %>%
   step_normalize(all_numeric())
 

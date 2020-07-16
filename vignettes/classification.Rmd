@@ -14,9 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-In this article, we'll use the stacks package to predict species of penguins using a stacked ensemble on the `palmerpenguins` data. This vignette assumes that you're familiar with tidymodels "proper," as well as the basic grammar of the package, and have seen it implemented on numeric data; if this is not the case, check out the "Getting Started With stacks" vignette!
-
-First, loading packages and data as before
+In this article, we'll use the stacks package to predict the island that penguins come from using a stacked ensemble on the `palmerpenguins` data. This vignette assumes that you're familiar with tidymodels "proper," as well as the basic grammar of the package, and have seen it implemented on numeric data; if this is not the case, check out the "Getting Started With stacks" vignette!
 
 The package is closely integrated with the rest of the functionality in tidymodels—we'll load those packages as well, in addition to a few tidyverse packages to evaluate our results later on. 
 
@@ -50,18 +48,18 @@ str(penguins)
 penguins <- penguins[!is.na(penguins$sex),]
 ```
 
-Let's plot the data to get a sense for how separable these three species groups are.
+Let's plot the data to get a sense for how separable these three island groups are.
 
 ```{r, message = FALSE, warning = FALSE}
 library(ggplot2)
 
 ggplot(penguins) +
-  aes(x = bill_length_mm, y = bill_depth_mm, color = species) +
+  aes(x = bill_length_mm, y = bill_depth_mm, color = island) +
   geom_point() +
-  labs(x = "Bill Length (mm)", y = "Bill Depth (mm)", col = "Species")
+  labs(x = "Bill Length (mm)", y = "Bill Depth (mm)", col = "island")
 ```
 
-Just with these two predictors, it seems like we can already separate these species pretty well! Let's see how well the stacked ensemble can classify these penguins.
+Just with these two predictors, it seems like we can already start to separate these islands decently well! Let's see how well the stacked ensemble can classify these penguins.
 
 # Defining candidate ensemble members
 
@@ -78,8 +76,8 @@ penguins_test  <- testing(penguins_split)
 folds <- rsample::vfold_cv(penguins_train, v = 5)
 
 penguins_rec <- 
-  recipe(species ~ ., data = penguins_train) %>%
-  step_dummy(all_nominal(), -species) %>%
+  recipe(island ~ ., data = penguins_train) %>%
+  step_dummy(all_nominal(), -island) %>%
   step_zv(all_predictors())
 
 penguins_wflow <- 
@@ -97,7 +95,7 @@ We also need to use the same control settings as in the numeric response setting
 ctrl_grid <- control_stack_grid()
 ```
 
-We'll define two different model definitions to try to predict species—a random forest and a neural network.
+We'll define two different model definitions to try to predict island—a random forest and a neural network.
 
 Starting out with a random forest:
 
@@ -179,7 +177,7 @@ Computing the ROC AUC for the model:
 ```{r, eval = FALSE}
 yardstick::roc_auc(
   penguins_pred,
-  truth = species,
+  truth = island,
   contains(".pred_")
   )
 ```
@@ -189,7 +187,7 @@ Looks like our predictions were pretty strong! How do the stacks predictions per
 ```{r}
 penguins_pred <- 
   penguins_test %>%
-  select(species) %>%
+  select(island) %>%
   bind_cols(
     predict(
       penguins_model_st,
@@ -200,4 +198,4 @@ penguins_pred <-
     )
 ```
 
-Voila! You've now made use of the stacks package to predict penguin species using a stacked ensemble!  
+Voila! You've now made use of the stacks package to predict the island that penguins live on using a stacked ensemble!  
