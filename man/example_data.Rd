@@ -67,7 +67,8 @@ using all of the other variables as predictors.
 
 \code{class_res_rf} and \code{class_res_nn}, contain multiclass classification tuning
 results for a random forest and neural network classification model,
-respectively, fitting \code{island} in the \code{palmerpenguins::penguins}
+respectively, fitting \code{year} (as a factor) in the
+\code{palmerpenguins::penguins}
 data using all of the other variables as predictors.
 
 \code{log_res_rf} and \code{log_res_nn}, contain binary classification tuning results
@@ -88,6 +89,7 @@ library(yardstick)
 data("penguins", package = "palmerpenguins")
 
 penguins <- penguins[!is.na(penguins$sex),]
+penguins$year <- as.factor(penguins$year)
 
 set.seed(1)
 
@@ -177,8 +179,8 @@ reg_res_sp <-
 
 # classification - preliminaries -----------------------------------
 penguins_class_rec <- 
-  recipes::recipe(island ~ ., data = penguins_train) \%>\%
-  recipes::step_dummy(recipes::all_nominal(), -island) \%>\%
+  recipes::recipe(year ~ ., data = penguins_train) \%>\%
+  recipes::step_dummy(recipes::all_nominal(), -year) \%>\%
   recipes::step_zv(recipes::all_predictors()) \%>\%
   recipes::step_normalize(recipes::all_numeric())
 

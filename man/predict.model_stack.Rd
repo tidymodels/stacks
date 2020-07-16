@@ -53,8 +53,8 @@ as predictors. These objects include:
 }
 
 In the multinomial classification setting, the relevant objects reflect
-models specified to fit \code{island} using all of the other variables as
-predictors. These objects include:
+models specified to fit \code{year} (as a factor) using all of the other variables
+as predictors. These objects include:
 \itemize{
 \item \code{class_res_nn}: Fitted resamples for a neural network model
 \item \code{class_res_rf}: Tuning results for a random forest model
@@ -106,7 +106,7 @@ class_st <-
  
 class_st
 
-# predict island, first as a class, then as
+# predict year, first as a class, then as
 # class probabilities
 predict(class_st, penguins_test)
 predict(class_st, penguins_test, type = "prob")

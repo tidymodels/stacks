@@ -10,6 +10,7 @@ library(yardstick)
 data("penguins", package = "palmerpenguins")
 
 penguins <- penguins[!is.na(penguins$sex),]
+penguins$year <- as.factor(penguins$year)
 
 set.seed(1)
 
@@ -99,8 +100,8 @@ reg_res_sp <-
 
 # classification - preliminaries -----------------------------------
 penguins_class_rec <- 
-  recipes::recipe(island ~ ., data = penguins_train) %>%
-  recipes::step_dummy(recipes::all_nominal(), -island) %>%
+  recipes::recipe(year ~ ., data = penguins_train) %>%
+  recipes::step_dummy(recipes::all_nominal(), -year) %>%
   recipes::step_zv(recipes::all_predictors()) %>%
   recipes::step_normalize(recipes::all_numeric())
 
