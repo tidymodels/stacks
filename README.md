@@ -54,14 +54,14 @@ containing a *model specification* (as defined in the parsnip package)
 and, optionally, a *preprocessor* (as defined in the recipes package).
 Model definitions specify the form of candidate ensemble members.
 
-![](inst/figs/model_defs.png)
+![](man/figures/model_defs.png)
 
 To be used in the same ensemble, each of these model definitions must
 share the same *resample*. This rsample `rset` object, when paired with
 the model definitions, can be used to generate the tuning/fitting
 results objects for the candidate *ensemble members* with tune.
 
-![](inst/figs/submodels.png)
+![](man/figures/submodels.png)
 
 The package will sometimes refer to *sub-models*. An ensemble member is
 a sub-model that has actually been selected (and possibly trained) for
@@ -79,7 +79,7 @@ Classification requires as many columns per candidate as there are
 levels in the outcome variable.) They also bring along a few extra
 attributes to keep track of model definitions.
 
-![](inst/figs/data_stack.png)
+![](man/figures/data_stack.png)
 
 Then, the data stack can be evaluated using `stack_blend()` to determine
 to how best to combine the outputs from each of the candidate member
@@ -96,20 +96,20 @@ inputs of (possibly) many of the members will zero out—their predictions
 will have no influence on the final output, and those terms will thus be
 thrown out.
 
-![](inst/figs/coefs.png)
+![](man/figures/coefs.png)
 
 These stacking coefficients decide then which sub-models will be
 ensemble members—sub-models with non-zero stacking coefficients are then
 fitted, altogether making up a `model_stack` object.
 
-![](inst/figs/class_model_stack.png)
+![](man/figures/class_model_stack.png)
 
 This model stack object, outputted from `stack_fit()`, is ready to
 predict on new data\!
 
 At a high level, the process follows these steps:
 
-![](inst/figs/outline.png)
+![](man/figures/outline.png)
 
 The API for the package closely mirrors these ideas. See the `basics`
 vignette for an example of how this grammar is implemented\!
