@@ -74,6 +74,10 @@ the source code that generated them.
 
 \examples{
 \donttest{
+# see the "Example Data" section above for
+# clarification on the data and tuning results
+# objects used in these examples!
+
 data(penguins_test)
 
 # build and fit a regression model stack
@@ -83,6 +87,8 @@ reg_st <-
   stack_add(reg_res_sp) \%>\%
   stack_blend() \%>\%
   stack_fit()
+
+reg_st
 
 # predict on the penguins testing data
 predict(reg_st, penguins_test)
@@ -97,11 +103,21 @@ class_st <-
   stack_add(class_res_rf) \%>\%
   stack_blend() \%>\%
   stack_fit()
+ 
+class_st
 
 # predict species, first as a class, then as
 # class probabilities
 predict(class_st, penguins_test)
 predict(class_st, penguins_test, type = "prob")
+
+# including the member predictions as well
+predict(
+  class_st, 
+  penguins_test, 
+  type = "prob", 
+  members = TRUE
+)
 }
 
 }

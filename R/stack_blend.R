@@ -15,16 +15,23 @@
 #' 
 #' @examples 
 #' \donttest{
+#' # see the "Example Data" section above for
+#' # clarification on the objects used in these examples!
+#' 
 #' # put together a data stack
 #' reg_st <- 
 #'   stacks() %>%
 #'   stack_add(reg_res_lr) %>%
 #'   stack_add(reg_res_svm) %>%
 #'   stack_add(reg_res_sp)
+#'   
+#' reg_st
 #'
 #' # evaluate the data stack
 #' reg_st %>%
 #'   stack_blend()
+#'   
+#' reg_st
 #'   
 #' # do the same with multinomial classification models
 #' class_st <-
@@ -33,12 +40,16 @@
 #'   stack_add(class_res_rf) %>%
 #'   stack_blend()
 #'   
+#' class_st
+#' 
 #' # ...or binomial classification models
 #' log_st <-
 #'   stacks() %>%
 #'   stack_add(log_res_nn) %>%
 #'   stack_add(log_res_rf) %>%
 #'   stack_blend()
+#'   
+#' log_st
 #' }
 #' 
 #' @family core verbs

@@ -22,17 +22,24 @@
 #' 
 #' @examples 
 #' \donttest{
+#' # see the "Example Data" section above for
+#' # clarification on the objects used in these examples!
+#' 
 #' # put together a data stack
 #' reg_st <- 
 #'   stacks() %>%
 #'   stack_add(reg_res_lr) %>%
 #'   stack_add(reg_res_svm) %>%
 #'   stack_add(reg_res_sp)
+#'   
+#' reg_st
 #'
 #' # evaluate the data stack and fit the member models
 #' reg_st %>%
 #'   stack_blend() %>%
 #'   stack_fit()
+#'   
+#' reg_st
 #'   
 #' # do the same with multinomial classification models
 #' class_st <-
@@ -42,6 +49,8 @@
 #'   stack_blend() %>%
 #'   stack_fit()
 #'   
+#' class_st
+#'   
 #' # ...or binomial classification models
 #' log_st <-
 #'   stacks() %>%
@@ -49,6 +58,8 @@
 #'   stack_add(log_res_rf) %>%
 #'   stack_blend() %>%
 #'   stack_fit()
+#'   
+#' log_st
 #' }
 #' 
 #' @family core verbs
