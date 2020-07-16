@@ -52,7 +52,6 @@ Suggests:
     ranger,
     keras
 Remotes: 
-    tidymodels/tune,
     allisonhorst/palmerpenguins
 Encoding: UTF-8
 LazyData: true
