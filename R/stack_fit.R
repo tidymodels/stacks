@@ -64,9 +64,7 @@
 #' @export
 stack_fit <- function(model_stack, verbose = FALSE, ...) {
   
-  if (is.null(data)) {
-    data <- model_stack[["train"]]
-  }
+  dat <- model_stack[["train"]]
   
   # pick out which submodels have nonzero coefs
   member_names <- .get_glmn_coefs(model_stack[["coefs"]][["fit"]]) %>%
@@ -123,7 +121,7 @@ stack_fit <- function(model_stack, verbose = FALSE, ...) {
       fit_member,
       wflows = model_stack[["model_defs"]],
       members_map = members_map,
-      train_dat = data
+      train_dat = dat
     )
   
   model_stack[["member_fits"]] <- 
