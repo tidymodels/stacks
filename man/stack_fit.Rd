@@ -4,15 +4,14 @@
 \alias{stack_fit}
 \title{Fit model stack members}
 \usage{
-stack_fit(model_stack, data = NULL, ...)
+stack_fit(model_stack, verbose = FALSE, ...)
 }
 \arguments{
 \item{model_stack}{A \code{model_stack} object outputted by \code{stack_blend()} or
 \code{stack_fit()}}
 
-\item{data}{The data used in generating the original tuning/fitting results.
-Can generally be extracted from the \code{model_stack} object, so defaults to
-\code{NULL}.}
+\item{verbose}{A logical for logging results as they are generated. Despite
+this argument, warnings and errors are always shown.}
 
 \item{...}{Additional arguments. Currently ignored.}
 }

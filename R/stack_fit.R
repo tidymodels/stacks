@@ -10,10 +10,8 @@
 #
 #' @param model_stack A `model_stack` object outputted by `stack_blend()` or
 #'   `stack_fit()`
-#' @param data The data used in generating the original tuning/fitting results.
-#'   Can generally be extracted from the `model_stack` object, so defaults to 
-#'   `NULL`.
 #' @inheritParams stacks
+#' @inheritParams stack_blend
 #' @return A `model_stack` object with a subclass inherited from the chosen
 #' `*_stack` method---this fitted model contains the 
 #' necessary components to predict on new data.
@@ -64,7 +62,7 @@
 #' 
 #' @family core verbs
 #' @export
-stack_fit <- function(model_stack, data = NULL, ...) {
+stack_fit <- function(model_stack, verbose = FALSE, ...) {
   
   if (is.null(data)) {
     data <- model_stack[["train"]]

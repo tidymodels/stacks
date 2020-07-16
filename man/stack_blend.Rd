@@ -4,10 +4,13 @@
 \alias{stack_blend}
 \title{Evaluate a data stack}
 \usage{
-stack_blend(data_stack, ...)
+stack_blend(data_stack, verbose = FALSE, ...)
 }
 \arguments{
 \item{data_stack}{A \code{data_stack} object}
+
+\item{verbose}{A logical for logging results as they are generated. Despite
+this argument, warnings and errors are always shown.}
 
 \item{...}{Additional arguments. Currently ignored.}
 }

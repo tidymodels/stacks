@@ -5,6 +5,8 @@
 #' from ensemble members.
 #' 
 #' @param data_stack A `data_stack` object
+#' @param verbose A logical for logging results as they are generated. Despite 
+#'   this argument, warnings and errors are always shown.
 #' @inheritParams stack_add
 #' 
 #' @return A `model_stack` object—while `model_stacks` largely contain the
@@ -54,7 +56,7 @@
 #' 
 #' @family core verbs
 #' @export
-stack_blend <- function(data_stack, ...) {
+stack_blend <- function(data_stack, verbose = FALSE, ...) {
   preds_formula <- 
     paste0(colnames(data_stack)[1], " ~ .") %>%
     as.formula()
