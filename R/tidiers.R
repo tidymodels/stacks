@@ -97,7 +97,6 @@ generics::glance
 #' @export
 glance.model_stack <- function(x, ...) {
   tibble::tibble(
-    "member" = "ensemble", 
     "r.squared" = NA_real_, 
     "adj.r.squared" = NA_real_, 
     "sigma" = NA_real_, 
@@ -158,13 +157,17 @@ tidy.model_stack <- function(x, ...) {
       safe_tidy
     )
   
-  glanced_members %>%
+  if (any(!purrr::map_lgl(glanced_members, is.null))) {
+    glanced_members %>%
     tibble::enframe() %>%
     dplyr::bind_rows(
       tibble::tibble(name = "ensemble", value = list(glanced_model_stack))
     ) %>%
     tidyr::unnest(cols = "value") %>%
     dplyr::rename(member = name)
+  } else {
+    tibble::tibble()
+  }
 }
 
 # --------------------------------------------------------------------------

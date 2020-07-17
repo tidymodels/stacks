@@ -2,7 +2,6 @@
 if (! interactive() || ! any(grepl("\\bload_all\\b", as.character(sys.calls()[1])))) {
 
 # Some objects for use throughout unit tests.
-library(recipes)
 
 # Stacks
 # ------------------------------------------------------------------------
