@@ -34,6 +34,8 @@ and Environmental Variability within a Community of Antarctic Penguins
 (\emph{Genus Pygoscelis}). PLoS ONE 9(3): e90081.
 \url{https://doi.org/10.1371/journal.pone.0090081}
 
+Horst AM, Hill AP, Gorman KB (2020). palmerpenguins: Palmer
+Archipelago (Antarctica) penguin data. R package version 0.1.0.
 \url{https://github.com/allisonhorst/palmerpenguins}
 }
 \usage{
