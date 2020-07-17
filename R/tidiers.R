@@ -98,7 +98,7 @@ generics::glance
 #' @export glance.model_stack
 #' @export
 glance.model_stack <- function(x, data = x[["train"]], ...) {
-  invisible(TRUE)
+  tibble::tibble()
 }
 
 # --------------------------------------------------------------------------------
@@ -137,6 +137,47 @@ generics::tidy
 #' @method tidy model_stack
 #' @export tidy.model_stack
 #' @export
-tidy.model_stack <- function(x, data = x[["train"]], ...) {
-  invisible(TRUE)
+tidy.model_stack <- function(x, ...) {
+  glanced_model_stack <- glance(x)
+  
+  glanced_members <- 
+    purrr::map(
+      x[["member_fits"]],
+      safe_tidy
+    )
+  
+  glanced_members %>%
+    tibble::enframe() %>%
+    dplyr::bind_rows(
+      tibble::tibble(name = "ensemble", value = list(glanced_model_stack))
+    ) %>%
+    tidyr::unnest(cols = "value") %>%
+    dplyr::rename(member = name)
+}
+
+# --------------------------------------------------------------------------
+
+# a function to safely attempt to run the appropriate tidy method on each 
+# member model. if the tidy method errors out, returns NULL
+safe_tidy <- function(model_object) {
+  fit <- model_object[["fit"]][["fit"]][["fit"]]
+  
+  tidied <-
+    tryCatch(
+      glance(fit),
+      error = identity
+    )
+  
+  if (inherits(tidied, "data.frame")) {
+    return(tidied)
+  } else {
+    glue_message(
+      "No glance method found for the `{list(class(model_object))}` class ",
+      "model object. Please load the library with the appropriate tidiers ",
+      "(broom, possibly) for this model object for its results to included ",
+      "in the output. \n\n"
+    )
+    
+    return(NULL)
+  }
 }
