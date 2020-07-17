@@ -23,6 +23,8 @@ utils::globalVariables(c(
   "idx",
   "lp",
   "member",
+  "model_type",
+  "n",
   "name",
   "name.x",
   "new",

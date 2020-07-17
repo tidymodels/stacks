@@ -9,11 +9,11 @@
 \usage{
 prediction_eqn(x, ...)
 
-\method{prediction_eqn}{`_lognet`}(x, type = "class")
+\method{prediction_eqn}{`_lognet`}(x, type = "class", ...)
 
-\method{prediction_eqn}{`_elnet`}(x, type = "numeric")
+\method{prediction_eqn}{`_elnet`}(x, type = "numeric", ...)
 
-\method{prediction_eqn}{`_multnet`}(x, type = "class")
+\method{prediction_eqn}{`_multnet`}(x, type = "class", ...)
 }
 \arguments{
 \item{x}{An object that uses a \code{glmnet} model and all numeric predictors.}

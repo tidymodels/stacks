@@ -28,7 +28,7 @@ build_linear_predictor_eng <- function(x, ...) {
 build_linear_predictor_glmnet <- function(x, ...) {
   lvls <- x$lvl
   coefs <- 
-    stacks:::.get_glmn_coefs(x$fit, x$spec$args$penalty) %>% 
+    .get_glmn_coefs(x$fit, x$spec$args$penalty) %>% 
     dplyr::filter(estimate != 0)
   lp <- build_linear_predictor_eng(coefs)
   lp
@@ -51,7 +51,7 @@ build_linear_predictor._lognet <- function(x, ...) {
 build_linear_predictor._multnet <- function(x, ...) {
   lvls <- x$lvl
   coefs <- 
-    stacks:::.get_glmn_coefs(x$fit, x$spec$args$penalty) %>% 
+    .get_glmn_coefs(x$fit, x$spec$args$penalty) %>% 
     dplyr::filter(estimate != 0) %>% 
     dplyr::group_nest(class, .key = "coefs") %>% 
     dplyr::mutate(lp = purrr::map(coefs, build_linear_predictor_eng))
@@ -79,7 +79,7 @@ eqn_constuctor <- function(x, model, type, lvls) {
 
 #' @export
 #' @rdname prediction_eqn
-prediction_eqn._lognet <- function(x, type = "class") {
+prediction_eqn._lognet <- function(x, type = "class", ...) {
   type <- match.arg(type, c("class", "prob"))
   model_class <- class(x$fit)[1]
   lp <- build_linear_predictor(x)
@@ -105,7 +105,7 @@ prediction_eqn._lognet <- function(x, type = "class") {
 
 #' @export
 #' @rdname prediction_eqn
-prediction_eqn._elnet <- function(x, type = "numeric") {
+prediction_eqn._elnet <- function(x, type = "numeric", ...) {
   type <- match.arg(type, "numeric")
   model_class <- class(x$fit)[1]
   res <- list(.pred = build_linear_predictor(x))
@@ -116,7 +116,7 @@ eexp <- function(x) rlang::expr(exp(!!x))
 
 #' @export
 #' @rdname prediction_eqn
-prediction_eqn._multnet <- function(x, type = "class") {
+prediction_eqn._multnet <- function(x, type = "class", ...) {
   type <- match.arg(type, c("class", "prob"))
   model_class <- class(x$fit)[1]
   lvls <- x$lvl
