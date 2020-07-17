@@ -23,8 +23,8 @@
 #' * `reg_res_svm`: Tuning results for a support vector machine model
 #' 
 #' In the multinomial classification setting, the relevant objects reflect 
-#' models specified to fit `island` using all of the other variables as 
-#' predictors. These objects include:
+#' models specified to fit `year` (as a factor) using all of the other variables 
+#' as predictors. These objects include:
 #' 
 #' * `class_res_nn`: Fitted resamples for a neural network model
 #' * `class_res_rf`: Tuning results for a random forest model

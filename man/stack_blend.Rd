@@ -4,10 +4,13 @@
 \alias{stack_blend}
 \title{Evaluate a data stack}
 \usage{
-stack_blend(data_stack, ...)
+stack_blend(data_stack, verbose = FALSE, ...)
 }
 \arguments{
 \item{data_stack}{A \code{data_stack} object}
+
+\item{verbose}{A logical for logging results as they are generated. Despite
+this argument, warnings and errors are always shown.}
 
 \item{...}{Additional arguments. Currently ignored.}
 }
@@ -48,8 +51,8 @@ as predictors. These objects include:
 }
 
 In the multinomial classification setting, the relevant objects reflect
-models specified to fit \code{island} using all of the other variables as
-predictors. These objects include:
+models specified to fit \code{year} (as a factor) using all of the other variables
+as predictors. These objects include:
 \itemize{
 \item \code{class_res_nn}: Fitted resamples for a neural network model
 \item \code{class_res_rf}: Tuning results for a random forest model
@@ -69,16 +72,23 @@ the source code that generated them.
 
 \examples{
 \donttest{
+# see the "Example Data" section above for
+# clarification on the objects used in these examples!
+
 # put together a data stack
 reg_st <- 
   stacks() \%>\%
   stack_add(reg_res_lr) \%>\%
   stack_add(reg_res_svm) \%>\%
   stack_add(reg_res_sp)
+  
+reg_st
 
 # evaluate the data stack
 reg_st \%>\%
   stack_blend()
+  
+reg_st
   
 # do the same with multinomial classification models
 class_st <-
@@ -87,12 +97,16 @@ class_st <-
   stack_add(class_res_rf) \%>\%
   stack_blend()
   
+class_st
+
 # ...or binomial classification models
 log_st <-
   stacks() \%>\%
   stack_add(log_res_nn) \%>\%
   stack_add(log_res_rf) \%>\%
   stack_blend()
+  
+log_st
 }
 
 }

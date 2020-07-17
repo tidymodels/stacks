@@ -2,7 +2,7 @@
 % Please edit documentation in R/stacks.R
 \name{stacks}
 \alias{stacks}
-\title{Initialize a data stack}
+\title{stacks}
 \usage{
 stacks(...)
 }
@@ -13,14 +13,87 @@ stacks(...)
 A \code{data_stack} object.
 }
 \description{
-Initializes a \code{data_stack} object. Principally, \code{data_stack}s are just
+This help-file describes both the initialization function in the package
+as well as the general principles behind the package.
+
+The \code{stacks()} function initializes a \code{data_stack} object. Principally,
+\code{data_stack}s are just
 tibbles, where the first column gives the true outcome in the assessment set,
 and the remaining columns give the predictions from each candidate ensemble
 member. (When the outcome is numeric, there’s only one column per candidate
 member. For classification, there are as many columns per candidate
-member as there are levels in the outcome variable.) They also bring
+member as there are levels in the outcome variable minus 1.) They also bring
 along a few extra attributes to keep track of model definitions, resamples,
 and training data.
+
+See the \code{Details} section below for more discussion of the package, generally.
+}
+\details{
+At the highest level, ensembles are formed from \emph{model definitions}. In
+this package, model definitions are an instance of a minimal workflow,
+containing a \emph{model specification} (as defined in the parsnip package)
+and, optionally, a \emph{preprocessor} (as defined in the recipes package).
+Model definitions specify the form of candidate ensemble members.
+
+\figure{model_defs.png}
+
+To be used in the same ensemble, each of these model definitions must
+share the same \emph{resample}. This rsample \code{rset} object, when paired with
+the model definitions, can be used to generate the tuning/fitting
+results objects for the candidate \emph{ensemble members} with tune.
+
+\figure{submodels.png}
+
+The package will sometimes refer to \emph{sub-models}. An ensemble member is
+a sub-model that has actually been selected (and possibly trained) for
+use in the ensemble (via nonzero stacking coefficients, usually) that is
+not regarded as resulting from a specific model definition, where-as a
+sub-model is an untrained candidate ensemble member.
+
+Sub-models first come together in a \code{data_stack} object through the
+\code{stack_add()} function. Principally, these objects are just
+\href{https://tibble.tidyverse.org/}{tibbles}, where the first column gives
+the true outcome in the assessment set, and the remaining columns give
+the predictions from each candidate ensemble member. (When the outcome
+is numeric, there’s only one column per candidate ensemble member.
+Classification requires as many columns per candidate as there are
+levels in the outcome variable.) They also bring along a few extra
+attributes to keep track of model definitions.
+
+\figure{data_stack.png}
+
+Then, the data stack can be evaluated using \code{stack_blend()} to determine
+to how best to combine the outputs from each of the candidate member
+models.
+
+Note that the fitting process is not sensitive to model definition
+membership. That is, while fitting an ensemble from a stack, the
+components are regarded as candidate ensemble members rather than as
+sub-models.
+
+The outputs of each member are likely highly correlated. Thus, depending
+on the degree of regularization you choose, the coefficients for the
+inputs of (possibly) many of the members will zero out—their predictions
+will have no influence on the final output, and those terms will thus be
+thrown out.
+
+\figure{coefs.png}
+
+These stacking coefficients decide then which sub-models will be
+ensemble members—sub-models with non-zero stacking coefficients are then
+fitted, altogether making up a \code{model_stack} object.
+
+\figure{class_model_stack.png}
+
+This model stack object, outputted from \code{stack_fit()}, is ready to
+predict on new data!
+
+At a high level, the process follows these steps:
+
+\figure{outline.png}
+
+The API for the package closely mirrors these ideas. See the \code{basics}
+vignette for an example of how this grammar is implemented!
 }
 \seealso{
 Other core verbs: 

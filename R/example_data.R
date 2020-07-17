@@ -14,7 +14,8 @@
 #' 
 #' `class_res_rf` and `class_res_nn`, contain multiclass classification tuning 
 #' results for a random forest and neural network classification model, 
-#' respectively, fitting \code{species} in the \code{palmerpenguins::penguins} 
+#' respectively, fitting \code{year} (as a factor) in the 
+#' \code{palmerpenguins::penguins} 
 #' data using all of the other variables as predictors.
 #' 
 #' `log_res_rf` and `log_res_nn`, contain binary classification tuning results
@@ -26,12 +27,14 @@
 #' 
 #' @includeRmd man-roxygen/example_models.Rmd
 #' 
-#' @source Gorman KB, Williams TD, Fraser WR (2014) Ecological Sexual Dimorphism
+#' @source 
+#' Gorman KB, Williams TD, Fraser WR (2014) Ecological Sexual Dimorphism
 #' and Environmental Variability within a Community of Antarctic Penguins
 #' (_Genus Pygoscelis_). PLoS ONE 9(3): e90081.
 #' \url{https://doi.org/10.1371/journal.pone.0090081}
 #' 
-#' 
+#' Horst AM, Hill AP, Gorman KB (2020). palmerpenguins: Palmer
+#' Archipelago (Antarctica) penguin data. R package version 0.1.0.
 #' \url{https://github.com/allisonhorst/palmerpenguins}
 #' 
 #' @name example_data

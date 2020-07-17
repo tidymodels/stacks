@@ -10,10 +10,8 @@
 #
 #' @param model_stack A `model_stack` object outputted by `stack_blend()` or
 #'   `stack_fit()`
-#' @param data The data used in generating the original tuning/fitting results.
-#'   Can generally be extracted from the `model_stack` object, so defaults to 
-#'   `NULL`.
 #' @inheritParams stacks
+#' @inheritParams stack_blend
 #' @return A `model_stack` object with a subclass inherited from the chosen
 #' `*_stack` method---this fitted model contains the 
 #' necessary components to predict on new data.
@@ -22,17 +20,24 @@
 #' 
 #' @examples 
 #' \donttest{
+#' # see the "Example Data" section above for
+#' # clarification on the objects used in these examples!
+#' 
 #' # put together a data stack
 #' reg_st <- 
 #'   stacks() %>%
 #'   stack_add(reg_res_lr) %>%
 #'   stack_add(reg_res_svm) %>%
 #'   stack_add(reg_res_sp)
+#'   
+#' reg_st
 #'
 #' # evaluate the data stack and fit the member models
 #' reg_st %>%
 #'   stack_blend() %>%
 #'   stack_fit()
+#'   
+#' reg_st
 #'   
 #' # do the same with multinomial classification models
 #' class_st <-
@@ -42,6 +47,8 @@
 #'   stack_blend() %>%
 #'   stack_fit()
 #'   
+#' class_st
+#'   
 #' # ...or binomial classification models
 #' log_st <-
 #'   stacks() %>%
@@ -49,15 +56,15 @@
 #'   stack_add(log_res_rf) %>%
 #'   stack_blend() %>%
 #'   stack_fit()
+#'   
+#' log_st
 #' }
 #' 
 #' @family core verbs
 #' @export
-stack_fit <- function(model_stack, data = NULL, ...) {
+stack_fit <- function(model_stack, verbose = FALSE, ...) {
   
-  if (is.null(data)) {
-    data <- model_stack[["train"]]
-  }
+  dat <- model_stack[["train"]]
   
   # pick out which submodels have nonzero coefs
   member_names <- .get_glmn_coefs(model_stack[["coefs"]][["fit"]]) %>%
@@ -114,7 +121,7 @@ stack_fit <- function(model_stack, data = NULL, ...) {
       fit_member,
       wflows = model_stack[["model_defs"]],
       members_map = members_map,
-      train_dat = data
+      train_dat = dat
     )
   
   model_stack[["member_fits"]] <- 

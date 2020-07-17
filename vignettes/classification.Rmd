@@ -14,17 +14,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-In this article, we'll use the stacks package to predict species of penguins using a stacked ensemble on the `palmerpenguins` data. This vignette assumes that you're familiar with tidymodels "proper," as well as the basic grammar of the package, and have seen it implemented on numeric data; if this is not the case, check out the "Getting Started With stacks" vignette!
-
-First, loading packages and data as before
-
-The package is closely integrated with the rest of the functionality in tidymodels—we'll load those packages as well, in addition to a few tidyverse packages to evaluate our results later on. 
+In this vignette, we'll tackle a multiclass classification problem using the stacks package. This vignette assumes that you're familiar with tidymodels "proper," as well as the basic grammar of the package, and have seen it implemented on numeric data; if this is not the case, check out the "Getting Started With stacks" vignette!
 
 ```{r setup, eval = FALSE}
 library(tidymodels)
+library(tidyverse)
 library(stacks)
-library(purrr)
-library(dplyr)
 ```
 
 ```{r packages, include = FALSE}
@@ -37,9 +32,10 @@ library(yardstick)
 library(stacks)
 library(purrr)
 library(dplyr)
+library(tidyr)
 ```
 
-We'll make use of the `palmerpenguins::penguins` data, giving measurements taken from three different species of penguins from three different antarctic islands! We'll be predicting penguins species using the rest of the predictors in the data.
+Allison Horst's `palmerpenguins` package contains data giving measurements taken from three different species of penguins from three different islands in Antarctica. This study was carried out across three years—we might suspect that weather conditions may play a role in penguin migration and, to some extent, morphology (e.g. body mass). In this article, we'll use the stacks package to predict the year that these measurements were taken in using a stacked ensemble on the `palmerpenguins` data. 
 
 ```{r, message = FALSE, warning = FALSE}
 library(palmerpenguins)
@@ -47,21 +43,24 @@ data("penguins")
 
 str(penguins)
 
-penguins <- penguins[!is.na(penguins$sex),]
+penguins <-
+  penguins %>%
+  drop_na(sex) %>%
+  mutate(year = as.factor(year))
 ```
 
-Let's plot the data to get a sense for how separable these three species groups are.
+Let's plot the data to get a sense for how separable these three years groups are.
 
 ```{r, message = FALSE, warning = FALSE}
 library(ggplot2)
 
 ggplot(penguins) +
-  aes(x = bill_length_mm, y = bill_depth_mm, color = species) +
+  aes(x = bill_length_mm, y = bill_depth_mm, color = year) +
   geom_point() +
-  labs(x = "Bill Length (mm)", y = "Bill Depth (mm)", col = "Species")
+  labs(x = "Bill Length (mm)", y = "Bill Depth (mm)", col = "Year")
 ```
 
-Just with these two predictors, it seems like we can already separate these species pretty well! Let's see how well the stacked ensemble can classify these penguins.
+Just with these two predictors, it seems like this might be a tough problem to solve! Let's see how well the stacked ensemble can classify these penguins.
 
 # Defining candidate ensemble members
 
@@ -78,18 +77,14 @@ penguins_test  <- testing(penguins_split)
 folds <- rsample::vfold_cv(penguins_train, v = 5)
 
 penguins_rec <- 
-  recipe(species ~ ., data = penguins_train) %>%
-  step_dummy(all_nominal(), -species) %>%
+  recipe(year ~ ., data = penguins_train) %>%
+  step_dummy(all_nominal(), -year) %>%
   step_zv(all_predictors())
 
 penguins_wflow <- 
   workflow() %>% 
   add_recipe(penguins_rec)
-
-metric <- metric_set(roc_auc)
 ```
-
-Note that we now use the ROC AUC metric rather than root mean squared error (as in the numeric response setting)—any yardstick metric with classification functionality would work here.
 
 We also need to use the same control settings as in the numeric response setting:
 
@@ -97,7 +92,7 @@ We also need to use the same control settings as in the numeric response setting
 ctrl_grid <- control_stack_grid()
 ```
 
-We'll define two different model definitions to try to predict species—a random forest and a neural network.
+We'll define two different model definitions to try to predict year—a random forest and a neural network.
 
 Starting out with a random forest:
 
@@ -179,7 +174,7 @@ Computing the ROC AUC for the model:
 ```{r, eval = FALSE}
 yardstick::roc_auc(
   penguins_pred,
-  truth = species,
+  truth = year,
   contains(".pred_")
   )
 ```
@@ -189,7 +184,7 @@ Looks like our predictions were pretty strong! How do the stacks predictions per
 ```{r}
 penguins_pred <- 
   penguins_test %>%
-  select(species) %>%
+  select(year) %>%
   bind_cols(
     predict(
       penguins_model_st,
@@ -200,4 +195,4 @@ penguins_pred <-
     )
 ```
 
-Voila! You've now made use of the stacks package to predict penguin species using a stacked ensemble!  
+Voila! You've now made use of the stacks package to predict the island that penguins live on using a stacked ensemble!  

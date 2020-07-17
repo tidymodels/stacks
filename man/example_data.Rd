@@ -34,6 +34,8 @@ and Environmental Variability within a Community of Antarctic Penguins
 (\emph{Genus Pygoscelis}). PLoS ONE 9(3): e90081.
 \url{https://doi.org/10.1371/journal.pone.0090081}
 
+Horst AM, Hill AP, Gorman KB (2020). palmerpenguins: Palmer
+Archipelago (Antarctica) penguin data. R package version 0.1.0.
 \url{https://github.com/allisonhorst/palmerpenguins}
 }
 \usage{
@@ -67,7 +69,8 @@ using all of the other variables as predictors.
 
 \code{class_res_rf} and \code{class_res_nn}, contain multiclass classification tuning
 results for a random forest and neural network classification model,
-respectively, fitting \code{species} in the \code{palmerpenguins::penguins}
+respectively, fitting \code{year} (as a factor) in the
+\code{palmerpenguins::penguins}
 data using all of the other variables as predictors.
 
 \code{log_res_rf} and \code{log_res_nn}, contain binary classification tuning results
@@ -88,46 +91,47 @@ library(yardstick)
 data("penguins", package = "palmerpenguins")
 
 penguins <- penguins[!is.na(penguins$sex),]
+penguins$year <- as.factor(penguins$year)
 
 set.seed(1)
 
 ctrl_grid <- 
-  control_grid(
+  tune::control_grid(
     save_pred = TRUE,
     save_workflow = TRUE
   )
 
 ctrl_res <- 
-  control_resamples(
+  tune::control_resamples(
     save_pred = TRUE,
     save_workflow = TRUE
   )
 
-penguins_split <- initial_split(penguins)
-penguins_train <- training(penguins_split)
-penguins_test  <- testing(penguins_split)
+penguins_split <- rsample::initial_split(penguins)
+penguins_train <- rsample::training(penguins_split)
+penguins_test  <- rsample::testing(penguins_split)
 
-folds <- vfold_cv(penguins_train, v = 5)
+folds <- rsample::vfold_cv(penguins_train, v = 5)
 
 penguins_reg_rec <- 
-  recipe(body_mass_g ~ ., data = penguins_train) \%>\%
-  step_dummy(recipes::all_nominal()) \%>\%
-  step_zv(all_predictors())
+  recipes::recipe(body_mass_g ~ ., data = penguins_train) \%>\%
+  recipes::step_dummy(recipes::all_nominal()) \%>\%
+  recipes::step_zv(recipes::all_predictors())
 
-metric <- metric_set(rmse)
+metric <- yardstick::metric_set(yardstick::rmse)
 
 # linear regression ---------------------------------------
 lin_reg_spec <-
-  linear_reg() \%>\%
-  set_engine("lm")
+  parsnip::linear_reg() \%>\%
+  parsnip::set_engine("lm")
 
 reg_wf_lr <- 
-  workflow() \%>\%
-  add_model(lin_reg_spec) \%>\%
-  add_recipe(penguins_reg_rec)
+  workflows::workflow() \%>\%
+  workflows::add_model(lin_reg_spec) \%>\%
+  workflows::add_recipe(penguins_reg_rec)
 
 reg_res_lr <- 
-  fit_resamples(
+  tune::fit_resamples(
     object = reg_wf_lr,
     resamples = folds,
     metrics = metric,
@@ -136,20 +140,20 @@ reg_res_lr <-
 
 # SVM regression ----------------------------------
 svm_spec <- 
-  svm_rbf(
-    cost = tune(), 
-    rbf_sigma = tune()
+  parsnip::svm_rbf(
+    cost = tune::tune(), 
+    rbf_sigma = tune::tune()
   ) \%>\%
-  set_engine("kernlab") \%>\%
-  set_mode("regression")
+  parsnip::set_engine("kernlab") \%>\%
+  parsnip::set_mode("regression")
 
 reg_wf_svm <- 
-  workflow() \%>\%
-  add_model(svm_spec) \%>\%
-  add_recipe(penguins_reg_rec)
+  workflows::workflow() \%>\%
+  workflows::add_model(svm_spec) \%>\%
+  workflows::add_recipe(penguins_reg_rec)
 
 reg_res_svm <- 
-  tune_grid(
+  tune::tune_grid(
     object = reg_wf_svm,
     resamples = folds, 
     grid = 5,
@@ -159,16 +163,16 @@ reg_res_svm <-
 # spline regression ---------------------------------------
 spline_rec <- 
   penguins_reg_rec \%>\%
-  step_ns(bill_length_mm, deg_free = tune::tune("length")) \%>\%
-  step_ns(bill_depth_mm, deg_free = tune::tune("depth"))
+  recipes::step_ns(bill_length_mm, deg_free = tune::tune("length")) \%>\%
+  recipes::step_ns(bill_depth_mm, deg_free = tune::tune("depth"))
 
 reg_wf_sp <- 
-  workflow() \%>\%
-  add_model(lin_reg_spec) \%>\%
-  add_recipe(spline_rec)
+  workflows::workflow() \%>\%
+  workflows::add_model(lin_reg_spec) \%>\%
+  workflows::add_recipe(spline_rec)
 
 reg_res_sp <- 
-  tune_grid(
+  tune::tune_grid(
     object = reg_wf_sp,
     resamples = folds,
     metrics = metric,
@@ -177,28 +181,28 @@ reg_res_sp <-
 
 # classification - preliminaries -----------------------------------
 penguins_class_rec <- 
-  recipe(species ~ ., data = penguins_train) \%>\%
-  step_dummy(recipes::all_nominal(), -species) \%>\%
-  step_zv(all_predictors()) \%>\%
-  step_normalize(all_numeric())
+  recipes::recipe(year ~ ., data = penguins_train) \%>\%
+  recipes::step_dummy(recipes::all_nominal(), -year) \%>\%
+  recipes::step_zv(recipes::all_predictors()) \%>\%
+  recipes::step_normalize(recipes::all_numeric())
 
 # random forest classification --------------------------------------
 rand_forest_spec <- 
-  rand_forest(
-    mtry = tune(),
+  parsnip::rand_forest(
+    mtry = tune::tune(),
     trees = 500,
-    min_n = tune()
+    min_n = tune::tune()
   ) \%>\%
-  set_mode("classification") \%>\%
-  set_engine("ranger")
+  parsnip::set_mode("classification") \%>\%
+  parsnip::set_engine("ranger")
 
 class_wf_rf <-
-  workflow() \%>\%
-  add_recipe(penguins_class_rec) \%>\%
-  add_model(rand_forest_spec)
+  workflows::workflow() \%>\%
+  workflows::add_recipe(penguins_class_rec) \%>\%
+  workflows::add_model(rand_forest_spec)
 
 class_res_rf <- 
-  tune_grid(
+  tune::tune_grid(
     object = class_wf_rf, 
     resamples = folds, 
     grid = 10,
@@ -207,17 +211,17 @@ class_res_rf <-
 
 # neural network classification -------------------------------------
 nnet_spec <-
-  mlp(epochs = 100, hidden_units = 5, dropout = 0.1) \%>\%
-  set_mode("classification") \%>\%
-  set_engine("keras", verbose = 0)
+  parsnip::mlp(epochs = 100, hidden_units = 5, dropout = 0.1) \%>\%
+  parsnip::set_mode("classification") \%>\%
+  parsnip::set_engine("keras", verbose = 0)
 
 class_wf_nn <- 
-  workflow() \%>\%
-  add_recipe(penguins_class_rec) \%>\%
-  add_model(nnet_spec)
+  workflows::workflow() \%>\%
+  workflows::add_recipe(penguins_class_rec) \%>\%
+  workflows::add_model(nnet_spec)
 
 class_res_nn <-
-  fit_resamples(
+  tune::fit_resamples(
     object = class_wf_nn, 
     resamples = folds, 
     control = ctrl_res
@@ -225,27 +229,27 @@ class_res_nn <-
 
 # binary classification --------------------------------
 penguins_2_class_rec <- 
-  recipe(sex ~ ., data = penguins_train) \%>\%
-  step_dummy(recipes::all_nominal(), -sex) \%>\%
-  step_zv(all_predictors()) \%>\%
-  step_normalize(all_numeric())
+  recipes::recipe(sex ~ ., data = penguins_train) \%>\%
+  recipes::step_dummy(recipes::all_nominal(), -sex) \%>\%
+  recipes::step_zv(recipes::all_predictors()) \%>\%
+  recipes::step_normalize(recipes::all_numeric())
 
 rand_forest_spec_2 <- 
-  rand_forest(
+  parsnip::rand_forest(
     mtry = tune(),
     trees = 500,
     min_n = tune()
   ) \%>\%
-  set_mode("classification") \%>\%
-  set_engine("ranger")
+  parsnip::set_mode("classification") \%>\%
+  parsnip::set_engine("ranger")
 
 log_wf_rf <-
-  workflow() \%>\%
-  add_recipe(penguins_2_class_rec) \%>\%
-  add_model(rand_forest_spec_2)
+  workflows::workflow() \%>\%
+  workflows::add_recipe(penguins_2_class_rec) \%>\%
+  workflows::add_model(rand_forest_spec_2)
 
 log_res_rf <- 
-  tune_grid(
+  tune::tune_grid(
     object = log_wf_rf, 
     resamples = folds, 
     grid = 10,
@@ -253,17 +257,17 @@ log_res_rf <-
   )
 
 nnet_spec_2 <-
-  mlp(epochs = 100, hidden_units = 5, dropout = 0.1) \%>\%
-  set_mode("classification") \%>\%
-  set_engine("keras", verbose = 0)
+  parsnip::mlp(epochs = 100, hidden_units = 5, dropout = 0.1) \%>\%
+  parsnip::set_mode("classification") \%>\%
+  parsnip::set_engine("keras", verbose = 0)
 
 log_wf_nn <- 
-  workflow() \%>\%
-  add_recipe(penguins_2_class_rec) \%>\%
-  add_model(nnet_spec_2)
+  workflows::workflow() \%>\%
+  workflows::add_recipe(penguins_2_class_rec) \%>\%
+  workflows::add_model(nnet_spec_2)
 
 log_res_nn <-
-  fit_resamples(
+  tune::fit_resamples(
     object = log_wf_nn, 
     resamples = folds, 
     control = ctrl_res

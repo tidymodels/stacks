@@ -4,15 +4,14 @@
 \alias{stack_fit}
 \title{Fit model stack members}
 \usage{
-stack_fit(model_stack, data = NULL, ...)
+stack_fit(model_stack, verbose = FALSE, ...)
 }
 \arguments{
 \item{model_stack}{A \code{model_stack} object outputted by \code{stack_blend()} or
 \code{stack_fit()}}
 
-\item{data}{The data used in generating the original tuning/fitting results.
-Can generally be extracted from the \code{model_stack} object, so defaults to
-\code{NULL}.}
+\item{verbose}{A logical for logging results as they are generated. Despite
+this argument, warnings and errors are always shown.}
 
 \item{...}{Additional arguments. Currently ignored.}
 }
@@ -51,8 +50,8 @@ as predictors. These objects include:
 }
 
 In the multinomial classification setting, the relevant objects reflect
-models specified to fit \code{island} using all of the other variables as
-predictors. These objects include:
+models specified to fit \code{year} (as a factor) using all of the other variables
+as predictors. These objects include:
 \itemize{
 \item \code{class_res_nn}: Fitted resamples for a neural network model
 \item \code{class_res_rf}: Tuning results for a random forest model
@@ -72,17 +71,24 @@ the source code that generated them.
 
 \examples{
 \donttest{
+# see the "Example Data" section above for
+# clarification on the objects used in these examples!
+
 # put together a data stack
 reg_st <- 
   stacks() \%>\%
   stack_add(reg_res_lr) \%>\%
   stack_add(reg_res_svm) \%>\%
   stack_add(reg_res_sp)
+  
+reg_st
 
 # evaluate the data stack and fit the member models
 reg_st \%>\%
   stack_blend() \%>\%
   stack_fit()
+  
+reg_st
   
 # do the same with multinomial classification models
 class_st <-
@@ -92,6 +98,8 @@ class_st <-
   stack_blend() \%>\%
   stack_fit()
   
+class_st
+  
 # ...or binomial classification models
 log_st <-
   stacks() \%>\%
@@ -99,6 +107,8 @@ log_st <-
   stack_add(log_res_rf) \%>\%
   stack_blend() \%>\%
   stack_fit()
+  
+log_st
 }
 
 }

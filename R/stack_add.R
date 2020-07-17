@@ -21,6 +21,9 @@
 #' 
 #' @examples 
 #' \donttest{
+#' # see the "Example Data" section above for
+#' # clarification on the objects used in these examples!
+#' 
 #' # put together a data stack using
 #' # tuning results for regression models
 #' reg_st <- 
@@ -29,11 +32,15 @@
 #'   stack_add(reg_res_svm) %>%
 #'   stack_add(reg_res_sp)
 #'   
+#' reg_st
+#'   
 #' # do the same with multinomial classification models
 #' class_st <-
 #'   stacks() %>%
 #'   stack_add(class_res_nn) %>%
 #'   stack_add(class_res_rf)
+#'   
+#' class_st
 #'   
 #' # ...or binomial classification models
 #' log_st <-
@@ -41,11 +48,19 @@
 #'   stack_add(log_res_nn) %>%
 #'   stack_add(log_res_rf)
 #'   
+#' log_st
+#'   
 #' # use custom names for each model:
 #' log_st2 <-
 #'   stacks() %>%
 #'   stack_add(log_res_nn, name = "neural_network") %>%
 #'   stack_add(log_res_rf, name = "random_forest")
+#'   
+#' log_st2
+#'   
+#' # these objects would likely then be
+#' # passed to stack_blend():
+#' log_st2 %>% stack_blend()
 #' }
 #' 
 #' @family core verbs

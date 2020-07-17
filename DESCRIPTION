@@ -39,7 +39,9 @@ Imports:
     ggplot2,
     glmnet,
     rsample,
-    stringi
+    stringi,
+    cli,
+    crayon
 Suggests: 
     testthat,
     covr,
@@ -51,7 +53,6 @@ Suggests:
     ranger,
     keras
 Remotes: 
-    tidymodels/tune,
     allisonhorst/palmerpenguins
 Encoding: UTF-8
 LazyData: true
