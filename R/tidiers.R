@@ -80,8 +80,6 @@ generics::glance
 #' one row of model summaries
 #' 
 #' @param x A `model_stack` object
-#' @param data A `data.frame`-like object containing all of the necessary
-#' predictors that the model stack was trained with.
 #' @inheritParams stacks
 #' 
 #' @return A one-row [tibble::tibble()] with model-level summaries. Output
@@ -97,8 +95,22 @@ generics::glance
 #' @method glance model_stack
 #' @export glance.model_stack
 #' @export
-glance.model_stack <- function(x, data = x[["train"]], ...) {
-  tibble::tibble()
+glance.model_stack <- function(x, ...) {
+  tibble::tibble(
+    "member" = "ensemble", 
+    "r.squared" = NA_real_, 
+    "adj.r.squared" = NA_real_, 
+    "sigma" = NA_real_, 
+    "statistic" = NA_real_, 
+    "p.value" = NA_real_, 
+    "df" = NA_integer_, 
+    "logLik" = NA_real_, 
+    "AIC" = NA_real_, 
+    "BIC" = NA_real_, 
+    "deviance" = NA_real_, 
+    "df.residual" = NA_integer_, 
+    "nobs" = nrow(x[["train"]])
+  )
 }
 
 # --------------------------------------------------------------------------------

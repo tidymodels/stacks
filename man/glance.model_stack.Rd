@@ -4,13 +4,10 @@
 \alias{glance.model_stack}
 \title{Glance at a \code{model_stack} object}
 \usage{
-\method{glance}{model_stack}(x, data = x[["train"]], ...)
+\method{glance}{model_stack}(x, ...)
 }
 \arguments{
 \item{x}{A \code{model_stack} object}
-
-\item{data}{A \code{data.frame}-like object containing all of the necessary
-predictors that the model stack was trained with.}
 
 \item{...}{Additional arguments. Currently ignored.}
 }
