@@ -51,7 +51,8 @@ Suggests:
     rmarkdown,
     palmerpenguins,
     ranger,
-    keras
+    keras,
+    broom
 Remotes: 
     allisonhorst/palmerpenguins
 Encoding: UTF-8

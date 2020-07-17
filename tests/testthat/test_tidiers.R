@@ -1,6 +1,6 @@
 context("tidiers")
 
-skip_if_not_installed(broom)
+skip_if_not_installed("broom")
 library(broom)
 
 test_that("tidy.model_stack behaves appropriately without needed tidiers", {
