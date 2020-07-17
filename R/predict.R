@@ -54,7 +54,7 @@
 #' predict(class_st, penguins_test)
 #' predict(class_st, penguins_test, type = "prob")
 #' 
-#' # including the member predictions as well
+#' # returning the member predictions instead
 #' predict(
 #'   class_st, 
 #'   penguins_test, 
@@ -81,7 +81,8 @@ predict.model_stack <- function(object, new_data, type = NULL, members = FALSE,
       model_stack = object,
       coefs = coefs,
       new_data = new_data,
-      opts = opts
+      opts = opts,
+      type = type
     ) %>%
     rlang::eval_tidy()
   
@@ -104,7 +105,7 @@ check_pred_type <- function(object, type) {
   type
 }
 
-predict_members_regression <- function(model_stack, coefs, new_data, opts) {
+predict_members_regression <- function(model_stack, coefs, new_data, opts, type) {
   predictions <- 
     purrr::map(
       model_stack[["member_fits"]],
@@ -119,39 +120,70 @@ predict_members_regression <- function(model_stack, coefs, new_data, opts) {
   predictions
 }
 
-predict_members_classification <- function(model_stack, coefs, new_data, opts) {
-  purrr::map(
-    model_stack[["member_fits"]],
-    predict,
-    new_data = new_data,
-    type = "prob",
-    opts = opts
-  ) %>%
-    purrr::map(tibble::rowid_to_column) %>%
-    tibble::enframe() %>%
-    tidyr::unnest(cols = value) %>%
-    tidyr::pivot_wider(id_cols = rowid,
-                       names_from = name,
-                       values_from = 3:ncol(.)) %>%
-    dplyr::select(-rowid)
+predict_members_classification <- function(model_stack, coefs, new_data, opts, type) {
+  levels <- attr(new_data[[model_stack[["outcome"]]]], "levels")
+  
+  member_preds <- 
+    purrr::map(
+      model_stack[["member_fits"]],
+      predict,
+      new_data = new_data,
+      type = "prob",
+      opts = opts
+    ) %>%
+      purrr::map(tibble::rowid_to_column) %>%
+      tibble::enframe() %>%
+      tidyr::unnest(cols = value) %>%
+      tidyr::pivot_wider(id_cols = rowid,
+                         names_from = name,
+                         values_from = 3:ncol(.)) %>%
+      dplyr::select(-rowid)
+  
+  if (type == "prob") {
+    return(member_preds)
+  } else if (type == "class") {
+    return(
+      parse_member_probs(
+        member_preds, 
+        names(model_stack[["member_fits"]]),
+        levels
+      )
+    )
+  }
 }
 
-#' @importFrom generics augment
-#' @export
-generics::augment
-
-#' A barebones augment method to help with testing.
-#' 
-#' @param x A `model_stack` object
-#' @param data A `data.frame`-like object to collect predictions on.
-#' @inheritParams stacks
-#' 
-#' @importFrom generics augment
-#' @method augment model_stack
-#' @export augment.model_stack
-#' @export
-augment.model_stack <- function(x, data = x[["train"]], ...) {
-  data$.fitted <- predict(x, data)
-  
-  data
+parse_member_probs <- function(member_preds, member_names, levels) {
+  member_preds %>%
+    tibble::rowid_to_column() %>%
+    tidyr::pivot_longer(c(everything(), -rowid)) %>%
+    dplyr::mutate(
+      .pred_class = stringi::stri_replace_all_fixed(
+        name, 
+        paste0("_", member_names), 
+        ""
+      ),
+      member = stringi::stri_replace_all_fixed(
+        name, 
+        paste0(.pred_class, "_"),
+        ""
+      )) %>%
+    dplyr::select(rowid, .pred_class, member, value) %>%
+    tidyr::pivot_wider(
+      id_cols = c(rowid, member),
+      names_from = .pred_class,
+      values_from = value
+    ) %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate(
+      idx = which.max(dplyr::c_across(dplyr::starts_with(".pred_"))),
+      .pred_class = factor(levels[idx], levels = levels)
+    ) %>%
+    dplyr::select(rowid, member, .pred_class) %>%
+    tidyr::pivot_wider(
+      id_cols = c(rowid, member), 
+      names_from = member, 
+      values_from = .pred_class
+    ) %>%
+    dplyr::arrange(rowid) %>%
+    dplyr::select(-rowid)
 }
