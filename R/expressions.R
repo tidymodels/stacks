@@ -194,4 +194,44 @@ stack_predict.multnet_prob <- function(x, data, ...) {
 }
 
 
+## -----------------------------------------------------------------------------
+
+#' Obtain prediction equations for all possible values of type
+#' @param x A `parsnip` model with the glmnet engine. 
+#' @param ... Not used
+#' @return A named list with prediction equations for each possibel type.
+#' @export
+get_expressions <- function(x, ...) {
+  UseMethod("get_expressions")
+}
+
+#' @export
+#' @rdname get_expressions
+get_expressions._multnet <- function(x, ...) {
+  list(
+    class = prediction_eqn(x, type = "class"),
+    prob  = prediction_eqn(x, type = "prob")
+  )
+}
+
+#' @export
+#' @rdname get_expressions
+get_expressions._lognet <- function(x, ...) {
+  list(
+    class = prediction_eqn(x, type = "class"),
+    prob  = prediction_eqn(x, type = "prob")
+  )
+}
+
+#' @export
+#' @rdname get_expressions
+get_expressions._elnet <- function(x, ...) {
+  list(
+    numeric = prediction_eqn(x, type = "numeric")
+  )
+}
+
+
+
+
 

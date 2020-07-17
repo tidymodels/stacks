@@ -110,6 +110,7 @@ stack_blend <- function(data_stack, ...) {
     structure(
       list(model_defs = attr(data_stack, "model_defs"),
            coefs = coefs,
+           equations = get_expressions(coefs),
            cols_map = attr(data_stack, "cols_map"),
            model_metrics = attr(data_stack, "model_metrics"),
            train = attr(data_stack, "train"),

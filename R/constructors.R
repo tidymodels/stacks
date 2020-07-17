@@ -14,6 +14,7 @@ data_stack_constr <- function(data_stack) {
 
 model_stack_constr <- function(model_stack) {
   check_inherits(model_stack[["coefs"]], "model_fit")
+  check_inherits(model_stack[["equations"]], "list")
   check_inherits(model_stack[["train"]], "tbl_df")
   check_inherits(model_stack[["data_stack"]], "tbl_df")
   check_inherits(model_stack[["mode"]], "character")

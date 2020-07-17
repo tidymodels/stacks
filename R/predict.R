@@ -69,9 +69,11 @@ predict.model_stack <- function(object, new_data, type = NULL, members = FALSE,
     ) %>%
     rlang::eval_tidy()
   
-  # will now need to combine member predictions
+  if (members) {
+    return(member_preds)
+  }
   
-  invisible(TRUE)
+  stack_predict(object$equations[[type]], member_preds)
 }
 
 check_pred_type <- function(object, type) {
