@@ -4,13 +4,10 @@
 \alias{tidy.model_stack}
 \title{Tidy a \code{model_stack} object}
 \usage{
-\method{tidy}{model_stack}(x, data = x[["train"]], ...)
+\method{tidy}{model_stack}(x, ...)
 }
 \arguments{
 \item{x}{A \code{model_stack} object}
-
-\item{data}{A \code{data.frame}-like object containing all of the necessary
-predictors that the model stack was trained with.}
 
 \item{...}{Additional arguments. Currently ignored.}
 }
