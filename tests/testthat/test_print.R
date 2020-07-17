@@ -1,4 +1,8 @@
+context("print")
+
 test_that("data stack printing works", {
+  skip("will be updating print method soon.")
+  
   expect_output(
     print(st_reg_1), 
     "# A data stack with 1 model definition and 5 candidate members:\\n#   reg_res_svm: 5 sub-models"
