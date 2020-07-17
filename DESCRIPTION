@@ -23,7 +23,7 @@ Depends:
     R (>= 2.10)
 Imports:
     tune (>= 0.1.1),
-    dplyr (>= 0.8.5),
+    dplyr (>= 1.0.0),
     rlang (>= 0.4.0),
     tibble (>= 2.1.3),
     purrr (>= 0.3.2), 
@@ -47,6 +47,7 @@ Suggests:
     covr,
     kernlab,
     knitr,
+    modeldata,
     rmarkdown,
     palmerpenguins,
     ranger,

@@ -12,6 +12,7 @@ utils::globalVariables(c(
   ".config",
   ".metric",
   ".pred",
+  ".pred_class",
   "as.formula",
   "coef",
   "contains",
@@ -19,7 +20,11 @@ utils::globalVariables(c(
   "estimate.x",
   "estimate.y",
   "id",
+  "idx",
+  "lp",
   "member",
+  "model_type",
+  "n",
   "name",
   "name.x",
   "new",
@@ -294,7 +299,7 @@ update_stack_data <- function(stack, new_data) {
 
 # get the coefficients from the best glmnet result
 .get_glmn_coefs <- function(x, penalty = 0.01) {
-  x <- coef(x, s = penalty)
+  x <- glmnet::coef.glmnet(x, s = penalty)
   x <- as.matrix(x)
   colnames(x) <- "estimate"
   rn <- rownames(x)
