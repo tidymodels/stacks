@@ -14,6 +14,7 @@ utils::globalVariables(c(
   ".pred",
   ".pred_class",
   "as.formula",
+  "assess_object",
   "coef",
   "contains",
   "estimate",
