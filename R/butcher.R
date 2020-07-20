@@ -167,10 +167,17 @@ process_component_models <- function(model_stack, fxn) {
   res[["member_fits"]] <-
     purrr::map(
       res[["member_fits"]],
+      process_member_fit,
       fxn
     )
   
   res
+}
+
+process_member_fit <- function(member_fit, fxn) {
+  member_fit[["fit"]][["fit"]] <- fxn(member_fit[["fit"]][["fit"]])
+  
+  member_fit
 }
 
 # copied from tidymodels/butcher
