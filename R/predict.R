@@ -143,47 +143,20 @@ predict_members_classification <- function(model_stack, coefs, new_data, opts, t
     return(member_preds)
   } else if (type == "class") {
     return(
-      parse_member_probs(
-        member_preds, 
+      purrr::map_dfc(
         names(model_stack[["member_fits"]]),
+        parse_member_probs,
+        member_preds,
         levels
       )
     )
   }
 }
 
-parse_member_probs <- function(member_preds, member_names, levels) {
-  member_preds %>%
-    tibble::rowid_to_column() %>%
-    tidyr::pivot_longer(c(dplyr::everything(), -rowid)) %>%
-    dplyr::mutate(
-      .pred_class = stringi::stri_replace_all_fixed(
-        name, 
-        paste0("_", member_names), 
-        ""
-      ),
-      member = stringi::stri_replace_all_fixed(
-        name, 
-        paste0(.pred_class, "_"),
-        ""
-      )) %>%
-    dplyr::select(rowid, .pred_class, member, value) %>%
-    tidyr::pivot_wider(
-      id_cols = c(rowid, member),
-      names_from = .pred_class,
-      values_from = value
-    ) %>%
-    dplyr::rowwise() %>%
-    dplyr::mutate(
-      idx = which.max(dplyr::c_across(dplyr::starts_with(".pred_"))),
-      .pred_class = factor(levels[idx], levels = levels)
-    ) %>%
-    dplyr::select(rowid, member, .pred_class) %>%
-    tidyr::pivot_wider(
-      id_cols = c(rowid, member), 
-      names_from = member, 
-      values_from = .pred_class
-    ) %>%
-    dplyr::arrange(rowid) %>%
-    dplyr::select(-rowid)
+parse_member_probs <- function(member_name, member_probs, levels) {
+  member_probs[, grepl(member_name, colnames(member_probs))] %>%
+    multi_net_helper() %>%
+    dplyr::transmute(
+      !!paste0(".pred_class_", member_name) := factor(levels[idx], levels = levels)
+    )
 }

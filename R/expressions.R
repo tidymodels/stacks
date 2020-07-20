@@ -163,6 +163,11 @@ stack_predict.lognet_prob <- function(x, data, ...) {
 multi_net_engine <- function(x, data, ...) {
   res <- 
     purrr::map_dfc(x$.pred, rlang::eval_tidy, data = data) %>% 
+    multi_net_helper()
+}
+
+multi_net_helper <- function(data, ...) {
+  data %>%
     dplyr::rowwise() %>% 
     dplyr::mutate(
       .sum = sum(dplyr::c_across(dplyr::starts_with(".pred_"))),
