@@ -224,11 +224,10 @@ check_inherits <- function(x, what) {
       .config
     ) %>%
     dplyr::mutate(
-      .config = stringi::stri_replace_all_fixed(
-        .config,
-        c("Model", "Recipe"),
-        name,
-        vectorize_all = FALSE
+      .config = gsub(
+        pattern = c("Model|Recipe"),
+        replacement = name,
+        x = .config,
       )) %>%
     tidyr::pivot_wider(
       id_cols = c(".row", !!tune::.get_tune_outcome_names(candidates)), 
@@ -237,11 +236,7 @@ check_inherits <- function(x, what) {
     ) %>%
     dplyr::select(-.row) 
   
-  pred_class_idx <- 
-    stringi::stri_detect_fixed(
-      colnames(candidate_cols), 
-      ".pred_class"
-    )
+  pred_class_idx <- grepl(pattern = ".pred_class", x = colnames(candidate_cols))
   
   candidate_cols <- candidate_cols[,!pred_class_idx]
   
@@ -364,12 +359,11 @@ sanitize_classification_names <- function(model_stack, member_names) {
   
   pred_strings <- paste0(".pred_", outcome_levels, "_")
   
-  new_member_names <- 
-    stringi::stri_replace_all_fixed(
-      member_names,
-      pred_strings,
-      "",
-      vectorize_all = FALSE
+  new_member_names <-
+    gsub(
+      pattern = paste0(pred_strings, collapse = "|"),
+      x = member_names,
+      replacement = ""
     )
   
   tibble::tibble(

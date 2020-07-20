@@ -84,13 +84,11 @@ stack_fit <- function(model_stack, verbose = FALSE, ...) {
     tibble::enframe(model_stack[["model_metrics"]]) %>%
     tidyr::unnest(cols = value) %>%
     dplyr::mutate(
-      .config = stringi::stri_replace_all_fixed(
-        .config,
-        c("Model", "Recipe"),
-        "",
-        vectorize_all = FALSE)
-      ) %>%
-    dplyr::mutate(
+      .config = gsub(
+        pattern = c("Model|Recipe"),
+        replacement = "",
+        x = .config,
+      ),
       .config = dplyr::case_when(
         !is.na(.config) ~ paste0(name, .config),
         TRUE ~ paste0(name, "1")

@@ -39,7 +39,6 @@ Imports:
     ggplot2,
     glmnet,
     rsample,
-    stringi,
     cli,
     crayon,
     butcher
