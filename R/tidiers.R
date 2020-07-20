@@ -29,8 +29,13 @@ generics::augment
 #' # clarification on the data and tuning results
 #' # objects used in these examples!
 #' 
+#' # to use the `tidy` method, the appropriate glance
+#' # methods must be loaded for the member model tidiers.
+#' # in this example, they come from broom!
+#' library(broom)
+#' 
 #' # build a regression model stack
-#' reg_st <-
+#' st <-
 #'   stacks() %>%
 #'   stack_add(reg_res_lr) %>%
 #'   stack_add(reg_res_sp) %>%
@@ -38,22 +43,9 @@ generics::augment
 #'   stack_fit()
 #'   
 #' # check the model stack out!
-#' tidy(reg_st)
-#' glance(reg_st)
-#' augment(reg_st)
-#' 
-#' # build a classification model stack
-#' class_st <-
-#'   stacks() %>%
-#'   stack_add(class_res_nn) %>%
-#'   stack_add(class_res_rf) %>%
-#'   stack_blend() %>%
-#'   stack_fit()
-#' 
-#' # check the model stack out!
-#' tidy(class_st)
-#' glance(class_st)
-#' augment(class_st)
+#' tidy(st)
+#' glance(st)
+#' augment(st)
 #' }
 #' 
 #' @importFrom generics augment
