@@ -41,7 +41,8 @@ Imports:
     rsample,
     stringi,
     cli,
-    crayon
+    crayon,
+    butcher
 Suggests: 
     testthat,
     covr,

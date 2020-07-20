@@ -155,7 +155,7 @@ predict_members_classification <- function(model_stack, coefs, new_data, opts, t
 parse_member_probs <- function(member_preds, member_names, levels) {
   member_preds %>%
     tibble::rowid_to_column() %>%
-    tidyr::pivot_longer(c(everything(), -rowid)) %>%
+    tidyr::pivot_longer(c(dplyr::everything(), -rowid)) %>%
     dplyr::mutate(
       .pred_class = stringi::stri_replace_all_fixed(
         name, 
