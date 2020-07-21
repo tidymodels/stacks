@@ -100,9 +100,9 @@ butcher::axe_data
 axe_data.model_stack <- function(x, verbose = FALSE, ...) {
   res <- process_component_models(x, butcher::axe_data)
   
-  res <- exchange(x, "train", tibble::tibble())
-  res <- exchange(x, "splits", list())
-  res <- exchange(x, "data_stack", tibble::tibble())
+  res <- exchange(res, "train", tibble::tibble())
+  res <- exchange(res, "splits", list())
+  res <- exchange(res, "data_stack", tibble::tibble())
   
   add_butcher_attributes(
     res,
