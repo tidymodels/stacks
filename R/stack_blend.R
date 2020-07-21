@@ -149,20 +149,22 @@ stack_blend <- function(data_stack, penalty = 10 ^ (-6:-1), verbose = FALSE, ...
 # makes an rsample-like object out of its splits
 # and replaces the training data with the stack data
 reconstruct_resamples <- function(splits, data) {
-  res <- 
-    splits %>%
-    tibble::enframe(name = NULL, value = "splits") %>%
-    dplyr::mutate(
-      id = purrr::map_chr(splits, function(x) dplyr::pull(x[["id"]]))
-    )
-    
+  res <- splits
+  
   res[["splits"]] <-
     purrr::map(
       res[["splits"]],
       function(x) {x[["data"]] <- data; x}
     )
   
-  structure(res, class = c("rset", class(res)))
+  new_classes <- c(attr(splits, "rset_info")[["att"]][["class"]], 
+                   "rset", 
+                   class(res))
+  
+  
+  res <- safe_attr(res, attr(splits, "rset_info")[["att"]])
+  
+  structure(res, class = new_classes)
 }
 
 check_penalty <- function(x) {
@@ -180,4 +182,20 @@ check_penalty <- function(x) {
   if (any(x <= 0)) {
     glue_stop("Please supply only nonnegative values to the penalty argument.")
   }
+}
+
+# set attributes from new_attr that are not
+# already set in x
+safe_attr <- function(x, new_attr) {
+  res <- x
+  
+  x_attr <- attributes(x)
+  
+  dup_attrs <- names(new_attr) %in% names(x_attr)
+  
+  attributes(res) <- c(x_attr, new_attr[!dup_attrs])
+  
+  attr(res, "rset_info") <- NULL
+  
+  res
 }

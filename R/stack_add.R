@@ -117,7 +117,8 @@ stack_add <- function(data_stack, candidates,
 # don't need to check the resample as it would be
 # redundant with checking it's hash
 .set_splits <- function(stack, candidates) {
-  attr(stack, "splits") <- candidates[["splits"]]
+  attr(stack, "splits") <- candidates %>% dplyr::select(splits, id)
+  attr(attr(stack, "splits"), "rset_info") <- attr(candidates, "rset_info")
   
   stack
 }
