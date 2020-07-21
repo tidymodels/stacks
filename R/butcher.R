@@ -31,12 +31,12 @@ butcher::butcher
 #' axe_env(st)
 #' 
 #' # or do it all at once!
-#' butchered_st <- butcher(st)
+#' butchered_st <- butcher(st, verbose = TRUE)
 #' 
 #' format(object.size(st))
 #' format(object.size(butchered_st))
 #' 
-#' @name axe-model_stack
+#' @name axe_model_stack
 NULL
 
 #' @importFrom butcher axe_call
@@ -45,7 +45,7 @@ butcher::axe_call
 
 #' Remove the call.
 #'
-#' @rdname axe-model_stack
+#' @rdname axe_model_stack
 #' @importFrom butcher axe_call
 #' @method axe_call model_stack
 #' @export axe_call.model_stack
@@ -68,7 +68,7 @@ butcher::axe_ctrl
 
 #' Remove controls used for training.
 #'
-#' @rdname axe-model_stack
+#' @rdname axe_model_stack
 #' @importFrom butcher axe_ctrl
 #' @method axe_ctrl model_stack
 #' @export axe_ctrl.model_stack
@@ -76,10 +76,11 @@ butcher::axe_ctrl
 axe_ctrl.model_stack <- function(x, verbose = FALSE, ...) {
   res <- process_component_models(x, butcher::axe_ctrl)
   
+  res <- exchange(res, "model_defs", list())
+  
   add_butcher_attributes(
     res,
     x,
-    disabled = c("some_function()", "another_function()"),
     add_class = FALSE,
     verbose = verbose
   )
@@ -91,7 +92,7 @@ butcher::axe_data
 
 #' Remove the training data.
 #'
-#' @rdname axe-model_stack
+#' @rdname axe_model_stack
 #' @importFrom butcher axe_data
 #' @method axe_data model_stack
 #' @export axe_data.model_stack
@@ -100,6 +101,8 @@ axe_data.model_stack <- function(x, verbose = FALSE, ...) {
   res <- process_component_models(x, butcher::axe_data)
   
   res <- exchange(x, "train", tibble::tibble())
+  res <- exchange(x, "splits", list())
+  res <- exchange(x, "data_stack", tibble::tibble())
   
   add_butcher_attributes(
     res,
@@ -116,7 +119,7 @@ butcher::axe_env
 
 #' Remove environments.
 #'
-#' @rdname axe-model_stack
+#' @rdname axe_model_stack
 #' @importFrom butcher axe_env
 #' @method axe_env model_stack
 #' @export axe_env.model_stack
@@ -127,7 +130,6 @@ axe_env.model_stack <- function(x, verbose = FALSE, ...) {
   add_butcher_attributes(
     res,
     x,
-    disabled = c("some_function()", "another_function()"),
     add_class = FALSE,
     verbose = verbose
   )
@@ -139,18 +141,17 @@ butcher::axe_fitted
 
 #' Remove fitted values.
 #'
-#' @rdname axe-model_stack
+#' @rdname axe_model_stack
 #' @importFrom butcher axe_fitted
 #' @method  axe_fitted model_stack
 #' @export axe_fitted.model_stack
 #' @export
 axe_fitted.model_stack <- function(x, verbose = FALSE, ...) {
-  res <- process_component_models(x, butcher::axe_env)
+  res <- process_component_models(x, butcher::axe_fitted)
   
   add_butcher_attributes(
     res,
     x,
-    disabled = c("some_function()", "another_function()"),
     add_class = FALSE,
     verbose = verbose
   )
@@ -176,6 +177,10 @@ process_component_models <- function(model_stack, fxn) {
 
 process_member_fit <- function(member_fit, fxn) {
   member_fit[["fit"]][["fit"]] <- fxn(member_fit[["fit"]][["fit"]])
+  member_fit[["pre"]][["actions"]][["recipe"]][["recipe"]] <- 
+    fxn(member_fit[["pre"]][["actions"]][["recipe"]][["recipe"]])
+  member_fit[["pre"]][["mold"]][["blueprint"]][["recipe"]] <- 
+    fxn(member_fit[["pre"]][["mold"]][["blueprint"]][["recipe"]])
   
   member_fit
 }
