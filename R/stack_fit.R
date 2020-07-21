@@ -127,3 +127,67 @@ stack_fit <- function(model_stack, verbose = FALSE, ...) {
   
   if (model_stack_constr(model_stack)) {model_stack}
 }
+
+
+# fit one member of the ensemble
+fit_member <- function(name, wflows, members_map, train_dat) {
+  member_row <- 
+    members_map %>%
+    dplyr::filter(value == name)
+  
+  member_params <- 
+    wflows[[member_row$name.x]] %>%
+    dials::parameters() %>%
+    dplyr::pull(id)
+  
+  needs_finalizing <- length(member_params) != 0
+  
+  if (needs_finalizing) {
+    member_metrics <-
+      members_map %>%
+      dplyr::filter(value == name)
+    
+    member_wf <- 
+      wflows[[member_metrics$name.x]]
+    
+    new_member <- 
+      tune::finalize_workflow(member_wf, member_metrics[,member_params]) %>%
+      generics::fit(data = train_dat)
+  } else {
+    member_model <-
+      members_map %>%
+      dplyr::filter(value == name) %>%
+      dplyr::select(name.x) %>%
+      dplyr::pull()
+    
+    new_member <-
+      generics::fit(wflows[[member_model[1]]], data = train_dat)
+  }
+  
+  new_member
+}
+
+# creates a map for column / entry names resulting
+# from tuning in the classification setting
+sanitize_classification_names <- function(model_stack, member_names) {
+  outcome_levels <-
+    model_stack[["train"]] %>%
+    dplyr::select(!!.get_outcome(model_stack)) %>%
+    dplyr::pull() %>%
+    as.character() %>%
+    unique()
+  
+  pred_strings <- paste0(".pred_", outcome_levels, "_")
+  
+  new_member_names <-
+    gsub(
+      pattern = paste0(pred_strings, collapse = "|"),
+      x = member_names,
+      replacement = ""
+    )
+  
+  tibble::tibble(
+    old = member_names,
+    new = new_member_names
+  )
+}
