@@ -134,6 +134,15 @@ check_inherits <- function(x, what) {
   stack
 }
 
+# set the resamples used in the data stack --
+# don't need to check the resample as it would be
+# redundant with checking it's hash
+.set_splits <- function(stack, candidates) {
+  attr(stack, "splits") <- candidates[["splits"]]
+  
+  stack
+}
+
 # note whether classification or regression
 .set_mode_ <- function(stack, candidates, name) {
   wf_spec <- 
@@ -286,6 +295,7 @@ update_stack_data <- function(stack, new_data) {
   attr(new_data, "model_hashes") <- attr(stack, "model_hashes") 
   attr(new_data, "model_metrics")  <- attr(stack, "model_metrics") 
   attr(new_data, "train") <- attr(stack, "train")
+  attr(new_data, "splits") <- attr(stack, "splits")
 
   structure(
     new_data,

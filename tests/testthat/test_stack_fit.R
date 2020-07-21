@@ -57,4 +57,8 @@ test_that("stack_fit leaves most model stack elements alone", {
   expect_equal(st_reg_1__[["model_defs"]], st_reg_1_[["model_defs"]])
   expect_equal(st_class_1__[["model_defs"]], st_class_1_[["model_defs"]])
   expect_equal(st_log_1__[["model_defs"]], st_log_1_[["model_defs"]])
+  
+  expect_equal(st_reg_1__[["splits"]], st_reg_1_[["splits"]])
+  expect_equal(st_class_1__[["splits"]], st_class_1_[["splits"]])
+  expect_equal(st_log_1__[["splits"]], st_log_1_[["splits"]])
 })

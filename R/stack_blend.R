@@ -109,7 +109,7 @@ stack_blend <- function(data_stack, verbose = FALSE, ...) {
   candidates <- 
     preds_wf %>%
     tune::tune_grid(
-      resamples = rsample::bootstraps(dat),
+      resamples = reconstruct_resamples(attr(data_stack, "splits"), dat),
       grid = tibble::tibble(penalty = 10 ^ (-6:-1)),
       metrics = metric,
       control = tune::control_grid(save_pred = TRUE)
@@ -130,9 +130,30 @@ stack_blend <- function(data_stack, verbose = FALSE, ...) {
            train = attr(data_stack, "train"),
            mode = attr(data_stack, "mode"),
            outcome = attr(data_stack, "outcome"),
-           data_stack = dat),
+           data_stack = dat,
+           splits = attr(data_stack, "splits")),
       class = c("linear_stack", "model_stack", "list")
     )
   
   if (model_stack_constr(model_stack)) {model_stack}
 }
+
+# makes an rsample-like object out of its splits
+# and replaces the training data with the stack data
+reconstruct_resamples <- function(splits, data) {
+  res <- 
+    splits %>%
+    tibble::enframe(name = NULL, value = "splits") %>%
+    dplyr::mutate(
+      id = purrr::map_chr(splits, function(x) dplyr::pull(x[["id"]]))
+    )
+    
+  res[["splits"]] <-
+    purrr::map(
+      res[["splits"]],
+      function(x) {x[["data"]] <- data; x}
+    )
+  
+  structure(res, class = c("rset", class(res)))
+}
+

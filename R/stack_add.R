@@ -72,6 +72,7 @@ stack_add <- function(data_stack, candidates,
   stack <- 
     data_stack %>%
     .set_rs_hash(candidates, name) %>%
+    .set_splits(candidates) %>%
     .set_outcome(candidates) %>%
     .set_mode_(candidates, name) %>%
     .set_training_data(candidates, name) %>%
