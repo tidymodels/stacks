@@ -5,6 +5,10 @@
 #' from ensemble members.
 #' 
 #' @param data_stack A `data_stack` object
+#' @param penalty A numeric vector of proposed penalty values used in member
+#'   weighting. Higher penalties will generally result in fewer members 
+#'   being included in the resulting model stack, and vice versa. This argument
+#'   will be tuned on unless a single penalty value is given.
 #' @param verbose A logical for logging results as they are generated. Despite 
 #'   this argument, warnings and errors are always shown.
 #' @inheritParams stack_add
@@ -32,8 +36,10 @@
 #' # evaluate the data stack
 #' reg_st %>%
 #'   stack_blend()
-#'   
-#' reg_st
+#' 
+#' # include fewer models by proposing
+#' # higher penalties
+#' reg_st %>% stack_blend(penalty = c(.5, 1))
 #'   
 #' # do the same with multinomial classification models
 #' class_st <-
@@ -56,8 +62,10 @@
 #' 
 #' @family core verbs
 #' @export
-stack_blend <- function(data_stack, verbose = FALSE, ...) {
+stack_blend <- function(data_stack, penalty = 10 ^ (-6:-1), verbose = FALSE, ...) {
   outcome <- attr(data_stack, "outcome")
+  
+  check_penalty(penalty)
   
   preds_formula <- 
     paste0(outcome, " ~ .") %>%
@@ -110,7 +118,7 @@ stack_blend <- function(data_stack, verbose = FALSE, ...) {
     preds_wf %>%
     tune::tune_grid(
       resamples = reconstruct_resamples(attr(data_stack, "splits"), dat),
-      grid = tibble::tibble(penalty = 10 ^ (-6:-1)),
+      grid = tibble::tibble(penalty = penalty),
       metrics = metric,
       control = tune::control_grid(save_pred = TRUE)
     )

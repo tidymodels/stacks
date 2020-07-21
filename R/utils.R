@@ -76,6 +76,23 @@ check_inherits <- function(x, what) {
   invisible(TRUE)
 }
 
+check_penalty <- function(x) {
+  if (!is.numeric(x)) {
+    glue_stop(
+      "The argument to 'penalty' must be a numeric, but the supplied penalty's ",
+      "class is `{list(class(x))}`"
+    )
+  }
+  
+  if (length(x) == 0) {
+    glue_stop("Please supply one or more penalty values.")
+  }
+  
+  if (any(x <= 0)) {
+    glue_stop("Please supply only nonnegative values to the penalty argument.")
+  }
+}
+
 # Constructor Utilities
 # ------------------------------------------------------------------------
 
