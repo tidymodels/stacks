@@ -114,13 +114,19 @@ stack_blend <- function(data_stack, penalty = 10 ^ (-6:-1), verbose = FALSE, ...
       workflows::add_model(model_spec)
   }
   
+  get_models <- function(x) {
+    x %>% 
+      workflows::pull_workflow_fit() %>% 
+      purrr::pluck("fit")
+  }
+  
   candidates <- 
     preds_wf %>%
     tune::tune_grid(
       resamples = reconstruct_resamples(attr(data_stack, "splits"), dat),
       grid = tibble::tibble(penalty = penalty),
       metrics = metric,
-      control = tune::control_grid(save_pred = TRUE)
+      control = tune::control_grid(save_pred = TRUE, extract = get_models)
     )
   
   coefs <-
