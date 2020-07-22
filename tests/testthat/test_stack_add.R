@@ -55,7 +55,14 @@ test_that("stack won't add bad members", {
   expect_error(
     st_0 %>%
       stack_add(reg_res_sp) %>%
-      stack_add(reg_res_svm_new_folds),
+      stack_add(reg_res_svm_2),
+    "same resampling object"
+  )
+  
+  expect_error(
+    st_0 %>%
+      stack_add(reg_res_sp) %>%
+      stack_add(reg_res_svm_3),
     "same resampling object"
   )
 
