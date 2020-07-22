@@ -120,10 +120,16 @@ stack_blend <- function(data_stack, penalty = 10 ^ (-6:-1), verbose = FALSE, ...
       purrr::pluck("fit")
   }
   
+  splits <- attr(data_stack, "splits")
+  if (inherits(splits[[1]], "val_split")) {
+    rs <-  rsample::bootstraps(dat, times = 20)
+  } else {
+    rs <- reconstruct_resamples(attr(data_stack, "splits"), dat)
+  }
   candidates <- 
     preds_wf %>%
     tune::tune_grid(
-      resamples = reconstruct_resamples(attr(data_stack, "splits"), dat),
+      resamples = rs,
       grid = tibble::tibble(penalty = penalty),
       metrics = metric,
       control = tune::control_grid(save_pred = TRUE, extract = get_models)
