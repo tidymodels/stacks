@@ -62,7 +62,7 @@ st_log_2 <-
 # generate a resampling object with a slightly different set of folds
 set.seed(2)
 library(palmerpenguins)
-data(penguins)
+data("penguins", package = "palmerpenguins")
 penguins <- penguins[!is.na(penguins$sex),]
 penguins_split <- rsample::initial_split(penguins)
 penguins_train <- rsample::training(penguins_split)
