@@ -138,6 +138,7 @@ stack_blend <- function(data_stack, penalty = 10 ^ (-6:-1), verbose = FALSE, ...
     structure(
       list(model_defs = attr(data_stack, "model_defs"),
            coefs = coefs,
+           metrics = glmnet_metrics(candidates),
            equations = get_expressions(coefs),
            cols_map = attr(data_stack, "cols_map"),
            model_metrics = attr(data_stack, "model_metrics"),
@@ -187,3 +188,35 @@ check_penalty <- function(x) {
     glue_stop("Please supply only nonnegative values to the penalty argument.")
   }
 }
+
+# ------------------------------------------------------------------------------
+
+glmnet_metrics <- function(x) {
+  res <- tune::collect_metrics(x)
+  pens <- sort(unique(res$penalty))
+  x$glmnet_fits <- purrr::map(x$.extracts, ~ .x$.extracts[[1]])
+  num_mem <- 
+    purrr::map_dfr(x$glmnet_fits, num_members, pens) %>% 
+    dplyr::group_by(penalty) %>% 
+    dplyr::summarize(
+      .metric = "num_members",
+      .estimator = "Poisson",
+      mean = mean(members), 
+      n = sum(!is.na(members)),
+      std_err = sqrt(mean(members)/sum(!is.na(members)))
+    ) %>% 
+    dplyr::ungroup() %>% 
+    dplyr::full_join(
+      res %>% dplyr::select(penalty, .config) %>% dplyr::distinct(),
+      by = "penalty"
+    )
+  dplyr::bind_rows(res, num_mem)
+}
+
+num_members <- function(x, penalties) {
+  mems <- 
+    coef(x, s = penalties) %>% 
+    apply(2, function(x) sum(x != 0))
+  tibble::tibble(penalty = penalties, members = unname(mems))  
+}
+
