@@ -63,9 +63,12 @@
 #' @family core verbs
 #' @export
 stack_blend <- function(data_stack, penalty = 10 ^ (-6:-1), verbose = FALSE, ...) {
-  outcome <- attr(data_stack, "outcome")
-  
+  check_inherits(data_stack, "data_stack")
+  check_blend_data_stack(data_stack)
   check_penalty(penalty)
+  check_inherits(verbose, "logical")
+  
+  outcome <- attr(data_stack, "outcome")
   
   preds_formula <- 
     paste0(outcome, " ~ .") %>%
@@ -198,4 +201,27 @@ safe_attr <- function(x, new_attr) {
   attr(res, "rset_info") <- NULL
   
   res
+}
+
+check_blend_data_stack <- function(data_stack) {
+  # many possible checks we could do here are redundant with those we
+  # carry out in stack_fit() -- just check for bare stacks, 1-candidate
+  # stacks, and non-stack objects
+  if (!inherits(data_stack, "data_stack")) {
+    check_inherits(data_stack, "data_stack")
+  } else if (ncol(data_stack) == 0) {
+      glue_stop(
+        "The data stack supplied as the argument to `data_stack` has no ",
+        "candidate members. Please first add candidates with ",
+        "the `stack_add()` function."
+      )
+  } else if ((ncol(data_stack) == 2 && attr(data_stack, "mode") == "regression") || 
+             ncol(data_stack) == length(levels(data_stack[[1]])) + 1) {
+    glue_stop(
+      "The supplied data stack only contains one candidate member. Please ",
+      "add more candidate members using `stack_add()` before blending."
+    )
+  }
+  
+  invisible(NULL)
 }

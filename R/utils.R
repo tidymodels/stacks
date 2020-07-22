@@ -55,17 +55,6 @@ glue_message <- function(..., .sep = "", .envir = parent.frame()) {
   rlang::inform(glue::glue(..., .sep = .sep, .envir = .envir))
 }
 
-check_chr <- function(x) {
-  cl <- match.call()
-  
-  if (!is.character(x)) {
-    glue_stop("Element `{cl$x}` should be a character string, but is of ",
-              "class {list(class(x))}.")
-  }
-  
-  invisible(TRUE)
-}
-
 check_inherits <- function(x, what) {
   cl <- match.call()
   

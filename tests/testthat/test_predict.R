@@ -40,7 +40,23 @@ test_that("predict method works (classification)", {
 })
 
 test_that("predict method errors informatively", {
-  skip("Soon. :-)")
+  expect_error(
+    st_reg_1 %>% predict(penguins_test),
+    "supplied data stack must be evaluated with"
+  )
   
-  expect_true(TRUE)
+  expect_error(
+    st_reg_1_ %>% predict(penguins_test),
+    "hasn't been fitted yet."
+  )
+  
+  expect_error(
+    st_reg_1__ %>% predict(penguins_test, members = "for sure!"),
+    "needs to inherit from `logical`, but its class is `character`."
+  )
+  
+  expect_error(
+    st_reg_1__ %>% predict(penguins_test, opts = TRUE),
+    "needs to inherit from `list`, but its class is `logical`."
+  )
 })
