@@ -67,6 +67,17 @@
 #' @export
 stack_add <- function(data_stack, candidates,
                            name = deparse(substitute(candidates)), ...) {
+  check_inherits(data_stack, "data_stack")
+  if (!rlang::inherits_any(
+    candidates, 
+    c("tune_results", "tune_bayes", "resample_results")
+  )) {
+    glue_stop(
+      "The inputted `candidates` argument has class `{list(class(candidates))}`",
+      ", but it should inherit from one of 'tune_results', 'tune_bayes', ",
+      "or 'resample_results'."
+    )
+  }
   check_chr(name)
   
   stack <- 
