@@ -104,7 +104,7 @@ top_coefs <- function(x, n = 10) {
     dplyr::arrange(dplyr::desc(estimate)) 
   
   if (any(names(res) == "class")) {
-    res <- dplyr::select(res, model = model_type, weight = estimate, class)
+    res <- dplyr::select(res, model = model_type, weight = estimate, class, terms)
   } else {
     res <- dplyr::select(res, model = model_type, weight = estimate)
   }
@@ -112,7 +112,7 @@ res
 }
 
 print_top_coefs <- function(x, n = 10, digits = 3) {
-  res <- top_coefs(x, n)
+  res <- top_coefs(x, n) %>% dplyr::select(-terms)
   
   msg <- paste("The", n, "highest weighted sub-models were:")
   rlang::inform(msg)
@@ -129,7 +129,7 @@ member_summary <- function(x) {
   used_betas <- dplyr::filter(betas, estimate != 0)
   used_terms <- nrow(used_betas)
   
-  msg <- paste0("Out of ", length(all_terms), " possible sub-models, the ",
+  msg <- paste0("Out of ", length(all_terms), " possible candidates, the ",
                 "ensemble contains ", used_terms, " non-zero ", 
                 ifelse(used_terms > 1, "members", "member"), ".")
   rlang::inform(msg)

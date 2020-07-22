@@ -126,6 +126,7 @@ stack_blend <- function(data_stack, penalty = 10 ^ (-6:-1), verbose = FALSE, ...
   } else {
     rs <- reconstruct_resamples(attr(data_stack, "splits"), dat)
   }
+  
   candidates <- 
     preds_wf %>%
     tune::tune_grid(
@@ -207,9 +208,9 @@ glmnet_metrics <- function(x) {
     dplyr::summarize(
       .metric = "num_members",
       .estimator = "Poisson",
-      mean = mean(members), 
+      mean = mean(members, na.rm = TRUE), 
       n = sum(!is.na(members)),
-      std_err = sqrt(mean(members)/sum(!is.na(members)))
+      std_err = sqrt(mean/n)
     ) %>% 
     dplyr::ungroup() %>% 
     dplyr::full_join(
@@ -220,9 +221,12 @@ glmnet_metrics <- function(x) {
 }
 
 num_members <- function(x, penalties) {
-  mems <- 
-    coef(x, s = penalties) %>% 
-    apply(2, function(x) sum(x != 0))
+  glmn_coef <-  coef(x, s = penalties)
+  if (is.list(glmn_coef)) {
+    glmn_coef <- do.call("rbind", glmn_coef)
+  }
+  glmn_coef <- glmn_coef[rownames(glmn_coef) != "(Intercept)",,drop = FALSE]
+  mems <- apply(glmn_coef, 2, function(x) sum(x != 0))
   tibble::tibble(penalty = penalties, members = unname(mems))  
 }
 

@@ -3,12 +3,14 @@
 ggplot2::autoplot
 
 
-#' Plot results of a linear ensemble model
+#' Plot results of a linear stacking model
 #' 
 #' @param x A `linear_stack` object.
 #' @param type A single character string for plot type with values "performance", 
 #' "members", or "weights".
-#' @param n An integer for how many members to plot when `type = "weights"`. 
+#' @param n An integer for how many members weights to plot when 
+#' `type = "weights"`. With multi-class data, this is the total number of weights
+#' across classes; otherwise this is equal to the number of members. 
 #' @param ... Not currently used. 
 #' @return A `ggplot` object. 
 #' @details 
@@ -44,15 +46,21 @@ member_plot <- function(x) {
   dat <- x$metrics
   plot_dat <- 
     dat %>% 
-    dplyr::select(penalty, .config, mean, .metric) %>% 
-    tidyr::pivot_wider(
-      id_cols = c(penalty, .config),
-      names_from = ".metric",
-      values_from = "mean"
-    )
+    dplyr::select(penalty, .config, mean, .metric) 
+  
+  memb_data <- 
+    dplyr::filter(plot_dat, .metric == "num_members") %>% 
+    dplyr::rename(num_members = mean) %>% 
+    dplyr::select(-.metric)
+  
+  other_metrics <- dplyr::filter(plot_dat, .metric != "num_members")
+  
+  plot_dat <- dplyr::full_join(memb_data, other_metrics, by = c("penalty", ".config"))
+  
   p <- 
-    ggplot2::ggplot(plot_dat, ggplot2::aes(x = num_members, y = roc_auc)) +
+    ggplot2::ggplot(plot_dat, ggplot2::aes(x = num_members, y = mean)) +
     ggplot2::geom_point() + 
+    ggplot2::facet_wrap(~ .metric) + 
     ggplot2::xlab("Average number of members")
   p
 }
@@ -72,16 +80,31 @@ weights_plot <- function(x, n = Inf) {
   dat <- stacks:::top_coefs(x, n)
   
   if (any(names(dat) == "class")) {
-    
+    dat_order <- 
+      dat %>% 
+      dplyr::group_by(model, terms) %>% 
+      dplyr::summarize(mean = max(weight, na.rm = TRUE)) %>% 
+      dplyr::ungroup() %>% 
+      dplyr::arrange(mean) %>% 
+      dplyr::mutate(member = dplyr::row_number()) %>% 
+      dplyr::select(-mean)
+    dat <- dplyr::full_join(dat, dat_order, by = c("model", "terms"))
   } else {
-    p <- 
+    dat <- 
       dat %>% 
       dplyr::arrange(weight) %>% 
-      dplyr::mutate(member = dplyr::row_number()) %>% 
-      ggplot2::ggplot(ggplot2::aes(x = weight, y = format(member), fill = model)) + 
-      ggplot2::geom_bar(stat = "identity") + 
-      ggplot2::ylab("member") + 
-      ggplot2::theme(axis.ticks.y = ggplot2::element_blank())
+      dplyr::mutate(member = dplyr::row_number())
+  }
+  p <- 
+    ggplot2::ggplot(dat, ggplot2::aes(x = weight, y = format(member), fill = model)) + 
+    ggplot2::geom_bar(stat = "identity") + 
+    ggplot2::ylab("Member") + 
+    ggplot2::ggtitle(paste("penalty =", format(x$coefs$spec$args$penalty, digits = 3))) + 
+    ggplot2::geom_vline(xintercept = 0) + 
+    ggplot2::xlab("Member Weight")
+  
+  if (any(names(dat) == "class")) {
+   p <- p + ggplot2::facet_wrap(~ class) 
   }
   p
 }
