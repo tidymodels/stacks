@@ -86,7 +86,7 @@ print.model_stack <- function(x, n = 10, ...) {
   }
 }
 
-top_coefs <- function(x, n = 10, digits = 3) {
+top_coefs <- function(x, n = 10) {
   betas <- 
     .get_glmn_coefs(x$coefs$fit) %>% 
     dplyr::filter(estimate != 0 & terms != "(Intercept)")
@@ -108,12 +108,18 @@ top_coefs <- function(x, n = 10, digits = 3) {
   } else {
     res <- dplyr::select(res, model = model_type, weight = estimate)
   }
+res
+}
 
+print_top_coefs <- function(x, n = 10, digits = 3) {
+  res <- top_coefs(x, n)
+  
   msg <- paste("The", n, "highest weighted sub-models were:")
   rlang::inform(msg)
   print(res)
   invisible(NULL)
 }
+
 
 member_summary <- function(x) {
   betas <- 
