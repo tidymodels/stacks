@@ -96,6 +96,16 @@ predict.model_stack <- function(object, new_data, type = NULL, members = FALSE,
     rlang::eval_tidy()
   
   if (members) {
+    if (type == "class") {
+      return(
+        purrr::map_dfc(
+          names(object[["member_fits"]]),
+          parse_member_probs,
+          member_preds,
+          attr(new_data[[object[["outcome"]]]], "levels")
+        )
+      )
+    }
     return(member_preds)
   }
   
@@ -148,18 +158,7 @@ predict_members_classification <- function(model_stack, coefs, new_data, opts, t
                          values_from = 3:ncol(.)) %>%
       dplyr::select(-rowid)
   
-  if (type == "prob") {
-    return(member_preds)
-  } else if (type == "class") {
-    return(
-      purrr::map_dfc(
-        names(model_stack[["member_fits"]]),
-        parse_member_probs,
-        member_preds,
-        levels
-      )
-    )
-  }
+  member_preds
 }
 
 parse_member_probs <- function(member_name, member_probs, levels) {

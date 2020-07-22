@@ -28,3 +28,34 @@ test_that("penalty argument works correctly", {
     "Please supply one or more penalty values."
   )
 })
+
+test_that("stack_blend can handle many resample types", {
+  expect_true(
+    check_inherits(
+      stacks() %>% stack_add(reg_res_svm_2) %>% stack_blend(), 
+      "model_stack"
+    )
+  )
+  
+  expect_true(
+    check_inherits(
+      stacks() %>% stack_add(reg_res_svm_3) %>% stack_blend(), 
+      "model_stack"
+    )
+  )
+  
+  expect_true(
+    check_inherits(
+      stacks() %>% stack_add(reg_res_svm_4) %>% stack_blend(), 
+      "model_stack"
+    )
+  )
+  
+  expect_true(
+    check_inherits(
+      stacks() %>% stack_add(reg_res_svm_5) %>% stack_blend(), 
+      "model_stack"
+    )
+  )
+})
+

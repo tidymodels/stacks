@@ -62,11 +62,14 @@ st_log_2 <-
 # generate a resampling object with a slightly different set of folds
 set.seed(2)
 library(palmerpenguins)
-data(penguins)
+data("penguins", package = "palmerpenguins")
 penguins <- penguins[!is.na(penguins$sex),]
 penguins_split <- rsample::initial_split(penguins)
 penguins_train <- rsample::training(penguins_split)
-folds_ <- rsample::vfold_cv(penguins_train, v = 3)
+folds2 <- rsample::vfold_cv(penguins_train, v = 3)
+folds3 <- rsample::vfold_cv(penguins_train, v = 5, repeats = 2)
+folds4 <- rsample::bootstraps(penguins_train)
+folds5 <- rsample::mc_cv(penguins_train)
 
 penguins_reg_rec <- 
   recipes::recipe(body_mass_g ~ ., data = penguins_train) %>%
@@ -86,10 +89,34 @@ reg_wf_svm <-
   workflows::add_model(svm_spec) %>%
   workflows::add_recipe(penguins_reg_rec)
 
-reg_res_svm_new_folds <- 
+reg_res_svm_2 <- 
   tune::tune_grid(
     object = reg_wf_svm,
-    resamples = folds_, 
+    resamples = folds2, 
+    grid = 5,
+    control = control_stack_grid()
+  )
+
+reg_res_svm_3 <- 
+  tune::tune_grid(
+    object = reg_wf_svm,
+    resamples = folds3, 
+    grid = 5,
+    control = control_stack_grid()
+  )
+  
+reg_res_svm_4 <- 
+  tune::tune_grid(
+    object = reg_wf_svm,
+    resamples = folds4, 
+    grid = 5,
+    control = control_stack_grid()
+  )
+
+reg_res_svm_5 <- 
+  tune::tune_grid(
+    object = reg_wf_svm,
+    resamples = folds5, 
     grid = 5,
     control = control_stack_grid()
   )

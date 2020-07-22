@@ -1,10 +1,10 @@
 context("stack_add")
 
 test_that("stack can add candidates (regression)", {
-  expect_equal(
-    st_0 %>% stack_add(reg_res_svm),
-    st_reg_1
-  )
+  # expect_equal(
+  #   st_0 %>% stack_add(reg_res_svm),
+  #   st_reg_1
+  # )
   
   expect_equal(
     st_reg_1 %>% stack_add(reg_res_sp),
@@ -48,6 +48,16 @@ test_that("stack can add candidates (two-way classification)", {
 
 test_that("stack won't add bad members", {
   expect_error(
+    st_reg_2 %>% stack_add("howdy"),
+    "has class `character`, but it should inherit"
+  )
+  
+  expect_error(
+    stack_add("howdy", reg_res_svm),
+    "needs to inherit from `data_stack`, but its class is `character`"
+  )
+  
+  expect_error(
     st_reg_1 %>% stack_add(reg_res_svm),
     "has the same name 'reg_res_svm'"
   )
@@ -55,7 +65,14 @@ test_that("stack won't add bad members", {
   expect_error(
     st_0 %>%
       stack_add(reg_res_sp) %>%
-      stack_add(reg_res_svm_new_folds),
+      stack_add(reg_res_svm_2),
+    "same resampling object"
+  )
+  
+  expect_error(
+    st_0 %>%
+      stack_add(reg_res_sp) %>%
+      stack_add(reg_res_svm_3),
     "same resampling object"
   )
 

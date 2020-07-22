@@ -67,6 +67,17 @@
 #' @export
 stack_add <- function(data_stack, candidates,
                            name = deparse(substitute(candidates)), ...) {
+  check_inherits(data_stack, "data_stack")
+  if (!rlang::inherits_any(
+    candidates, 
+    c("tune_results", "tune_bayes", "resample_results")
+  )) {
+    glue_stop(
+      "The inputted `candidates` argument has class `{list(class(candidates))}`",
+      ", but it should inherit from one of 'tune_results', 'tune_bayes', ",
+      "or 'resample_results'."
+    )
+  }
   check_chr(name)
   
   stack <- 
@@ -117,7 +128,10 @@ stack_add <- function(data_stack, candidates,
 # don't need to check the resample as it would be
 # redundant with checking it's hash
 .set_splits <- function(stack, candidates) {
-  attr(stack, "splits") <- candidates[["splits"]]
+  splits_cols <- c("splits", colnames(candidates)[grep("id", names(candidates))])
+  
+  attr(stack, "splits") <- candidates %>% dplyr::select(dplyr::all_of(splits_cols))
+  attr(attr(stack, "splits"), "rset_info") <- attr(candidates, "rset_info")
   
   stack
 }

@@ -37,7 +37,7 @@ stacks <- function(...) {
   attr(stack, "cols_map") <- list()
   attr(stack, "model_hashes") <- list()
   attr(stack, "model_metrics") <- list()
-  attr(stack, "splits") <- list()
+  attr(stack, "splits") <- tibble::tibble()
 
   stack <- 
     structure(

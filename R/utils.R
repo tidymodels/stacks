@@ -34,6 +34,7 @@ utils::globalVariables(c(
   "pred_class_sum_norm",
   "rowid",
   "setNames",
+  "splits",
   "stack",
   "terms",
   "value",

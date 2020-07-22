@@ -63,6 +63,7 @@
 #' @family core verbs
 #' @export
 stack_fit <- function(model_stack, verbose = FALSE, ...) {
+  check_model_stack(model_stack)
   
   dat <- model_stack[["train"]]
   
@@ -190,4 +191,22 @@ sanitize_classification_names <- function(model_stack, member_names) {
     old = member_names,
     new = new_member_names
   )
+}
+
+
+check_model_stack <- function(model_stack) {
+  if (inherits(model_stack, "model_stack")) {
+    return(invisible(TRUE))
+  } else if (inherits(model_stack, "data_stack")) {
+    glue_stop(
+      "It looks like you've supplied a data stack to `stack_fit()` rather than ",
+      "a model stack. Did you forgot to first evaluate the data stack's ",
+      "blending coefficients with `stack_blend()`?"
+    )
+  } else {
+    glue_stop(
+      "The inputted `model_stack` argument has class `{list(class(model_stack))}`",
+      ", but it should be a `model_stack` class object."
+    )
+  }
 }
