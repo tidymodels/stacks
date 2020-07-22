@@ -62,3 +62,15 @@ test_that("stack_fit leaves most model stack elements alone", {
   expect_equal(st_class_1__[["splits"]], st_class_1_[["splits"]])
   expect_equal(st_log_1__[["splits"]], st_log_1_[["splits"]])
 })
+
+test_that("stack_fit errors informatively with a bad model_stack arg", {
+  expect_error(
+    st_reg_1 %>% stack_fit(),
+    "supplied a data stack to `stack_fit\\(\\)` rather than a model stack."
+  )
+  
+  expect_error(
+    "howdy" %>% stack_fit(),
+    "inputted `model_stack` argument has class `character`"
+  )
+})
