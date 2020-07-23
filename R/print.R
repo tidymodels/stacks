@@ -1,6 +1,53 @@
 #' @export
 print.data_stack <- function(x, ...) {
+  mode <- attr(x, "mode")
   
+  if (mode == "regression") {
+    n_cands <- ncol(x) - 1
+    n_model_defs <- length(attr(x, "model_defs"))
+    outcome_name <- colnames(x)[1]
+    submodel_lengths <- purrr::map(attr(x, "cols_map"), length)
+    model_names <- names(attr(x, "cols_map"))
+  } else if (mode == "classification") {
+    n_groups <- length(unique(dplyr::pull(attr(x, "train")[,.get_outcome(x)])))
+    n_cands <- (ncol(x) - 1) / n_groups
+    n_model_defs <- length(attr(x, "model_defs"))
+    outcome_name <- colnames(x)[1]
+    submodel_lengths <- 
+      purrr::map_dbl(attr(x, "cols_map"), length) / n_groups
+    model_names <- names(attr(x, "cols_map"))
+  } else {
+    n_cands <- 0
+    n_groups <- n_cands <- n_model_defs <- submodel_lengths <- 0
+    outcome_name <- model_names <- NULL
+  }
+  
+  cat(glue::glue("# A data stack with {n_model_defs} model definition",
+                 "{if (n_model_defs != 1) 's' else ''}",
+                 " and {n_cands} candidate member",
+                 "{if (n_cands != 1) 's' else ''}",
+                 "{if (n_model_defs != 0) ':' else '.'}"))
+  if (n_model_defs != 0) {cat("\n")}
+  
+  n_by_model_defs <-
+    purrr::map2(
+      submodel_lengths,
+      model_names,
+      function(submodels, name) {
+        cat(glue::glue(
+          "#   {name}: ",
+          "{submodels} sub-model",
+          "{if (submodels != 1) 's' else ''}")
+        )
+        cat("\n")
+      }
+    )
+  
+  cat(glue::glue(
+    "# Outcome: {if (.get_outcome(x) == 'init_') {NULL} else {.get_outcome(x)}}",
+    paste0(if (.get_outcome(x) != 'init_') { 
+      c(" (", class(dplyr::pull(x[,1])), ")")} else {NULL}, collapse = "")
+  ))
 }
 
 #' @export
@@ -37,7 +84,31 @@ top_coefs <- function(x, n = 10) {
     dplyr::arrange(dplyr::desc(estimate)) 
   
   if (any(names(res) == "class")) {
-    res <- dplyr::select(res, member = terms, type = model_type, weight = estimate)
+    pred_levels <- 
+      x$train %>% 
+      dplyr::select(!!.get_outcome(x)) %>%
+      dplyr::pull() %>%
+      levels()
+    
+    pred_strings <- paste0(".pred_", pred_levels, "_")
+    
+    res <-
+      res %>%
+      # possible code to split the pred class and (actual) member
+      # dplyr::mutate(
+      #   member_ = gsub(
+      #     pattern = paste0(pred_strings, collapse = "|"),
+      #     x = terms,
+      #     replacement = ""
+      #   ),
+      #   class = gsub(
+      #     pattern = paste0(paste0("_", member_), collapse = "|"),
+      #     x = terms,
+      #     replacement = ""
+      #   ),
+      #   class = gsub(".pred_", x = class, rep = "")
+      # ) %>%
+      dplyr::select(member = terms, type = model_type, weight = estimate, class)
   } else {
     res <- dplyr::select(res, member = terms, type = model_type, weight = estimate)
   }
