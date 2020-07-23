@@ -123,9 +123,13 @@ Now, moving on to the neural network model definition:
 
 ```{r, message = FALSE, warning = FALSE}
 nnet_spec <-
-  mlp(hidden_units = tune(), dropout = .1, epochs = 100) %>%
+  mlp(hidden_units = tune(), penalty = tune(), epochs = tune()) %>%
   set_mode("classification") %>%
-  set_engine("keras", verbose = 0)
+  set_engine("nnet")
+
+nnet_rec <- 
+  penguins_rec %>% 
+  step_normalize(all_predictors())
 
 nnet_wflow <- 
   penguins_wflow %>%
@@ -135,7 +139,7 @@ nnet_res <-
   tune_grid(
     object = nnet_wflow, 
     resamples = folds, 
-    grid = 5,
+    grid = 10,
     control = ctrl_grid
   )
 ```
@@ -160,6 +164,27 @@ penguins_model_st <-
 
 penguins_model_st
 ```
+
+To make sure that we have the right trade-off between minimizing the number of members and optimizing performance, the `autoplot()` method comes in hand: 
+
+```{r penalty-plot}
+theme_set(theme_bw())
+autoplot(penguins_model_st)
+```
+
+To show the relationship more directly: 
+
+```{r members-plot}
+autoplot(penguins_model_st, type = "members")
+```
+
+If these results were not good enough, `stack_blend()` could be called again with different values of `penalty`. As it is, `stack_blend()` picks the penalty parameter with the numerically optimal results. To see the top results: 
+
+```{r weight-plot}
+autoplot(penguins_model_st, type = "weights")
+```
+
+There are multiple facets since the ensemble members can have different effects on different classes. 
 
 This object is now ready to predict with new data!
 

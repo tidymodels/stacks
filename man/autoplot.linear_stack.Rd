@@ -2,7 +2,7 @@
 % Please edit documentation in R/plots.R
 \name{autoplot.linear_stack}
 \alias{autoplot.linear_stack}
-\title{Plot results of a linear ensemble model}
+\title{Plot results of a linear stacking model}
 \usage{
 \method{autoplot}{linear_stack}(x, type = "performance", n = Inf)
 }
@@ -12,7 +12,9 @@
 \item{type}{A single character string for plot type with values "performance",
 "members", or "weights".}
 
-\item{n}{An integer for how many members to plot when \code{type = "weights"}.}
+\item{n}{An integer for how many members weights to plot when
+\code{type = "weights"}. With multi-class data, this is the total number of weights
+across classes; otherwise this is equal to the number of members.}
 
 \item{...}{Not currently used.}
 }
@@ -20,7 +22,7 @@
 A \code{ggplot} object.
 }
 \description{
-Plot results of a linear ensemble model
+Plot results of a linear stacking model
 }
 \details{
 A "performance" plot shows the relationship between the lasso penalty and the

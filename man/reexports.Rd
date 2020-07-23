@@ -23,7 +23,7 @@ below to see their documentation.
 \describe{
   \item{butcher}{\code{\link[butcher]{axe_call}}, \code{\link[butcher]{axe_ctrl}}, \code{\link[butcher]{axe_data}}, \code{\link[butcher]{axe_env}}, \code{\link[butcher]{axe_fitted}}, \code{\link[butcher]{butcher}}}
 
-  \item{dplyr}{\code{\link[dplyr]{\%>\%}}}
+  \item{dplyr}{\code{\link[dplyr:reexports]{\%>\%}}}
 
   \item{generics}{\code{\link[generics]{augment}}, \code{\link[generics]{glance}}, \code{\link[generics]{tidy}}}
 

@@ -14,7 +14,7 @@ control_stack_bayes()
 }
 \value{
 A \link[tune:control_grid]{tune::control_grid}, \link[tune:control_bayes]{tune::control_bayes},
-or \link[tune:control_resamples]{tune::control_resamples} object.
+or \link[tune:control_grid]{tune::control_resamples} object.
 }
 \description{
 Supply these light wrappers as the \code{control} argument in a

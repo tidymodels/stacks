@@ -245,7 +245,8 @@ Juxtaposing the predictions with the true data:
 ggplot(penguins_test) +
   aes(x = body_mass_g, 
       y = .pred) +
-  geom_point()
+  geom_point() + 
+  coord_obs_pred()
 ```
 
 Looks like our predictions were pretty strong! How do the stacks predictions perform, though, as compared to the members' predictions? We can use the `type = "members"` argument to generate predictions from each of the ensemble members.
