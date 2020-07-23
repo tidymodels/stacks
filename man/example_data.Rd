@@ -152,6 +152,7 @@ reg_wf_svm <-
   workflows::add_model(svm_spec) \%>\%
   workflows::add_recipe(penguins_reg_rec)
 
+set.seed(9852)
 reg_res_svm <- 
   tune::tune_grid(
     object = reg_wf_svm,
@@ -171,6 +172,7 @@ reg_wf_sp <-
   workflows::add_model(lin_reg_spec) \%>\%
   workflows::add_recipe(spline_rec)
 
+set.seed(2425)
 reg_res_sp <- 
   tune::tune_grid(
     object = reg_wf_sp,
@@ -201,6 +203,7 @@ class_wf_rf <-
   workflows::add_recipe(penguins_class_rec) \%>\%
   workflows::add_model(rand_forest_spec)
 
+set.seed(9061)
 class_res_rf <- 
   tune::tune_grid(
     object = class_wf_rf, 
@@ -211,9 +214,9 @@ class_res_rf <-
 
 # neural network classification -------------------------------------
 nnet_spec <-
-  parsnip::mlp(epochs = 100, hidden_units = 5, dropout = 0.1) \%>\%
-  parsnip::set_mode("classification") \%>\%
-  parsnip::set_engine("keras", verbose = 0)
+  mlp(hidden_units = 5, penalty = 0.01, epochs = 100) \%>\%
+  set_mode("classification") \%>\%
+  set_engine("nnet")
 
 class_wf_nn <- 
   workflows::workflow() \%>\%
@@ -248,6 +251,7 @@ log_wf_rf <-
   workflows::add_recipe(penguins_2_class_rec) \%>\%
   workflows::add_model(rand_forest_spec_2)
 
+set.seed(6651)
 log_res_rf <- 
   tune::tune_grid(
     object = log_wf_rf, 
@@ -257,9 +261,9 @@ log_res_rf <-
   )
 
 nnet_spec_2 <-
-  parsnip::mlp(epochs = 100, hidden_units = 5, dropout = 0.1) \%>\%
+  parsnip::mlp(epochs = 100, hidden_units = 5, penalty = 0.1) \%>\%
   parsnip::set_mode("classification") \%>\%
-  parsnip::set_engine("keras", verbose = 0)
+  parsnip::set_engine("nnet", verbose = 0)
 
 log_wf_nn <- 
   workflows::workflow() \%>\%

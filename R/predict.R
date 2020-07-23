@@ -78,6 +78,15 @@ predict.model_stack <- function(object, new_data, type = NULL, members = FALSE,
     .get_glmn_coefs(object[["coefs"]][["fit"]]) %>%
     dplyr::select(terms, estimate)
   
+  member_type <- 
+    switch(type,
+           class =, prob = "prob",
+           numeric = "numeric")
+  
+  if (members) {
+    member_type <- type
+  } 
+  
   member_preds <- 
     rlang::call2(
       paste0("predict_members_", object[["mode"]]),
@@ -85,7 +94,7 @@ predict.model_stack <- function(object, new_data, type = NULL, members = FALSE,
       coefs = coefs,
       new_data = new_data,
       opts = opts,
-      type = type
+      type = member_type
     ) %>%
     rlang::eval_tidy()
   

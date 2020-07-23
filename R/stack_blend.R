@@ -117,13 +117,26 @@ stack_blend <- function(data_stack, penalty = 10 ^ (-6:-1), verbose = FALSE, ...
       workflows::add_model(model_spec)
   }
   
+  get_models <- function(x) {
+    x %>% 
+      workflows::pull_workflow_fit() %>% 
+      purrr::pluck("fit")
+  }
+  
+  splits <- attr(data_stack, "splits")
+  if (inherits(splits[[1]], "val_split")) {
+    rs <-  rsample::bootstraps(dat, times = 20)
+  } else {
+    rs <- reconstruct_resamples(attr(data_stack, "splits"), dat)
+  }
+  
   candidates <- 
     preds_wf %>%
     tune::tune_grid(
-      resamples = reconstruct_resamples(attr(data_stack, "splits"), dat),
+      resamples = rs,
       grid = tibble::tibble(penalty = penalty),
       metrics = metric,
-      control = tune::control_grid(save_pred = TRUE)
+      control = tune::control_grid(save_pred = TRUE, extract = get_models)
     )
   
   coefs <-
@@ -135,6 +148,7 @@ stack_blend <- function(data_stack, penalty = 10 ^ (-6:-1), verbose = FALSE, ...
     structure(
       list(model_defs = attr(data_stack, "model_defs"),
            coefs = coefs,
+           metrics = glmnet_metrics(candidates),
            equations = get_expressions(coefs),
            cols_map = attr(data_stack, "cols_map"),
            model_metrics = attr(data_stack, "model_metrics"),
@@ -187,6 +201,40 @@ check_penalty <- function(x) {
   }
 }
 
+# ------------------------------------------------------------------------------
+
+glmnet_metrics <- function(x) {
+  res <- tune::collect_metrics(x)
+  pens <- sort(unique(res$penalty))
+  x$glmnet_fits <- purrr::map(x$.extracts, ~ .x$.extracts[[1]])
+  num_mem <- 
+    purrr::map_dfr(x$glmnet_fits, num_members, pens) %>% 
+    dplyr::group_by(penalty) %>% 
+    dplyr::summarize(
+      .metric = "num_members",
+      .estimator = "Poisson",
+      mean = mean(members, na.rm = TRUE), 
+      n = sum(!is.na(members)),
+      std_err = sqrt(mean/n)
+    ) %>% 
+    dplyr::ungroup() %>% 
+    dplyr::full_join(
+      res %>% dplyr::select(penalty, .config) %>% dplyr::distinct(),
+      by = "penalty"
+    )
+  dplyr::bind_rows(res, num_mem)
+}
+
+num_members <- function(x, penalties) {
+  glmn_coef <-  coef(x, s = penalties)
+  if (is.list(glmn_coef)) {
+    glmn_coef <- do.call("rbind", glmn_coef)
+  }
+  glmn_coef <- glmn_coef[rownames(glmn_coef) != "(Intercept)",,drop = FALSE]
+  mems <- apply(glmn_coef, 2, function(x) sum(x != 0))
+  tibble::tibble(penalty = penalties, members = unname(mems))  
+}
+
 # set attributes from new_attr that are not
 # already set in x
 safe_attr <- function(x, new_attr) {
@@ -225,3 +273,4 @@ check_blend_data_stack <- function(data_stack) {
   
   invisible(NULL)
 }
+
