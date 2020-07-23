@@ -199,14 +199,11 @@ check_model_stack <- function(model_stack) {
     return(invisible(TRUE))
   } else if (inherits(model_stack, "data_stack")) {
     glue_stop(
-      "It looks like you've supplied a data stack to `stack_fit()` rather than ",
-      "a model stack. Did you forgot to first evaluate the data stack's ",
+      "The supplied `model_stack` argument is a data stack rather than ",
+      "a model stack. Did you forget to first evaluate the data stack's ",
       "blending coefficients with `stack_blend()`?"
     )
   } else {
-    glue_stop(
-      "The inputted `model_stack` argument has class `{list(class(model_stack))}`",
-      ", but it should be a `model_stack` class object."
-    )
+    check_inherits(model_stack, "model_stack")
   }
 }

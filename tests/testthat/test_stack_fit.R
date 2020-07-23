@@ -66,11 +66,11 @@ test_that("stack_fit leaves most model stack elements alone", {
 test_that("stack_fit errors informatively with a bad model_stack arg", {
   expect_error(
     st_reg_1 %>% stack_fit(),
-    "supplied a data stack to `stack_fit\\(\\)` rather than a model stack."
+    "Did you forget to first evaluate the data stack's blending coefficients w"
   )
   
   expect_error(
     "howdy" %>% stack_fit(),
-    "inputted `model_stack` argument has class `character`"
+    "`model_stack` needs to inherit from `model_stack`"
   )
 })

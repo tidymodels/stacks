@@ -69,7 +69,10 @@
 #' @export
 predict.model_stack <- function(object, new_data, type = NULL, members = FALSE, 
                                 opts = list(), ...) {
+  check_fitted(object)
   type <- check_pred_type(object, type)
+  check_inherits(members, "logical")
+  check_inherits(opts, "list")
   
   coefs <- 
     .get_glmn_coefs(object[["coefs"]][["fit"]]) %>%
@@ -110,6 +113,23 @@ predict.model_stack <- function(object, new_data, type = NULL, members = FALSE,
   }
   
   stack_predict(object$equations[[type]], member_preds)
+}
+
+#' Apply a stacked_ensemble to create different types of predictions.
+#' 
+#' @param object A data stack.
+#' @inheritParams stacks
+#' 
+#' @importFrom stats predict
+#' @method predict data_stack
+#' @export predict.data_stack
+#' @export
+predict.data_stack <- function(object, ...) {
+  glue_stop(
+    "To predict with a stacked ensemble, the supplied data stack must be ",
+    "evaluated with `stack_blend()` and its member models fitted with ",
+    "`stack_fit()` to predict on new data."
+  )
 }
 
 check_pred_type <- function(object, type) {
@@ -167,4 +187,13 @@ parse_member_probs <- function(member_name, member_probs, levels) {
     dplyr::transmute(
       !!paste0(".pred_class_", member_name) := factor(levels[idx], levels = levels)
     )
+}
+
+check_fitted <- function(model_stack) {
+  if (is.null(model_stack[["member_fits"]])) {
+    glue_stop(
+      "The supplied model stack hasn't been fitted yet. ",
+      "Please fit the necessary members with stack_fit() to predict on new data."
+    )
+  }
 }

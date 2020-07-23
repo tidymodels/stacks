@@ -67,18 +67,9 @@
 #' @export
 stack_add <- function(data_stack, candidates,
                            name = deparse(substitute(candidates)), ...) {
-  check_inherits(data_stack, "data_stack")
-  if (!rlang::inherits_any(
-    candidates, 
-    c("tune_results", "tune_bayes", "resample_results")
-  )) {
-    glue_stop(
-      "The inputted `candidates` argument has class `{list(class(candidates))}`",
-      ", but it should inherit from one of 'tune_results', 'tune_bayes', ",
-      "or 'resample_results'."
-    )
-  }
-  check_chr(name)
+  check_add_data_stack(data_stack)
+  check_candidates(candidates)
+  check_name(name)
   
   stack <- 
     data_stack %>%
@@ -300,4 +291,51 @@ stack_workflow <- function(x) {
   }
   
   res
+}
+
+check_add_data_stack <- function(data_stack) {
+  if (inherits(data_stack, "data_stack")) {
+    return(invisible(NULL))
+  } else if (rlang::inherits_any(
+    data_stack, 
+    c("tune_results", "tune_bayes", "resample_results")
+  )) {
+    glue_stop(
+      "It looks like the first argument inherits from {list(class(data_stack))} ",
+      "rather than `data_stack`. ",
+      "Did you accidentally supply the candidate members as the first argument? ",
+      "If so, please supply the output of `stacks()` or another `stack_add()` as ",
+      "the argument to `data_stack`."
+    )
+  } else {
+    check_inherits(data_stack, "data_stack")
+  }
+}
+
+check_candidates <- function(candidates) {
+  if (!rlang::inherits_any(
+    candidates, 
+    c("tune_results", "tune_bayes", "resample_results")
+  )) {
+    glue_stop(
+      "The inputted `candidates` argument has class `{list(class(candidates))}`",
+      ", but it should inherit from one of 'tune_results', 'tune_bayes', ",
+      "or 'resample_results'."
+    )
+  }
+}
+
+check_name <- function(name) {
+  if (rlang::inherits_any(
+    name, 
+    c("tune_results", "tune_bayes", "resample_results")
+  )) {
+    glue_stop(
+      "The inputted `name` argument looks like a tuning/fitting results object ",
+      "that might be supplied as a `candidates` argument. Did you try to add ",
+      "more than one set of candidates in one `stack_add()` call?"
+    )
+  } else {
+    check_inherits(name, "character")
+  }
 }

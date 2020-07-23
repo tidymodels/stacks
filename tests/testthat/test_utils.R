@@ -35,9 +35,6 @@ test_that("control_* functions work", {
 })
 
 test_that("misc. utilities work", {
-  expect_error(check_chr(1), "Element `1` should be")
-  expect_true(check_chr("howdy"))
-  
   expect_error(check_inherits("howdy", "numeric"), "`howdy` needs to inherit")
   expect_true(check_inherits("howdy", "character"))
   

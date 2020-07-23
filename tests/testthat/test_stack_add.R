@@ -46,10 +46,25 @@ test_that("stack can add candidates (two-way classification)", {
   expect_true(data_stack_constr(st_log_2))
 })
 
-test_that("stack won't add bad members", {
+test_that("stack errors informatively with bad arguments", {
+  expect_error(
+    stack_add(reg_res_svm, "svm"),
+    "Did you accidentally supply the candidate members as the first argument?"
+  )
+  
   expect_error(
     st_reg_2 %>% stack_add("howdy"),
     "has class `character`, but it should inherit"
+  )
+  
+  expect_error(
+    stacks() %>% stack_add(reg_res_sp, reg_res_svm),
+    "Did you try to add more than one set of candidates in one `stack_add\\(\\)"
+  )
+  
+  expect_error(
+    stacks() %>% stack_add(reg_res_sp, TRUE),
+    "Element `name` needs to inherit from `character`, but its class is `logical`."
   )
   
   expect_error(
@@ -59,6 +74,11 @@ test_that("stack won't add bad members", {
   
   expect_error(
     st_reg_1 %>% stack_add(reg_res_svm),
+    "has the same name 'reg_res_svm'"
+  )
+  
+  expect_error(
+    st_reg_1 %>% stack_add(reg_res_sp, "reg_res_svm"),
     "has the same name 'reg_res_svm'"
   )
 
