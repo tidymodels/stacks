@@ -38,7 +38,7 @@ You can install the (unstable) development version of this package with
 the following code\!
 
 ``` r
-remotes::install_github("tidymodels/stacks")
+remotes::install_github("tidymodels/stacks", ref = "main")
 ```
 
 Rather than diving right into the implementation, we’ll focus here on

@@ -29,7 +29,7 @@ The process goes something like this:
 You can install the (unstable) development version of this package with the following code!
 
 ```{r, eval = FALSE}
-remotes::install_github("tidymodels/stacks")
+remotes::install_github("tidymodels/stacks", ref = "main")
 ```
 
 Rather than diving right into the implementation, we'll focus here on how the pieces fit together, conceptually, in building an ensemble with `stacks`. See the `basics` vignette for an example of the API in action!
