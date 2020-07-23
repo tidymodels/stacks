@@ -24,11 +24,14 @@ utils::globalVariables(c(
   "idx",
   "lp",
   "member",
+  "members",
+  "model",
   "model_type",
   "n",
   "name",
   "name.x",
   "new",
+  "penalty",
   "pred_class",
   "pred_class_sum",
   "pred_class_sum_norm",
@@ -38,6 +41,7 @@ utils::globalVariables(c(
   "stack",
   "terms",
   "value",
+  "weight",
   "weighted_est"
 ))
 

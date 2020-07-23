@@ -5,7 +5,7 @@ ggplot2::autoplot
 
 #' Plot results of a linear stacking model
 #' 
-#' @param x A `linear_stack` object.
+#' @param object A `linear_stack` object.
 #' @param type A single character string for plot type with values "performance", 
 #' "members", or "weights".
 #' @param n An integer for how many members weights to plot when 
@@ -29,15 +29,15 @@ ggplot2::autoplot
 #' A "weights" plot shows the blending weights for the top ensemble members. The
 #' results are for the final penalty value used to fit the ensemble. 
 #' @export
-autoplot.linear_stack <- function(x, type = "performance", n = Inf) {
+autoplot.linear_stack <- function(object, type = "performance", n = Inf, ...) {
   type <- match.arg(type, c("performance", "members", "weights"))
-  dat <- x$metrics
+  dat <- object$metrics
   if (type == "members") {
-    p <- member_plot(x)
+    p <- member_plot(object)
   } else if (type == "performance") {
-    p <- performance_plot(x)
+    p <- performance_plot(object)
   } else {
-    p <- weights_plot(x, n)
+    p <- weights_plot(object, n)
   }
   p
 }
@@ -77,7 +77,7 @@ performance_plot <- function(x) {
 }
 
 weights_plot <- function(x, n = Inf) {
-  dat <- stacks:::top_coefs(x, n)
+  dat <- top_coefs(x, n)
   
   if (any(names(dat) == "class")) {
     dat_order <- 
