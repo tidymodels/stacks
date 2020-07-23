@@ -4,10 +4,10 @@
 \alias{autoplot.linear_stack}
 \title{Plot results of a linear stacking model}
 \usage{
-\method{autoplot}{linear_stack}(x, type = "performance", n = Inf)
+\method{autoplot}{linear_stack}(object, type = "performance", n = Inf, ...)
 }
 \arguments{
-\item{x}{A \code{linear_stack} object.}
+\item{object}{A \code{linear_stack} object.}
 
 \item{type}{A single character string for plot type with values "performance",
 "members", or "weights".}
