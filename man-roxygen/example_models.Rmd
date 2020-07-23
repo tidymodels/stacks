@@ -49,6 +49,7 @@ reg_wf_lr <-
   workflows::add_model(lin_reg_spec) %>%
   workflows::add_recipe(penguins_reg_rec)
 
+set.seed(1)
 reg_res_lr <- 
   tune::fit_resamples(
     object = reg_wf_lr,
@@ -142,6 +143,7 @@ class_wf_nn <-
   workflows::add_recipe(penguins_class_rec) %>%
   workflows::add_model(nnet_spec)
 
+set.seed(1)
 class_res_nn <-
   tune::fit_resamples(
     object = class_wf_nn, 
@@ -156,6 +158,7 @@ penguins_2_class_rec <-
   recipes::step_zv(recipes::all_predictors()) %>%
   recipes::step_normalize(recipes::all_numeric())
 
+set.seed(1)
 rand_forest_spec_2 <- 
   parsnip::rand_forest(
     mtry = tune(),
@@ -189,6 +192,7 @@ log_wf_nn <-
   workflows::add_recipe(penguins_2_class_rec) %>%
   workflows::add_model(nnet_spec_2)
 
+set.seed(1)
 log_res_nn <-
   tune::fit_resamples(
     object = log_wf_nn, 
@@ -208,4 +212,107 @@ usethis::use_data(log_res_rf, overwrite = TRUE)
 usethis::use_data(log_res_nn, overwrite = TRUE)
 usethis::use_data(penguins_train, overwrite = TRUE)
 usethis::use_data(penguins_test, overwrite = TRUE)
+```
+
+```{r, eval = FALSE, include = FALSE}
+# Additionally, some helper model objects for use in unit tests.
+
+# Stacks
+# ------------------------------------------------------------------------
+st_0 <- stacks()
+
+st_reg_1 <- 
+  stacks() %>%
+  stack_add(reg_res_svm)
+
+st_reg_1_ <-
+  st_reg_1 %>%
+  stack_blend()
+
+st_reg_1__ <-
+  st_reg_1_ %>%
+  stack_fit()
+
+st_reg_2 <- 
+  stacks() %>%
+  stack_add(reg_res_svm) %>%
+  stack_add(reg_res_sp)
+
+st_class_1 <- 
+  stacks() %>%
+  stack_add(class_res_rf)
+
+st_class_1_ <-
+  st_class_1 %>%
+  stack_blend()
+
+st_class_1__ <- 
+  st_class_1_ %>%
+  stack_fit()
+
+st_class_2 <- 
+  st_class_1 %>%
+  stack_add(class_res_nn)
+
+st_log_1 <- 
+  stacks() %>%
+  stack_add(log_res_rf)
+
+st_log_1_ <-
+  st_log_1 %>%
+  stack_blend()
+
+st_log_1__ <-
+  st_log_1_ %>%
+  stack_fit()
+
+st_log_2 <- 
+  st_log_1 %>%
+  stack_add(log_res_nn)
+
+# Resampling Objects
+# ------------------------------------------------------------------------
+# additional fitting/tuning results to test sensitivity to
+# different resampling schemes.
+
+# generate a resampling object with a slightly different set of folds
+folds2 <- rsample::vfold_cv(penguins_train, v = 3)
+folds3 <- rsample::vfold_cv(penguins_train, v = 5, repeats = 2)
+folds4 <- rsample::bootstraps(penguins_train)
+folds5 <- rsample::mc_cv(penguins_train)
+
+reg_res_svm_2 <- 
+  tune::tune_grid(
+    object = reg_wf_svm,
+    resamples = folds2, 
+    grid = 5,
+    control = control_stack_grid()
+  )
+
+reg_res_svm_3 <- 
+  tune::tune_grid(
+    object = reg_wf_svm,
+    resamples = folds3, 
+    grid = 5,
+    control = control_stack_grid()
+  )
+  
+reg_res_svm_4 <- 
+  tune::tune_grid(
+    object = reg_wf_svm,
+    resamples = folds4, 
+    grid = 5,
+    control = control_stack_grid()
+  )
+
+reg_res_svm_5 <- 
+  tune::tune_grid(
+    object = reg_wf_svm,
+    resamples = folds5, 
+    grid = 5,
+    control = control_stack_grid()
+  )
+
+# save the environment in an .Rda and load in unit tests
+save.image(file = "tests/testthat/helper_data.Rda")
 ```

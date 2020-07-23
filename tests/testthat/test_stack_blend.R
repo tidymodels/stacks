@@ -1,5 +1,7 @@
 context("stack_blend")
 
+load(test_path("helper_data.Rda"))
+
 test_that("stack_blend works", {
   expect_true(check_inherits(st_reg_1 %>% stack_blend(), "model_stack"))
   expect_true(check_inherits(st_class_1 %>% stack_blend(), "model_stack"))

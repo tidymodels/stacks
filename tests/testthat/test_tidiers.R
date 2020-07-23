@@ -2,6 +2,7 @@ context("tidiers")
 
 skip_if_not_installed("broom")
 library(broom)
+load(test_path("helper_data.Rda"))
 
 test_that("tidy.model_stack behaves appropriately without needed tidiers", {
   expect_message(tidy_st_reg_1__ <- tidy(st_reg_1__))

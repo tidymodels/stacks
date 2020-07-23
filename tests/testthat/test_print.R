@@ -1,5 +1,7 @@
 context("print")
 
+load(test_path("helper_data.Rda"))
+
 test_that("data stack printing works", {
   skip("will be updating print method soon.")
   

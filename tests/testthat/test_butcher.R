@@ -1,5 +1,7 @@
 context("butcher")
 
+load(test_path("helper_data.Rda"))
+
 # Unit testing for the component members would duplicate unit testing
 # from the butcher package. Since the desired functionality to test
 # is actually just whether the components to axe are in the right places:

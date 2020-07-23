@@ -1,5 +1,7 @@
 context("stack_add")
 
+load(test_path("helper_data.Rda"))
+
 test_that("stack can add candidates (regression)", {
   # expect_equal(
   #   st_0 %>% stack_add(reg_res_svm),

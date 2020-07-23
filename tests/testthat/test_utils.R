@@ -1,5 +1,7 @@
 context("helpers")
 
+load(test_path("helper_data.Rda"))
+
 test_that("object types relate as expected", {
   atts_d <- attributes(st_reg_1)
   

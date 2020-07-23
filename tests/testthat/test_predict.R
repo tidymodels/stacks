@@ -1,5 +1,7 @@
 context("predict")
 
+load(test_path("helper_data.Rda"))
+
 test_that("predict method works (regression)", {
   pred_r <- predict(st_reg_1__, penguins_test)
   pred_r2 <- predict(st_reg_1__, penguins_test, members = TRUE)

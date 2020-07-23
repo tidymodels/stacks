@@ -1,5 +1,7 @@
 context("stack_fit")
 
+load(test_path("helper_data.Rda"))
+
 test_that("basic stack_fit works", {
   expect_silent(
     st_reg_1 %>% stack_add(reg_res_lr) %>% stack_blend() %>% stack_fit()
