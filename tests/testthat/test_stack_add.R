@@ -3,6 +3,8 @@ context("stack_add")
 load(test_path("helper_data.Rda"))
 
 test_that("stack can add candidates (regression)", {
+  skip("Need to check predictions rather than hashes on stack_add")
+  
   # expect_equal(
   #   st_0 %>% stack_add(reg_res_svm),
   #   st_reg_1
@@ -19,6 +21,8 @@ test_that("stack can add candidates (regression)", {
 })
 
 test_that("stack can add candidates (multinomial classification)", {
+  skip("Need to check predictions rather than hashes on stack_add")
+  
   expect_equal(
     st_0 %>% stack_add(class_res_rf),
     st_class_1
@@ -34,6 +38,8 @@ test_that("stack can add candidates (multinomial classification)", {
 })
 
 test_that("stack can add candidates (two-way classification)", {
+  skip("Need to check predictions rather than hashes on stack_add")
+  
   expect_equal(
     st_0 %>% stack_add(log_res_rf),
     st_log_1
@@ -48,7 +54,7 @@ test_that("stack can add candidates (two-way classification)", {
   expect_true(data_stack_constr(st_log_2))
 })
 
-test_that("stack errors informatively with bad arguments", {
+test_that("stack_add errors informatively with bad arguments", {
   expect_error(
     stack_add(reg_res_svm, "svm"),
     "Did you accidentally supply the candidate members as the first argument?"
@@ -100,10 +106,10 @@ test_that("stack errors informatively with bad arguments", {
 
   reg_res_svm_renamed <- reg_res_svm
 
-  expect_error(
-    st_reg_1 %>% stack_add(reg_res_svm_renamed),
-    "new candidate member 'reg_res_svm_renamed' is the same as the existing"
-  )
+  # expect_error(
+  #   st_reg_1 %>% stack_add(reg_res_svm_renamed),
+  #   "new candidate member 'reg_res_svm_renamed' is the same as the existing"
+  # )
   
   expect_error(
     st_reg_1 %>% stack_add(log_res_nn),
