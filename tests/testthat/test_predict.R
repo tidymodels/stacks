@@ -32,11 +32,11 @@ test_that("predict method works (classification)", {
   expect_true(all(grepl(".pred_class", names(pred_l2))))
   
   expect_true(all(grepl(
-    paste0(names(st_class_1__$member_fits), collapse = "|"), 
+    paste0(c(names(st_class_1__$member_fits), "pred_class"), collapse = "|"), 
     names(pred_c2)
   )))
   expect_true(all(grepl(
-    paste0(names(st_log_1__$member_fits), collapse = "|"), 
+    paste0(c(names(st_log_1__$member_fits), "pred_class"), collapse = "|"), 
     names(pred_l2)
   )))
 })

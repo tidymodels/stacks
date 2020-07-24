@@ -68,7 +68,11 @@ stack_fit <- function(model_stack, verbose = FALSE, ...) {
   dat <- model_stack[["train"]]
   
   # pick out which submodels have nonzero coefs
-  member_names <- .get_glmn_coefs(model_stack[["coefs"]][["fit"]]) %>%
+  member_names <- 
+    .get_glmn_coefs(
+      model_stack[["coefs"]][["fit"]], 
+      model_stack[["coefs"]][["spec"]][["args"]][["penalty"]]
+    ) %>%
     dplyr::filter(estimate != 0 & terms != "(Intercept)") %>%
     dplyr::pull(terms)
   

@@ -274,8 +274,6 @@ st_log_2 <-
 # ------------------------------------------------------------------------
 # additional fitting/tuning results to test sensitivity to
 # different resampling schemes.
-
-# generate a resampling object with a slightly different set of folds
 folds2 <- rsample::vfold_cv(penguins_train, v = 3)
 folds3 <- rsample::vfold_cv(penguins_train, v = 5, repeats = 2)
 folds4 <- rsample::bootstraps(penguins_train)
