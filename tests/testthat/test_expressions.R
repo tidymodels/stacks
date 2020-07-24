@@ -12,7 +12,7 @@ data("penguins", package = "modeldata")
 penguins <- 
   penguins %>% 
   na.omit() %>% 
-  select(bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g, species)
+  dplyr::select(bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g, species)
 
 data(two_class_dat, package = "modeldata")
 

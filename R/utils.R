@@ -40,6 +40,7 @@ utils::globalVariables(c(
   "splits",
   "stack",
   "terms",
+  "type",
   "value",
   "weight",
   "weighted_est"
@@ -102,7 +103,7 @@ check_inherits <- function(x, what) {
   x <- tibble::as_tibble(x) %>% dplyr::mutate(terms = rn, penalty = penalty)
   x <- dplyr::select(x, terms, estimate, penalty)
   if (is.list(x$estimate)) {
-    x$estimate <- purrr::map(x$estimate, ~ as_tibble(as.matrix(.x), rownames = "terms"))
+    x$estimate <- purrr::map(x$estimate, ~ tibble::as_tibble(as.matrix(.x), rownames = "terms"))
     x <- tidyr::unnest(x, cols = c(estimate), names_repair = "minimal")
     names(x) <- c("class", "terms", "estimate", "penalty")
   }
