@@ -41,7 +41,8 @@ Imports:
     rsample,
     cli,
     crayon,
-    butcher
+    butcher,
+    stats
 Suggests: 
     testthat,
     covr,
