@@ -77,7 +77,8 @@ performance_plot <- function(x) {
 }
 
 weights_plot <- function(x, n = Inf) {
-  dat <- top_coefs(x, n)
+  dat <- top_coefs(x, n) %>%
+    dplyr::select(terms = member, model = type, weight, class)
   
   if (any(names(dat) == "class")) {
     dat_order <- 
