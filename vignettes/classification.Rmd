@@ -189,35 +189,35 @@ There are multiple facets since the ensemble members can have different effects 
 This object is now ready to predict with new data!
 
 ```{r, eval = FALSE}
-penguins_pred <- 
-  penguins_test %>%
-  bind_cols(predict(penguins_model_st, ., type = "prob"))
+### penguins_pred <- 
+###   penguins_test %>%
+###   bind_cols(predict(penguins_model_st, ., type = "prob"))
 ```
 
 Computing the ROC AUC for the model:
 
 ```{r, eval = FALSE}
-yardstick::roc_auc(
-  penguins_pred,
-  truth = year,
-  contains(".pred_")
-  )
+### yardstick::roc_auc(
+###   penguins_pred,
+###   truth = year,
+###   contains(".pred_")
+###   )
 ```
 
 Looks like our predictions were pretty strong! How do the stacks predictions perform, though, as compared to the members' predictions? We can use the `members` argument to generate predictions from each of the ensemble members.
 
 ```{r}
-penguins_pred <- 
-  penguins_test %>%
-  select(year) %>%
-  bind_cols(
-    predict(
-      penguins_model_st,
-      penguins_test, 
-      type = "class",
-      members = TRUE
-      )
-    )
+### penguins_pred <- 
+###   penguins_test %>%
+###   select(year) %>%
+###   bind_cols(
+###     predict(
+###       penguins_model_st,
+###       penguins_test, 
+###       type = "class",
+###       members = TRUE
+###       )
+###     )
 ```
 
 Voila! You've now made use of the stacks package to predict the island that penguins live on using a stacked ensemble!  
