@@ -83,10 +83,6 @@ predict.model_stack <- function(object, new_data, type = NULL, members = FALSE,
            class =, prob = "prob",
            numeric = "numeric")
   
-  if (members) {
-    member_type <- type
-  } 
-  
   member_preds <- 
     rlang::call2(
       paste0("predict_members_", object[["mode"]]),
@@ -98,21 +94,22 @@ predict.model_stack <- function(object, new_data, type = NULL, members = FALSE,
     ) %>%
     rlang::eval_tidy()
   
+  res <- stack_predict(object$equations[[type]], member_preds)
+  
   if (members) {
     if (type == "class") {
-      return(
+      member_preds <- 
         purrr::map_dfc(
           names(object[["member_fits"]]),
           parse_member_probs,
           member_preds,
           attr(new_data[[object[["outcome"]]]], "levels")
         )
-      )
     }
-    return(member_preds)
+    res <- bind_cols(res, member_preds)
   }
   
-  stack_predict(object$equations[[type]], member_preds)
+  res
 }
 
 #' Apply a stacked_ensemble to create different types of predictions.
