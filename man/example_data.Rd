@@ -130,6 +130,7 @@ reg_wf_lr <-
   workflows::add_model(lin_reg_spec) \%>\%
   workflows::add_recipe(penguins_reg_rec)
 
+set.seed(1)
 reg_res_lr <- 
   tune::fit_resamples(
     object = reg_wf_lr,
@@ -223,6 +224,7 @@ class_wf_nn <-
   workflows::add_recipe(penguins_class_rec) \%>\%
   workflows::add_model(nnet_spec)
 
+set.seed(1)
 class_res_nn <-
   tune::fit_resamples(
     object = class_wf_nn, 
@@ -237,6 +239,7 @@ penguins_2_class_rec <-
   recipes::step_zv(recipes::all_predictors()) \%>\%
   recipes::step_normalize(recipes::all_numeric())
 
+set.seed(1)
 rand_forest_spec_2 <- 
   parsnip::rand_forest(
     mtry = tune(),
@@ -270,6 +273,7 @@ log_wf_nn <-
   workflows::add_recipe(penguins_2_class_rec) \%>\%
   workflows::add_model(nnet_spec_2)
 
+set.seed(1)
 log_res_nn <-
   tune::fit_resamples(
     object = log_wf_nn, 

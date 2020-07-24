@@ -312,5 +312,5 @@ reg_res_svm_5 <-
   )
 
 # save the environment in an .Rda and load in unit tests
-save.image(file = "tests/testthat/helper_data.Rda")
+save.image(file = "tests/testthat/helper_data.Rda", version = 2)
 ```

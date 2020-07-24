@@ -111,7 +111,7 @@ class_st
 predict(class_st, penguins_test)
 predict(class_st, penguins_test, type = "prob")
 
-# returning the member predictions instead
+# returning the member predictions as well
 predict(
   class_st, 
   penguins_test, 
