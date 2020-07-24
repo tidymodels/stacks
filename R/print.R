@@ -67,6 +67,14 @@ print.model_stack <- function(x, n = 10, ...) {
   invisible(NULL)
 }
 
+#' @export
+print.butchered_linear_stack <- function(x, ...) {
+  rlang::inform(cli::rule("A stacked ensemble model", 
+                          width = min(65, cli::console_width())))
+  
+  rlang::inform("\nPrint methods for butchered model stacks are disabled.")
+}
+
 top_coefs <- function(x, n = 10) {
   betas <- 
     .get_glmn_coefs(x$coefs$fit) %>% 

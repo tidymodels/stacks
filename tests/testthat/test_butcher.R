@@ -60,3 +60,19 @@ test_that("model_stack + butcher() works", {
   test_axe(st_log_1__, axe_call)
 })
 
+test_that("butchered model stack printing works", {
+  verify_output(
+    test_path("out/model_stack_reg_butcher.txt"),
+    {butcher(st_reg_1__)}
+  )
+  
+  verify_output(
+    test_path("out/model_stack_class_butcher.txt"),
+    {butcher(st_class_1__)}
+  )
+  
+  verify_output(
+    test_path("out/model_stack_log_butcher.txt"),
+    {butcher(st_log_1__)}
+  )
+})

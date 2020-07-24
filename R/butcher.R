@@ -57,7 +57,7 @@ axe_call.model_stack <- function(x, verbose = FALSE, ...) {
     res,
     x,
     disabled = c("print()", "summary()"),
-    add_class = FALSE,
+    add_class = TRUE,
     verbose = verbose
   )
 }
@@ -81,7 +81,8 @@ axe_ctrl.model_stack <- function(x, verbose = FALSE, ...) {
   add_butcher_attributes(
     res,
     x,
-    add_class = FALSE,
+    disabled = c("print()", "summary()"),
+    add_class = TRUE,
     verbose = verbose
   )
 }
@@ -108,7 +109,7 @@ axe_data.model_stack <- function(x, verbose = FALSE, ...) {
     res,
     x,
     disabled = c("print()", "summary()"),
-    add_class = FALSE,
+    add_class = TRUE,
     verbose = verbose
   )
 }
@@ -130,7 +131,8 @@ axe_env.model_stack <- function(x, verbose = FALSE, ...) {
   add_butcher_attributes(
     res,
     x,
-    add_class = FALSE,
+    disabled = c("print()", "summary()"),
+    add_class = TRUE,
     verbose = verbose
   )
 }
@@ -152,7 +154,8 @@ axe_fitted.model_stack <- function(x, verbose = FALSE, ...) {
   add_butcher_attributes(
     res,
     x,
-    add_class = FALSE,
+    disabled = c("print()", "summary()"),
+    add_class = TRUE,
     verbose = verbose
   )
 }

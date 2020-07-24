@@ -106,7 +106,7 @@ predict.model_stack <- function(object, new_data, type = NULL, members = FALSE,
           attr(new_data[[object[["outcome"]]]], "levels")
         )
     }
-    res <- bind_cols(res, member_preds)
+    res <- dplyr::bind_cols(res, member_preds)
   }
   
   res

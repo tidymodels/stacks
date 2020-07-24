@@ -1,0 +1,6 @@
+> butcher(st_class_1__)
+Message: -- A stacked ensemble model -------------------------------------
+
+Message: 
+Print methods for butchered model stacks are disabled.
+
