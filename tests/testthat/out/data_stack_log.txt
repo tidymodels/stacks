@@ -1,0 +1,5 @@
+> st_log_1
+# A data stack with 1 model definition and 10 candidate members:
+#   log_res_rf: 10 sub-models
+# Outcome: sex (factor)
+

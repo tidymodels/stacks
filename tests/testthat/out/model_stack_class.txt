@@ -1,0 +1,25 @@
+> st_class_1_
+Message: -- A stacked ensemble model -------------------------------------
+
+Message: Out of 20 possible candidates, the ensemble contains 9 members.
+
+Message: Across the 3 classes, there are an average of 3 members per class.
+
+Message: The highest weighted member classes are:
+
+# A tibble: 9 x 4
+  member                    type        weight class
+  <chr>                     <chr>        <dbl> <chr>
+1 .pred_2009_class_res_rf01 rand_forest  7.16  2007 
+2 .pred_2009_class_res_rf01 rand_forest  5.25  2008 
+3 .pred_2009_class_res_rf04 rand_forest  3.36  2009 
+4 .pred_2009_class_res_rf06 rand_forest  1.96  2009 
+5 .pred_2008_class_res_rf02 rand_forest  1.65  2008 
+6 .pred_2009_class_res_rf05 rand_forest  1.40  2008 
+7 .pred_2008_class_res_rf05 rand_forest  1.13  2009 
+8 .pred_2008_class_res_rf07 rand_forest  0.630 2008 
+9 .pred_2008_class_res_rf01 rand_forest  0.131 2009 
+
+Message: 
+Members have not yet been fitted with `stack_fit()`.
+

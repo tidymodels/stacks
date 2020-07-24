@@ -1,0 +1,15 @@
+> st_log_1_
+Message: -- A stacked ensemble model -------------------------------------
+
+Message: Out of 10 possible candidates, the ensemble contains 1 member.
+
+Message: The highest weighted member classes are:
+
+# A tibble: 1 x 3
+  member                  type        weight
+  <chr>                   <chr>        <dbl>
+1 .pred_male_log_res_rf10 rand_forest   7.86
+
+Message: 
+Members have not yet been fitted with `stack_fit()`.
+

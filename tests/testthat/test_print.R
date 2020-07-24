@@ -3,36 +3,55 @@ context("print")
 load(test_path("helper_data.Rda"))
 
 test_that("data stack printing works", {
-  skip("will be updating print method soon.")
-  
-  expect_output(
-    print(st_reg_1), 
-    "# A data stack with 1 model definition and 5 candidate members:\\n#   reg_res_svm: 5 sub-models"
-  )
-  expect_output(
-    print(st_reg_1_), 
-    "# An unfitted model stack with 5 candidate members from 1 model definition."
-  )
-  expect_output(
-    print(st_reg_1__), 
-    "# A fitted model stack with 2 members:\\n#   reg_res_svm3, reg_res_svm2"
+  verify_output(
+    test_path("out/data_stack_init.txt"),
+    {stacks()}
   )
   
-  expect_output(
-    print(st_class_1), 
-    "# A data stack with 1 model definition and 10 candidate members:\\n#   class_res_rf: 10 sub-models"
-  )
-  expect_output(
-    print(st_class_1_), 
-    "# An unfitted model stack with 10 candidate members from 1 model definition"
-  )
-  expect_output(
-    print(st_class_1__), 
-    "# A fitted model stack with 3 members:\\n#   class_res_rf02"
+  verify_output(
+    test_path("out/data_stack_reg.txt"),
+    {st_reg_1}
   )
   
-  expect_output(
-    print(stacks()), 
-    "# A data stack with 0 model definitions and 0 candidate members."
+  verify_output(
+    test_path("out/data_stack_class.txt"),
+    {st_class_1}
+  )
+  
+  verify_output(
+    test_path("out/data_stack_log.txt"),
+    {st_log_1}
+  )
+})
+
+test_that("model stack printing works", {
+  verify_output(
+    test_path("out/model_stack_reg.txt"),
+    {st_reg_1_}
+  )
+  
+  verify_output(
+    test_path("out/model_stack_class.txt"),
+    {st_class_1_}
+  )
+  
+  verify_output(
+    test_path("out/model_stack_log.txt"),
+    {st_log_1_}
+  )
+  
+  verify_output(
+    test_path("out/model_stack_reg_fit.txt"),
+    {st_reg_1__}
+  )
+  
+  verify_output(
+    test_path("out/model_stack_class_fit.txt"),
+    {st_class_1__}
+  )
+  
+  verify_output(
+    test_path("out/model_stack_log_fit.txt"),
+    {st_log_1__}
   )
 })

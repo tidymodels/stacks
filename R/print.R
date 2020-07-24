@@ -52,16 +52,17 @@ print.data_stack <- function(x, ...) {
 
 #' @export
 print.model_stack <- function(x, n = 10, ...) {
-  fitted <- if (is.null(x[["member_fits"]])) {"n unfitted "} else {" fitted "}
-  mode <- x[["mode"]]
-  is_reg <- mode == "regression"
   
-  intro <- paste0("A", fitted, mode, " model stack.")
-  rlang::inform(intro)
+  rlang::inform(cli::rule("A stacked ensemble model", 
+                          width = min(65, cli::console_width())))
   
   member_summary(x)
   
   print_top_coefs(x)
+  
+  if (is.null(x[["member_fits"]])) {
+    rlang::inform("\nMembers have not yet been fitted with `stack_fit()`.")
+  }
   
   invisible(NULL)
 }
@@ -149,8 +150,8 @@ member_summary <- function(x) {
       dplyr::pull(n) %>% 
       mean() %>% 
       round(2) 
-    msg <- paste0("Across the ", n_classes, " classes, the average number of ",
-                 "members per class was ", beta_per_class, ".")
+    msg <- paste0("Across the ", n_classes, " classes, there are an average ",
+                  "of ", beta_per_class, " members per class.")
     rlang::inform(msg)
   }
   invisible(NULL)
