@@ -1,17 +1,17 @@
-context("stack_add")
+context("add_candidates")
 
 load(test_path("helper_data.Rda"))
 
 test_that("stack can add candidates (regression)", {
-  skip("Need to check predictions rather than hashes on stack_add")
+  skip("Need to check predictions rather than hashes on add_candidates")
   
   # expect_equal(
-  #   st_0 %>% stack_add(reg_res_svm),
+  #   st_0 %>% add_candidates(reg_res_svm),
   #   st_reg_1
   # )
   
   expect_equal(
-    st_reg_1 %>% stack_add(reg_res_sp),
+    st_reg_1 %>% add_candidates(reg_res_sp),
     st_reg_2
   )
   
@@ -21,15 +21,15 @@ test_that("stack can add candidates (regression)", {
 })
 
 test_that("stack can add candidates (multinomial classification)", {
-  skip("Need to check predictions rather than hashes on stack_add")
+  skip("Need to check predictions rather than hashes on add_candidates")
   
   expect_equal(
-    st_0 %>% stack_add(class_res_rf),
+    st_0 %>% add_candidates(class_res_rf),
     st_class_1
   )
   
   expect_equal(
-    st_class_1 %>% stack_add(class_res_nn),
+    st_class_1 %>% add_candidates(class_res_nn),
     st_class_2
   )
   
@@ -38,15 +38,15 @@ test_that("stack can add candidates (multinomial classification)", {
 })
 
 test_that("stack can add candidates (two-way classification)", {
-  skip("Need to check predictions rather than hashes on stack_add")
+  skip("Need to check predictions rather than hashes on add_candidates")
   
   expect_equal(
-    st_0 %>% stack_add(log_res_rf),
+    st_0 %>% add_candidates(log_res_rf),
     st_log_1
   )
   
   expect_equal(
-    st_log_1 %>% stack_add(log_res_nn),
+    st_log_1 %>% add_candidates(log_res_nn),
     st_log_2
   )
   
@@ -54,72 +54,72 @@ test_that("stack can add candidates (two-way classification)", {
   expect_true(data_stack_constr(st_log_2))
 })
 
-test_that("stack_add errors informatively with bad arguments", {
+test_that("add_candidates errors informatively with bad arguments", {
   expect_error(
-    stack_add(reg_res_svm, "svm"),
+    add_candidates(reg_res_svm, "svm"),
     "Did you accidentally supply the candidate members as the first argument?"
   )
   
   expect_error(
-    st_reg_2 %>% stack_add("howdy"),
+    st_reg_2 %>% add_candidates("howdy"),
     "has class `character`, but it should inherit"
   )
   
   expect_error(
-    stacks() %>% stack_add(reg_res_sp, reg_res_svm),
-    "Did you try to add more than one set of candidates in one `stack_add\\(\\)"
+    stacks() %>% add_candidates(reg_res_sp, reg_res_svm),
+    "Did you try to add more than one set of candidates in one `add_candidates\\(\\)"
   )
   
   expect_error(
-    stacks() %>% stack_add(reg_res_sp, TRUE),
+    stacks() %>% add_candidates(reg_res_sp, TRUE),
     "Element `name` needs to inherit from `character`, but its class is `logical`."
   )
   
   expect_error(
-    stack_add("howdy", reg_res_svm),
+    add_candidates("howdy", reg_res_svm),
     "needs to inherit from `data_stack`, but its class is `character`"
   )
   
   expect_error(
-    st_reg_1 %>% stack_add(reg_res_svm),
+    st_reg_1 %>% add_candidates(reg_res_svm),
     "has the same name 'reg_res_svm'"
   )
   
   expect_error(
-    st_reg_1 %>% stack_add(reg_res_sp, "reg_res_svm"),
+    st_reg_1 %>% add_candidates(reg_res_sp, "reg_res_svm"),
     "has the same name 'reg_res_svm'"
   )
 
   expect_error(
     st_0 %>%
-      stack_add(reg_res_sp) %>%
-      stack_add(reg_res_svm_2),
+      add_candidates(reg_res_sp) %>%
+      add_candidates(reg_res_svm_2),
     "same resampling object"
   )
   
   expect_error(
     st_0 %>%
-      stack_add(reg_res_sp) %>%
-      stack_add(reg_res_svm_3),
+      add_candidates(reg_res_sp) %>%
+      add_candidates(reg_res_svm_3),
     "same resampling object"
   )
 
   reg_res_svm_renamed <- reg_res_svm
 
   # expect_error(
-  #   st_reg_1 %>% stack_add(reg_res_svm_renamed),
+  #   st_reg_1 %>% add_candidates(reg_res_svm_renamed),
   #   "new candidate member 'reg_res_svm_renamed' is the same as the existing"
   # )
   
   expect_error(
-    st_reg_1 %>% stack_add(log_res_nn),
+    st_reg_1 %>% add_candidates(log_res_nn),
     "has outcome variable sex, while the stack's outcome variable is body_mass_g"
   )
   
   st_reg_1_new_train <- st_reg_1
   attr(st_reg_1_new_train, "train") <- attr(st_reg_1, "train")[-1,]
   expect_error(
-    st_reg_1_new_train %>% stack_add(reg_res_lr),
+    st_reg_1_new_train %>% add_candidates(reg_res_lr),
     "member, `reg_res_lr`, uses different training data"
   )
 })
@@ -127,15 +127,15 @@ test_that("stack_add errors informatively with bad arguments", {
 test_that("model definition naming works as expected", {
   st_reg_1_newname <- 
     stacks() %>%
-    stack_add(reg_res_svm, name = "boop")
+    add_candidates(reg_res_svm, name = "boop")
 
   st_class_1_newname <-
     stacks() %>%
-    stack_add(class_res_rf, name = "boop")
+    add_candidates(class_res_rf, name = "boop")
     
   st_log_1_newname <-
     stacks() %>%
-    stack_add(log_res_rf, name = "boop")
+    add_candidates(log_res_rf, name = "boop")
   
   expect_true(ncol_with_name(st_reg_1, "reg_res_svm") > 0)
   expect_true(ncol_with_name(st_class_1, "class_res_rf") > 0)
@@ -151,19 +151,19 @@ test_that("model definition naming works as expected", {
   
   expect_error(
     st_reg_1 %>% 
-      stack_add(reg_res_sp, "reg_res_svm"),
+      add_candidates(reg_res_sp, "reg_res_svm"),
     "has the same name"
   )
   
   expect_error(
     st_class_1 %>% 
-      stack_add(class_res_nn, "class_res_rf"),
+      add_candidates(class_res_nn, "class_res_rf"),
     "has the same name"
   )
   
   expect_error(
     st_log_1 %>% 
-      stack_add(log_res_nn, "log_res_rf"),
+      add_candidates(log_res_nn, "log_res_rf"),
     "has the same name"
   )
 })

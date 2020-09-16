@@ -12,5 +12,5 @@ Message: The highest weighted members are:
 2 reg_res_svm5 svm_rbf  0.278
 
 Message: 
-Members have not yet been fitted with `stack_fit()`.
+Members have not yet been fitted with `fit_members()`.
 

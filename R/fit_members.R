@@ -8,10 +8,10 @@
 # @param bag_p Numeric in (0, 1]—the proportion of models in the bag at
 # each iteration.
 #
-#' @param model_stack A `model_stack` object outputted by `stack_blend()` or
-#'   `stack_fit()`
+#' @param model_stack A `model_stack` object outputted by `blend_predictions()` or
+#'   `fit_members()`
 #' @inheritParams stacks
-#' @inheritParams stack_blend
+#' @inheritParams blend_predictions
 #' @return A `model_stack` object with a subclass inherited from the chosen
 #' `*_stack` method---this fitted model contains the 
 #' necessary components to predict on new data.
@@ -26,43 +26,43 @@
 #' # put together a data stack
 #' reg_st <- 
 #'   stacks() %>%
-#'   stack_add(reg_res_lr) %>%
-#'   stack_add(reg_res_svm) %>%
-#'   stack_add(reg_res_sp)
+#'   add_candidates(reg_res_lr) %>%
+#'   add_candidates(reg_res_svm) %>%
+#'   add_candidates(reg_res_sp)
 #'   
 #' reg_st
 #'
 #' # evaluate the data stack and fit the member models
 #' reg_st %>%
-#'   stack_blend() %>%
-#'   stack_fit()
+#'   blend_predictions() %>%
+#'   fit_members()
 #'   
 #' reg_st
 #'   
 #' # do the same with multinomial classification models
 #' class_st <-
 #'   stacks() %>%
-#'   stack_add(class_res_nn) %>%
-#'   stack_add(class_res_rf) %>%
-#'   stack_blend() %>%
-#'   stack_fit()
+#'   add_candidates(class_res_nn) %>%
+#'   add_candidates(class_res_rf) %>%
+#'   blend_predictions() %>%
+#'   fit_members()
 #'   
 #' class_st
 #'   
 #' # ...or binomial classification models
 #' log_st <-
 #'   stacks() %>%
-#'   stack_add(log_res_nn) %>%
-#'   stack_add(log_res_rf) %>%
-#'   stack_blend() %>%
-#'   stack_fit()
+#'   add_candidates(log_res_nn) %>%
+#'   add_candidates(log_res_rf) %>%
+#'   blend_predictions() %>%
+#'   fit_members()
 #'   
 #' log_st
 #' }
 #' 
 #' @family core verbs
 #' @export
-stack_fit <- function(model_stack, verbose = FALSE, ...) {
+fit_members <- function(model_stack, verbose = FALSE, ...) {
   check_model_stack(model_stack)
   
   dat <- model_stack[["train"]]
@@ -205,7 +205,7 @@ check_model_stack <- function(model_stack) {
     glue_stop(
       "The supplied `model_stack` argument is a data stack rather than ",
       "a model stack. Did you forget to first evaluate the data stack's ",
-      "blending coefficients with `stack_blend()`?"
+      "blending coefficients with `blend_predictions()`?"
     )
   } else {
     check_inherits(model_stack, "model_stack")

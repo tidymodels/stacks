@@ -28,10 +28,10 @@ The process goes something like this:
     [tune](http://tune.tidymodels.org/)
 2.  Initialize a `data_stack` object with `stacks()`  
 3.  Iteratively add candidate ensemble members to the `data_stack` with
-    `stack_add()`  
-4.  Evaluate how to combine their predictions with `stack_blend()`  
+    `add_candidates()`  
+4.  Evaluate how to combine their predictions with `blend_predictions()`  
 5.  Fit candidate ensemble members with non-zero stacking coefficients
-    with `stack_fit()`  
+    with `fit_members()`  
 6.  Predict on new data with `predict()`
 
 You can install the (unstable) development version of this package with
@@ -70,7 +70,7 @@ not regarded as resulting from a specific model definition, where-as a
 sub-model is an untrained candidate ensemble member.
 
 Sub-models first come together in a `data_stack` object through the
-`stack_add()` function. Principally, these objects are just
+`add_candidates()` function. Principally, these objects are just
 [tibbles](https://tibble.tidyverse.org/), where the first column gives
 the true outcome in the assessment set, and the remaining columns give
 the predictions from each candidate ensemble member. (When the outcome
@@ -81,7 +81,7 @@ attributes to keep track of model definitions.
 
 ![](man/figures/data_stack.png)
 
-Then, the data stack can be evaluated using `stack_blend()` to determine
+Then, the data stack can be evaluated using `blend_predictions()` to determine
 to how best to combine the outputs from each of the candidate member
 models.
 
@@ -104,7 +104,7 @@ fitted, altogether making up a `model_stack` object.
 
 ![](man/figures/class_model_stack.png)
 
-This model stack object, outputted from `stack_fit()`, is ready to
+This model stack object, outputted from `fit_members()`, is ready to
 predict on new data\!
 
 At a high level, the process follows these steps:

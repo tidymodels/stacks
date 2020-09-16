@@ -1,18 +1,18 @@
-context("stack_fit")
+context("fit_members")
 
 load(test_path("helper_data.Rda"))
 
-test_that("basic stack_fit works", {
+test_that("basic fit_members works", {
   expect_silent(
-    st_reg_1 %>% stack_add(reg_res_lr) %>% stack_blend() %>% stack_fit()
+    st_reg_1 %>% add_candidates(reg_res_lr) %>% blend_predictions() %>% fit_members()
   )
   
   expect_silent(
-    st_class_1_ %>% stack_fit()
+    st_class_1_ %>% fit_members()
   )
   
   expect_silent(
-    st_log_1_ %>% stack_fit()
+    st_log_1_ %>% fit_members()
   )
   
   # This is functionality that modeltime depends on.
@@ -27,7 +27,7 @@ test_that("basic stack_fit works", {
   expect_false( is.null(st_log_1__[["member_fits"]]))
 })
 
-test_that("stack_fit leaves most model stack elements alone", {
+test_that("fit_members leaves most model stack elements alone", {
   expect_equal(st_reg_1__[["train"]], st_reg_1_[["train"]])
   expect_equal(st_reg_1__[["train"]], st_class_1_[["train"]])
   expect_equal(st_reg_1__[["train"]], st_log_1_[["train"]])
@@ -65,14 +65,14 @@ test_that("stack_fit leaves most model stack elements alone", {
   expect_equal(st_log_1__[["splits"]], st_log_1_[["splits"]])
 })
 
-test_that("stack_fit errors informatively with a bad model_stack arg", {
+test_that("fit_members errors informatively with a bad model_stack arg", {
   expect_error(
-    st_reg_1 %>% stack_fit(),
+    st_reg_1 %>% fit_members(),
     "Did you forget to first evaluate the data stack's blending coefficients w"
   )
   
   expect_error(
-    "howdy" %>% stack_fit(),
+    "howdy" %>% fit_members(),
     "`model_stack` needs to inherit from `model_stack`"
   )
 })

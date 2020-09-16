@@ -8,11 +8,11 @@ To be used in the same ensemble, each of these model definitions must share the 
 
 The package will sometimes refer to _sub-models_. An ensemble member is a sub-model that has actually been selected (and possibly trained) for use in the ensemble (via nonzero stacking coefficients, usually) that is not regarded as resulting from a specific model definition, where-as a sub-model is an untrained candidate ensemble member.
 
-Sub-models first come together in a `data_stack` object through the `stack_add()` function. Principally, these objects are just [tibbles](https://tibble.tidyverse.org/), where the first column gives the true outcome in the assessment set, and the remaining columns give the predictions from each candidate ensemble member. (When the outcome is numeric, there's only one column per candidate ensemble member. Classification requires as many columns per candidate as there are levels in the outcome variable.) They also bring along a few extra attributes to keep track of model definitions.
+Sub-models first come together in a `data_stack` object through the `add_candidates()` function. Principally, these objects are just [tibbles](https://tibble.tidyverse.org/), where the first column gives the true outcome in the assessment set, and the remaining columns give the predictions from each candidate ensemble member. (When the outcome is numeric, there's only one column per candidate ensemble member. Classification requires as many columns per candidate as there are levels in the outcome variable.) They also bring along a few extra attributes to keep track of model definitions.
 
 \\figure{data_stack.png}{options: width=500}
 
-Then, the data stack can be evaluated using `stack_blend()` to determine to how best to combine the outputs from each of the candidate member models.  
+Then, the data stack can be evaluated using `blend_predictions()` to determine to how best to combine the outputs from each of the candidate member models.  
 
 Note that the fitting process is not sensitive to model definition membership. That is, while fitting an ensemble from a stack, the components are regarded as candidate ensemble members rather than as sub-models.   
 
@@ -24,7 +24,7 @@ These stacking coefficients decide then which sub-models will be ensemble member
 
 \\figure{class_model_stack.png}{options: width=500}
 
-This model stack object, outputted from `stack_fit()`, is ready to predict on new data!
+This model stack object, outputted from `fit_members()`, is ready to predict on new data!
 
 At a high level, the process follows these steps:
 

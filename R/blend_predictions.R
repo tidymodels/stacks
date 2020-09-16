@@ -11,7 +11,7 @@
 #'   will be tuned on unless a single penalty value is given.
 #' @param verbose A logical for logging results as they are generated. Despite 
 #'   this argument, warnings and errors are always shown.
-#' @inheritParams stack_add
+#' @inheritParams add_candidates
 #' 
 #' @return A `model_stack` object—while `model_stacks` largely contain the
 #' same elements as `data_stack`s, the primary data objects shift from the
@@ -27,42 +27,42 @@
 #' # put together a data stack
 #' reg_st <- 
 #'   stacks() %>%
-#'   stack_add(reg_res_lr) %>%
-#'   stack_add(reg_res_svm) %>%
-#'   stack_add(reg_res_sp)
+#'   add_candidates(reg_res_lr) %>%
+#'   add_candidates(reg_res_svm) %>%
+#'   add_candidates(reg_res_sp)
 #'   
 #' reg_st
 #'
 #' # evaluate the data stack
 #' reg_st %>%
-#'   stack_blend()
+#'   blend_predictions()
 #' 
 #' # include fewer models by proposing
 #' # higher penalties
-#' reg_st %>% stack_blend(penalty = c(.5, 1))
+#' reg_st %>% blend_predictions(penalty = c(.5, 1))
 #'   
 #' # do the same with multinomial classification models
 #' class_st <-
 #'   stacks() %>%
-#'   stack_add(class_res_nn) %>%
-#'   stack_add(class_res_rf) %>%
-#'   stack_blend()
+#'   add_candidates(class_res_nn) %>%
+#'   add_candidates(class_res_rf) %>%
+#'   blend_predictions()
 #'   
 #' class_st
 #' 
 #' # ...or binomial classification models
 #' log_st <-
 #'   stacks() %>%
-#'   stack_add(log_res_nn) %>%
-#'   stack_add(log_res_rf) %>%
-#'   stack_blend()
+#'   add_candidates(log_res_nn) %>%
+#'   add_candidates(log_res_rf) %>%
+#'   blend_predictions()
 #'   
 #' log_st
 #' }
 #' 
 #' @family core verbs
 #' @export
-stack_blend <- function(data_stack, penalty = 10 ^ (-6:-1), verbose = FALSE, ...) {
+blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1), verbose = FALSE, ...) {
   check_inherits(data_stack, "data_stack")
   check_blend_data_stack(data_stack)
   check_penalty(penalty)
@@ -253,7 +253,7 @@ safe_attr <- function(x, new_attr) {
 
 check_blend_data_stack <- function(data_stack) {
   # many possible checks we could do here are redundant with those we
-  # carry out in stack_fit() -- just check for bare stacks, 1-candidate
+  # carry out in fit_members() -- just check for bare stacks, 1-candidate
   # stacks, and non-stack objects
   if (!inherits(data_stack, "data_stack")) {
     check_inherits(data_stack, "data_stack")
@@ -261,13 +261,13 @@ check_blend_data_stack <- function(data_stack) {
       glue_stop(
         "The data stack supplied as the argument to `data_stack` has no ",
         "candidate members. Please first add candidates with ",
-        "the `stack_add()` function."
+        "the `add_candidates()` function."
       )
   } else if ((ncol(data_stack) == 2 && attr(data_stack, "mode") == "regression") || 
              ncol(data_stack) == length(levels(data_stack[[1]])) + 1) {
     glue_stop(
       "The supplied data stack only contains one candidate member. Please ",
-      "add more candidate members using `stack_add()` before blending."
+      "add more candidate members using `add_candidates()` before blending."
     )
   }
   

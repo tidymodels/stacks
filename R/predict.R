@@ -26,10 +26,10 @@
 #' # build and fit a regression model stack
 #' reg_st <-
 #'   stacks() %>%
-#'   stack_add(reg_res_lr) %>%
-#'   stack_add(reg_res_sp) %>%
-#'   stack_blend() %>%
-#'   stack_fit()
+#'   add_candidates(reg_res_lr) %>%
+#'   add_candidates(reg_res_sp) %>%
+#'   blend_predictions() %>%
+#'   fit_members()
 #'
 #' reg_st
 #' 
@@ -42,10 +42,10 @@
 #' # build and fit a classification model stack
 #' class_st <-
 #'   stacks() %>%
-#'   stack_add(class_res_nn) %>%
-#'   stack_add(class_res_rf) %>%
-#'   stack_blend() %>%
-#'   stack_fit()
+#'   add_candidates(class_res_nn) %>%
+#'   add_candidates(class_res_rf) %>%
+#'   blend_predictions() %>%
+#'   fit_members()
 #'  
 #' class_st
 #' 
@@ -124,8 +124,8 @@ predict.model_stack <- function(object, new_data, type = NULL, members = FALSE,
 predict.data_stack <- function(object, ...) {
   glue_stop(
     "To predict with a stacked ensemble, the supplied data stack must be ",
-    "evaluated with `stack_blend()` and its member models fitted with ",
-    "`stack_fit()` to predict on new data."
+    "evaluated with `blend_predictions()` and its member models fitted with ",
+    "`fit_members()` to predict on new data."
   )
 }
 
@@ -190,7 +190,7 @@ check_fitted <- function(model_stack) {
   if (is.null(model_stack[["member_fits"]])) {
     glue_stop(
       "The supplied model stack hasn't been fitted yet. ",
-      "Please fit the necessary members with stack_fit() to predict on new data."
+      "Please fit the necessary members with fit_members() to predict on new data."
     )
   }
 }

@@ -49,10 +49,10 @@ Remove fitted values.
 # build a regression model stack
 st <-
   stacks() \%>\%
-  stack_add(reg_res_lr) \%>\%
-  stack_add(reg_res_sp) \%>\%
-  stack_blend() \%>\%
-  stack_fit()
+  add_candidates(reg_res_lr) \%>\%
+  add_candidates(reg_res_sp) \%>\%
+  blend_predictions() \%>\%
+  fit_members()
   
 # remove any of the "butcherable"
 # elements individually

@@ -155,12 +155,12 @@ penguins_model_st <-
   # initialize the stack
   stacks() %>%
   # add candidate members
-  stack_add(rand_forest_res) %>%
-  stack_add(nnet_res) %>%
+  add_candidates(rand_forest_res) %>%
+  add_candidates(nnet_res) %>%
   # determine how to combine their predictions
-  stack_blend() %>%
+  blend_predictions() %>%
   # fit the candidates with nonzero stacking coefficients
-  stack_fit()
+  fit_members()
 
 penguins_model_st
 ```
@@ -178,7 +178,7 @@ To show the relationship more directly:
 autoplot(penguins_model_st, type = "members")
 ```
 
-If these results were not good enough, `stack_blend()` could be called again with different values of `penalty`. As it is, `stack_blend()` picks the penalty parameter with the numerically optimal results. To see the top results: 
+If these results were not good enough, `blend_predictions()` could be called again with different values of `penalty`. As it is, `blend_predictions()` picks the penalty parameter with the numerically optimal results. To see the top results: 
 
 ```{r weight-plot}
 autoplot(penguins_model_st, type = "weights")

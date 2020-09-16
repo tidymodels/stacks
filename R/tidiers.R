@@ -37,10 +37,10 @@ generics::augment
 #' # build a regression model stack
 #' st <-
 #'   stacks() %>%
-#'   stack_add(reg_res_lr) %>%
-#'   stack_add(reg_res_sp) %>%
-#'   stack_blend() %>%
-#'   stack_fit()
+#'   add_candidates(reg_res_lr) %>%
+#'   add_candidates(reg_res_sp) %>%
+#'   blend_predictions() %>%
+#'   fit_members()
 #'   
 #' # check the model stack out!
 #' tidy(st)

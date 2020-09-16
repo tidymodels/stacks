@@ -83,10 +83,10 @@ data(penguins_test)
 # build and fit a regression model stack
 reg_st <-
   stacks() \%>\%
-  stack_add(reg_res_lr) \%>\%
-  stack_add(reg_res_sp) \%>\%
-  stack_blend() \%>\%
-  stack_fit()
+  add_candidates(reg_res_lr) \%>\%
+  add_candidates(reg_res_sp) \%>\%
+  blend_predictions() \%>\%
+  fit_members()
 
 reg_st
 
@@ -99,10 +99,10 @@ predict(reg_st, penguins_test, members = TRUE)
 # build and fit a classification model stack
 class_st <-
   stacks() \%>\%
-  stack_add(class_res_nn) \%>\%
-  stack_add(class_res_rf) \%>\%
-  stack_blend() \%>\%
-  stack_fit()
+  add_candidates(class_res_nn) \%>\%
+  add_candidates(class_res_rf) \%>\%
+  blend_predictions() \%>\%
+  fit_members()
  
 class_st
 

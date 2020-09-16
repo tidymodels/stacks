@@ -36,7 +36,7 @@ not regarded as resulting from a specific model definition, where-as a
 sub-model is an untrained candidate ensemble member.
 
 Sub-models first come together in a \code{data_stack} object through the
-\code{stack_add()} function. Principally, these objects are just
+\code{add_candidates()} function. Principally, these objects are just
 \href{https://tibble.tidyverse.org/}{tibbles}, where the first column gives
 the true outcome in the assessment set, and the remaining columns give
 the predictions from each candidate ensemble member. (When the outcome
@@ -47,9 +47,9 @@ attributes to keep track of model definitions.
 
 \figure{data_stack.png}{options: width=500}
 
-Then, the data stack can be evaluated using \code{stack_blend()} to determine
-to how best to combine the outputs from each of the candidate member
-models.
+Then, the data stack can be evaluated using \code{blend_predictions()} to
+determine to how best to combine the outputs from each of the candidate
+member models.
 
 Note that the fitting process is not sensitive to model definition
 membership. That is, while fitting an ensemble from a stack, the
@@ -70,7 +70,7 @@ fitted, altogether making up a \code{model_stack} object.
 
 \figure{class_model_stack.png}{options: width=500}
 
-This model stack object, outputted from \code{stack_fit()}, is ready to
+This model stack object, outputted from \code{fit_members()}, is ready to
 predict on new data!
 
 At a high level, the process follows these steps:

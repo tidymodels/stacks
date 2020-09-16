@@ -61,7 +61,7 @@ print.model_stack <- function(x, n = 10, ...) {
   print_top_coefs(x)
   
   if (is.null(x[["member_fits"]])) {
-    rlang::inform("\nMembers have not yet been fitted with `stack_fit()`.")
+    rlang::inform("\nMembers have not yet been fitted with `fit_members()`.")
   }
   
   invisible(NULL)

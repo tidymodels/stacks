@@ -28,44 +28,44 @@
 #' # tuning results for regression models
 #' reg_st <- 
 #'   stacks() %>%
-#'   stack_add(reg_res_lr) %>%
-#'   stack_add(reg_res_svm) %>%
-#'   stack_add(reg_res_sp)
+#'   add_candidates(reg_res_lr) %>%
+#'   add_candidates(reg_res_svm) %>%
+#'   add_candidates(reg_res_sp)
 #'   
 #' reg_st
 #'   
 #' # do the same with multinomial classification models
 #' class_st <-
 #'   stacks() %>%
-#'   stack_add(class_res_nn) %>%
-#'   stack_add(class_res_rf)
+#'   add_candidates(class_res_nn) %>%
+#'   add_candidates(class_res_rf)
 #'   
 #' class_st
 #'   
 #' # ...or binomial classification models
 #' log_st <-
 #'   stacks() %>%
-#'   stack_add(log_res_nn) %>%
-#'   stack_add(log_res_rf)
+#'   add_candidates(log_res_nn) %>%
+#'   add_candidates(log_res_rf)
 #'   
 #' log_st
 #'   
 #' # use custom names for each model:
 #' log_st2 <-
 #'   stacks() %>%
-#'   stack_add(log_res_nn, name = "neural_network") %>%
-#'   stack_add(log_res_rf, name = "random_forest")
+#'   add_candidates(log_res_nn, name = "neural_network") %>%
+#'   add_candidates(log_res_rf, name = "random_forest")
 #'   
 #' log_st2
 #'   
 #' # these objects would likely then be
-#' # passed to stack_blend():
-#' log_st2 %>% stack_blend()
+#' # passed to blend_predictions():
+#' log_st2 %>% blend_predictions()
 #' }
 #' 
 #' @family core verbs
 #' @export
-stack_add <- function(data_stack, candidates,
+add_candidates <- function(data_stack, candidates,
                            name = deparse(substitute(candidates)), ...) {
   check_add_data_stack(data_stack)
   check_candidates(candidates)
@@ -304,7 +304,7 @@ check_add_data_stack <- function(data_stack) {
       "It looks like the first argument inherits from {list(class(data_stack))} ",
       "rather than `data_stack`. ",
       "Did you accidentally supply the candidate members as the first argument? ",
-      "If so, please supply the output of `stacks()` or another `stack_add()` as ",
+      "If so, please supply the output of `stacks()` or another `add_candidates()` as ",
       "the argument to `data_stack`."
     )
   } else {
@@ -333,7 +333,7 @@ check_name <- function(name) {
     glue_stop(
       "The inputted `name` argument looks like a tuning/fitting results object ",
       "that might be supplied as a `candidates` argument. Did you try to add ",
-      "more than one set of candidates in one `stack_add()` call?"
+      "more than one set of candidates in one `add_candidates()` call?"
     )
   } else {
     check_inherits(name, "character")

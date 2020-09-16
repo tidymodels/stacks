@@ -15,9 +15,9 @@ test_that("tidy.model_stack behaves appropriately without needed tidiers", {
 test_that("tidy.model_stack works", {
   test_stack_reg <- 
     stacks() %>%
-    stack_add(reg_res_sp) %>%
-    stack_blend() %>%
-    stack_fit()
+    add_candidates(reg_res_sp) %>%
+    blend_predictions() %>%
+    fit_members()
   
   tidy_st <- tidy(test_stack_reg)
   

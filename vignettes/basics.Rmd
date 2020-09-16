@@ -18,9 +18,9 @@ In this article, we'll be working through an example of the workflow of model st
 
 1. Define candidate ensemble members using functionality from rsample, parsnip, workflows, recipes, and tune
 2. Initialize a `data_stack` object with `stacks()`  
-3. Iteratively add candidate ensemble members to the `data_stack` with `stack_add()`  
-4. Evaluate how to combine their predictions with `stack_blend()`  
-5. Fit candidate ensemble members with non-zero stacking coefficients with `stack_fit()`  
+3. Iteratively add candidate ensemble members to the `data_stack` with `add_candidates()`  
+4. Evaluate how to combine their predictions with `blend_predictions()`  
+5. Fit candidate ensemble members with non-zero stacking coefficients with `fit_members()`  
 6. Predict on new data with `predict()`!  
 
 The package is closely integrated with the rest of the functionality in tidymodels—we'll load those packages as well, in addition to some tidyverse packages to evaluate our results later on.
@@ -191,14 +191,14 @@ stacks()
 
 The `stacks()` function works sort of like the `ggplot()` constructor from ggplot2—the function creates a basic structure that the object will be built on top of—except you'll pipe the outputs rather than adding them with `+`.
 
-The `stack_add()` function adds ensemble members to the stack.
+The `add_candidates()` function adds ensemble members to the stack.
 
 ```{r}
 penguins_data_st <- 
   stacks() %>%
-  stack_add(lin_reg_res) %>%
-  stack_add(spline_res) %>%
-  stack_add(svm_res)
+  add_candidates(lin_reg_res) %>%
+  add_candidates(spline_res) %>%
+  add_candidates(svm_res)
 
 penguins_data_st
 ```
@@ -215,20 +215,20 @@ That's it! We're now ready to evaluate how it is that we need to combine predict
 
 # Fit the stack
 
-The outputs from each of these candidate ensemble members are highly correlated, so the `stack_blend` method performs regularization to figure out how we can combine the outputs from the stack members to come up with a final prediction.
+The outputs from each of these candidate ensemble members are highly correlated, so the `blend_predictions` method performs regularization to figure out how we can combine the outputs from the stack members to come up with a final prediction.
 
 ```{r}
 penguins_model_st <-
   penguins_data_st %>%
-  stack_blend()
+  blend_predictions()
 ```
 
-The `stack_blend` function determines how member model output will ultimately be combined in the final prediction. Now that we know how to combine our model output, we can fit the models that we now know we need.
+The `blend_predictions` function determines how member model output will ultimately be combined in the final prediction. Now that we know how to combine our model output, we can fit the models that we now know we need.
 
 ```{r}
 penguins_model_st <-
   penguins_model_st %>%
-  stack_fit()
+  fit_members()
 ```
 
 This object is now ready to predict with new data! 
