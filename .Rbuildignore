@@ -10,3 +10,4 @@ README.Rmd
 inst/figs
 ^CODE_OF_CONDUCT\.md$
 ..Rcheck
+data-raw/
