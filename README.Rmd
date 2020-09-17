@@ -7,7 +7,6 @@ output: github_document
 [![Codecov test coverage](https://codecov.io/gh/tidymodels/stacks/branch/main/graph/badge.svg)](https://codecov.io/gh/tidymodels/stacks?branch=main)
 [![CRAN status](https://www.r-pkg.org/badges/version/stacks)](https://CRAN.R-project.org/package=stacks)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-blue.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![R build status](https://github.com/tidymodels/stacks/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/stacks/actions)
 <!-- badges: end -->
 
 ```{r setup, include=FALSE}
