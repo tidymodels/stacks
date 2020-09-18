@@ -1,0 +1,221 @@
+﻿Order,Date,Stimulus,Clutch,Age Block (hours),Age (days),Time Block (hours),Individual,Response,Latency to Hatch (minutes from start of stimulation),Tadpole Length,Developmental Stage,Mean Length,Mean Stage
+1,20150811,Hypoxia,254,81,3,9,1,Hatched,16.80,8.3,2,8.6955,2
+2,20150811,Hypoxia,254,81,3,9,2,Not Hatched,NA,9.091,2,,
+3,20150811,Hypoxia,254,84,3,12,3,Hatched,25.20,8.891,2,8.8275,2.5
+4,20150811,Hypoxia,254,84,3,12,4,Hatched,16.20,8.764,3,,
+5,20150811,Hypoxia,254,87,3,15,5,Hatched,20.40,9.93,3,9.6425,3
+6,20150811,Hypoxia,254,87,3,15,6,Hatched,27.00,9.355,3,,
+7,20150811,Mechanosensory,254,90,3,18,1,Hatched,0.60,9.397,3,9.3935,3
+8,20150811,Mechanosensory,254,90,3,18,2,Not Hatched,NA,9.39,3,,
+9,20150811,Mechanosensory,254,93,3,21,3,Hatched,4.80,9.638,4,9.6525,4.5
+10,20150811,Mechanosensory,254,93,3,21,4,Not Hatched,NA,9.667,5,,
+11,20150812,Mechanosensory,254,96,4,0,5,Hatched,3.00,10.401,5,10.294,5
+12,20150812,Mechanosensory,254,96,4,0,6,Hatched,4.20,10.187,5,,
+13,20150812,Mechanosensory,254,99,4,3,7,Hatched,1.00,10.93,6,10.7355,6
+14,20150812,Mechanosensory,254,99,4,3,8,Hatched,2.00,10.541,6,,
+15,20150811,Hypoxia,255,81,3,9,1,Not Hatched,NA,8.337,2,8.2285,2
+16,20150811,Hypoxia,255,81,3,9,2,Not Hatched,NA,8.12,2,,
+17,20150811,Hypoxia,255,84,3,12,3,Not Hatched,NA,8.715,2,8.5905,2
+18,20150811,Hypoxia,255,84,3,12,4,Hatched,13.20,8.466,2,,
+19,20150811,Hypoxia,255,87,3,15,5,Not Hatched,NA,8.321,2,8.6165,2
+20,20150811,Hypoxia,255,87,3,15,6,Hatched,30.00,8.912,2,,
+21,20150811,Hypoxia,255,90,3,18,7,Hatched,19.20,9.232,NA,9.098,3
+22,20150811,Hypoxia,255,90,3,18,8,Hatched,13.20,8.964,NA,,
+23,20150811,Mechanosensory,255,90,3,18,1,Not Hatched,NA,8.37,3,8.841,3
+24,20150811,Mechanosensory,255,90,3,18,2,Not Hatched,NA,9.312,3,,
+25,20150811,Hypoxia,255,93,3,21,9,Hatched,15.00,8.892,4,9.0645,4
+26,20150811,Hypoxia,255,93,3,21,10,Hatched,18.00,9.237,4,,
+27,20150811,Mechanosensory,255,93,3,21,3,Hatched,1.20,9.055,4,9.1725,4
+28,20150811,Mechanosensory,255,93,3,21,4,Hatched,4.20,9.29,4,,
+29,20150812,Mechanosensory,255,96,4,0,5,Hatched,3.00,9.493,4,9.5665,4
+30,20150812,Mechanosensory,255,96,4,0,6,Not Hatched,NA,9.64,4,,
+31,20150812,Mechanosensory,255,99,4,3,7,Hatched,NA,9.689,6,9.717,6
+32,20150812,Mechanosensory,255,99,4,3,8,Hatched,NA,9.745,6,,
+33,20150811,Hypoxia,256,81,3,9,1,Hatched,12.00,8.11,2,8.274,2
+34,20150811,Hypoxia,256,81,3,9,2,Not Hatched,NA,8.438,2,,
+35,20150811,Hypoxia,256,84,3,12,3,Not Hatched,NA,8.603,2,8.613,2
+36,20150811,Hypoxia,256,84,3,12,4,Hatched,21.00,8.623,2,,
+37,20150811,Hypoxia,256,87,3,15,5,Hatched,19.20,8.932,2,8.718,2.5
+38,20150811,Hypoxia,256,87,3,15,6,Hatched,17.40,8.504,3,,
+41,20150811,Hypoxia,256,90,3,18,7,Hatched,17.80,9.316,3,8.85,3
+42,20150811,Hypoxia,256,90,3,18,8,Hatched,23.80,8.384,NA,,
+39,20150811,Mechanosensory,256,90,3,18,1,Not Hatched,NA,8.862,3,8.824,3
+40,20150811,Mechanosensory,256,90,3,18,2,Not Hatched,NA,8.786,3,,
+43,20150811,Mechanosensory,256,93,3,21,3,Not Hatched,NA,9.152,3,8.757,3
+44,20150811,Mechanosensory,256,93,3,21,4,Not Hatched,NA,8.362,3,,
+45,20150811,Mechanosensory,256,96,4,0,5,Hatched,3.00,10,5,9.841,5
+46,20150811,Mechanosensory,256,96,4,0,6,Hatched,4.20,9.682,5,,
+47,20150812,Mechanosensory,256,99,4,3,7,Hatched,2.00,9.922,5,9.7655,5
+48,20150812,Mechanosensory,256,99,4,3,8,Hatched,2.00,9.609,5,,
+49,20150811,Hypoxia,257,81,3,9,1,Not Hatched,NA,8.057,2,7.923,2
+50,20150811,Hypoxia,257,81,3,9,2,Not Hatched,NA,7.789,NA,,
+51,20150811,Hypoxia,257,84,3,12,3,Not Hatched,NA,7.919,2,7.9645,2
+52,20150811,Hypoxia,257,84,3,12,4,Not Hatched,NA,8.01,2,,
+53,20150811,Hypoxia,257,87,3,15,5,Not Hatched,NA,8.373,2,8.373,2.5
+54,20150811,Hypoxia,257,87,3,15,6,Not Hatched,NA,NA,3,,
+55,20150811,Hypoxia,257,90,3,18,7,Hatched,24.00,8.808,2,8.4555,2
+56,20150811,Hypoxia,257,90,3,18,8,Not Hatched,NA,8.103,2,,
+57,20150811,Hypoxia,257,93,3,21,9,Hatched,19.80,NA,3,9.115,3
+58,20150811,Hypoxia,257,93,3,21,10,Hatched,21.00,9.115,3,,
+59,20150811,Mechanosensory,257,93,3,21,1,Hatched,4.20,9.139,4,9.4025,4
+60,20150811,Mechanosensory,257,93,3,21,2,Not Hatched,NA,9.666,4,,
+61,20150812,Hypoxia,257,96,4,0,11,Hatched,16.80,9.966,4,9.7785,4
+62,20150812,Hypoxia,257,96,4,0,12,Hatched,15.00,9.591,4,,
+63,20150812,Mechanosensory,257,96,4,0,3,Hatched,5.40,9.601,3,9.5825,3.5
+64,20150812,Mechanosensory,257,96,4,0,4,Hatched,5.40,9.564,4,,
+65,20150812,Mechanosensory,257,99,4,3,5,Hatched,1.20,9.852,5,9.615,5
+66,20150812,Mechanosensory,257,99,4,3,6,Hatched,4.20,9.378,5,,
+67,20150811,Hypoxia,258,81,3,9,1,Not Hatched,NA,7.923,1,7.878,1.5
+68,20150811,Hypoxia,258,81,3,9,2,Not Hatched,NA,7.833,2,,
+69,20150811,Hypoxia,258,84,3,12,3,Not Hatched,NA,7.794,2,7.772,2
+70,20150811,Hypoxia,258,84,3,12,4,Not Hatched,NA,7.75,2,,
+71,20150811,Hypoxia,258,87,3,15,5,Hatched,34.20,8.198,2,8.3965,2
+72,20150811,Hypoxia,258,87,3,15,6,Hatched,23.40,8.595,2,,
+73,20150811,Hypoxia,258,90,3,18,7,Not Hatched,NA,8.322,2,8.322,2
+74,20150811,Hypoxia,258,90,3,18,8,Not Hatched,NA,NA,2,,
+75,20150811,Hypoxia,258,93,3,21,9,Hatched,21.00,9.206,3,9.09,3
+76,20150811,Hypoxia,258,93,3,21,10,Hatched,13.80,8.974,3,,
+77,20150811,Mechanosensory,258,93,3,21,1,Not Hatched,NA,8.42,3,8.643,3
+78,20150811,Mechanosensory,258,93,3,21,2,Not Hatched,NA,8.866,3,,
+79,20150812,Mechanosensory,258,96,4,0,3,Not Hatched,NA,9.065,5,9.2905,5
+80,20150812,Mechanosensory,258,96,4,0,4,Not Hatched,NA,9.516,5,,
+81,20150812,Mechanosensory,258,99,4,3,5,Hatched,3.00,9.18,5,9.427,5
+82,20150812,Mechanosensory,258,99,4,3,6,Hatched,1.20,9.674,5,,
+83,20150812,Mechanosensory,258,102,4,6,7,Not Hatched,NA,9.737,5,9.88,5
+84,20150812,Mechanosensory,258,102,4,6,8,Hatched,2.40,10.023,5,,
+85,20150812,Mechanosensory,258,105,4,9,9,Hatched,1.20,9.375,6,9.556,6
+86,20150812,Mechanosensory,258,105,4,9,10,Hatched,1.20,9.737,6,,
+87,20150811,Hypoxia,259,81,3,9,1,Not Hatched,NA,6.676,1,7.1055,1.5
+88,20150811,Hypoxia,259,81,3,9,2,Not Hatched,NA,7.535,2,,
+89,20150811,Hypoxia,259,84,3,12,3,Not Hatched,NA,8.139,2,8.038,2
+90,20150811,Hypoxia,259,87,3,15,4,Not Hatched,NA,7.937,2,,
+91,20150811,Hypoxia,259,87,3,15,5,Not Hatched,NA,8.687,2,8.5455,2
+92,20150811,Hypoxia,259,87,3,15,6,Hatched,21.00,8.404,2,,
+93,20150811,Hypoxia,259,90,3,18,7,Hatched,22.20,8.536,2,8.6855,2
+94,20150811,Hypoxia,259,90,3,18,8,Hatched,19.20,8.835,2,,
+95,20150811,Hypoxia,259,93,3,21,9,Hatched,19.80,8.613,2,8.82,2.5
+96,20150811,Hypoxia,259,93,3,21,10,Hatched,21.00,9.027,3,,
+97,20150811,Mechanosensory,259,93,3,21,1,Not Hatched,NA,9.094,3,9.113,3
+98,20150811,Mechanosensory,259,93,3,21,2,Hatched,4.20,9.132,3,,
+99,20150812,Mechanosensory,259,96,4,0,3,Not Hatched,NA,9.67,3,9.381,3
+100,20150812,Mechanosensory,259,96,4,0,4,Not Hatched,NA,9.092,3,,
+101,20150812,Mechanosensory,259,99,4,3,5,Hatched,1.80,9.599,5,9.442,5
+102,20150812,Mechanosensory,259,99,4,3,6,Hatched,3.00,9.285,5,,
+103,20150812,Mechanosensory,259,102,4,6,7,Hatched,4.20,9.838,5,9.963,5
+104,20150812,Mechanosensory,259,102,4,6,8,Hatched,4.80,10.088,5,,
+105,20150812,Hypoxia,262,78,3,6,1,Not Hatched,NA,7.804,2,7.8915,2
+106,20150812,Hypoxia,262,78,3,6,2,Not Hatched,NA,7.979,2,,
+107,20150812,Hypoxia,262,81,3,9,3,Not Hatched,NA,7.727,1,8.3505,1.5
+108,20150812,Hypoxia,262,81,3,9,4,Not Hatched,NA,8.974,2,,
+109,20150812,Hypoxia,262,84,3,12,5,Hatched,30.60,9.021,2,8.7765,2
+110,20150812,Hypoxia,262,84,3,12,6,Not Hatched,NA,8.532,2,,
+111,20150812,Hypoxia,262,87,3,15,7,Hatched,24.00,9.115,3,8.741,2.5
+112,20150812,Hypoxia,262,87,3,15,8,Hatched,19.20,8.367,2,,
+113,20150812,Mechanosensory,262,87,3,15,1,Not Hatched,NA,8.829,3,8.9575,3
+114,20150812,Mechanosensory,262,87,3,15,2,Not Hatched,5.80,9.086,3,,
+115,20150812,Hypoxia,262,90,3,18,9,Hatched,24.00,10.106,3,9.8285,3
+116,20150812,Hypoxia,262,90,3,18,10,Hatched,24.00,9.551,3,,
+117,20150812,Mechanosensory,262,90,3,18,3,Not Hatched,NA,9.456,3,9.3485,3
+118,20150812,Mechanosensory,262,90,3,18,4,Not Hatched,NA,9.241,3,,
+119,20150812,Mechanosensory,262,93,3,21,5,Not Hatched,NA,9.566,4,9.5985,4
+120,20150812,Mechanosensory,262,93,3,21,6,Not Hatched,NA,9.631,4,,
+121,20150812,Mechanosensory,262,96,4,0,7,Hatched,4.20,10.024,5,9.912,5.5
+122,20150812,Mechanosensory,262,96,4,0,8,Not Hatched,NA,9.8,6,,
+123,20150812,Mechanosensory,262,99,4,3,9,Hatched,1.20,10.038,6,9.9975,6
+124,20150812,Mechanosensory,262,99,4,3,10,Hatched,1.20,9.957,6,,
+125,20150812,Mechanosensory,262,102,4,6,11,Hatched,1.00,10.423,6,9.682,6
+126,20150812,Mechanosensory,262,102,4,6,12,Not Hatched,NA,8.941,6,,
+127,20150812,Mechanosensory,262,105,4,9,13,Hatched,0.00,10.411,6,10.225,6
+128,20150812,Mechanosensory,262,105,4,9,14,Not Hatched,NA,10.039,6,,
+129,20150812,Mechanosensory,262,108,4,12,15,Not Hatched,NA,10.462,6,10.639,6.5
+130,20150812,Mechanosensory,262,108,4,12,16,Hatched,1.80,10.816,7,,
+131,20150812,Mechanosensory,262,111,4,15,17,Hatched,1.80,10.959,7,10.783,7
+132,20150812,Mechanosensory,262,111,4,15,18,Hatched,0.00,10.607,7,,
+133,20150812,Hypoxia,263,78,3,6,1,Not Hatched,NA,8.426,2,8.4645,2
+134,20150812,Hypoxia,263,78,3,6,2,Not Hatched,NA,8.503,2,,
+135,20150812,Hypoxia,263,81,3,9,3,Not Hatched,NA,8.501,2,8.4835,2
+136,20150812,Hypoxia,263,81,3,9,4,Hatched,22.80,8.466,2,,
+137,20150812,Hypoxia,263,84,3,12,5,Not Hatched,NA,9.12,2,9.042,2
+138,20150812,Hypoxia,263,84,3,12,6,Not Hatched,NA,8.964,2,,
+141,20150812,Hypoxia,263,87,3,15,7,Not Hatched,NA,9.443,2,9.2955,2
+142,20150812,Hypoxia,263,87,3,15,8,Hatched,20.40,9.148,2,,
+139,20150812,Mechanosensory,263,87,3,15,1,Not Hatched,NA,8.953,3,9.045,3
+140,20150812,Mechanosensory,263,87,3,15,2,Not Hatched,NA,9.137,3,,
+145,20150812,Hypoxia,263,90,3,18,9,Hatched,19.20,10.059,4,9.8345,4
+146,20150812,Hypoxia,263,90,3,18,10,Hatched,23.40,9.61,4,,
+143,20150812,Mechanosensory,263,90,3,18,3,Not Hatched,NA,8.767,4,9.239,4
+144,20150812,Mechanosensory,263,90,3,18,4,Not Hatched,NA,9.711,4,,
+149,20150812,Hypoxia,263,93,3,21,11,Hatched,12.60,9.718,4,9.7835,4
+150,20150812,Hypoxia,263,93,3,21,12,Hatched,22.80,9.849,4,,
+147,20150812,Mechanosensory,263,93,3,21,5,Hatched,1.80,10.177,6,9.8965,6
+148,20150812,Mechanosensory,263,93,3,21,6,Not Hatched,NA,9.616,6,,
+151,20150812,Mechanosensory,263,96,4,0,7,Hatched,1.20,10.112,6,10.2075,6
+152,20150812,Mechanosensory,263,96,4,0,8,Hatched,4.20,10.303,6,,
+153,20150813,Mechanosensory,263,99,4,3,9,Not Hatched,NA,10.111,6,10.3515,6
+154,20150813,Mechanosensory,263,99,4,3,10,Hatched,1.80,10.592,6,,
+155,20150813,Mechanosensory,263,102,4,6,11,Hatched,0.00,10.968,6,10.999,6
+156,20150813,Mechanosensory,263,102,4,6,12,Hatched,0.00,11.03,6,,
+157,20150812,Hypoxia,264,78,3,6,1,Hatched,16.80,7.863,1,8.0575,1
+158,20150812,Hypoxia,264,78,3,6,2,Not Hatched,NA,8.252,1,,
+159,20150812,Hypoxia,264,81,3,9,3,Not Hatched,NA,8.219,2,8.3345,2
+160,20150812,Hypoxia,264,81,3,9,4,Hatched,16.20,8.45,2,,
+161,20150812,Mechanosensory,264,81,3,9,1,Not Hatched,NA,NA,NA,8.3345,2
+162,20150812,Mechanosensory,264,81,3,9,2,Not Hatched,NA,NA,NA,,
+163,20150812,Hypoxia,264,84,3,12,5,Hatched,18.00,9.015,2,9.001,2
+164,20150812,Hypoxia,264,84,3,12,6,Not Hatched,NA,8.987,2,,
+165,20150812,Mechanosensory,264,84,3,12,3,Hatched,4.00,8.852,3,8.397,2.5
+166,20150812,Mechanosensory,264,84,3,12,4,Not Hatched,NA,7.942,2,,
+169,20150812,Hypoxia,264,87,3,15,7,Hatched,13.20,9.189,3,9.256,3
+170,20150812,Hypoxia,264,87,3,15,8,Hatched,18.00,9.323,3,,
+167,20150812,Mechanosensory,264,87,3,15,5,Not Hatched,NA,8.805,3,8.8445,2.5
+168,20150812,Mechanosensory,264,87,3,15,6,Not Hatched,NA,8.884,2,,
+173,20150812,Hypoxia,264,90,3,18,9,Hatched,19.20,9.681,3,9.4565,3
+174,20150812,Hypoxia,264,90,3,18,10,Hatched,13.20,9.232,3,,
+171,20150812,Mechanosensory,264,90,3,18,7,Hatched,4.20,9.465,3,9.232,3
+172,20150812,Mechanosensory,264,90,3,18,8,Not Hatched,NA,8.999,3,,
+175,20150812,Mechanosensory,264,93,3,21,9,Not Hatched,NA,9.844,3,9.8235,4
+176,20150812,Mechanosensory,264,93,3,21,10,Not Hatched,NA,9.803,5,,
+177,20150813,Mechanosensory,264,96,4,0,11,Hatched,3.00,9.876,5,9.904,5.5
+178,20150813,Mechanosensory,264,96,4,0,12,Hatched,3.00,9.932,6,,
+179,20150813,Mechanosensory,264,99,4,3,13,Hatched,2.00,10.535,6,10.368,6
+180,20150813,Mechanosensory,264,99,4,3,14,Hatched,1.00,10.201,6,,
+181,20150812,Hypoxia,265,78,3,6,1,Not Hatched,NA,7.659,1,7.6325,1
+182,20150812,Hypoxia,265,78,3,6,2,Not Hatched,NA,7.606,1,,
+183,20150812,Hypoxia,265,81,3,9,3,Not Hatched,NA,8.491,2,8.3345,2
+184,20150812,Hypoxia,265,81,3,9,4,Not Hatched,NA,8.178,2,,
+185,20150812,Hypoxia,265,84,3,12,5,Not Hatched,NA,8.971,2,8.976,2
+186,20150812,Hypoxia,265,84,3,12,6,Not Hatched,NA,8.981,2,,
+187,20150812,Hypoxia,265,87,3,15,7,Hatched,24.00,9.112,2,9.2,2.5
+188,20150812,Hypoxia,265,87,3,15,8,Hatched,34.20,9.288,3,,
+189,20150812,Mechanosensory,265,87,3,15,1,Not Hatched,NA,NA,3,9.2,3
+190,20150812,Mechanosensory,265,87,3,15,2,Not Hatched,NA,NA,3,,
+191,20150812,Hypoxia,265,90,3,18,9,Hatched,20.40,9.22,3,9.326,3.5
+192,20150812,Hypoxia,265,90,3,18,10,Hatched,25.20,9.432,4,,
+193,20150812,Mechanosensory,265,90,3,18,3,Hatched,3.00,9.381,4,9.0165,4
+194,20150812,Mechanosensory,265,90,3,18,4,Hatched,2.40,8.652,4,,
+195,20150812,Mechanosensory,265,93,3,21,5,Hatched,1.20,8.918,4,9.3035,4
+196,20150812,Mechanosensory,265,93,3,21,6,Not Hatched,NA,9.689,4,,
+197,20150813,Mechanosensory,265,96,4,0,7,Hatched,1.20,9.653,6,9.725,6
+198,20150813,Mechanosensory,265,96,4,0,8,Hatched,3.00,9.797,6,,
+199,20150812,Hypoxia,266,78,3,6,1,Not Hatched,NA,7.827,1,7.661,1
+200,20150812,Hypoxia,266,78,3,6,2,Not Hatched,NA,7.495,1,,
+201,20150812,Hypoxia,266,81,3,9,3,Not Hatched,NA,7.902,2,7.9975,2
+202,20150812,Hypoxia,266,81,3,9,4,Not Hatched,NA,8.093,2,,
+203,20150812,Hypoxia,266,84,3,12,5,Not Hatched,NA,8.271,2,8.2715,2
+204,20150812,Hypoxia,266,84,3,12,6,Not Hatched,NA,8.272,2,,
+205,20150812,Hypoxia,266,87,3,15,7,Hatched,34.20,9.115,2,9.086,2
+206,20150812,Hypoxia,266,87,3,15,8,Hatched,21.00,9.057,2,,
+207,20150812,Hypoxia,266,90,3,18,9,Hatched,21.00,9.118,3,9.199,3
+208,20150812,Hypoxia,266,90,3,18,10,Hatched,20.40,9.28,3,,
+209,20150812,Mechanosensory,266,90,3,18,1,Not Hatched,NA,9.093,3,8.6825,3.5
+210,20150812,Mechanosensory,266,90,3,18,2,Not Hatched,NA,8.272,4,,
+211,20150812,Mechanosensory,266,93,3,21,3,Not Hatched,NA,8.981,4,9.221,4
+212,20150812,Mechanosensory,266,93,3,21,4,Not Hatched,NA,9.461,4,,
+213,20150813,Mechanosensory,266,96,4,0,5,Hatched,0.60,9.206,5,9.204,5
+214,20150813,Mechanosensory,266,96,4,0,6,Not Hatched,NA,9.202,5,,
+215,20150813,Mechanosensory,266,99,4,3,7,Hatched,1.80,10.104,6,9.932,6
+216,20150813,Mechanosensory,266,99,4,3,8,Hatched,3.00,9.76,6,,
+217,20150813,Mechanosensory,266,102,4,6,9,Not Hatched,NA,9.678,6,9.807,6
+218,20150813,Mechanosensory,266,102,4,6,10,Hatched,3.00,9.936,6,,
+219,20150813,Mechanosensory,266,105,4,9,11,Hatched,0.00,10.418,6,10.4335,6
+220,20150813,Mechanosensory,266,105,4,9,12,Hatched,0.00,10.449,6,,
