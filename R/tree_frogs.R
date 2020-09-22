@@ -18,21 +18,30 @@
 #' \describe{
 #'   \item{clutch}{RETFs lay their eggs in gelatinous "clutches" of 30-40
 #'   eggs. Eggs with the same clutch ID are siblings of each other! This
-#'   variable is useful in mixed effects models. (Factor.)}
-#'   \item{age}{Age group of the clutch? egg? Maybe these are the same?
-#'   (what is the relationship to stimulus time here?) (Unit?)}
-#'   \item{stimulus_time}{Time of stimulus ... (what is the relationship to age group here?
-#'   When do the times "start"? By the way, this variable is just 
-#'   (hour \* 3600) + (minute \* 60) + second) for the stimulus_\* variables.
-#'   I put together hatch in the same way.)
-#'   When does this time start? Numeric. (In seconds.)}
+#'   variable is useful in mixed effects models. (Unordered factor.)}
 #'   \item{treatment}{The treatment group for the embryo. Either "gentamicin",
 #'   a compound that knocks out the embryos' lateral line, or "control" for
 #'   the negative control group (i.e. sensory organs intact). (Character.)}
+#'   \item{reflex}{A measure of ear function called the vestibulo-ocular 
+#'   reflex, categorized into bins. Ear function increases from factor 
+#'   levels "low", to "mid", to "full". (Ordered factor.)}
+#'   \item{age}{Age of the embryo, in seconds, at the time
+#'   that the embryo was jiggled. (Numeric, in seconds.)}
+#'   \item{t_o_d}{The time of day that the stimulus (i.e. jiggle) 
+#'   was applied. "morning" is 5 a.m. to noon, "afternoon" is noon to 8 p.m., and
+#'   "night" is 8 p.m. to 5 a.m. (Character.)}
 #'   \item{hatched}{Whether or not the embryo hatched in response to the
-#'   stimulus. (Logical.)}
-#'   \item{hatch_time}{The time ... (starts at same time as stimulus, 
-#'   presumably?) Numeric. (In seconds.)}
+#'   jiggling! (Logical.)}
+#'   \item{latency}{Time elapsed between the stimulus (i.e. jiggling)
+#'   and hatching in response to the stimulus, in seconds. Missing values indicate 
+#'   that the embryo didn't hatch in response to the stimulus. (Numeric, 
+#'   in seconds.)}
 #' }
-#' @source \url{https://doi.org/10.5061/dryad.p2ngf1vm7}
+#' 
+#' @details 
+#' Note that the data included with the `stacks` package is not necessarily
+#' a representative or unbiased subset of the complete dataset, and is only
+#' for demonstrative purposes.
+#' 
+#' @source \url{https://www.biorxiv.org/content/10.1101/2020.09.18.304295v1}
 "tree_frogs"
