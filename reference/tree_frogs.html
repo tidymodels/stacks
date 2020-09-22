@@ -104,12 +104,6 @@ factors inform whether an embryo hatches prematurely or not!" />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -168,27 +162,35 @@ factors inform whether an embryo hatches prematurely or not!</p>
     <p>A data frame with 1212 rows and 6 variables:</p><dl>
 <dt>clutch</dt><dd><p>RETFs lay their eggs in gelatinous "clutches" of 30-40
 eggs. Eggs with the same clutch ID are siblings of each other! This
-variable is useful in mixed effects models. (Factor.)</p></dd>
-<dt>age</dt><dd><p>Age group of the clutch? egg? Maybe these are the same?
-(what is the relationship to stimulus time here?) (Unit?)</p></dd>
-<dt>stimulus_time</dt><dd><p>Time of stimulus ... (what is the relationship to age group here?
-When do the times "start"? By the way, this variable is just
-(hour \* 3600) + (minute \* 60) + second) for the stimulus_\* variables.
-I put together hatch in the same way.)
-When does this time start? Numeric. (In seconds.)</p></dd>
+variable is useful in mixed effects models. (Unordered factor.)</p></dd>
 <dt>treatment</dt><dd><p>The treatment group for the embryo. Either "gentamicin",
 a compound that knocks out the embryos' lateral line, or "control" for
 the negative control group (i.e. sensory organs intact). (Character.)</p></dd>
+<dt>reflex</dt><dd><p>A measure of ear function called the vestibulo-ocular
+reflex, categorized into bins. Ear function increases from factor
+levels "low", to "mid", to "full". (Ordered factor.)</p></dd>
+<dt>age</dt><dd><p>Age of the embryo, in seconds, at the time
+that the embryo was jiggled. (Numeric, in seconds.)</p></dd>
+<dt>t_o_d</dt><dd><p>The time of day that the stimulus (i.e. jiggle)
+was applied. "morning" is 5 a.m. to noon, "afternoon" is noon to 8 p.m., and
+"night" is 8 p.m. to 5 a.m. (Character.)</p></dd>
 <dt>hatched</dt><dd><p>Whether or not the embryo hatched in response to the
-stimulus. (Logical.)</p></dd>
-<dt>hatch_time</dt><dd><p>The time ... (starts at same time as stimulus,
-presumably?) Numeric. (In seconds.)</p></dd>
+jiggling! (Logical.)</p></dd>
+<dt>latency</dt><dd><p>Time elapsed between the stimulus (i.e. jiggling)
+and hatching in response to the stimulus, in seconds. Missing values indicate
+that the embryo didn't hatch in response to the stimulus. (Numeric,
+in seconds.)</p></dd>
 
 </dl>
 
     <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
-    <p><a href='https://doi.org/10.5061/dryad.p2ngf1vm7'>https://doi.org/10.5061/dryad.p2ngf1vm7</a></p>
+    <p><a href='https://www.biorxiv.org/content/10.1101/2020.09.18.304295v1'>https://www.biorxiv.org/content/10.1101/2020.09.18.304295v1</a></p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Note that the data included with the <code>stacks</code> package is not necessarily
+a representative or unbiased subset of the complete dataset, and is only
+for demonstrative purposes.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
