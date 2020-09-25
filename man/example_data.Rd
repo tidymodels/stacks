@@ -12,8 +12,6 @@
 \alias{class_folds}
 \alias{log_res_nn}
 \alias{log_res_rf}
-\alias{penguins_train}
-\alias{penguins_test}
 \title{Example Objects}
 \format{
 An object of class \code{tune_results} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 5 columns.
@@ -35,14 +33,9 @@ An object of class \code{resample_results} (inherits from \code{tune_results}, \
 An object of class \code{tune_results} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 5 columns.
 }
 \source{
-Gorman KB, Williams TD, Fraser WR (2014) Ecological Sexual Dimorphism
-and Environmental Variability within a Community of Antarctic Penguins
-(\emph{Genus Pygoscelis}). PLoS ONE 9(3): e90081.
-\url{https://doi.org/10.1371/journal.pone.0090081}
-
-Horst AM, Hill AP, Gorman KB (2020). palmerpenguins: Palmer
-Archipelago (Antarctica) penguin data. R package version 0.1.0.
-\url{https://github.com/allisonhorst/palmerpenguins}
+Julie Jung et al. (Forthcoming) Multimodal mechanosensing enables treefrog
+embryos to escape egg-predators.
+\url{https://doi.org/10.1101/2020.09.18.304295}
 }
 \usage{
 reg_res_svm
@@ -65,28 +58,44 @@ log_res_rf
 }
 \description{
 This package provides some resampling objects and datasets for use in examples
-and vignettes derived from a dataset giving measurements on 333 penguins near
-Palmer Station, Antarctica.
+and vignettes derived from a study on 1212 red-eyed tree frog embryos!
 }
 \details{
-\code{penguins_train} and \code{penguins_test} are training and testing datasets, which
-are subsets of data retrieved from Allison Horst's \code{palmerpenguins} package.
+Red-eyed tree frog (RETF) embryos can hatch earlier than their normal
+7ish days if they detect potential predator threat. Researchers wanted
+to determine how, and when, these tree frog embryos were able to detect
+stimulus from their environment. To do so, they subjected the embryos
+at varying developmental stages to "predator stimulus" by jiggling
+the embryos with a blunt probe. Beforehand, though some of the embryos
+were treated with gentamicin, a compound that knocks out their lateral
+line (a sensory organ.) Researcher Julie Jung and her crew found that
+these factors inform whether an embryo hatches prematurely or not!
+
+Note that the data included with the stacks package is not necessarily
+a representative or unbiased subset of the complete dataset, and is
+only for demonstrative purposes.
+
+\code{reg_folds} and \code{class_folds} are \code{rset} cross-fold validation objects
+from \code{rsample}, splitting the training data into for the regression
+and classification model objects, respectively.
 
 \code{reg_res_lr}, \code{reg_res_svm}, and \code{reg_res_sp} contain regression tuning results
 for a linear regression, support vector machine, and spline model, respectively,
-fitting \code{body_mass_g} in the \code{palmerpenguins::penguins} data
-using all of the other variables as predictors.
+fitting \code{latency} (i.e. how long the embryos took to hatch in response
+to the jiggle) in the \code{tree_frogs} data, using most all of the other
+variables as predictors. Note that the data underlying these models is
+filtered to include data only from embryos that hatched in response to
+the stimulus.
 
-\code{class_res_rf} and \code{class_res_nn}, contain multiclass classification tuning
+\code{class_res_rf} and \code{class_res_nn} contain multiclass classification tuning
 results for a random forest and neural network classification model,
-respectively, fitting \code{year} (as a factor) in the
-\code{palmerpenguins::penguins}
-data using all of the other variables as predictors.
+respectively, fitting \code{reflex} (a measure of ear function) in the
+data using most all of the other variables as predictors.
 
 \code{log_res_rf} and \code{log_res_nn}, contain binary classification tuning results
 for a random forest and neural network classification model, respectively,
-fitting \code{sex} in the \code{palmerpenguins::penguins} data
-using all of the other variables as predictors.
+fitting \code{hatched} (whether or not the embryos hatched in response
+to the stimulus) using most all of the other variables as predictors.
 
 The source code for generating these objects is given below.
 
