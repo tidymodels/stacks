@@ -44,8 +44,7 @@
 
 <meta property="og:title" content="Example Objects — example_data" />
 <meta property="og:description" content="This package provides some resampling objects and datasets for use in examples
-and vignettes derived from a dataset giving measurements on 333 penguins near
-Palmer Station, Antarctica." />
+and vignettes derived from a study on 1212 red-eyed tree frog embryos!" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -134,8 +133,7 @@ Palmer Station, Antarctica." />
 
     <div class="ref-description">
     <p>This package provides some resampling objects and datasets for use in examples
-and vignettes derived from a dataset giving measurements on 333 penguins near
-Palmer Station, Antarctica.</p>
+and vignettes derived from a study on 1212 red-eyed tree frog embryos!</p>
     </div>
 
     <pre class="usage"><span class='kw'>reg_res_svm</span>
@@ -170,30 +168,41 @@ Palmer Station, Antarctica.</p>
 <p>An object of class <code>tune_results</code> (inherits from <code>tbl_df</code>, <code>tbl</code>, <code>data.frame</code>) with 5 rows and 5 columns.</p>
     <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
-    <p>Gorman KB, Williams TD, Fraser WR (2014) Ecological Sexual Dimorphism
-and Environmental Variability within a Community of Antarctic Penguins
-(<em>Genus Pygoscelis</em>). PLoS ONE 9(3): e90081.
-<a href='https://doi.org/10.1371/journal.pone.0090081'>https://doi.org/10.1371/journal.pone.0090081</a></p>
-<p>Horst AM, Hill AP, Gorman KB (2020). palmerpenguins: Palmer
-Archipelago (Antarctica) penguin data. R package version 0.1.0.
-<a href='https://github.com/allisonhorst/palmerpenguins'>https://github.com/allisonhorst/palmerpenguins</a></p>
+    <p>Julie Jung et al. (Forthcoming) Multimodal mechanosensing enables treefrog
+embryos to escape egg-predators.
+<a href='https://doi.org/10.1101/2020.09.18.304295'>https://doi.org/10.1101/2020.09.18.304295</a></p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>penguins_train</code> and <code>penguins_test</code> are training and testing datasets, which
-are subsets of data retrieved from Allison Horst's <code>palmerpenguins</code> package.</p>
+    <p>Red-eyed tree frog (RETF) embryos can hatch earlier than their normal
+7ish days if they detect potential predator threat. Researchers wanted
+to determine how, and when, these tree frog embryos were able to detect
+stimulus from their environment. To do so, they subjected the embryos
+at varying developmental stages to "predator stimulus" by jiggling
+the embryos with a blunt probe. Beforehand, though some of the embryos
+were treated with gentamicin, a compound that knocks out their lateral
+line (a sensory organ.) Researcher Julie Jung and her crew found that
+these factors inform whether an embryo hatches prematurely or not!</p>
+<p>Note that the data included with the stacks package is not necessarily
+a representative or unbiased subset of the complete dataset, and is
+only for demonstrative purposes.</p>
+<p><code>reg_folds</code> and <code>class_folds</code> are <code>rset</code> cross-fold validation objects
+from <code>rsample</code>, splitting the training data into for the regression
+and classification model objects, respectively.</p>
 <p><code>reg_res_lr</code>, <code>reg_res_svm</code>, and <code>reg_res_sp</code> contain regression tuning results
 for a linear regression, support vector machine, and spline model, respectively,
-fitting <code>body_mass_g</code> in the <code><a href='https://allisonhorst.github.io/palmerpenguins/reference/penguins.html'>palmerpenguins::penguins</a></code> data
-using all of the other variables as predictors.</p>
-<p><code>class_res_rf</code> and <code>class_res_nn</code>, contain multiclass classification tuning
+fitting <code>latency</code> (i.e. how long the embryos took to hatch in response
+to the jiggle) in the <code>tree_frogs</code> data, using most all of the other
+variables as predictors. Note that the data underlying these models is
+filtered to include data only from embryos that hatched in response to
+the stimulus.</p>
+<p><code>class_res_rf</code> and <code>class_res_nn</code> contain multiclass classification tuning
 results for a random forest and neural network classification model,
-respectively, fitting <code>year</code> (as a factor) in the
-<code><a href='https://allisonhorst.github.io/palmerpenguins/reference/penguins.html'>palmerpenguins::penguins</a></code>
-data using all of the other variables as predictors.</p>
+respectively, fitting <code>reflex</code> (a measure of ear function) in the
+data using most all of the other variables as predictors.</p>
 <p><code>log_res_rf</code> and <code>log_res_nn</code>, contain binary classification tuning results
 for a random forest and neural network classification model, respectively,
-fitting <code>sex</code> in the <code><a href='https://allisonhorst.github.io/palmerpenguins/reference/penguins.html'>palmerpenguins::penguins</a></code> data
-using all of the other variables as predictors.</p>
+fitting <code>hatched</code> (whether or not the embryos hatched in response
+to the stimulus) using most all of the other variables as predictors.</p>
 <p>The source code for generating these objects is given below.</p>
 <p><div class="r"></p><pre><span class='co'># setup: packages, data, resample, basic recipe ------------------------</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'>stacks</span>)
