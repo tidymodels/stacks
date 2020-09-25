@@ -23,6 +23,10 @@ call to return the needed elements for use in a data stack.
 These functions will return the appropriate control grid to ensure that
 assessment set predictions and information on model specifications and
 preprocessors, is supplied in the resampling results object!
+
+To integrate stack settings with your existing control settings, note
+that these functions just call the appropriate \verb{tune::control_*} function
+with the arguments \verb{save_pred = TRUE, save_workflow = TRUE}.
 }
 \seealso{
 See \link{example_data} for examples of these functions used in context.

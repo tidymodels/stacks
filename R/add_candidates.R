@@ -323,6 +323,14 @@ check_candidates <- function(candidates) {
       "or 'resample_results'."
     )
   }
+  
+  if ((!".predictions" %in% colnames(candidates)) | 
+      is.null(attributes(candidates)$workflow)) {
+    glue_stop(
+      "The inputted `candidates` argument was not generated with the ",
+      "appropriate control settings. Please see ?control_stack."
+    )
+  }
 }
 
 check_name <- function(name) {

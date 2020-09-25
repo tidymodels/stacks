@@ -110,6 +110,49 @@ test_that("add_candidates errors informatively with bad arguments", {
     st_reg_1_new_train %>% add_candidates(reg_res_lr),
     "member, `reg_res_lr`, uses different training data"
   )
+  
+  reg_res_lr_ <- lin_reg_spec <-
+    parsnip::linear_reg() %>%
+    parsnip::set_engine("lm")
+  
+  reg_wf_lr <- 
+    workflows::workflow() %>%
+    workflows::add_model(lin_reg_spec) %>%
+    workflows::add_recipe(tree_frogs_reg_rec)
+  
+  set.seed(1)
+  
+  reg_res_lr_bad <- 
+    tune::fit_resamples(
+      object = reg_wf_lr,
+      resamples = reg_folds,
+      metrics = yardstick::metric_set(yardstick::rmse),
+      control = tune::control_resamples(
+        save_pred = TRUE,
+        save_workflow = FALSE
+      )
+    )
+  
+  expect_error(
+    stacks() %>% add_candidates(reg_res_lr_bad),
+    "not generated with the appropriate control settings"
+  )
+  
+  reg_res_lr_bad2 <- 
+    tune::fit_resamples(
+      object = reg_wf_lr,
+      resamples = reg_folds,
+      metrics = yardstick::metric_set(yardstick::rmse),
+      control = tune::control_resamples(
+        save_pred = FALSE,
+        save_workflow = TRUE
+      )
+    )
+  
+  expect_error(
+    stacks() %>% add_candidates(reg_res_lr_bad2),
+    "not generated with the appropriate control settings"
+  )
 })
 
 test_that("model definition naming works as expected", {
