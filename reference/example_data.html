@@ -144,9 +144,13 @@ Palmer Station, Antarctica.</p>
 
 <span class='kw'>reg_res_lr</span>
 
+<span class='kw'>reg_folds</span>
+
 <span class='kw'>class_res_nn</span>
 
 <span class='kw'>class_res_rf</span>
+
+<span class='kw'>class_folds</span>
 
 <span class='kw'>log_res_nn</span>
 
@@ -158,8 +162,10 @@ Palmer Station, Antarctica.</p>
     <p>An object of class <code>tune_results</code> (inherits from <code>tbl_df</code>, <code>tbl</code>, <code>data.frame</code>) with 5 rows and 5 columns.</p>
 <p>An object of class <code>tune_results</code> (inherits from <code>tbl_df</code>, <code>tbl</code>, <code>data.frame</code>) with 5 rows and 5 columns.</p>
 <p>An object of class <code>resample_results</code> (inherits from <code>tune_results</code>, <code>tbl_df</code>, <code>tbl</code>, <code>data.frame</code>) with 5 rows and 5 columns.</p>
+<p>An object of class <code>vfold_cv</code> (inherits from <code>rset</code>, <code>tbl_df</code>, <code>tbl</code>, <code>data.frame</code>) with 5 rows and 2 columns.</p>
 <p>An object of class <code>resample_results</code> (inherits from <code>tune_results</code>, <code>tbl_df</code>, <code>tbl</code>, <code>data.frame</code>) with 5 rows and 5 columns.</p>
 <p>An object of class <code>tune_results</code> (inherits from <code>tbl_df</code>, <code>tbl</code>, <code>data.frame</code>) with 5 rows and 5 columns.</p>
+<p>An object of class <code>vfold_cv</code> (inherits from <code>rset</code>, <code>tbl_df</code>, <code>tbl</code>, <code>data.frame</code>) with 5 rows and 2 columns.</p>
 <p>An object of class <code>resample_results</code> (inherits from <code>tune_results</code>, <code>tbl_df</code>, <code>tbl</code>, <code>data.frame</code>) with 5 rows and 5 columns.</p>
 <p>An object of class <code>tune_results</code> (inherits from <code>tbl_df</code>, <code>tbl</code>, <code>data.frame</code>) with 5 rows and 5 columns.</p>
     <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
@@ -197,10 +203,6 @@ using all of the other variables as predictors.</p>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/tidymodels/workflows'>workflows</a></span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/tidymodels/recipes'>recipes</a></span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/tidymodels/yardstick'>yardstick</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"penguins"</span>, package = <span class='st'>"palmerpenguins"</span>)
-
-<span class='kw'>penguins</span> <span class='op'>&lt;-</span> <span class='kw'>penguins</span>[<span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='kw'>penguins</span><span class='op'>$</span><span class='kw'>sex</span>),]
-<span class='kw'>penguins</span><span class='op'>$</span><span class='kw'>year</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='kw'>penguins</span><span class='op'>$</span><span class='kw'>year</span>)
 
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
 
@@ -216,14 +218,26 @@ using all of the other variables as predictors.</p>
     save_workflow = <span class='fl'>TRUE</span>
   )
 
-<span class='kw'>penguins_split</span> <span class='op'>&lt;-</span> <span class='kw'>rsample</span>::<span class='fu'><a href='https://rsample.tidymodels.org/reference/initial_split.html'>initial_split</a></span>(<span class='kw'>penguins</span>)
-<span class='kw'>penguins_train</span> <span class='op'>&lt;-</span> <span class='kw'>rsample</span>::<span class='fu'><a href='https://rsample.tidymodels.org/reference/initial_split.html'>training</a></span>(<span class='kw'>penguins_split</span>)
-<span class='kw'>penguins_test</span>  <span class='op'>&lt;-</span> <span class='kw'>rsample</span>::<span class='fu'><a href='https://rsample.tidymodels.org/reference/initial_split.html'>testing</a></span>(<span class='kw'>penguins_split</span>)
+<span class='co'># for regression, predict latency to hatch (excluding NAs)</span>
+<span class='kw'>tree_frogs_reg</span> <span class='op'>&lt;-</span> 
+  <span class='kw'>tree_frogs</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span>(<span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='kw'>latency</span>)) <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span>(<span class='op'>-</span><span class='kw'>clutch</span>, <span class='op'>-</span><span class='kw'>hatched</span>)
 
-<span class='kw'>folds</span> <span class='op'>&lt;-</span> <span class='kw'>rsample</span>::<span class='fu'><a href='https://rsample.tidymodels.org/reference/vfold_cv.html'>vfold_cv</a></span>(<span class='kw'>penguins_train</span>, v = <span class='fl'>5</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
+<span class='kw'>tree_frogs_reg_split</span> <span class='op'>&lt;-</span> <span class='kw'>rsample</span>::<span class='fu'><a href='https://rsample.tidymodels.org/reference/initial_split.html'>initial_split</a></span>(<span class='kw'>tree_frogs_reg</span>)
 
-<span class='kw'>penguins_reg_rec</span> <span class='op'>&lt;-</span> 
-  <span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span>(<span class='kw'>body_mass_g</span> <span class='op'>~</span> <span class='kw'>.</span>, data = <span class='kw'>penguins_train</span>) <span class='op'>%&gt;%</span>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
+<span class='kw'>tree_frogs_reg_train</span> <span class='op'>&lt;-</span> <span class='kw'>rsample</span>::<span class='fu'><a href='https://rsample.tidymodels.org/reference/initial_split.html'>training</a></span>(<span class='kw'>tree_frogs_reg_split</span>)
+
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
+<span class='kw'>tree_frogs_reg_test</span>  <span class='op'>&lt;-</span> <span class='kw'>rsample</span>::<span class='fu'><a href='https://rsample.tidymodels.org/reference/initial_split.html'>testing</a></span>(<span class='kw'>tree_frogs_reg_split</span>)
+
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
+<span class='kw'>reg_folds</span> <span class='op'>&lt;-</span> <span class='kw'>rsample</span>::<span class='fu'><a href='https://rsample.tidymodels.org/reference/vfold_cv.html'>vfold_cv</a></span>(<span class='kw'>tree_frogs_reg_train</span>, v = <span class='fl'>5</span>)
+
+<span class='kw'>tree_frogs_reg_rec</span> <span class='op'>&lt;-</span> 
+  <span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span>(<span class='kw'>latency</span> <span class='op'>~</span> <span class='kw'>.</span>, data = <span class='kw'>tree_frogs_reg_train</span>) <span class='op'>%&gt;%</span>
   <span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/step_dummy.html'>step_dummy</a></span>(<span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/has_role.html'>all_nominal</a></span>()) <span class='op'>%&gt;%</span>
   <span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/step_zv.html'>step_zv</a></span>(<span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/has_role.html'>all_predictors</a></span>())
 
@@ -237,13 +251,13 @@ using all of the other variables as predictors.</p>
 <span class='kw'>reg_wf_lr</span> <span class='op'>&lt;-</span> 
   <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/workflow.html'>workflow</a></span>() <span class='op'>%&gt;%</span>
   <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/add_model.html'>add_model</a></span>(<span class='kw'>lin_reg_spec</span>) <span class='op'>%&gt;%</span>
-  <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/add_recipe.html'>add_recipe</a></span>(<span class='kw'>penguins_reg_rec</span>)
+  <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/add_recipe.html'>add_recipe</a></span>(<span class='kw'>tree_frogs_reg_rec</span>)
 
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='kw'>reg_res_lr</span> <span class='op'>&lt;-</span> 
   <span class='kw'>tune</span>::<span class='fu'><a href='https://tune.tidymodels.org/reference/fit_resamples.html'>fit_resamples</a></span>(
     object = <span class='kw'>reg_wf_lr</span>,
-    resamples = <span class='kw'>folds</span>,
+    resamples = <span class='kw'>reg_folds</span>,
     metrics = <span class='kw'>metric</span>,
     control = <span class='kw'>ctrl_res</span>
   )
@@ -260,41 +274,56 @@ using all of the other variables as predictors.</p>
 <span class='kw'>reg_wf_svm</span> <span class='op'>&lt;-</span> 
   <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/workflow.html'>workflow</a></span>() <span class='op'>%&gt;%</span>
   <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/add_model.html'>add_model</a></span>(<span class='kw'>svm_spec</span>) <span class='op'>%&gt;%</span>
-  <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/add_recipe.html'>add_recipe</a></span>(<span class='kw'>penguins_reg_rec</span>)
+  <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/add_recipe.html'>add_recipe</a></span>(<span class='kw'>tree_frogs_reg_rec</span>)
 
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>9852</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='kw'>reg_res_svm</span> <span class='op'>&lt;-</span> 
   <span class='kw'>tune</span>::<span class='fu'><a href='https://tune.tidymodels.org/reference/tune_grid.html'>tune_grid</a></span>(
     object = <span class='kw'>reg_wf_svm</span>,
-    resamples = <span class='kw'>folds</span>, 
+    resamples = <span class='kw'>reg_folds</span>, 
     grid = <span class='fl'>5</span>,
     control = <span class='kw'>ctrl_grid</span>
   )
 
 <span class='co'># spline regression ---------------------------------------</span>
 <span class='kw'>spline_rec</span> <span class='op'>&lt;-</span> 
-  <span class='kw'>penguins_reg_rec</span> <span class='op'>%&gt;%</span>
-  <span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/step_ns.html'>step_ns</a></span>(<span class='kw'>bill_length_mm</span>, deg_free = <span class='kw'>tune</span>::<span class='fu'><a href='https://tune.tidymodels.org/reference/tune.html'>tune</a></span>(<span class='st'>"length"</span>)) <span class='op'>%&gt;%</span>
-  <span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/step_ns.html'>step_ns</a></span>(<span class='kw'>bill_depth_mm</span>, deg_free = <span class='kw'>tune</span>::<span class='fu'><a href='https://tune.tidymodels.org/reference/tune.html'>tune</a></span>(<span class='st'>"depth"</span>))
+  <span class='kw'>tree_frogs_reg_rec</span> <span class='op'>%&gt;%</span>
+  <span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/step_ns.html'>step_ns</a></span>(<span class='kw'>age</span>, deg_free = <span class='kw'>tune</span>::<span class='fu'><a href='https://tune.tidymodels.org/reference/tune.html'>tune</a></span>(<span class='st'>"age"</span>))
 
 <span class='kw'>reg_wf_sp</span> <span class='op'>&lt;-</span> 
   <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/workflow.html'>workflow</a></span>() <span class='op'>%&gt;%</span>
   <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/add_model.html'>add_model</a></span>(<span class='kw'>lin_reg_spec</span>) <span class='op'>%&gt;%</span>
   <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/add_recipe.html'>add_recipe</a></span>(<span class='kw'>spline_rec</span>)
 
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>2425</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='kw'>reg_res_sp</span> <span class='op'>&lt;-</span> 
   <span class='kw'>tune</span>::<span class='fu'><a href='https://tune.tidymodels.org/reference/tune_grid.html'>tune_grid</a></span>(
     object = <span class='kw'>reg_wf_sp</span>,
-    resamples = <span class='kw'>folds</span>,
+    resamples = <span class='kw'>reg_folds</span>,
     metrics = <span class='kw'>metric</span>,
     control = <span class='kw'>ctrl_grid</span>
   )
 
 <span class='co'># classification - preliminaries -----------------------------------</span>
-<span class='kw'>penguins_class_rec</span> <span class='op'>&lt;-</span> 
-  <span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span>(<span class='kw'>year</span> <span class='op'>~</span> <span class='kw'>.</span>, data = <span class='kw'>penguins_train</span>) <span class='op'>%&gt;%</span>
-  <span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/step_dummy.html'>step_dummy</a></span>(<span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/has_role.html'>all_nominal</a></span>(), <span class='op'>-</span><span class='kw'>year</span>) <span class='op'>%&gt;%</span>
+<span class='kw'>tree_frogs_class</span> <span class='op'>&lt;-</span> 
+  <span class='kw'>tree_frogs</span> <span class='op'>%&gt;%</span>
+  <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>clutch</span>, <span class='kw'>latency</span>))
+
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
+<span class='kw'>tree_frogs_class_split</span> <span class='op'>&lt;-</span> <span class='kw'>rsample</span>::<span class='fu'><a href='https://rsample.tidymodels.org/reference/initial_split.html'>initial_split</a></span>(<span class='kw'>tree_frogs_class</span>)
+
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
+<span class='kw'>tree_frogs_class_train</span> <span class='op'>&lt;-</span> <span class='kw'>rsample</span>::<span class='fu'><a href='https://rsample.tidymodels.org/reference/initial_split.html'>training</a></span>(<span class='kw'>tree_frogs_class_split</span>)
+
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
+<span class='kw'>tree_frogs_class_test</span>  <span class='op'>&lt;-</span> <span class='kw'>rsample</span>::<span class='fu'><a href='https://rsample.tidymodels.org/reference/initial_split.html'>testing</a></span>(<span class='kw'>tree_frogs_class_split</span>)
+
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
+<span class='kw'>class_folds</span> <span class='op'>&lt;-</span> <span class='kw'>rsample</span>::<span class='fu'><a href='https://rsample.tidymodels.org/reference/vfold_cv.html'>vfold_cv</a></span>(<span class='kw'>tree_frogs_class_train</span>, v = <span class='fl'>5</span>)
+
+<span class='kw'>tree_frogs_class_rec</span> <span class='op'>&lt;-</span> 
+  <span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span>(<span class='kw'>reflex</span> <span class='op'>~</span> <span class='kw'>.</span>, data = <span class='kw'>tree_frogs_class_train</span>) <span class='op'>%&gt;%</span>
+  <span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/step_dummy.html'>step_dummy</a></span>(<span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/has_role.html'>all_nominal</a></span>(), <span class='op'>-</span><span class='kw'>reflex</span>) <span class='op'>%&gt;%</span>
   <span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/step_zv.html'>step_zv</a></span>(<span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/has_role.html'>all_predictors</a></span>()) <span class='op'>%&gt;%</span>
   <span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/step_normalize.html'>step_normalize</a></span>(<span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/has_role.html'>all_numeric</a></span>())
 
@@ -310,14 +339,14 @@ using all of the other variables as predictors.</p>
 
 <span class='kw'>class_wf_rf</span> <span class='op'>&lt;-</span>
   <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/workflow.html'>workflow</a></span>() <span class='op'>%&gt;%</span>
-  <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/add_recipe.html'>add_recipe</a></span>(<span class='kw'>penguins_class_rec</span>) <span class='op'>%&gt;%</span>
+  <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/add_recipe.html'>add_recipe</a></span>(<span class='kw'>tree_frogs_class_rec</span>) <span class='op'>%&gt;%</span>
   <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/add_model.html'>add_model</a></span>(<span class='kw'>rand_forest_spec</span>)
 
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>9061</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='kw'>class_res_rf</span> <span class='op'>&lt;-</span> 
   <span class='kw'>tune</span>::<span class='fu'><a href='https://tune.tidymodels.org/reference/tune_grid.html'>tune_grid</a></span>(
     object = <span class='kw'>class_wf_rf</span>, 
-    resamples = <span class='kw'>folds</span>, 
+    resamples = <span class='kw'>class_folds</span>, 
     grid = <span class='fl'>10</span>,
     control = <span class='kw'>ctrl_grid</span>
   )
@@ -330,21 +359,21 @@ using all of the other variables as predictors.</p>
 
 <span class='kw'>class_wf_nn</span> <span class='op'>&lt;-</span> 
   <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/workflow.html'>workflow</a></span>() <span class='op'>%&gt;%</span>
-  <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/add_recipe.html'>add_recipe</a></span>(<span class='kw'>penguins_class_rec</span>) <span class='op'>%&gt;%</span>
+  <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/add_recipe.html'>add_recipe</a></span>(<span class='kw'>tree_frogs_class_rec</span>) <span class='op'>%&gt;%</span>
   <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/add_model.html'>add_model</a></span>(<span class='kw'>nnet_spec</span>)
 
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='kw'>class_res_nn</span> <span class='op'>&lt;-</span>
   <span class='kw'>tune</span>::<span class='fu'><a href='https://tune.tidymodels.org/reference/fit_resamples.html'>fit_resamples</a></span>(
     object = <span class='kw'>class_wf_nn</span>, 
-    resamples = <span class='kw'>folds</span>, 
+    resamples = <span class='kw'>class_folds</span>, 
     control = <span class='kw'>ctrl_res</span>
   )
 
 <span class='co'># binary classification --------------------------------</span>
-<span class='kw'>penguins_2_class_rec</span> <span class='op'>&lt;-</span> 
-  <span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span>(<span class='kw'>sex</span> <span class='op'>~</span> <span class='kw'>.</span>, data = <span class='kw'>penguins_train</span>) <span class='op'>%&gt;%</span>
-  <span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/step_dummy.html'>step_dummy</a></span>(<span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/has_role.html'>all_nominal</a></span>(), <span class='op'>-</span><span class='kw'>sex</span>) <span class='op'>%&gt;%</span>
+<span class='kw'>tree_frogs_2_class_rec</span> <span class='op'>&lt;-</span> 
+  <span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span>(<span class='kw'>hatched</span> <span class='op'>~</span> <span class='kw'>.</span>, data = <span class='kw'>tree_frogs_class_train</span>) <span class='op'>%&gt;%</span>
+  <span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/step_dummy.html'>step_dummy</a></span>(<span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/has_role.html'>all_nominal</a></span>(), <span class='op'>-</span><span class='kw'>hatched</span>) <span class='op'>%&gt;%</span>
   <span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/step_zv.html'>step_zv</a></span>(<span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/has_role.html'>all_predictors</a></span>()) <span class='op'>%&gt;%</span>
   <span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/step_normalize.html'>step_normalize</a></span>(<span class='kw'>recipes</span>::<span class='fu'><a href='https://recipes.tidymodels.org/reference/has_role.html'>all_numeric</a></span>())
 
@@ -360,14 +389,14 @@ using all of the other variables as predictors.</p>
 
 <span class='kw'>log_wf_rf</span> <span class='op'>&lt;-</span>
   <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/workflow.html'>workflow</a></span>() <span class='op'>%&gt;%</span>
-  <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/add_recipe.html'>add_recipe</a></span>(<span class='kw'>penguins_2_class_rec</span>) <span class='op'>%&gt;%</span>
+  <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/add_recipe.html'>add_recipe</a></span>(<span class='kw'>tree_frogs_2_class_rec</span>) <span class='op'>%&gt;%</span>
   <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/add_model.html'>add_model</a></span>(<span class='kw'>rand_forest_spec_2</span>)
 
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>6651</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='kw'>log_res_rf</span> <span class='op'>&lt;-</span> 
   <span class='kw'>tune</span>::<span class='fu'><a href='https://tune.tidymodels.org/reference/tune_grid.html'>tune_grid</a></span>(
     object = <span class='kw'>log_wf_rf</span>, 
-    resamples = <span class='kw'>folds</span>, 
+    resamples = <span class='kw'>class_folds</span>, 
     grid = <span class='fl'>10</span>,
     control = <span class='kw'>ctrl_grid</span>
   )
@@ -379,14 +408,14 @@ using all of the other variables as predictors.</p>
 
 <span class='kw'>log_wf_nn</span> <span class='op'>&lt;-</span> 
   <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/workflow.html'>workflow</a></span>() <span class='op'>%&gt;%</span>
-  <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/add_recipe.html'>add_recipe</a></span>(<span class='kw'>penguins_2_class_rec</span>) <span class='op'>%&gt;%</span>
+  <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/add_recipe.html'>add_recipe</a></span>(<span class='kw'>tree_frogs_2_class_rec</span>) <span class='op'>%&gt;%</span>
   <span class='kw'>workflows</span>::<span class='fu'><a href='https://workflows.tidymodels.org//reference/add_model.html'>add_model</a></span>(<span class='kw'>nnet_spec_2</span>)
 
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='kw'>log_res_nn</span> <span class='op'>&lt;-</span>
   <span class='kw'>tune</span>::<span class='fu'><a href='https://tune.tidymodels.org/reference/fit_resamples.html'>fit_resamples</a></span>(
     object = <span class='kw'>log_wf_nn</span>, 
-    resamples = <span class='kw'>folds</span>, 
+    resamples = <span class='kw'>class_folds</span>, 
     control = <span class='kw'>ctrl_res</span>
   )
 </pre><p></div></p>
