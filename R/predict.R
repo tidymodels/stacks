@@ -21,7 +21,8 @@
 #' # clarification on the data and tuning results
 #' # objects used in these examples!
 #' 
-#' data(penguins_test)
+#' data(tree_frogs_reg_test)
+#' data(tree_frogs_class_test)
 #' 
 #' # build and fit a regression model stack
 #' reg_st <-
@@ -33,11 +34,11 @@
 #'
 #' reg_st
 #' 
-#' # predict on the penguins testing data
-#' predict(reg_st, penguins_test)
+#' # predict on the tree frogs testing data
+#' predict(reg_st, tree_frogs_reg_test)
 #' 
 #' # include the predictions from the members
-#' predict(reg_st, penguins_test, members = TRUE)
+#' predict(reg_st, tree_frogs_reg_test, members = TRUE)
 #' 
 #' # build and fit a classification model stack
 #' class_st <-
@@ -49,15 +50,15 @@
 #'  
 #' class_st
 #' 
-#' # predict year, first as a class, then as
+#' # predict reflex, first as a class, then as
 #' # class probabilities
-#' predict(class_st, penguins_test)
-#' predict(class_st, penguins_test, type = "prob")
+#' predict(class_st, tree_frogs_class_test)
+#' predict(class_st, tree_frogs_class_test, type = "prob")
 #' 
 #' # returning the member predictions as well
 #' predict(
 #'   class_st, 
-#'   penguins_test, 
+#'   tree_frogs_class_test, 
 #'   type = "prob", 
 #'   members = TRUE
 #' )

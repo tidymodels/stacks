@@ -235,6 +235,8 @@ usethis::use_data(class_res_nn, overwrite = TRUE)
 usethis::use_data(class_folds, overwrite = TRUE)
 usethis::use_data(log_res_rf, overwrite = TRUE)
 usethis::use_data(log_res_nn, overwrite = TRUE)
+usethis::use_data(tree_frogs_reg_test, overwrite = TRUE)
+usethis::use_data(tree_frogs_class_test, overwrite = TRUE)
 ```
 
 ```{r, eval = FALSE, include = FALSE}

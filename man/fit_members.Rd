@@ -26,44 +26,45 @@ Fit model stack members
 \section{Example Data}{
 
 
-These examples make use of data and resampling objects exported with the
-package. All of them are derived from test cases making use of the
-\code{penguins} dataset from Allison Horst's \code{palmerpenguins} package.
+This package provides some resampling objects and datasets for use in examples
+and vignettes derived from a study on 1212 red-eyed tree frog embryos!
 
-The \code{penguins_train} and \code{penguins_test} objects are subsets of the
-penguins data for using in training and testing, respectively.
+Red-eyed tree frog (RETF) embryos can hatch earlier than their normal
+7ish days if they detect potential predator threat. Researchers wanted
+to determine how, and when, these tree frog embryos were able to detect
+stimulus from their environment. To do so, they subjected the embryos
+at varying developmental stages to "predator stimulus" by jiggling
+the embryos with a blunt probe. Beforehand, though some of the embryos
+were treated with gentamicin, a compound that knocks out their lateral
+line (a sensory organ.) Researcher Julie Jung and her crew found that
+these factors inform whether an embryo hatches prematurely or not!
 
-Objects containing the substring \verb{_res_} are \code{tune_results} objects
-for model specifications. The \code{reg} prefix indicates that the model
-definition is for use in regression, \code{class} indicates multinomial
-classification, and \code{log} (as in logistic) indicates binomial classification.
-The suffix indicates the model definition type. All of these \code{tune_results}
-objects are fitted on a 5-fold cross validation of the \code{penguins_train} data.
+Note that the data included with the stacks package is not necessarily
+a representative or unbiased subset of the complete dataset, and is
+only for demonstrative purposes.
 
-For the regression setting, these \code{tune_results} objects reflect
-models specified to fit \code{body_mass_g} using all of the other variables
-as predictors. These objects include:
-\itemize{
-\item \code{reg_res_lr}: Fitted resamples for a linear regression model
-\item \code{reg_res_sp}: Tuning results for a splines model
-\item \code{reg_res_svm}: Tuning results for a support vector machine model
-}
+\code{reg_folds} and \code{class_folds} are \code{rset} cross-fold validation objects
+from \code{rsample}, splitting the training data into for the regression
+and classification model objects, respectively. \code{tree_frogs_reg_test} and
+\code{tree_frogs_class_test} are the analogous testing sets.
 
-In the multinomial classification setting, the relevant objects reflect
-models specified to fit \code{year} (as a factor) using all of the other variables
-as predictors. These objects include:
-\itemize{
-\item \code{class_res_nn}: Fitted resamples for a neural network model
-\item \code{class_res_rf}: Tuning results for a random forest model
-}
+\code{reg_res_lr}, \code{reg_res_svm}, and \code{reg_res_sp} contain regression tuning results
+for a linear regression, support vector machine, and spline model, respectively,
+fitting \code{latency} (i.e. how long the embryos took to hatch in response
+to the jiggle) in the \code{tree_frogs} data, using most all of the other
+variables as predictors. Note that the data underlying these models is
+filtered to include data only from embryos that hatched in response to
+the stimulus.
 
-In the binomial classification setting, the relevant objects reflect models
-specified to fit \code{sex} using all of the other variables as predictors.
-These objects include:
-\itemize{
-\item \code{log_res_nn}: Fitted resamples for a neural network model
-\item \code{log_res_rf}: Tuning results for a random forest model
-}
+\code{class_res_rf} and \code{class_res_nn} contain multiclass classification tuning
+results for a random forest and neural network classification model,
+respectively, fitting \code{reflex} (a measure of ear function) in the
+data using most all of the other variables as predictors.
+
+\code{log_res_rf} and \code{log_res_nn}, contain binary classification tuning results
+for a random forest and neural network classification model, respectively,
+fitting \code{hatched} (whether or not the embryos hatched in response
+to the stimulus) using most all of the other variables as predictors.
 
 See \code{?example_data} to learn more about these objects, as well as browse
 the source code that generated them.

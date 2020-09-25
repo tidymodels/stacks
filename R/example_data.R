@@ -19,7 +19,8 @@
 #' 
 #' `reg_folds` and `class_folds` are `rset` cross-fold validation objects
 #' from `rsample`, splitting the training data into for the regression
-#' and classification model objects, respectively.
+#' and classification model objects, respectively. `tree_frogs_reg_test` and
+#' `tree_frogs_class_test` are the analogous testing sets.
 #' 
 #' `reg_res_lr`, `reg_res_svm`, and `reg_res_sp` contain regression tuning results
 #' for a linear regression, support vector machine, and spline model, respectively, 
@@ -70,8 +71,14 @@ NULL
 #' @rdname example_data
 "log_res_rf"
 
-# #' @name tree_frogs
-# #' @docType data
-# #' @keywords datasets
-# #' @rdname example_data
-# NULL
+#' @name tree_frogs_reg_test
+#' @docType data
+#' @keywords datasets
+#' @rdname example_data
+NULL
+
+#' @name tree_frogs_class_test
+#' @docType data
+#' @keywords datasets
+#' @rdname example_data
+NULL

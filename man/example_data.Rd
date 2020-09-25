@@ -12,6 +12,8 @@
 \alias{class_folds}
 \alias{log_res_nn}
 \alias{log_res_rf}
+\alias{tree_frogs_reg_test}
+\alias{tree_frogs_class_test}
 \title{Example Objects}
 \format{
 An object of class \code{tune_results} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 5 columns.
@@ -77,7 +79,8 @@ only for demonstrative purposes.
 
 \code{reg_folds} and \code{class_folds} are \code{rset} cross-fold validation objects
 from \code{rsample}, splitting the training data into for the regression
-and classification model objects, respectively.
+and classification model objects, respectively. \code{tree_frogs_reg_test} and
+\code{tree_frogs_class_test} are the analogous testing sets.
 
 \code{reg_res_lr}, \code{reg_res_svm}, and \code{reg_res_sp} contain regression tuning results
 for a linear regression, support vector machine, and spline model, respectively,
