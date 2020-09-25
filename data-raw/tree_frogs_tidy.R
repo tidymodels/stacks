@@ -41,9 +41,9 @@ tree_frogs <-
       TRUE ~ NA_character_
     ), 
     hatched = case_when(
-      response == 1 ~ TRUE,
-      response == 0 ~ FALSE,
-      TRUE ~ NA
+      response == 1 ~ "yes",
+      response == 0 ~ "no",
+      TRUE ~ NA_character_
     ),
     latency = 
       ((age_days * 86400) + (hatch_h * 3600) + (hatch_m * 60) + hatch_s) - age

@@ -22,7 +22,7 @@ that the embryo was jiggled. (Numeric, in seconds.)}
 was applied. "morning" is 5 a.m. to noon, "afternoon" is noon to 8 p.m., and
 "night" is 8 p.m. to 5 a.m. (Character.)}
 \item{hatched}{Whether or not the embryo hatched in response to the
-jiggling! (Logical.)}
+jiggling! Either "yes" or "no". (Character.)}
 \item{latency}{Time elapsed between the stimulus (i.e. jiggling)
 and hatching in response to the stimulus, in seconds. Missing values indicate
 that the embryo didn't hatch in response to the stimulus. (Numeric,

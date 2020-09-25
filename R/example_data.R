@@ -47,13 +47,18 @@ NULL
 #' @rdname example_data
 "reg_res_lr"
 #' @rdname example_data
+"reg_folds"
+#' @rdname example_data
 "class_res_nn"
 #' @rdname example_data
 "class_res_rf"
 #' @rdname example_data
+"class_folds"
+#' @rdname example_data
 "log_res_nn"
 #' @rdname example_data
 "log_res_rf"
+
 
 #' @name penguins_train
 #' @docType data

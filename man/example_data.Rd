@@ -6,8 +6,10 @@
 \alias{reg_res_svm}
 \alias{reg_res_sp}
 \alias{reg_res_lr}
+\alias{reg_folds}
 \alias{class_res_nn}
 \alias{class_res_rf}
+\alias{class_folds}
 \alias{log_res_nn}
 \alias{log_res_rf}
 \alias{penguins_train}
@@ -20,9 +22,13 @@ An object of class \code{tune_results} (inherits from \code{tbl_df}, \code{tbl},
 
 An object of class \code{resample_results} (inherits from \code{tune_results}, \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 5 columns.
 
+An object of class \code{vfold_cv} (inherits from \code{rset}, \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 2 columns.
+
 An object of class \code{resample_results} (inherits from \code{tune_results}, \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 5 columns.
 
 An object of class \code{tune_results} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 5 columns.
+
+An object of class \code{vfold_cv} (inherits from \code{rset}, \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 2 columns.
 
 An object of class \code{resample_results} (inherits from \code{tune_results}, \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 5 columns.
 
@@ -45,9 +51,13 @@ reg_res_sp
 
 reg_res_lr
 
+reg_folds
+
 class_res_nn
 
 class_res_rf
+
+class_folds
 
 log_res_nn
 
@@ -88,10 +98,6 @@ library(parsnip)
 library(workflows)
 library(recipes)
 library(yardstick)
-data("penguins", package = "palmerpenguins")
-
-penguins <- penguins[!is.na(penguins$sex),]
-penguins$year <- as.factor(penguins$year)
 
 set.seed(1)
 
@@ -107,14 +113,26 @@ ctrl_res <-
     save_workflow = TRUE
   )
 
-penguins_split <- rsample::initial_split(penguins)
-penguins_train <- rsample::training(penguins_split)
-penguins_test  <- rsample::testing(penguins_split)
+# for regression, predict latency to hatch (excluding NAs)
+tree_frogs_reg <- 
+  tree_frogs \%>\% 
+  filter(!is.na(latency)) \%>\%
+  select(-clutch, -hatched)
 
-folds <- rsample::vfold_cv(penguins_train, v = 5)
+set.seed(1)
+tree_frogs_reg_split <- rsample::initial_split(tree_frogs_reg)
 
-penguins_reg_rec <- 
-  recipes::recipe(body_mass_g ~ ., data = penguins_train) \%>\%
+set.seed(1)
+tree_frogs_reg_train <- rsample::training(tree_frogs_reg_split)
+
+set.seed(1)
+tree_frogs_reg_test  <- rsample::testing(tree_frogs_reg_split)
+
+set.seed(1)
+reg_folds <- rsample::vfold_cv(tree_frogs_reg_train, v = 5)
+
+tree_frogs_reg_rec <- 
+  recipes::recipe(latency ~ ., data = tree_frogs_reg_train) \%>\%
   recipes::step_dummy(recipes::all_nominal()) \%>\%
   recipes::step_zv(recipes::all_predictors())
 
@@ -128,13 +146,13 @@ lin_reg_spec <-
 reg_wf_lr <- 
   workflows::workflow() \%>\%
   workflows::add_model(lin_reg_spec) \%>\%
-  workflows::add_recipe(penguins_reg_rec)
+  workflows::add_recipe(tree_frogs_reg_rec)
 
 set.seed(1)
 reg_res_lr <- 
   tune::fit_resamples(
     object = reg_wf_lr,
-    resamples = folds,
+    resamples = reg_folds,
     metrics = metric,
     control = ctrl_res
   )
@@ -151,41 +169,56 @@ svm_spec <-
 reg_wf_svm <- 
   workflows::workflow() \%>\%
   workflows::add_model(svm_spec) \%>\%
-  workflows::add_recipe(penguins_reg_rec)
+  workflows::add_recipe(tree_frogs_reg_rec)
 
-set.seed(9852)
+set.seed(1)
 reg_res_svm <- 
   tune::tune_grid(
     object = reg_wf_svm,
-    resamples = folds, 
+    resamples = reg_folds, 
     grid = 5,
     control = ctrl_grid
   )
 
 # spline regression ---------------------------------------
 spline_rec <- 
-  penguins_reg_rec \%>\%
-  recipes::step_ns(bill_length_mm, deg_free = tune::tune("length")) \%>\%
-  recipes::step_ns(bill_depth_mm, deg_free = tune::tune("depth"))
+  tree_frogs_reg_rec \%>\%
+  recipes::step_ns(age, deg_free = tune::tune("age"))
 
 reg_wf_sp <- 
   workflows::workflow() \%>\%
   workflows::add_model(lin_reg_spec) \%>\%
   workflows::add_recipe(spline_rec)
 
-set.seed(2425)
+set.seed(1)
 reg_res_sp <- 
   tune::tune_grid(
     object = reg_wf_sp,
-    resamples = folds,
+    resamples = reg_folds,
     metrics = metric,
     control = ctrl_grid
   )
 
 # classification - preliminaries -----------------------------------
-penguins_class_rec <- 
-  recipes::recipe(year ~ ., data = penguins_train) \%>\%
-  recipes::step_dummy(recipes::all_nominal(), -year) \%>\%
+tree_frogs_class <- 
+  tree_frogs \%>\%
+  dplyr::select(-c(clutch, latency))
+
+set.seed(1)
+tree_frogs_class_split <- rsample::initial_split(tree_frogs_class)
+
+set.seed(1)
+tree_frogs_class_train <- rsample::training(tree_frogs_class_split)
+
+set.seed(1)
+tree_frogs_class_test  <- rsample::testing(tree_frogs_class_split)
+
+set.seed(1)
+class_folds <- rsample::vfold_cv(tree_frogs_class_train, v = 5)
+
+tree_frogs_class_rec <- 
+  recipes::recipe(reflex ~ ., data = tree_frogs_class_train) \%>\%
+  recipes::step_dummy(recipes::all_nominal(), -reflex) \%>\%
   recipes::step_zv(recipes::all_predictors()) \%>\%
   recipes::step_normalize(recipes::all_numeric())
 
@@ -201,14 +234,14 @@ rand_forest_spec <-
 
 class_wf_rf <-
   workflows::workflow() \%>\%
-  workflows::add_recipe(penguins_class_rec) \%>\%
+  workflows::add_recipe(tree_frogs_class_rec) \%>\%
   workflows::add_model(rand_forest_spec)
 
-set.seed(9061)
+set.seed(1)
 class_res_rf <- 
   tune::tune_grid(
     object = class_wf_rf, 
-    resamples = folds, 
+    resamples = class_folds, 
     grid = 10,
     control = ctrl_grid
   )
@@ -221,21 +254,21 @@ nnet_spec <-
 
 class_wf_nn <- 
   workflows::workflow() \%>\%
-  workflows::add_recipe(penguins_class_rec) \%>\%
+  workflows::add_recipe(tree_frogs_class_rec) \%>\%
   workflows::add_model(nnet_spec)
 
 set.seed(1)
 class_res_nn <-
   tune::fit_resamples(
     object = class_wf_nn, 
-    resamples = folds, 
+    resamples = class_folds, 
     control = ctrl_res
   )
 
 # binary classification --------------------------------
-penguins_2_class_rec <- 
-  recipes::recipe(sex ~ ., data = penguins_train) \%>\%
-  recipes::step_dummy(recipes::all_nominal(), -sex) \%>\%
+tree_frogs_2_class_rec <- 
+  recipes::recipe(hatched ~ ., data = tree_frogs_class_train) \%>\%
+  recipes::step_dummy(recipes::all_nominal(), -hatched) \%>\%
   recipes::step_zv(recipes::all_predictors()) \%>\%
   recipes::step_normalize(recipes::all_numeric())
 
@@ -251,14 +284,14 @@ rand_forest_spec_2 <-
 
 log_wf_rf <-
   workflows::workflow() \%>\%
-  workflows::add_recipe(penguins_2_class_rec) \%>\%
+  workflows::add_recipe(tree_frogs_2_class_rec) \%>\%
   workflows::add_model(rand_forest_spec_2)
 
-set.seed(6651)
+set.seed(1)
 log_res_rf <- 
   tune::tune_grid(
     object = log_wf_rf, 
-    resamples = folds, 
+    resamples = class_folds, 
     grid = 10,
     control = ctrl_grid
   )
@@ -270,14 +303,14 @@ nnet_spec_2 <-
 
 log_wf_nn <- 
   workflows::workflow() \%>\%
-  workflows::add_recipe(penguins_2_class_rec) \%>\%
+  workflows::add_recipe(tree_frogs_2_class_rec) \%>\%
   workflows::add_model(nnet_spec_2)
 
 set.seed(1)
 log_res_nn <-
   tune::fit_resamples(
     object = log_wf_nn, 
-    resamples = folds, 
+    resamples = class_folds, 
     control = ctrl_res
   )
 }\if{html}{\out{</div>}}
