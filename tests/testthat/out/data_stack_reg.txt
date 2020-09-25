@@ -1,5 +1,5 @@
 > st_reg_1
 # A data stack with 1 model definition and 5 candidate members:
 #   reg_res_svm: 5 sub-models
-# Outcome: body_mass_g (integer)
+# Outcome: latency (numeric)
 

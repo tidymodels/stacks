@@ -103,18 +103,6 @@ test_that("add_candidates errors informatively with bad arguments", {
       add_candidates(reg_res_svm_3),
     "same resampling object"
   )
-
-  reg_res_svm_renamed <- reg_res_svm
-
-  # expect_error(
-  #   st_reg_1 %>% add_candidates(reg_res_svm_renamed),
-  #   "new candidate member 'reg_res_svm_renamed' is the same as the existing"
-  # )
-  
-  expect_error(
-    st_reg_1 %>% add_candidates(log_res_nn),
-    "has outcome variable sex, while the stack's outcome variable is body_mass_g"
-  )
   
   st_reg_1_new_train <- st_reg_1
   attr(st_reg_1_new_train, "train") <- attr(st_reg_1, "train")[-1,]

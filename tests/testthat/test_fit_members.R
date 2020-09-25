@@ -29,8 +29,8 @@ test_that("basic fit_members works", {
 
 test_that("fit_members leaves most model stack elements alone", {
   expect_equal(st_reg_1__[["train"]], st_reg_1_[["train"]])
-  expect_equal(st_reg_1__[["train"]], st_class_1_[["train"]])
-  expect_equal(st_reg_1__[["train"]], st_log_1_[["train"]])
+  expect_equal(st_class_1__[["train"]], st_class_1_[["train"]])
+  expect_equal(st_log_1__[["train"]], st_log_1_[["train"]])
   
   expect_equal(st_reg_1__[["data_stack"]], st_reg_1_[["data_stack"]])
   expect_equal(st_class_1__[["data_stack"]], st_class_1_[["data_stack"]])
