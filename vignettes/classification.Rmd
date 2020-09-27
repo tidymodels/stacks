@@ -35,32 +35,34 @@ library(dplyr)
 library(tidyr)
 ```
 
-Allison Horst's `palmerpenguins` package contains data giving measurements taken from three different species of penguins from three different islands in Antarctica. This study was carried out across three years—we might suspect that weather conditions may play a role in penguin migration and, to some extent, morphology (e.g. body mass). In this article, we'll use the stacks package to predict the year that these measurements were taken in using a stacked ensemble on the `palmerpenguins` data. 
+In this example, we'll make use of the `tree_frogs` data exported with `stacks`, giving experimental results on hatching behavior of red-eyed tree frog embryos! 
+
+Red-eyed tree frog (RETF) embryos can hatch earlier than their normal 7ish days if they detect potential predator threat. Researchers wanted to determine how, and when, these tree frog embryos were able to detect stimulus from their environment. To do so, they subjected the embryos at varying developmental stages to "predator stimulus" by jiggling the embryos with a blunt probe. Beforehand, though some of the embryos were treated with gentamicin, a compound that knocks out their lateral line (a sensory organ.) Researcher Julie Jung and her crew found that these factors inform whether an embryo hatches prematurely or not!
+
+In this article, we'll use most all of the variables in `tree_frogs` to predict `reflex`, a measure of ear function called the vestibulo-ocular reflex, categorized into bins. Ear function increases from factor levels "low", to "mid", to "full".
 
 ```{r, message = FALSE, warning = FALSE}
-library(palmerpenguins)
-data("penguins")
+data("tree_frogs")
 
-str(penguins)
-
-penguins <-
-  penguins %>%
-  drop_na(sex) %>%
-  mutate(year = as.factor(year))
+# subset the data
+tree_frogs <- tree_frogs %>%
+  select(-c(clutch, latency))
 ```
 
-Let's plot the data to get a sense for how separable these three years groups are.
+Let's plot the data to get a sense for how separable these groups are.
 
 ```{r, message = FALSE, warning = FALSE}
 library(ggplot2)
 
-ggplot(penguins) +
-  aes(x = bill_length_mm, y = bill_depth_mm, color = year) +
-  geom_point() +
-  labs(x = "Bill Length (mm)", y = "Bill Depth (mm)", col = "Year")
+ggplot(tree_frogs) +
+  aes(x = treatment, y = age, color = reflex) +
+  geom_jitter() +
+  labs(y = "Embryo Age (s)", 
+       x = "treatment",
+       color = "Response")
 ```
 
-Just with these two predictors, it seems like this might be a tough problem to solve! Let's see how well the stacked ensemble can classify these penguins.
+It looks like the embryo age is pretty effective at picking out embryos with full VOR function, but the problem gets tougher for the less developed embryos! Let's see how well the stacked ensemble can classify these tree frogs.
 
 # Defining candidate ensemble members
 
@@ -70,20 +72,20 @@ As in the numeric prediction setting, defining the candidate ensemble members is
 # some setup: resampling and a basic recipe
 set.seed(1)
 
-penguins_split <- initial_split(penguins)
-penguins_train <- training(penguins_split)
-penguins_test  <- testing(penguins_split)
+tree_frogs_split <- initial_split(tree_frogs)
+tree_frogs_train <- training(tree_frogs_split)
+tree_frogs_test  <- testing(tree_frogs_split)
 
-folds <- rsample::vfold_cv(penguins_train, v = 5)
+folds <- rsample::vfold_cv(tree_frogs_train, v = 5)
 
-penguins_rec <- 
-  recipe(year ~ ., data = penguins_train) %>%
-  step_dummy(all_nominal(), -year) %>%
+tree_frogs_rec <- 
+  recipe(reflex ~ ., data = tree_frogs_train) %>%
+  step_dummy(all_nominal(), -reflex) %>%
   step_zv(all_predictors())
 
-penguins_wflow <- 
+tree_frogs_wflow <- 
   workflow() %>% 
-  add_recipe(penguins_rec)
+  add_recipe(tree_frogs_rec)
 ```
 
 We also need to use the same control settings as in the numeric response setting:
@@ -92,7 +94,7 @@ We also need to use the same control settings as in the numeric response setting
 ctrl_grid <- control_stack_grid()
 ```
 
-We'll define two different model definitions to try to predict year—a random forest and a neural network.
+We'll define two different model definitions to try to predict `reflex`—a random forest and a neural network.
 
 Starting out with a random forest:
 
@@ -107,7 +109,7 @@ rand_forest_spec <-
   set_engine("ranger")
 
 rand_forest_wflow <-
-  penguins_wflow %>%
+  tree_frogs_wflow %>%
   add_model(rand_forest_spec)
 
 rand_forest_res <- 
@@ -128,11 +130,11 @@ nnet_spec <-
   set_engine("nnet")
 
 nnet_rec <- 
-  penguins_rec %>% 
+  tree_frogs_rec %>% 
   step_normalize(all_predictors())
 
 nnet_wflow <- 
-  penguins_wflow %>%
+  tree_frogs_wflow %>%
   add_model(nnet_spec)
 
 nnet_res <-
@@ -151,7 +153,7 @@ With these model definitions fully specified, we're ready to start putting toget
 Building the stacked ensemble, now, only takes a few lines:
 
 ```{r, message = FALSE, warning = FALSE}
-penguins_model_st <- 
+tree_frogs_model_st <- 
   # initialize the stack
   stacks() %>%
   # add candidate members
@@ -162,26 +164,26 @@ penguins_model_st <-
   # fit the candidates with nonzero stacking coefficients
   fit_members()
 
-penguins_model_st
+tree_frogs_model_st
 ```
 
 To make sure that we have the right trade-off between minimizing the number of members and optimizing performance, the `autoplot()` method comes in hand: 
 
 ```{r penalty-plot}
 theme_set(theme_bw())
-autoplot(penguins_model_st)
+autoplot(tree_frogs_model_st)
 ```
 
 To show the relationship more directly: 
 
 ```{r members-plot}
-autoplot(penguins_model_st, type = "members")
+autoplot(tree_frogs_model_st, type = "members")
 ```
 
 If these results were not good enough, `blend_predictions()` could be called again with different values of `penalty`. As it is, `blend_predictions()` picks the penalty parameter with the numerically optimal results. To see the top results: 
 
 ```{r weight-plot}
-autoplot(penguins_model_st, type = "weights")
+autoplot(tree_frogs_model_st, type = "weights")
 ```
 
 There are multiple facets since the ensemble members can have different effects on different classes. 
@@ -189,35 +191,43 @@ There are multiple facets since the ensemble members can have different effects 
 This object is now ready to predict with new data!
 
 ```{r, eval = FALSE}
-### penguins_pred <- 
-###   penguins_test %>%
-###   bind_cols(predict(penguins_model_st, ., type = "prob"))
+tree_frogs_pred <-
+  tree_frogs_test %>%
+  bind_cols(predict(tree_frogs_model_st, ., type = "prob"))
 ```
 
 Computing the ROC AUC for the model:
 
 ```{r, eval = FALSE}
-### yardstick::roc_auc(
-###   penguins_pred,
-###   truth = year,
-###   contains(".pred_")
-###   )
+yardstick::roc_auc(
+  tree_frogs_pred,
+  truth = reflex,
+  contains(".pred_")
+  )
 ```
 
 Looks like our predictions were pretty strong! How do the stacks predictions perform, though, as compared to the members' predictions? We can use the `members` argument to generate predictions from each of the ensemble members.
 
 ```{r}
-### penguins_pred <- 
-###   penguins_test %>%
-###   select(year) %>%
-###   bind_cols(
-###     predict(
-###       penguins_model_st,
-###       penguins_test, 
-###       type = "class",
-###       members = TRUE
-###       )
-###     )
+tree_frogs_pred <-
+  tree_frogs_test %>%
+  select(reflex) %>%
+  bind_cols(
+    predict(
+      tree_frogs_model_st,
+      tree_frogs_test,
+      type = "class",
+      members = TRUE
+      )
+    )
+
+tree_frogs_pred
+
+map_dfr(
+  setNames(colnames(tree_frogs_pred), colnames(tree_frogs_pred)),
+  ~mean(tree_frogs_pred$reflex == pull(tree_frogs_pred, .x))
+) %>%
+  pivot_longer(c(everything(), -reflex))
 ```
 
-Voila! You've now made use of the stacks package to predict the island that penguins live on using a stacked ensemble!  
+Voila! You've now made use of the stacks package to predict tree frog embryo ear function using a stacked ensemble!  
