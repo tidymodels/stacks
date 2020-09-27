@@ -230,34 +230,32 @@ the source code that generated them.</p>
   <span class='fu'><a href='add_candidates.html'>add_candidates</a></span>(<span class='kw'>reg_res_sp</span>)
   
 <span class='kw'>reg_st</span>
-</div><div class='output co'>#&gt; # A data stack with 3 model definitions and 16 candidate members:
+</div><div class='output co'>#&gt; # A data stack with 3 model definitions and 15 candidate members:
 #&gt; #   reg_res_lr: 1 sub-model
 #&gt; #   reg_res_svm: 5 sub-models
-#&gt; #   reg_res_sp: 10 sub-models
+#&gt; #   reg_res_sp: 9 sub-models
 #&gt; # Outcome: latency (numeric)</div><div class='input'>
 <span class='co'># evaluate the data stack</span>
 <span class='kw'>reg_st</span> <span class='op'>%&gt;%</span>
   <span class='fu'>blend_predictions</span>()
-</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'>Out of 16 possible candidates, the ensemble contains 5 members.</span></div><div class='output co'>#&gt; <span class='message'>The highest weighted members are:</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 3</span><span>
+</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'>Out of 15 possible candidates, the ensemble contains 4 members.</span></div><div class='output co'>#&gt; <span class='message'>The highest weighted members are:</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 4 x 3</span><span>
 #&gt;   member       type       weight
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> reg_res_svm4 svm_rbf    1.58  
-#&gt; </span><span style='color: #555555;'>2</span><span> reg_res_svm3 svm_rbf    0.936 
-#&gt; </span><span style='color: #555555;'>3</span><span> reg_res_sp06 linear_reg 0.216 
-#&gt; </span><span style='color: #555555;'>4</span><span> reg_res_sp10 linear_reg 0.124 
-#&gt; </span><span style='color: #555555;'>5</span><span> reg_res_svm5 svm_rbf    0.045</span><span style='text-decoration: underline;'>0</span><span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; </span><span style='color: #555555;'>1</span><span> reg_res_svm3 svm_rbf     0.993
+#&gt; </span><span style='color: #555555;'>2</span><span> reg_res_svm4 svm_rbf     0.935
+#&gt; </span><span style='color: #555555;'>3</span><span> reg_res_svm1 svm_rbf     0.526
+#&gt; </span><span style='color: #555555;'>4</span><span> reg_res_sp9  linear_reg  0.295</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Members have not yet been fitted with `fit_members()`.</span></div><div class='input'>
 <span class='co'># include fewer models by proposing</span>
 <span class='co'># higher penalties</span>
 <span class='kw'>reg_st</span> <span class='op'>%&gt;%</span> <span class='fu'>blend_predictions</span>(penalty = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.5</span>, <span class='fl'>1</span>))
-</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'>Out of 16 possible candidates, the ensemble contains 5 members.</span></div><div class='output co'>#&gt; <span class='message'>The highest weighted members are:</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 5 x 3</span><span>
+</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'>Out of 15 possible candidates, the ensemble contains 4 members.</span></div><div class='output co'>#&gt; <span class='message'>The highest weighted members are:</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 3</span><span>
 #&gt;   member       type       weight
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> reg_res_svm4 svm_rbf    1.58  
-#&gt; </span><span style='color: #555555;'>2</span><span> reg_res_svm3 svm_rbf    0.936 
-#&gt; </span><span style='color: #555555;'>3</span><span> reg_res_sp06 linear_reg 0.216 
-#&gt; </span><span style='color: #555555;'>4</span><span> reg_res_sp10 linear_reg 0.124 
-#&gt; </span><span style='color: #555555;'>5</span><span> reg_res_svm5 svm_rbf    0.045</span><span style='text-decoration: underline;'>0</span><span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; </span><span style='color: #555555;'>1</span><span> reg_res_svm3 svm_rbf     0.993
+#&gt; </span><span style='color: #555555;'>2</span><span> reg_res_svm4 svm_rbf     0.935
+#&gt; </span><span style='color: #555555;'>3</span><span> reg_res_svm1 svm_rbf     0.526
+#&gt; </span><span style='color: #555555;'>4</span><span> reg_res_sp9  linear_reg  0.295</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Members have not yet been fitted with `fit_members()`.</span></div><div class='input'>  
 <span class='co'># do the same with multinomial classification models</span>
 <span class='kw'>class_st</span> <span class='op'>&lt;-</span>
@@ -265,16 +263,15 @@ the source code that generated them.</p>
   <span class='fu'><a href='add_candidates.html'>add_candidates</a></span>(<span class='kw'>class_res_nn</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='add_candidates.html'>add_candidates</a></span>(<span class='kw'>class_res_rf</span>) <span class='op'>%&gt;%</span>
   <span class='fu'>blend_predictions</span>()
-</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Fold2: model 1/1: from glmnet Fortran code (error code -87); Convergence for 87...</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Fold5: model 1/1: from glmnet Fortran code (error code -84); Convergence for 84...</span><span></span></div><div class='input'>  
+  
 <span class='kw'>class_st</span>
-</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'>Out of 22 possible candidates, the ensemble contains 5 members.</span></div><div class='output co'>#&gt; <span class='message'>Across the 3 classes, there are an average of 2.5 members per class.</span></div><div class='output co'>#&gt; <span class='message'>The highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 5 x 4</span><span>
-#&gt;   member                    type         weight class
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> .pred_full_class_res_nn1  mlp         19.4    full 
-#&gt; </span><span style='color: #555555;'>2</span><span> .pred_mid_class_res_rf06  rand_forest  3.47   mid  
-#&gt; </span><span style='color: #555555;'>3</span><span> .pred_full_class_res_rf05 rand_forest  1.65   full 
-#&gt; </span><span style='color: #555555;'>4</span><span> .pred_full_class_res_rf03 rand_forest  0.315  full 
-#&gt; </span><span style='color: #555555;'>5</span><span> .pred_full_class_res_rf02 rand_forest  0.047</span><span style='text-decoration: underline;'>7</span><span> full </div><div class='output co'>#&gt; <span class='message'></span>
+</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'>Out of 22 possible candidates, the ensemble contains 4 members.</span></div><div class='output co'>#&gt; <span class='message'>Across the 3 classes, there are an average of 2 members per class.</span></div><div class='output co'>#&gt; <span class='message'>The highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 4</span><span>
+#&gt;   member                    type        weight class
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> .pred_full_class_res_nn1  mlp         20.0   full 
+#&gt; </span><span style='color: #555555;'>2</span><span> .pred_mid_class_res_rf02  rand_forest  3.53  mid  
+#&gt; </span><span style='color: #555555;'>3</span><span> .pred_full_class_res_rf01 rand_forest  1.52  full 
+#&gt; </span><span style='color: #555555;'>4</span><span> .pred_full_class_res_rf09 rand_forest  0.259 full </div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Members have not yet been fitted with `fit_members()`.</span></div><div class='input'>
 <span class='co'># ...or binomial classification models</span>
 <span class='kw'>log_st</span> <span class='op'>&lt;-</span>
@@ -284,11 +281,13 @@ the source code that generated them.</p>
   <span class='fu'>blend_predictions</span>()
   
 <span class='kw'>log_st</span>
-</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'>Out of 11 possible candidates, the ensemble contains 2 members.</span></div><div class='output co'>#&gt; <span class='message'>The highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 3</span><span>
+</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'>Out of 11 possible candidates, the ensemble contains 4 members.</span></div><div class='output co'>#&gt; <span class='message'>The highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 3</span><span>
 #&gt;   member                 type        weight
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> .pred_yes_log_res_nn1  mlp           7.93
-#&gt; </span><span style='color: #555555;'>2</span><span> .pred_yes_log_res_rf05 rand_forest   2.83</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; </span><span style='color: #555555;'>1</span><span> .pred_yes_log_res_nn1  mlp          7.20 
+#&gt; </span><span style='color: #555555;'>2</span><span> .pred_yes_log_res_rf03 rand_forest  1.23 
+#&gt; </span><span style='color: #555555;'>3</span><span> .pred_yes_log_res_rf09 rand_forest  1.07 
+#&gt; </span><span style='color: #555555;'>4</span><span> .pred_yes_log_res_rf01 rand_forest  0.899</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Members have not yet been fitted with `fit_members()`.</span></div><div class='input'><span class='co'># }</span>
 
 </div></span></pre>

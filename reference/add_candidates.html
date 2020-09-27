@@ -235,10 +235,10 @@ the source code that generated them.</p>
   <span class='fu'>add_candidates</span>(<span class='kw'>reg_res_sp</span>)
   
 <span class='kw'>reg_st</span>
-</div><div class='output co'>#&gt; # A data stack with 3 model definitions and 16 candidate members:
+</div><div class='output co'>#&gt; # A data stack with 3 model definitions and 15 candidate members:
 #&gt; #   reg_res_lr: 1 sub-model
 #&gt; #   reg_res_svm: 5 sub-models
-#&gt; #   reg_res_sp: 10 sub-models
+#&gt; #   reg_res_sp: 9 sub-models
 #&gt; # Outcome: latency (numeric)</div><div class='input'>  
 <span class='co'># do the same with multinomial classification models</span>
 <span class='kw'>class_st</span> <span class='op'>&lt;-</span>
@@ -288,11 +288,13 @@ the source code that generated them.</p>
 #&gt; <span class='message'>Use the argument `event_level = "second"` to alter this as needed.</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: scales</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘scales’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:purrr’:</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    discard</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: Matrix</span></div><div class='output co'>#&gt; <span class='message'>Loaded glmnet 4.0-2</span></div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'>Out of 11 possible candidates, the ensemble contains 2 members.</span></div><div class='output co'>#&gt; <span class='message'>The highest weighted member classes are:</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 2 x 3</span><span>
+#&gt; <span class='message'>    discard</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: Matrix</span></div><div class='output co'>#&gt; <span class='message'>Loaded glmnet 4.0-2</span></div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'>Out of 11 possible candidates, the ensemble contains 4 members.</span></div><div class='output co'>#&gt; <span class='message'>The highest weighted member classes are:</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 4 x 3</span><span>
 #&gt;   member                    type        weight
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> .pred_yes_neural_network1 mlp           7.93
-#&gt; </span><span style='color: #555555;'>2</span><span> .pred_yes_random_forest05 rand_forest   2.83</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; </span><span style='color: #555555;'>1</span><span> .pred_yes_neural_network1 mlp          7.20 
+#&gt; </span><span style='color: #555555;'>2</span><span> .pred_yes_random_forest03 rand_forest  1.23 
+#&gt; </span><span style='color: #555555;'>3</span><span> .pred_yes_random_forest09 rand_forest  1.07 
+#&gt; </span><span style='color: #555555;'>4</span><span> .pred_yes_random_forest01 rand_forest  0.899</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Members have not yet been fitted with `fit_members()`.</span></div><div class='input'><span class='co'># }</span>
 
 </div></span></pre>
