@@ -8,6 +8,6 @@ Message: The highest weighted member classes are:
 # A tibble: 2 x 3
   member                 type        weight
   <chr>                  <chr>        <dbl>
-1 .pred_yes_log_res_rf05 rand_forest   5.29
-2 .pred_yes_log_res_rf03 rand_forest   1.33
+1 .pred_yes_log_res_rf03 rand_forest   5.40
+2 .pred_yes_log_res_rf09 rand_forest   1.22
 

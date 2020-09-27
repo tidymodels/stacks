@@ -11,3 +11,5 @@ inst/figs
 ^CODE_OF_CONDUCT\.md$
 ..Rcheck
 data-raw/
+_pkgdown.yml
+docs/

@@ -1,18 +1,16 @@
 > st_reg_1_
 Message: -- A stacked ensemble model -------------------------------------
 
-Message: Out of 5 possible candidates, the ensemble contains 5 members.
+Message: Out of 5 possible candidates, the ensemble contains 3 members.
 
 Message: The highest weighted members are:
 
-# A tibble: 5 x 3
+# A tibble: 3 x 3
   member       type    weight
   <chr>        <chr>    <dbl>
-1 reg_res_svm4 svm_rbf 1.41  
-2 reg_res_svm3 svm_rbf 0.894 
-3 reg_res_svm1 svm_rbf 0.751 
-4 reg_res_svm2 svm_rbf 0.479 
-5 reg_res_svm5 svm_rbf 0.0173
+1 reg_res_svm3 svm_rbf  1.44 
+2 reg_res_svm1 svm_rbf  0.777
+3 reg_res_svm4 svm_rbf  0.368
 
 Message: 
 Members have not yet been fitted with `fit_members()`.
