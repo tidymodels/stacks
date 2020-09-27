@@ -152,16 +152,6 @@ add_candidates <- function(data_stack, candidates,
     )
   }
   
-  new_hash <- digest::digest(candidates)
-  existing_hashes <- .get_model_hashes(stack)
-  
-  if (new_hash %in% existing_hashes) {
-    glue_stop(
-      "The new candidate member '{name}' is the same as the existing candidate ",
-      "'{.get_model_def_names(stack)[which(existing_hashes == new_hash)]}'."
-    )
-  }
-  
   model_defs <- attr(stack, "model_defs")
   model_metrics <- attr(stack, "model_metrics")
   
@@ -170,7 +160,6 @@ add_candidates <- function(data_stack, candidates,
   
   attr(stack, "model_defs") <- model_defs
   attr(stack, "model_metrics") <- model_metrics
-  attr(stack, "model_hashes") <- c(.get_model_hashes(stack), new_hash)
   
   stack
 }
@@ -228,7 +217,7 @@ add_candidates <- function(data_stack, candidates,
     stack <- 
       update_stack_data(
         stack, 
-        candidate_cols
+        candidate_cols %>% rm_duplicate_cols()
       )
   } else {
     stack <- 
@@ -237,7 +226,8 @@ add_candidates <- function(data_stack, candidates,
         dplyr::bind_cols(
           tibble::as_tibble(stack), 
           dplyr::select(candidate_cols, -!!.get_outcome(stack))
-        )
+        ) %>%
+          rm_duplicate_cols()
       )
   }
   
@@ -257,6 +247,21 @@ log_resample_cols <- function(stack, candidate_cols, name) {
   stack
 }
 
+# errors if candidate columns are perfectly collinear with existing columns
+rm_duplicate_cols <- function(df) {
+  exclude <- character(0)
+  exclude <- c(exclude, names(df[duplicated(purrr::map(df, c))]))
+  
+  if (length(exclude) > 0) {
+    glue_stop(
+      "Predictions from the candidates {list(exclude)} were identical to ",
+      "those from existing candidates in the data stack."
+    )
+  }
+  
+  df
+}
+
 # update the data in the stack while preserving attributes and class
 update_stack_data <- function(stack, new_data) {
   attr(new_data, "rs_hash") <- attr(stack, "rs_hash")
@@ -264,7 +269,6 @@ update_stack_data <- function(stack, new_data) {
   attr(new_data, "mode")  <- attr(stack, "mode") 
   attr(new_data, "model_defs")  <- attr(stack, "model_defs") 
   attr(new_data, "cols_map") <- attr(stack, "cols_map")
-  attr(new_data, "model_hashes") <- attr(stack, "model_hashes") 
   attr(new_data, "model_metrics")  <- attr(stack, "model_metrics") 
   attr(new_data, "train") <- attr(stack, "train")
   attr(new_data, "splits") <- attr(stack, "splits")

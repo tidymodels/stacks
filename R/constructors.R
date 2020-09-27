@@ -6,7 +6,6 @@ data_stack_constr <- function(data_stack) {
   check_inherits(attr(data_stack, "splits"), "tbl_df")
   
   purrr::map(attr(data_stack, "cols_map"), check_inherits, "character")
-  purrr::map(attr(data_stack, "model_hashes"), check_inherits, "character")
   purrr::map(attr(data_stack, "model_defs"), check_inherits, "workflow")
   purrr::map(attr(data_stack, "model_metrics"), check_inherits, "tbl_df")
   

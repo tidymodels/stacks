@@ -35,7 +35,6 @@ stacks <- function(...) {
   attr(stack, "train") <- tibble::tibble()
   attr(stack, "model_defs") <- list()
   attr(stack, "cols_map") <- list()
-  attr(stack, "model_hashes") <- list()
   attr(stack, "model_metrics") <- list()
   attr(stack, "splits") <- tibble::tibble()
 

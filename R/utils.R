@@ -92,8 +92,6 @@ check_inherits <- function(x, what) {
   }
 }
 
-.get_model_hashes <- function(stack) {unlist(attr(stack, "model_hashes"))}
-
 # get the coefficients from the best glmnet result
 .get_glmn_coefs <- function(x, penalty = 0.01) {
   x <- glmnet::coef.glmnet(x, s = penalty)

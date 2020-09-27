@@ -3,12 +3,10 @@ context("add_candidates")
 load(test_path("helper_data.Rda"))
 
 test_that("stack can add candidates (regression)", {
-  skip("Need to check predictions rather than hashes on add_candidates")
-  
-  # expect_equal(
-  #   st_0 %>% add_candidates(reg_res_svm),
-  #   st_reg_1
-  # )
+  expect_equal(
+    st_0 %>% add_candidates(reg_res_svm),
+    st_reg_1
+  )
   
   expect_equal(
     st_reg_1 %>% add_candidates(reg_res_sp),
@@ -21,8 +19,6 @@ test_that("stack can add candidates (regression)", {
 })
 
 test_that("stack can add candidates (multinomial classification)", {
-  skip("Need to check predictions rather than hashes on add_candidates")
-  
   expect_equal(
     st_0 %>% add_candidates(class_res_rf),
     st_class_1
@@ -38,8 +34,6 @@ test_that("stack can add candidates (multinomial classification)", {
 })
 
 test_that("stack can add candidates (two-way classification)", {
-  skip("Need to check predictions rather than hashes on add_candidates")
-  
   expect_equal(
     st_0 %>% add_candidates(log_res_rf),
     st_log_1
@@ -152,6 +146,13 @@ test_that("add_candidates errors informatively with bad arguments", {
   expect_error(
     stacks() %>% add_candidates(reg_res_lr_bad2),
     "not generated with the appropriate control settings"
+  )
+  
+  reg_res_lr_renamed <- reg_res_lr
+  
+  expect_error(
+    stacks() %>% add_candidates(reg_res_lr) %>% add_candidates(reg_res_lr_renamed),
+    "were identical to those"
   )
 })
 
