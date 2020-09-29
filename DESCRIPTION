@@ -13,8 +13,8 @@ Authors@R: c(
     person("RStudio", 
            role = "cph")
     )
-Description: `stacks` provides an API for model stacking/ensembling that
-    aligns with existing functionality from the `tidymodels` packages. The 
+Description: 'stacks' provides an API for model stacking/ensembling that
+    aligns with functionality from the 'tidymodels' packages. The 
     package contains functions that combine fitted resampling objects to form 
     models that generate predictions informed by many, diverse statistical 
     models.
