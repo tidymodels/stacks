@@ -252,12 +252,12 @@ rm_duplicate_cols <- function(df) {
   exclude <- character(0)
   exclude <- c(exclude, names(df[duplicated(purrr::map(df, c))]))
   
-  if (length(exclude) > 0) {
-    glue_stop(
-      "Predictions from the candidates {list(exclude)} were identical to ",
-      "those from existing candidates in the data stack."
-    )
-  }
+  # if (length(exclude) > 0) {
+  #   glue_stop(
+  #     "Predictions from the candidates {list(exclude)} were identical to ",
+  #     "those from existing candidates in the data stack."
+  #   )
+  # }
   
   df
 }
