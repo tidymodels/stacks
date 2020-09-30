@@ -75,9 +75,9 @@ print.butchered_linear_stack <- function(x, ...) {
   rlang::inform("\nPrint methods for butchered model stacks are disabled.")
 }
 
-top_coefs <- function(x, n = 10) {
+top_coefs <- function(x, penalty = x$penalty$penalty, n = 10) {
   betas <- 
-    .get_glmn_coefs(x$coefs$fit) %>% 
+    .get_glmn_coefs(x$coefs$fit, penalty = penalty) %>% 
     dplyr::filter(estimate != 0 & terms != "(Intercept)")
   n <- min(n, nrow(betas))
   
@@ -125,10 +125,10 @@ top_coefs <- function(x, n = 10) {
   res
 }
 
-print_top_coefs <- function(x, n = 10, digits = 3) {
-  res <- top_coefs(x, n)
+print_top_coefs <- function(x, penalty = x$penalty$penalty, n = 10, digits = 3) {
+  res <- top_coefs(x, penalty = penalty, n = n)
   
-  msg <- paste0("The highest weighted member",
+  msg <- paste0("\nThe highest weighted member",
                if (x$mode == "regression") {"s"} else {" classes"},
                " are:")
   rlang::inform(msg)
@@ -136,17 +136,17 @@ print_top_coefs <- function(x, n = 10, digits = 3) {
   invisible(NULL)
 }
 
-member_summary <- function(x) {
+member_summary <- function(x, penalty = x$penalty$penalty) {
   betas <- 
-    .get_glmn_coefs(x$coefs$fit) %>% 
+    .get_glmn_coefs(x$coefs$fit, penalty = penalty) %>% 
     dplyr::filter(terms != "(Intercept)")
   all_terms <- unique(betas$terms)
   used_betas <- dplyr::filter(betas, estimate != 0)
-  used_terms <- nrow(used_betas)
+  used_terms <- nrow(used_betas) - 1
   
-  msg <- paste0("Out of ", length(all_terms), " possible candidates, the ",
-                "ensemble contains ", used_terms, 
-                ifelse(used_terms > 1, " members", " member"), ".")
+  msg <- paste0("\nOut of ", length(all_terms), " possible blending coefficients, the ",
+                "ensemble used ", used_terms, ".",
+                "\nLasso penalty: ", x$penalty$penalty, ".")
   rlang::inform(msg)
   if (any(names(betas) == "class")) {
     n_classes <- length(unique(betas$class))
@@ -159,7 +159,7 @@ member_summary <- function(x) {
       mean() %>% 
       round(2) 
     msg <- paste0("Across the ", n_classes, " classes, there are an average ",
-                  "of ", beta_per_class, " members per class.")
+                  "of ", beta_per_class, " coefficients per class.")
     rlang::inform(msg)
   }
   invisible(NULL)

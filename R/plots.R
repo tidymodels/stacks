@@ -76,8 +76,8 @@ performance_plot <- function(x) {
   p
 }
 
-weights_plot <- function(x, n = Inf) {
-  dat <- top_coefs(x, n) %>%
+weights_plot <- function(x, penalty = x$penalty$penalty, n = Inf) {
+  dat <- top_coefs(x, penalty = penalty, n = n) %>%
     dplyr::select(terms = member, model = type, weight, class)
   
   if (any(names(dat) == "class")) {
