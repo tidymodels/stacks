@@ -20,6 +20,7 @@ model_stack_constr <- function(model_stack) {
   check_inherits(model_stack[["mode"]], "character")
   check_inherits(model_stack[["outcome"]], "character")
   check_inherits(model_stack[["splits"]], "tbl_df")
+  check_inherits(model_stack[["penalty"]], "list")
   
   purrr::map(model_stack[["model_defs"]], check_inherits, "workflow")
   purrr::map(model_stack[["cols_map"]], check_inherits, "character")
