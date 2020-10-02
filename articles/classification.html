@@ -93,31 +93,28 @@
     
 <p>In this vignette, we’ll tackle a multiclass classification problem using the stacks package. This vignette assumes that you’re familiar with tidymodels “proper,” as well as the basic grammar of the package, and have seen it implemented on numeric data; if this is not the case, check out the “Getting Started With stacks” vignette!</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">tidymodels</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">tidyverse</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">stacks</span>)
-</pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">tidymodels</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">stacks</span><span class="op">)</span></pre></div>
 <p>In this example, we’ll make use of the <code>tree_frogs</code> data exported with <code>stacks</code>, giving experimental results on hatching behavior of red-eyed tree frog embryos!</p>
 <p>Red-eyed tree frog (RETF) embryos can hatch earlier than their normal 7ish days if they detect potential predator threat. Researchers wanted to determine how, and when, these tree frog embryos were able to detect stimulus from their environment. To do so, they subjected the embryos at varying developmental stages to “predator stimulus” by jiggling the embryos with a blunt probe. Beforehand, though some of the embryos were treated with gentamicin, a compound that knocks out their lateral line (a sensory organ.) Researcher Julie Jung and her crew found that these factors inform whether an embryo hatches prematurely or not!</p>
 <p>In this article, we’ll use most all of the variables in <code>tree_frogs</code> to predict <code>reflex</code>, a measure of ear function called the vestibulo-ocular reflex, categorized into bins. Ear function increases from factor levels “low”, to “mid”, to “full”.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"tree_frogs"</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"tree_frogs"</span><span class="op">)</span>
 
 <span class="co"># subset the data</span>
-<span class="kw">tree_frogs</span> <span class="op">&lt;-</span> <span class="kw">tree_frogs</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">clutch</span>, <span class="kw">latency</span>))
-</pre></div>
+<span class="va">tree_frogs</span> <span class="op">&lt;-</span> <span class="va">tree_frogs</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">clutch</span>, <span class="va">latency</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p>Let’s plot the data to get a sense for how separable these groups are.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span>)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">tree_frogs</span>) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(x = <span class="kw">treatment</span>, y = <span class="kw">age</span>, color = <span class="kw">reflex</span>) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span>() <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(y = <span class="st">"Embryo Age (s)"</span>, 
-       x = <span class="st">"treatment"</span>,
-       color = <span class="st">"Response"</span>)
-</pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">tree_frogs</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">treatment</span>, y <span class="op">=</span> <span class="va">age</span>, color <span class="op">=</span> <span class="va">reflex</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Embryo Age (s)"</span>, 
+       x <span class="op">=</span> <span class="st">"treatment"</span>,
+       color <span class="op">=</span> <span class="st">"Response"</span><span class="op">)</span></pre></div>
 <p><img src="classification_files/figure-html/unnamed-chunk-3-1.png" width="768"></p>
 <p>It looks like the embryo age is pretty effective at picking out embryos with full VOR function, but the problem gets tougher for the less developed embryos! Let’s see how well the stacked ensemble can classify these tree frogs.</p>
 <div id="defining-candidate-ensemble-members" class="section level1">
@@ -126,74 +123,70 @@
 <p>As in the numeric prediction setting, defining the candidate ensemble members is undoubtedly the longest part of the ensembling process with stacks. First, splitting up the training data, generating resamples, and setting some options that will be used by each model definition.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
 <span class="co"># some setup: resampling and a basic recipe</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">1</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
 
-<span class="kw">tree_frogs_split</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rsample.tidymodels.org/reference/initial_split.html">initial_split</a></span>(<span class="kw">tree_frogs</span>)
-<span class="kw">tree_frogs_train</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rsample.tidymodels.org/reference/initial_split.html">training</a></span>(<span class="kw">tree_frogs_split</span>)
-<span class="kw">tree_frogs_test</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rsample.tidymodels.org/reference/initial_split.html">testing</a></span>(<span class="kw">tree_frogs_split</span>)
+<span class="va">tree_frogs_split</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rsample.tidymodels.org/reference/initial_split.html">initial_split</a></span><span class="op">(</span><span class="va">tree_frogs</span><span class="op">)</span>
+<span class="va">tree_frogs_train</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rsample.tidymodels.org/reference/initial_split.html">training</a></span><span class="op">(</span><span class="va">tree_frogs_split</span><span class="op">)</span>
+<span class="va">tree_frogs_test</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rsample.tidymodels.org/reference/initial_split.html">testing</a></span><span class="op">(</span><span class="va">tree_frogs_split</span><span class="op">)</span>
 
-<span class="kw">folds</span> <span class="op">&lt;-</span> <span class="kw">rsample</span>::<span class="fu"><a href="https://rsample.tidymodels.org/reference/vfold_cv.html">vfold_cv</a></span>(<span class="kw">tree_frogs_train</span>, v = <span class="fl">5</span>)
+<span class="va">folds</span> <span class="op">&lt;-</span> <span class="fu">rsample</span><span class="fu">::</span><span class="fu"><a href="https://rsample.tidymodels.org/reference/vfold_cv.html">vfold_cv</a></span><span class="op">(</span><span class="va">tree_frogs_train</span>, v <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>
 
-<span class="kw">tree_frogs_rec</span> <span class="op">&lt;-</span> 
-  <span class="fu"><a href="https://recipes.tidymodels.org/reference/recipe.html">recipe</a></span>(<span class="kw">reflex</span> <span class="op">~</span> <span class="kw">.</span>, data = <span class="kw">tree_frogs_train</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_dummy.html">step_dummy</a></span>(<span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html">all_nominal</a></span>(), <span class="op">-</span><span class="kw">reflex</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_zv.html">step_zv</a></span>(<span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html">all_predictors</a></span>())
+<span class="va">tree_frogs_rec</span> <span class="op">&lt;-</span> 
+  <span class="fu"><a href="https://recipes.tidymodels.org/reference/recipe.html">recipe</a></span><span class="op">(</span><span class="va">reflex</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">tree_frogs_train</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_dummy.html">step_dummy</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html">all_nominal</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">-</span><span class="va">reflex</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_zv.html">step_zv</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html">all_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 
-<span class="kw">tree_frogs_wflow</span> <span class="op">&lt;-</span> 
-  <span class="fu"><a href="https://workflows.tidymodels.org//reference/workflow.html">workflow</a></span>() <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://workflows.tidymodels.org//reference/add_recipe.html">add_recipe</a></span>(<span class="kw">tree_frogs_rec</span>)
-</pre></div>
+<span class="va">tree_frogs_wflow</span> <span class="op">&lt;-</span> 
+  <span class="fu"><a href="https://workflows.tidymodels.org//reference/workflow.html">workflow</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://workflows.tidymodels.org//reference/add_recipe.html">add_recipe</a></span><span class="op">(</span><span class="va">tree_frogs_rec</span><span class="op">)</span></pre></div>
 <p>We also need to use the same control settings as in the numeric response setting:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="kw">ctrl_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/control_stack_grid.html">control_stack_grid</a></span>()
-</pre></div>
+<span class="va">ctrl_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/control_stack_grid.html">control_stack_grid</a></span><span class="op">(</span><span class="op">)</span></pre></div>
 <p>We’ll define two different model definitions to try to predict <code>reflex</code>—a random forest and a neural network.</p>
 <p>Starting out with a random forest:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="kw">rand_forest_spec</span> <span class="op">&lt;-</span> 
-  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/rand_forest.html">rand_forest</a></span>(
-    mtry = <span class="fu"><a href="https://tune.tidymodels.org/reference/tune.html">tune</a></span>(),
-    min_n = <span class="fu"><a href="https://tune.tidymodels.org/reference/tune.html">tune</a></span>(),
-    trees = <span class="fl">500</span>
-  ) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_args.html">set_mode</a></span>(<span class="st">"classification"</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html">set_engine</a></span>(<span class="st">"ranger"</span>)
+<span class="va">rand_forest_spec</span> <span class="op">&lt;-</span> 
+  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/rand_forest.html">rand_forest</a></span><span class="op">(</span>
+    mtry <span class="op">=</span> <span class="fu"><a href="https://tune.tidymodels.org/reference/tune.html">tune</a></span><span class="op">(</span><span class="op">)</span>,
+    min_n <span class="op">=</span> <span class="fu"><a href="https://tune.tidymodels.org/reference/tune.html">tune</a></span><span class="op">(</span><span class="op">)</span>,
+    trees <span class="op">=</span> <span class="fl">500</span>
+  <span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_args.html">set_mode</a></span><span class="op">(</span><span class="st">"classification"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html">set_engine</a></span><span class="op">(</span><span class="st">"ranger"</span><span class="op">)</span>
 
-<span class="kw">rand_forest_wflow</span> <span class="op">&lt;-</span>
-  <span class="kw">tree_frogs_wflow</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://workflows.tidymodels.org//reference/add_model.html">add_model</a></span>(<span class="kw">rand_forest_spec</span>)
+<span class="va">rand_forest_wflow</span> <span class="op">&lt;-</span>
+  <span class="va">tree_frogs_wflow</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://workflows.tidymodels.org//reference/add_model.html">add_model</a></span><span class="op">(</span><span class="va">rand_forest_spec</span><span class="op">)</span>
 
-<span class="kw">rand_forest_res</span> <span class="op">&lt;-</span> 
-  <span class="fu"><a href="https://tune.tidymodels.org/reference/tune_grid.html">tune_grid</a></span>(
-    object = <span class="kw">rand_forest_wflow</span>, 
-    resamples = <span class="kw">folds</span>, 
-    grid = <span class="fl">10</span>,
-    control = <span class="kw">ctrl_grid</span>
-  )
-</pre></div>
+<span class="va">rand_forest_res</span> <span class="op">&lt;-</span> 
+  <span class="fu"><a href="https://tune.tidymodels.org/reference/tune_grid.html">tune_grid</a></span><span class="op">(</span>
+    object <span class="op">=</span> <span class="va">rand_forest_wflow</span>, 
+    resamples <span class="op">=</span> <span class="va">folds</span>, 
+    grid <span class="op">=</span> <span class="fl">10</span>,
+    control <span class="op">=</span> <span class="va">ctrl_grid</span>
+  <span class="op">)</span></pre></div>
 <p>Now, moving on to the neural network model definition:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="kw">nnet_spec</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/mlp.html">mlp</a></span>(hidden_units = <span class="fu"><a href="https://tune.tidymodels.org/reference/tune.html">tune</a></span>(), penalty = <span class="fu"><a href="https://tune.tidymodels.org/reference/tune.html">tune</a></span>(), epochs = <span class="fu"><a href="https://tune.tidymodels.org/reference/tune.html">tune</a></span>()) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_args.html">set_mode</a></span>(<span class="st">"classification"</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html">set_engine</a></span>(<span class="st">"nnet"</span>)
+<span class="va">nnet_spec</span> <span class="op">&lt;-</span>
+  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/mlp.html">mlp</a></span><span class="op">(</span>hidden_units <span class="op">=</span> <span class="fu"><a href="https://tune.tidymodels.org/reference/tune.html">tune</a></span><span class="op">(</span><span class="op">)</span>, penalty <span class="op">=</span> <span class="fu"><a href="https://tune.tidymodels.org/reference/tune.html">tune</a></span><span class="op">(</span><span class="op">)</span>, epochs <span class="op">=</span> <span class="fu"><a href="https://tune.tidymodels.org/reference/tune.html">tune</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_args.html">set_mode</a></span><span class="op">(</span><span class="st">"classification"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html">set_engine</a></span><span class="op">(</span><span class="st">"nnet"</span><span class="op">)</span>
 
-<span class="kw">nnet_rec</span> <span class="op">&lt;-</span> 
-  <span class="kw">tree_frogs_rec</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_normalize.html">step_normalize</a></span>(<span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html">all_predictors</a></span>())
+<span class="va">nnet_rec</span> <span class="op">&lt;-</span> 
+  <span class="va">tree_frogs_rec</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_normalize.html">step_normalize</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html">all_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 
-<span class="kw">nnet_wflow</span> <span class="op">&lt;-</span> 
-  <span class="kw">tree_frogs_wflow</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://workflows.tidymodels.org//reference/add_model.html">add_model</a></span>(<span class="kw">nnet_spec</span>)
+<span class="va">nnet_wflow</span> <span class="op">&lt;-</span> 
+  <span class="va">tree_frogs_wflow</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://workflows.tidymodels.org//reference/add_model.html">add_model</a></span><span class="op">(</span><span class="va">nnet_spec</span><span class="op">)</span>
 
-<span class="kw">nnet_res</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="https://tune.tidymodels.org/reference/tune_grid.html">tune_grid</a></span>(
-    object = <span class="kw">nnet_wflow</span>, 
-    resamples = <span class="kw">folds</span>, 
-    grid = <span class="fl">10</span>,
-    control = <span class="kw">ctrl_grid</span>
-  )
-</pre></div>
+<span class="va">nnet_res</span> <span class="op">&lt;-</span>
+  <span class="fu"><a href="https://tune.tidymodels.org/reference/tune_grid.html">tune_grid</a></span><span class="op">(</span>
+    object <span class="op">=</span> <span class="va">nnet_wflow</span>, 
+    resamples <span class="op">=</span> <span class="va">folds</span>, 
+    grid <span class="op">=</span> <span class="fl">10</span>,
+    control <span class="op">=</span> <span class="va">ctrl_grid</span>
+  <span class="op">)</span></pre></div>
 <p>With these model definitions fully specified, we’re ready to start putting together an ensemble!</p>
 </div>
 <div id="putting-together-a-stack" class="section level1">
@@ -201,18 +194,18 @@
 <a href="#putting-together-a-stack" class="anchor"></a>Putting together a stack</h1>
 <p>Building the stacked ensemble, now, only takes a few lines:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="kw">tree_frogs_model_st</span> <span class="op">&lt;-</span> 
+<span class="va">tree_frogs_model_st</span> <span class="op">&lt;-</span> 
   <span class="co"># initialize the stack</span>
-  <span class="fu"><a href="../reference/stacks.html">stacks</a></span>() <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/stacks.html">stacks</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="co"># add candidate members</span>
-  <span class="fu"><a href="../reference/add_candidates.html">add_candidates</a></span>(<span class="kw">rand_forest_res</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/add_candidates.html">add_candidates</a></span>(<span class="kw">nnet_res</span>) <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/add_candidates.html">add_candidates</a></span><span class="op">(</span><span class="va">rand_forest_res</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/add_candidates.html">add_candidates</a></span><span class="op">(</span><span class="va">nnet_res</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="co"># determine how to combine their predictions</span>
-  <span class="fu"><a href="../reference/blend_predictions.html">blend_predictions</a></span>() <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/blend_predictions.html">blend_predictions</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="co"># fit the candidates with nonzero stacking coefficients</span>
-  <span class="fu"><a href="../reference/fit_members.html">fit_members</a></span>()
+  <span class="fu"><a href="../reference/fit_members.html">fit_members</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="kw">tree_frogs_model_st</span>
+<span class="va">tree_frogs_model_st</span>
 <span class="co">#&gt; # A tibble: 9 x 4</span>
 <span class="co">#&gt;   member                       type        weight class</span>
 <span class="co">#&gt;   &lt;chr&gt;                        &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;</span>
@@ -224,54 +217,48 @@
 <span class="co">#&gt; 6 .pred_mid_nnet_res07         mlp         0.0805 low  </span>
 <span class="co">#&gt; 7 .pred_full_rand_forest_res08 rand_forest 0.0675 full </span>
 <span class="co">#&gt; 8 .pred_mid_rand_forest_res04  rand_forest 0.0481 mid  </span>
-<span class="co">#&gt; 9 .pred_full_rand_forest_res02 rand_forest 0.0168 full</span>
-</pre></div>
+<span class="co">#&gt; 9 .pred_full_rand_forest_res02 rand_forest 0.0168 full</span></pre></div>
 <p>To make sure that we have the right trade-off between minimizing the number of members and optimizing performance, the <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot()</a></code> method comes in hand:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>())
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span>(<span class="kw">tree_frogs_model_st</span>)
-</pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span><span class="op">)</span></pre></div>
 <p><img src="classification_files/figure-html/penalty-plot-1.png" width="768"></p>
 <p>To show the relationship more directly:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span>(<span class="kw">tree_frogs_model_st</span>, type = <span class="st">"members"</span>)
-</pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span>, type <span class="op">=</span> <span class="st">"members"</span><span class="op">)</span></pre></div>
 <p><img src="classification_files/figure-html/members-plot-1.png" width="768"></p>
 <p>If these results were not good enough, <code><a href="../reference/blend_predictions.html">blend_predictions()</a></code> could be called again with different values of <code>penalty</code>. As it is, <code><a href="../reference/blend_predictions.html">blend_predictions()</a></code> picks the penalty parameter with the numerically optimal results. To see the top results:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span>(<span class="kw">tree_frogs_model_st</span>, type = <span class="st">"weights"</span>)
-</pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span>, type <span class="op">=</span> <span class="st">"weights"</span><span class="op">)</span></pre></div>
 <p><img src="classification_files/figure-html/weight-plot-1.png" width="768"></p>
 <p>There are multiple facets since the ensemble members can have different effects on different classes.</p>
 <p>This object is now ready to predict with new data!</p>
 <div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="kw">tree_frogs_pred</span> <span class="op">&lt;-</span>
-  <span class="kw">tree_frogs_test</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_cols</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="kw">tree_frogs_model_st</span>, <span class="kw">.</span>, type = <span class="st">"prob"</span>))
-</pre></div>
+<span class="va">tree_frogs_pred</span> <span class="op">&lt;-</span>
+  <span class="va">tree_frogs_test</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_cols</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span>, <span class="va">.</span>, type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p>Computing the ROC AUC for the model:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="kw">yardstick</span>::<span class="fu"><a href="https://rdrr.io/pkg/yardstick/man/roc_auc.html">roc_auc</a></span>(
-  <span class="kw">tree_frogs_pred</span>,
-  truth = <span class="kw">reflex</span>,
-  <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span>(<span class="st">".pred_"</span>)
-  )
-</pre></div>
+<span class="fu">yardstick</span><span class="fu">::</span><span class="fu"><a href="https://yardstick.tidymodels.org/reference/roc_auc.html">roc_auc</a></span><span class="op">(</span>
+  <span class="va">tree_frogs_pred</span>,
+  truth <span class="op">=</span> <span class="va">reflex</span>,
+  <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">".pred_"</span><span class="op">)</span>
+  <span class="op">)</span></pre></div>
 <p>Looks like our predictions were pretty strong! How do the stacks predictions perform, though, as compared to the members’ predictions? We can use the <code>members</code> argument to generate predictions from each of the ensemble members.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit">
-<span class="kw">tree_frogs_pred</span> <span class="op">&lt;-</span>
-  <span class="kw">tree_frogs_test</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="kw">reflex</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_cols</a></span>(
-    <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(
-      <span class="kw">tree_frogs_model_st</span>,
-      <span class="kw">tree_frogs_test</span>,
-      type = <span class="st">"class"</span>,
-      members = <span class="fl">TRUE</span>
-      )
-    )
+<span class="va">tree_frogs_pred</span> <span class="op">&lt;-</span>
+  <span class="va">tree_frogs_test</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">reflex</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_cols</a></span><span class="op">(</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span>
+      <span class="va">tree_frogs_model_st</span>,
+      <span class="va">tree_frogs_test</span>,
+      type <span class="op">=</span> <span class="st">"class"</span>,
+      members <span class="op">=</span> <span class="cn">TRUE</span>
+      <span class="op">)</span>
+    <span class="op">)</span>
 
-<span class="kw">tree_frogs_pred</span>
+<span class="va">tree_frogs_pred</span>
 <span class="co">#&gt; # A tibble: 303 x 18</span>
 <span class="co">#&gt;    reflex .pred_class .pred_class_ran… .pred_class_ran… .pred_class_ran…</span>
 <span class="co">#&gt;    &lt;fct&gt;  &lt;fct&gt;       &lt;fct&gt;            &lt;fct&gt;            &lt;fct&gt;           </span>
@@ -293,11 +280,11 @@
 <span class="co">#&gt; #   .pred_class_rand_forest_res02 &lt;fct&gt;, .pred_class_nnet_res03 &lt;fct&gt;,</span>
 <span class="co">#&gt; #   .pred_class_rand_forest_res09 &lt;fct&gt;, .pred_class_rand_forest_res08 &lt;fct&gt;</span>
 
-<span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dfr</a></span>(
-  <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="kw">tree_frogs_pred</span>), <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="kw">tree_frogs_pred</span>)),
-  <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw">tree_frogs_pred</span><span class="op">$</span><span class="kw">reflex</span> <span class="op">==</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span>(<span class="kw">tree_frogs_pred</span>, <span class="kw">.x</span>))
-) <span class="op">%&gt;%</span>
-  <span class="fu">pivot_longer</span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span>(), <span class="op">-</span><span class="kw">reflex</span>))
+<span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dfr</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span><span class="op">)</span><span class="op">)</span>,
+  <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span><span class="op">$</span><span class="va">reflex</span> <span class="op">==</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span>, <span class="va">.x</span><span class="op">)</span><span class="op">)</span>
+<span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">pivot_longer</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">-</span><span class="va">reflex</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 17 x 3</span>
 <span class="co">#&gt;    reflex name                           value</span>
 <span class="co">#&gt;     &lt;dbl&gt; &lt;chr&gt;                          &lt;dbl&gt;</span>
@@ -317,8 +304,7 @@
 <span class="co">#&gt; 14      1 .pred_class_rand_forest_res02 0.868 </span>
 <span class="co">#&gt; 15      1 .pred_class_nnet_res03        0.518 </span>
 <span class="co">#&gt; 16      1 .pred_class_rand_forest_res09 0.842 </span>
-<span class="co">#&gt; 17      1 .pred_class_rand_forest_res08 0.845</span>
-</pre></div>
+<span class="co">#&gt; 17      1 .pred_class_rand_forest_res08 0.845</span></pre></div>
 <p>Voila! You’ve now made use of the stacks package to predict tree frog embryo ear function using a stacked ensemble!</p>
 </div>
   </div>

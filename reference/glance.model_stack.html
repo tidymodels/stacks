@@ -137,7 +137,7 @@ one row of model summaries</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for model_stack</span>
-<span class='fu'><a href='https://rdrr.io/pkg/generics/man/glance.html'>glance</a></span>(<span class='kw'>x</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/pkg/generics/man/glance.html'>glance</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -211,18 +211,18 @@ the source code that generated them.</p>
 <span class='co'># to use the `tidy` method, the appropriate glance</span>
 <span class='co'># methods must be loaded for the member model tidiers.</span>
 <span class='co'># in this example, they come from broom!</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://broom.tidymodels.org'>broom</a></span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://broom.tidymodels.org/'>broom</a></span><span class='op'>)</span>
 
 <span class='co'># build a regression model stack</span>
-<span class='kw'>st</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='stacks.html'>stacks</a></span>() <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span>(<span class='kw'>reg_res_lr</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span>(<span class='kw'>reg_res_sp</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span>() <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='fit_members.html'>fit_members</a></span>()
+<span class='va'>st</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>reg_res_lr</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>reg_res_sp</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='fit_members.html'>fit_members</a></span><span class='op'>(</span><span class='op'>)</span>
   
 <span class='co'># check the model stack out!</span>
-<span class='fu'><a href='https://rdrr.io/pkg/generics/man/tidy.html'>tidy</a></span>(<span class='kw'>st</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/generics/man/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>st</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 4 x 13</span><span>
 #&gt;   member r.squared adj.r.squared sigma statistic   p.value    df logLik   AIC
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -231,12 +231,12 @@ the source code that generated them.</p>
 #&gt; </span><span style='color: #555555;'>3</span><span> reg_r…     0.422         0.395  57.7      15.7  7.00</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-38</span><span>    19 -</span><span style='color: #BB0000;text-decoration: underline;'>2</span><span style='color: #BB0000;'>338.</span><span> </span><span style='text-decoration: underline;'>4</span><span>719.
 #&gt; </span><span style='color: #555555;'>4</span><span> ensem…    </span><span style='color: #BB0000;'>NA</span><span>            </span><span style='color: #BB0000;'>NA</span><span>      </span><span style='color: #BB0000;'>NA</span><span>        </span><span style='color: #BB0000;'>NA</span><span>   </span><span style='color: #BB0000;'>NA</span><span>   </span><span style='color: #555555;'> </span><span>       </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> 
 #&gt; </span><span style='color: #555555;'># … with 4 more variables: BIC </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, deviance </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, df.residual </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   nobs </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/generics/man/glance.html'>glance</a></span>(<span class='kw'>st</span>)
+#&gt; </span><span style='color: #555555;'>#   nobs </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/generics/man/glance.html'>glance</a></span><span class='op'>(</span><span class='va'>st</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 12</span><span>
 #&gt;   r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC
 #&gt;       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>        </span><span style='color: #BB0000;'>NA</span><span>            </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>        </span><span style='color: #BB0000;'>NA</span><span>      </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>
-#&gt; </span><span style='color: #555555;'># … with 3 more variables: deviance </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, df.residual </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, nobs </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/generics/man/augment.html'>augment</a></span>(<span class='kw'>st</span>)
+#&gt; </span><span style='color: #555555;'># … with 3 more variables: deviance </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, df.residual </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, nobs </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/generics/man/augment.html'>augment</a></span><span class='op'>(</span><span class='va'>st</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 429 x 6</span><span>
 #&gt;    treatment  reflex    age t_o_d     latency .fitted$.pred
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
