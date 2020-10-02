@@ -303,16 +303,16 @@ the source code that generated them.</p>
 </div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 303 x 3</span><span>
 #&gt;    .pred_full .pred_low .pred_mid
 #&gt;         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>    0.991     0.008</span><span style='text-decoration: underline;'>02</span><span>   0.001</span><span style='text-decoration: underline;'>33</span><span>
-#&gt; </span><span style='color: #555555;'> 2</span><span>    0.015</span><span style='text-decoration: underline;'>3</span><span>    0.676     0.309  
-#&gt; </span><span style='color: #555555;'> 3</span><span>    0.991     0.007</span><span style='text-decoration: underline;'>59</span><span>   0.001</span><span style='text-decoration: underline;'>25</span><span>
-#&gt; </span><span style='color: #555555;'> 4</span><span>    0.017</span><span style='text-decoration: underline;'>5</span><span>    0.802     0.181  
-#&gt; </span><span style='color: #555555;'> 5</span><span>    0.991     0.007</span><span style='text-decoration: underline;'>87</span><span>   0.001</span><span style='text-decoration: underline;'>30</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>    0.990     0.008</span><span style='text-decoration: underline;'>26</span><span>   0.001</span><span style='text-decoration: underline;'>37</span><span>
+#&gt; </span><span style='color: #555555;'> 2</span><span>    0.015</span><span style='text-decoration: underline;'>2</span><span>    0.663     0.322  
+#&gt; </span><span style='color: #555555;'> 3</span><span>    0.991     0.007</span><span style='text-decoration: underline;'>58</span><span>   0.001</span><span style='text-decoration: underline;'>25</span><span>
+#&gt; </span><span style='color: #555555;'> 4</span><span>    0.017</span><span style='text-decoration: underline;'>6</span><span>    0.804     0.178  
+#&gt; </span><span style='color: #555555;'> 5</span><span>    0.991     0.007</span><span style='text-decoration: underline;'>55</span><span>   0.001</span><span style='text-decoration: underline;'>25</span><span>
 #&gt; </span><span style='color: #555555;'> 6</span><span>    0.991     0.007</span><span style='text-decoration: underline;'>55</span><span>   0.001</span><span style='text-decoration: underline;'>25</span><span>
-#&gt; </span><span style='color: #555555;'> 7</span><span>    0.015</span><span style='text-decoration: underline;'>7</span><span>    0.692     0.292  
-#&gt; </span><span style='color: #555555;'> 8</span><span>    0.007</span><span style='text-decoration: underline;'>98</span><span>   0.352     0.640  
-#&gt; </span><span style='color: #555555;'> 9</span><span>    0.004</span><span style='text-decoration: underline;'>28</span><span>   0.211     0.784  
-#&gt; </span><span style='color: #555555;'>10</span><span>    0.991     0.007</span><span style='text-decoration: underline;'>57</span><span>   0.001</span><span style='text-decoration: underline;'>25</span><span>
+#&gt; </span><span style='color: #555555;'> 7</span><span>    0.015</span><span style='text-decoration: underline;'>4</span><span>    0.677     0.308  
+#&gt; </span><span style='color: #555555;'> 8</span><span>    0.007</span><span style='text-decoration: underline;'>95</span><span>   0.347     0.645  
+#&gt; </span><span style='color: #555555;'> 9</span><span>    0.004</span><span style='text-decoration: underline;'>28</span><span>   0.212     0.783  
+#&gt; </span><span style='color: #555555;'>10</span><span>    0.991     0.007</span><span style='text-decoration: underline;'>58</span><span>   0.001</span><span style='text-decoration: underline;'>25</span><span>
 #&gt; </span><span style='color: #555555;'># … with 293 more rows</span><span></div><div class='input'>
 <span class='co'># returning the member predictions as well</span>
 <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span>
@@ -324,16 +324,16 @@ the source code that generated them.</p>
 </div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 303 x 15</span><span>
 #&gt;    .pred_full .pred_low .pred_mid .pred_low_class… .pred_low_class…
 #&gt;         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>    0.991     0.008</span><span style='text-decoration: underline;'>02</span><span>   0.001</span><span style='text-decoration: underline;'>33</span><span>            0                0.212
-#&gt; </span><span style='color: #555555;'> 2</span><span>    0.015</span><span style='text-decoration: underline;'>3</span><span>    0.676     0.309              0.711            0.425
-#&gt; </span><span style='color: #555555;'> 3</span><span>    0.991     0.007</span><span style='text-decoration: underline;'>59</span><span>   0.001</span><span style='text-decoration: underline;'>25</span><span>            0                0.212
-#&gt; </span><span style='color: #555555;'> 4</span><span>    0.017</span><span style='text-decoration: underline;'>5</span><span>    0.802     0.181              0.912            0.456
-#&gt; </span><span style='color: #555555;'> 5</span><span>    0.991     0.007</span><span style='text-decoration: underline;'>87</span><span>   0.001</span><span style='text-decoration: underline;'>30</span><span>            0                0.214
+#&gt; </span><span style='color: #555555;'> 1</span><span>    0.990     0.008</span><span style='text-decoration: underline;'>26</span><span>   0.001</span><span style='text-decoration: underline;'>37</span><span>            0                0.212
+#&gt; </span><span style='color: #555555;'> 2</span><span>    0.015</span><span style='text-decoration: underline;'>2</span><span>    0.663     0.322              0.695            0.419
+#&gt; </span><span style='color: #555555;'> 3</span><span>    0.991     0.007</span><span style='text-decoration: underline;'>58</span><span>   0.001</span><span style='text-decoration: underline;'>25</span><span>            0                0.212
+#&gt; </span><span style='color: #555555;'> 4</span><span>    0.017</span><span style='text-decoration: underline;'>6</span><span>    0.804     0.178              0.917            0.457
+#&gt; </span><span style='color: #555555;'> 5</span><span>    0.991     0.007</span><span style='text-decoration: underline;'>55</span><span>   0.001</span><span style='text-decoration: underline;'>25</span><span>            0                0.212
 #&gt; </span><span style='color: #555555;'> 6</span><span>    0.991     0.007</span><span style='text-decoration: underline;'>55</span><span>   0.001</span><span style='text-decoration: underline;'>25</span><span>            0                0.212
-#&gt; </span><span style='color: #555555;'> 7</span><span>    0.015</span><span style='text-decoration: underline;'>7</span><span>    0.692     0.292              0.734            0.426
-#&gt; </span><span style='color: #555555;'> 8</span><span>    0.007</span><span style='text-decoration: underline;'>98</span><span>   0.352     0.640              0.320            0.425
-#&gt; </span><span style='color: #555555;'> 9</span><span>    0.004</span><span style='text-decoration: underline;'>28</span><span>   0.211     0.784              0.118            0.276
-#&gt; </span><span style='color: #555555;'>10</span><span>    0.991     0.007</span><span style='text-decoration: underline;'>57</span><span>   0.001</span><span style='text-decoration: underline;'>25</span><span>            0                0.212
+#&gt; </span><span style='color: #555555;'> 7</span><span>    0.015</span><span style='text-decoration: underline;'>4</span><span>    0.677     0.308              0.713            0.434
+#&gt; </span><span style='color: #555555;'> 8</span><span>    0.007</span><span style='text-decoration: underline;'>95</span><span>   0.347     0.645              0.314            0.417
+#&gt; </span><span style='color: #555555;'> 9</span><span>    0.004</span><span style='text-decoration: underline;'>28</span><span>   0.212     0.783              0.119            0.276
+#&gt; </span><span style='color: #555555;'>10</span><span>    0.991     0.007</span><span style='text-decoration: underline;'>58</span><span>   0.001</span><span style='text-decoration: underline;'>25</span><span>            0                0.212
 #&gt; </span><span style='color: #555555;'># … with 293 more rows, and 10 more variables: .pred_low_class_res_rf09 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   .pred_low_class_res_rf01 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, .pred_mid_class_res_rf02 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   .pred_mid_class_res_nn1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, .pred_mid_class_res_rf09 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
