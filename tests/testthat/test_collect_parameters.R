@@ -26,7 +26,7 @@ test_that("collect_parameters errors informatively with bad arguments", {
   )
 })
 
-test_that("collect_parameters on a data stack works", {
+test_that("collect_parameters on a data stack works (regression)", {
   res <- collect_parameters(st_reg_1, "reg_res_svm")
   res2 <- collect_parameters(st_reg_2, "reg_res_sp")
   res3 <- 
@@ -49,7 +49,7 @@ test_that("collect_parameters on a data stack works", {
   expect_equal(nrow(res3), 1)
 })
 
-test_that("collect_parameters on a model stack works", {
+test_that("collect_parameters on a model stack works (regression)", {
   res <- collect_parameters(st_reg_1_, "reg_res_svm")
   res2 <- collect_parameters(st_reg_2 %>% blend_predictions(), "reg_res_sp")
   
@@ -69,4 +69,20 @@ test_that("collect_parameters on a model stack works", {
       colnames(res)
     )
   )
+})
+
+# collecting parameters on a classification stack is a bit
+# trickier, so test separately
+test_that("collect_parameters works (classification)", {
+  res <- collect_parameters(st_class_1, "class_res_rf")
+  res2 <- collect_parameters(st_class_1 %>% blend_predictions(), "class_res_rf")
+  
+  expect_true(check_inherits(res, "tbl_df"))
+  expect_true(check_inherits(res2, "tbl_df"))
+  
+  expect_equal(ncol(res), 3)
+  expect_equal(nrow(res), 10)
+  
+  expect_equal(ncol(res2), 6)
+  expect_equal(nrow(res2), 60)
 })

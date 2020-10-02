@@ -111,9 +111,28 @@ collect_params <- function(cols_map, model_metrics, candidates, workflows, blend
       ) %>%
       dplyr::select(-penalty) %>%
       dplyr::rename(coef = estimate)
-    
-    res <- 
-      dplyr::left_join(res, stacking_coefs, by = c("member" = "terms"))
+
+    if ("class" %in% colnames(stacking_coefs)) {
+      pred_strings <-
+        paste(".pred_", unique(stacking_coefs$class), "_", sep = "", collapse = "|")
+      
+      stacking_coefs <-
+        stacking_coefs %>%
+        dplyr::mutate(
+          member = gsub(
+            pred_strings,
+            "",
+            terms
+          )
+        ) %>%
+        dplyr::filter(member %in% res$member)
+      
+      res <-
+        dplyr::full_join(res, stacking_coefs, by = "member")
+    } else {
+      res <- 
+        dplyr::left_join(res, stacking_coefs, by = c("member" = "terms"))
+    }
   }
   
   res
