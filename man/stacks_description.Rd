@@ -7,8 +7,8 @@
 \alias{stacks_package}
 \title{stacks: Tidy Model Stacking Stools}
 \description{
-`stacks` provides an API for model stacking/ensembling that
-    aligns with existing functionality from the `tidymodels` packages. The 
+'stacks' provides an API for model stacking/ensembling that
+    aligns with functionality from the 'tidymodels' packages. The 
     package contains functions that combine fitted resampling objects to form 
     models that generate predictions informed by many, diverse statistical 
     models.
