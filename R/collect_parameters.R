@@ -94,8 +94,8 @@ collect_params <- function(cols_map, model_metrics, candidates, workflows, blend
           x = .config
         )
     ) %>%
-    dplyr::select(member, all_of(params)) %>%
-    filter(., !duplicated(.))
+    dplyr::select(member, dplyr::all_of(params)) %>%
+    dplyr::filter(., !duplicated(.))
   
   if (!is.null(blend)) {
     stacking_coefs <-
