@@ -140,7 +140,16 @@ candidate/member names to their hyperparameters (and, if a model stack,
 to their stacking coefficients as well).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>collect_parameters</span><span class='op'>(</span><span class='va'>stack</span>, <span class='va'>candidates</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>collect_parameters</span><span class='op'>(</span><span class='va'>stack</span>, <span class='va'>candidates</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for default</span>
+<span class='fu'>collect_parameters</span><span class='op'>(</span><span class='va'>stack</span>, <span class='va'>candidates</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for data_stack</span>
+<span class='fu'>collect_parameters</span><span class='op'>(</span><span class='va'>stack</span>, <span class='va'>candidates</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for model_stack</span>
+<span class='fu'>collect_parameters</span><span class='op'>(</span><span class='va'>stack</span>, <span class='va'>candidates</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -227,17 +236,46 @@ the source code that generated them.</p>
 #&gt; # Outcome: latency (numeric)</div><div class='input'>  
 <span class='co'># check out the hyperparameters for some of the candidates</span>
 <span class='fu'>collect_parameters</span><span class='op'>(</span><span class='va'>reg_st</span>, <span class='st'>"reg_res_svm"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("collect_parameters", stack): no applicable method for 'collect_parameters' applied to an object of class "c('data_stack', 'tbl_df', 'tbl', 'data.frame')"</span></div><div class='input'>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 3</span><span>
+#&gt;   member           cost rbf_sigma
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> reg_res_svm1 12.0      3.62</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 8</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span> reg_res_svm2  0.022</span><span style='text-decoration: underline;'>1</span><span>   4.15</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 3</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span> reg_res_svm3  0.215    5.07</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span>
+#&gt; </span><span style='color: #555555;'>4</span><span> reg_res_svm4  0.001</span><span style='text-decoration: underline;'>16</span><span>  9.29</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span>
+#&gt; </span><span style='color: #555555;'>5</span><span> reg_res_svm5  1.44     5.40</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span></div><div class='input'>
 <span class='fu'>collect_parameters</span><span class='op'>(</span><span class='va'>reg_st</span>, <span class='st'>"spline"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("collect_parameters", stack): no applicable method for 'collect_parameters' applied to an object of class "c('data_stack', 'tbl_df', 'tbl', 'data.frame')"</span></div><div class='input'>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 9 x 2</span><span>
+#&gt;   member    age
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> spline1    12
+#&gt; </span><span style='color: #555555;'>2</span><span> spline2     7
+#&gt; </span><span style='color: #555555;'>3</span><span> spline3     9
+#&gt; </span><span style='color: #555555;'>4</span><span> spline4    10
+#&gt; </span><span style='color: #555555;'>5</span><span> spline5     2
+#&gt; </span><span style='color: #555555;'>6</span><span> spline6    13
+#&gt; </span><span style='color: #555555;'>7</span><span> spline7     4
+#&gt; </span><span style='color: #555555;'>8</span><span> spline8     6
+#&gt; </span><span style='color: #555555;'>9</span><span> spline9    14</div><div class='input'>
 <span class='co'># blend the data stack to view the hyperparameters </span>
 <span class='co'># along with the stacking coefficients!</span>
 <span class='fu'>collect_parameters</span><span class='op'>(</span>
   <span class='va'>reg_st</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span><span class='op'>(</span><span class='op'>)</span>, 
   <span class='st'>"spline"</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("collect_parameters", stack): no applicable method for 'collect_parameters' applied to an object of class "c('linear_stack', 'model_stack', 'list')"</span></div><div class='input'><span class='co'># }</span>
-</div></pre>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 9 x 3</span><span>
+#&gt;   member    age  coef
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> spline1    12 0    
+#&gt; </span><span style='color: #555555;'>2</span><span> spline2     7 0    
+#&gt; </span><span style='color: #555555;'>3</span><span> spline3     9 0    
+#&gt; </span><span style='color: #555555;'>4</span><span> spline4    10 0    
+#&gt; </span><span style='color: #555555;'>5</span><span> spline5     2 0    
+#&gt; </span><span style='color: #555555;'>6</span><span> spline6    13 0    
+#&gt; </span><span style='color: #555555;'>7</span><span> spline7     4 0    
+#&gt; </span><span style='color: #555555;'>8</span><span> spline8     6 0    
+#&gt; </span><span style='color: #555555;'>9</span><span> spline9    14 0.294</div><div class='input'><span class='co'># }</span>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
