@@ -49,6 +49,8 @@ collect_parameters <- function(stack, candidates, ...) {
   UseMethod("collect_parameters", stack)
 }
 
+#' @export
+#' @rdname collect_parameters
 collect_parameters.default <- function(stack, candidates, ...) {
   glue_stop(
     "There is no `collect_parameters()` method currently implemented ",
@@ -56,6 +58,8 @@ collect_parameters.default <- function(stack, candidates, ...) {
   )
 }
 
+#' @export
+#' @rdname collect_parameters
 collect_parameters.data_stack <- function(stack, candidates, ...) {
   collect_params(
     attributes(stack)$cols_map,
@@ -65,6 +69,8 @@ collect_parameters.data_stack <- function(stack, candidates, ...) {
   )
 }
 
+#' @export
+#' @rdname collect_parameters
 collect_parameters.model_stack <- function(stack, candidates, ...) {
   collect_params(
     stack$cols_map,

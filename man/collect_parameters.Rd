@@ -2,9 +2,18 @@
 % Please edit documentation in R/collect_parameters.R
 \name{collect_parameters}
 \alias{collect_parameters}
+\alias{collect_parameters.default}
+\alias{collect_parameters.data_stack}
+\alias{collect_parameters.model_stack}
 \title{Collect candidate parameters and stacking coefficients}
 \usage{
 collect_parameters(stack, candidates, ...)
+
+\method{collect_parameters}{default}(stack, candidates, ...)
+
+\method{collect_parameters}{data_stack}(stack, candidates, ...)
+
+\method{collect_parameters}{model_stack}(stack, candidates, ...)
 }
 \arguments{
 \item{stack}{A \code{data_stack} or \code{model_stack} object.}
