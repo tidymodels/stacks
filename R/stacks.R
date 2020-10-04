@@ -1,4 +1,4 @@
-#' stacks
+#' Initialize a Stack
 #' 
 #' @description 
 #' 

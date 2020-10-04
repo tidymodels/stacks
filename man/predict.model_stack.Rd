@@ -2,7 +2,7 @@
 % Please edit documentation in R/predict.R
 \name{predict.model_stack}
 \alias{predict.model_stack}
-\title{Model predictions}
+\title{Predicting with a model stack}
 \usage{
 \method{predict}{model_stack}(object, new_data, type = NULL, members = FALSE, opts = list(), ...)
 }

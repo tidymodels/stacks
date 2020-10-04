@@ -12,9 +12,33 @@ template:
 development:
   mode: auto
 
-
 figures:
   fig.width: 8
   fig.height: 5.75
 
-
+reference:
+  - title: Core Verbs
+    contents:
+    - stacks
+    - add_candidates
+    - blend_predictions
+    - fit_members
+  - title: Helpers
+    contents:
+    - collect_parameters
+    - starts_with("control_")
+    - get_expressions
+  - title: Example Data and Documentation
+    contents:
+    - example_data
+    - tree_frogs
+    - stacks_description
+  - title: Methods
+    contents:
+    - tidy.model_stack
+    - augment.model_stack
+    - glance.model_stack
+    - starts_with("autoplot")
+    - starts_with("axe_")
+    - starts_with("predict")
+    - starts_with("print")

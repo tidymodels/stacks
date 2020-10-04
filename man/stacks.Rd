@@ -2,7 +2,7 @@
 % Please edit documentation in R/stacks.R
 \name{stacks}
 \alias{stacks}
-\title{stacks}
+\title{Initialize a Stack}
 \usage{
 stacks(...)
 }

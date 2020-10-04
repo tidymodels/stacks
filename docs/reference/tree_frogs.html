@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>stacks: Tidy Model Stacking Stools — stacks_description • stacks</title>
+<title>Tree frog embryo hatching data — tree_frogs • stacks</title>
 
 
 <!-- jquery -->
@@ -42,12 +42,18 @@
 
 
 
-<meta property="og:title" content="stacks: Tidy Model Stacking Stools — stacks_description" />
-<meta property="og:description" content="'stacks' provides an API for model stacking/ensembling that
-    aligns with functionality from the 'tidymodels' packages. The 
-    package contains functions that combine fitted resampling objects to form 
-    models that generate predictions informed by many, diverse statistical 
-    models." />
+<meta property="og:title" content="Tree frog embryo hatching data — tree_frogs" />
+<meta property="og:description" content="A dataset containing experimental results on hatching behavior of
+red-eyed tree frog embryos.
+Red-eyed tree frog (RETF) embryos can hatch earlier than their normal 7ish
+days if they detect potential predator threat. Researchers wanted to
+determine how, and when, these tree frog embryos were able to detect
+stimulus from their environment. To do so, they subjected the embryos
+at varying developmental stages to &quot;predator stimulus&quot; by jiggling
+the embryos with a blunt probe. Beforehand, though some of the embryos were
+treated with gentamicin, a compound that knocks out their lateral line
+(a sensory organ.) Researcher Julie Jung and her crew found that these
+factors inform whether an embryo hatches prematurely or not!" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -135,84 +141,62 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>stacks: Tidy Model Stacking Stools</h1>
+    <h1>Tree frog embryo hatching data</h1>
     
-    <div class="hidden name"><code>stacks_description.Rd</code></div>
+    <div class="hidden name"><code>tree_frogs.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>'stacks' provides an API for model stacking/ensembling that
-    aligns with functionality from the 'tidymodels' packages. The 
-    package contains functions that combine fitted resampling objects to form 
-    models that generate predictions informed by many, diverse statistical 
-    models.</p>
+    <p>A dataset containing experimental results on hatching behavior of
+red-eyed tree frog embryos.</p>
+<p>Red-eyed tree frog (RETF) embryos can hatch earlier than their normal 7ish
+days if they detect potential predator threat. Researchers wanted to
+determine how, and when, these tree frog embryos were able to detect
+stimulus from their environment. To do so, they subjected the embryos
+at varying developmental stages to "predator stimulus" by jiggling
+the embryos with a blunt probe. Beforehand, though some of the embryos were
+treated with gentamicin, a compound that knocks out their lateral line
+(a sensory organ.) Researcher Julie Jung and her crew found that these
+factors inform whether an embryo hatches prematurely or not!</p>
     </div>
 
+    <pre class="usage"><span class='kw'>tree_frogs</span></pre>
 
 
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>A data frame with 1212 rows and 6 variables:</p><dl>
+<dt>clutch</dt><dd><p>RETFs lay their eggs in gelatinous "clutches" of 30-40
+eggs. Eggs with the same clutch ID are siblings of each other! This
+variable is useful in mixed effects models. (Unordered factor.)</p></dd>
+<dt>treatment</dt><dd><p>The treatment group for the embryo. Either "gentamicin",
+a compound that knocks out the embryos' lateral line, or "control" for
+the negative control group (i.e. sensory organs intact). (Character.)</p></dd>
+<dt>reflex</dt><dd><p>A measure of ear function called the vestibulo-ocular
+reflex, categorized into bins. Ear function increases from factor
+levels "low", to "mid", to "full". (Ordered factor.)</p></dd>
+<dt>age</dt><dd><p>Age of the embryo, in seconds, at the time
+that the embryo was jiggled. (Numeric, in seconds.)</p></dd>
+<dt>t_o_d</dt><dd><p>The time of day that the stimulus (i.e. jiggle)
+was applied. "morning" is 5 a.m. to noon, "afternoon" is noon to 8 p.m., and
+"night" is 8 p.m. to 5 a.m. (Character.)</p></dd>
+<dt>hatched</dt><dd><p>Whether or not the embryo hatched in response to the
+jiggling! Either "yes" or "no". (Character.)</p></dd>
+<dt>latency</dt><dd><p>Time elapsed between the stimulus (i.e. jiggling)
+and hatching in response to the stimulus, in seconds. Missing values indicate
+that the embryo didn't hatch in response to the stimulus. (Numeric,
+in seconds.)</p></dd>
+
+</dl>
+
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p><a href='https://www.biorxiv.org/content/10.1101/2020.09.18.304295v1'>https://www.biorxiv.org/content/10.1101/2020.09.18.304295v1</a></p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>At the highest level, ensembles are formed from <em>model definitions</em>. In
-this package, model definitions are an instance of a minimal workflow,
-containing a <em>model specification</em> (as defined in the parsnip package)
-and, optionally, a <em>preprocessor</em> (as defined in the recipes package).
-Model definitions specify the form of candidate ensemble members.</p>
-<p><img src='figures/model_defs.png' width=500 /></p>
-<p>To be used in the same ensemble, each of these model definitions must
-share the same <em>resample</em>. This rsample <code>rset</code> object, when paired with
-the model definitions, can be used to generate the tuning/fitting
-results objects for the candidate <em>ensemble members</em> with tune.</p>
-<p><img src='figures/submodels.png' width=500 /></p>
-<p>The package will sometimes refer to <em>sub-models</em>. An ensemble member is
-a sub-model that has actually been selected (and possibly trained) for
-use in the ensemble (via nonzero stacking coefficients, usually) that is
-not regarded as resulting from a specific model definition, where-as a
-sub-model is an untrained candidate ensemble member.</p>
-<p>Sub-models first come together in a <code>data_stack</code> object through the
-<code><a href='add_candidates.html'>add_candidates()</a></code> function. Principally, these objects are just
-<a href='https://tibble.tidyverse.org/'>tibbles</a>, where the first column gives
-the true outcome in the assessment set, and the remaining columns give
-the predictions from each candidate ensemble member. (When the outcome
-is numeric, there’s only one column per candidate ensemble member.
-Classification requires as many columns per candidate as there are
-levels in the outcome variable.) They also bring along a few extra
-attributes to keep track of model definitions.</p>
-<p><img src='figures/data_stack.png' width=500 /></p>
-<p>Then, the data stack can be evaluated using <code><a href='blend_predictions.html'>blend_predictions()</a></code> to
-determine to how best to combine the outputs from each of the candidate
-member models.</p>
-<p>Note that the fitting process is not sensitive to model definition
-membership. That is, while fitting an ensemble from a stack, the
-components are regarded as candidate ensemble members rather than as
-sub-models.</p>
-<p>The outputs of each member are likely highly correlated. Thus, depending
-on the degree of regularization you choose, the coefficients for the
-inputs of (possibly) many of the members will zero out—their predictions
-will have no influence on the final output, and those terms will thus be
-thrown out.</p>
-<p><img src='figures/coefs.png' width=500 /></p>
-<p>These stacking coefficients decide then which sub-models will be
-ensemble members—sub-models with non-zero stacking coefficients are then
-fitted, altogether making up a <code>model_stack</code> object.</p>
-<p><img src='figures/class_model_stack.png' width=500 /></p>
-<p>This model stack object, outputted from <code><a href='fit_members.html'>fit_members()</a></code>, is ready to
-predict on new data!</p>
-<p>At a high level, the process follows these steps:</p>
-<p><img src='figures/outline.png' width=500 /></p>
-<p>The API for the package closely mirrors these ideas. See the <code>basics</code>
-vignette for an example of how this grammar is implemented!</p>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p><strong>Maintainer</strong>: Simon Couch <a href='mailto:simonpatrickcouch@gmail.com'>simonpatrickcouch@gmail.com</a></p>
-<p>Authors:</p><ul>
-<li><p>Max Kuhn <a href='mailto:max@rstudio.com'>max@rstudio.com</a></p></li>
-</ul>
-
-<p>Other contributors:</p><ul>
-<li><p>RStudio [copyright holder]</p></li>
-</ul>
-
-
+    <p>Note that the data included with the <code>stacks</code> package is not necessarily
+a representative or unbiased subset of the complete dataset, and is only
+for demonstrative purposes.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

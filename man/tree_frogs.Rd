@@ -3,7 +3,7 @@
 \docType{data}
 \name{tree_frogs}
 \alias{tree_frogs}
-\title{Tree frog embryo hatching}
+\title{Tree frog embryo hatching data}
 \format{
 A data frame with 1212 rows and 6 variables:
 \describe{
