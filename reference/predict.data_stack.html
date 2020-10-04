@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Apply a stacked_ensemble to create different types of predictions. — predict.data_stack • stacks</title>
+<title>Predicting with a model stack — predict.data_stack • stacks</title>
 
 
 <!-- jquery -->
@@ -42,8 +42,10 @@
 
 
 
-<meta property="og:title" content="Apply a stacked_ensemble to create different types of predictions. — predict.data_stack" />
-<meta property="og:description" content="Apply a stacked_ensemble to create different types of predictions." />
+<meta property="og:title" content="Predicting with a model stack — predict.data_stack" />
+<meta property="og:description" content="To predict with a stacked ensemble, the data stack must be evaluated
+with blend_predictions() and its member models fitted with
+fit_members() to predict on new data." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -125,13 +127,15 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Apply a stacked_ensemble to create different types of predictions.</h1>
+    <h1>Predicting with a model stack</h1>
     
     <div class="hidden name"><code>predict.data_stack.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Apply a stacked_ensemble to create different types of predictions.</p>
+    <p>To predict with a stacked ensemble, the data stack must be evaluated
+with <code><a href='blend_predictions.html'>blend_predictions()</a></code> and its member models fitted with
+<code><a href='fit_members.html'>fit_members()</a></code> to predict on new data.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for data_stack</span>
