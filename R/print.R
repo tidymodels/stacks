@@ -128,7 +128,7 @@ top_coefs <- function(x, penalty = x$penalty$penalty, n = 10) {
 print_top_coefs <- function(x, penalty = x$penalty$penalty, n = 10, digits = 3) {
   res <- top_coefs(x, penalty = penalty, n = n)
   
-  msg <- paste0("\nThe ", n, " highest weighted member",
+  msg <- paste0("\nThe ", nrow(res), " highest weighted member",
                if (x$mode == "regression") {"s"} else {" classes"},
                " are:")
   rlang::inform(msg)
