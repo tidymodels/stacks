@@ -1,4 +1,4 @@
-#' Tree frog embryo hatching
+#' Tree frog embryo hatching data
 #'
 #' @description 
 #' A dataset containing experimental results on hatching behavior of

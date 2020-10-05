@@ -238,25 +238,28 @@ add_candidates <- function(data_stack, candidates,
 
 # logs which columns in the data stack came from which candidates
 log_resample_cols <- function(stack, candidate_cols, name) {
-  new_cols <- colnames(candidate_cols)
+  new_cols <- 
+    colnames(candidate_cols)[colnames(candidate_cols) %in% colnames(stack)]
   
   cols_map <- attr(stack, "cols_map")
-  cols_map[[name]] <- new_cols[2:length(new_cols)]
+  cols_map[[name]] <- new_cols[new_cols != attributes(stack)$outcome]
   attr(stack, "cols_map") <- cols_map
   
   stack
 }
 
-# errors if candidate columns are perfectly collinear with existing columns
+# warns if candidate columns are perfectly collinear with existing columns
 rm_duplicate_cols <- function(df) {
   exclude <- character(0)
   exclude <- c(exclude, names(df[duplicated(purrr::map(df, c))]))
   
   if (length(exclude) > 0) {
-    glue_stop(
+    glue_warn(
       "Predictions from the candidates {list(exclude)} were identical to ",
-      "those from existing candidates in the data stack."
+      "those from existing candidates and were removed from the data stack."
     )
+    
+    df <- df %>% dplyr::select(-exclude)
   }
   
   df

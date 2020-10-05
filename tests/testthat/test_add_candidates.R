@@ -156,7 +156,7 @@ test_that("add_candidates errors informatively with bad arguments", {
   
   reg_res_lr_renamed <- reg_res_lr
   
-  expect_error(
+  expect_warning(
     stacks() %>% add_candidates(reg_res_lr) %>% add_candidates(reg_res_lr_renamed),
     "were identical to those"
   )

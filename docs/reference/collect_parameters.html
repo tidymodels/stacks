@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Fit model stack members — fit_members • stacks</title>
+<title>Collect candidate parameters and stacking coefficients — collect_parameters • stacks</title>
 
 
 <!-- jquery -->
@@ -42,8 +42,11 @@
 
 
 
-<meta property="og:title" content="Fit model stack members — fit_members" />
-<meta property="og:description" content="Fit model stack members" />
+<meta property="og:title" content="Collect candidate parameters and stacking coefficients — collect_parameters" />
+<meta property="og:description" content="A function to help situate candidates within a stack. Takes in a data
+stack or model stack and candidate name and returns a tibble mapping the
+candidate/member names to their hyperparameters (and, if a model stack,
+to their stacking coefficients as well)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -131,29 +134,42 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Fit model stack members</h1>
+    <h1>Collect candidate parameters and stacking coefficients</h1>
     
-    <div class="hidden name"><code>fit_members.Rd</code></div>
+    <div class="hidden name"><code>collect_parameters.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Fit model stack members</p>
+    <p>A function to help situate candidates within a stack. Takes in a data
+stack or model stack and candidate name and returns a tibble mapping the
+candidate/member names to their hyperparameters (and, if a model stack,
+to their stacking coefficients as well).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>fit_members</span>(<span class='kw'>model_stack</span>, verbose = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>collect_parameters</span>(<span class='kw'>stack</span>, <span class='kw'>candidates</span>, <span class='kw'>...</span>)
+
+<span class='co'># S3 method for default</span>
+<span class='fu'>collect_parameters</span>(<span class='kw'>stack</span>, <span class='kw'>candidates</span>, <span class='kw'>...</span>)
+
+<span class='co'># S3 method for data_stack</span>
+<span class='fu'>collect_parameters</span>(<span class='kw'>stack</span>, <span class='kw'>candidates</span>, <span class='kw'>...</span>)
+
+<span class='co'># S3 method for model_stack</span>
+<span class='fu'>collect_parameters</span>(<span class='kw'>stack</span>, <span class='kw'>candidates</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>model_stack</th>
-      <td><p>A <code>model_stack</code> object outputted by <code><a href='blend_predictions.html'>blend_predictions()</a></code> or
-<code>fit_members()</code></p></td>
+      <th>stack</th>
+      <td><p>A <code>data_stack</code> or <code>model_stack</code> object.</p></td>
     </tr>
     <tr>
-      <th>verbose</th>
-      <td><p>A logical for logging results as they are generated. Despite
-this argument, warnings and errors are always shown.</p></td>
+      <th>candidates</th>
+      <td><p>The name of the candidates to collect parameters on.
+This will either be the <code>name</code> argument supplied to <code><a href='add_candidates.html'>add_candidates()</a></code> or,
+if not supplied, the name of the object supplied to the <code>candidates</code>
+argument in <code><a href='add_candidates.html'>add_candidates()</a></code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -163,9 +179,7 @@ this argument, warnings and errors are always shown.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>model_stack</code> object with a subclass inherited from the chosen
-<code>*_stack</code> method---this fitted model contains the
-necessary components to predict on new data.</p>
+    <p>A <code>tibble</code> with information on member names and hyperparameters.</p>
     <h2 class="hasAnchor" id="example-data"><a class="anchor" href="#example-data"></a>Example Data</h2>
 
     
@@ -206,81 +220,67 @@ fitting <code>hatched</code> (whether or not the embryos hatched in response
 to the stimulus) using most all of the other variables as predictors.</p>
 <p>See <code><a href='example_data.html'>?example_data</a></code> to learn more about these objects, as well as browse
 the source code that generated them.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other core verbs: 
-<code><a href='add_candidates.html'>add_candidates</a>()</code>,
-<code><a href='blend_predictions.html'>blend_predictions</a>()</code>,
-<code><a href='stacks.html'>stacks</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='co'># see the "Example Data" section above for</span>
 <span class='co'># clarification on the objects used in these examples!</span>
 
-<span class='co'># put together a data stack</span>
+<span class='co'># put together a data stack using</span>
+<span class='co'># tuning results for regression models</span>
 <span class='kw'>reg_st</span> <span class='op'>&lt;-</span> 
   <span class='fu'><a href='stacks.html'>stacks</a></span>() <span class='op'>%&gt;%</span>
   <span class='fu'><a href='add_candidates.html'>add_candidates</a></span>(<span class='kw'>reg_res_lr</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='add_candidates.html'>add_candidates</a></span>(<span class='kw'>reg_res_svm</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span>(<span class='kw'>reg_res_sp</span>)
+  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span>(<span class='kw'>reg_res_sp</span>, <span class='st'>"spline"</span>)
   
 <span class='kw'>reg_st</span>
 </div><div class='output co'>#&gt; # A data stack with 3 model definitions and 15 candidate members:
 #&gt; #   reg_res_lr: 1 sub-model
 #&gt; #   reg_res_svm: 5 sub-models
-#&gt; #   reg_res_sp: 9 sub-models
-#&gt; # Outcome: latency (numeric)</div><div class='input'>
-<span class='co'># evaluate the data stack and fit the member models</span>
-<span class='kw'>reg_st</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span>() <span class='op'>%&gt;%</span>
-  <span class='fu'>fit_members</span>()
-</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'>Out of 15 possible candidates, the ensemble contains 4 members.</span></div><div class='output co'>#&gt; <span class='message'>The highest weighted members are:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 3</span><span>
-#&gt;   member       type       weight
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> reg_res_svm3 svm_rbf     0.993
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> reg_res_svm4 svm_rbf     0.935
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> reg_res_svm1 svm_rbf     0.526
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> reg_res_sp9  linear_reg  0.295</div><div class='input'>  
-<span class='kw'>reg_st</span>
-</div><div class='output co'>#&gt; # A data stack with 3 model definitions and 15 candidate members:
-#&gt; #   reg_res_lr: 1 sub-model
-#&gt; #   reg_res_svm: 5 sub-models
-#&gt; #   reg_res_sp: 9 sub-models
+#&gt; #   spline: 9 sub-models
 #&gt; # Outcome: latency (numeric)</div><div class='input'>  
-<span class='co'># do the same with multinomial classification models</span>
-<span class='kw'>class_st</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='stacks.html'>stacks</a></span>() <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span>(<span class='kw'>class_res_nn</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span>(<span class='kw'>class_res_rf</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span>() <span class='op'>%&gt;%</span>
-  <span class='fu'>fit_members</span>()
-  
-<span class='kw'>class_st</span>
-</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'>Out of 22 possible candidates, the ensemble contains 4 members.</span></div><div class='output co'>#&gt; <span class='message'>Across the 3 classes, there are an average of 2 members per class.</span></div><div class='output co'>#&gt; <span class='message'>The highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 4 x 4</span><span>
-#&gt;   member                    type        weight class
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> .pred_full_class_res_nn1  mlp         20.0   full 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> .pred_mid_class_res_rf02  rand_forest  3.53  mid  
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> .pred_full_class_res_rf01 rand_forest  1.52  full 
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> .pred_full_class_res_rf09 rand_forest  0.259 full </div><div class='input'>  
-<span class='co'># ...or binomial classification models</span>
-<span class='kw'>log_st</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='stacks.html'>stacks</a></span>() <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span>(<span class='kw'>log_res_nn</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span>(<span class='kw'>log_res_rf</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span>() <span class='op'>%&gt;%</span>
-  <span class='fu'>fit_members</span>()
-  
-<span class='kw'>log_st</span>
-</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'>Out of 11 possible candidates, the ensemble contains 4 members.</span></div><div class='output co'>#&gt; <span class='message'>The highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 4 x 3</span><span>
-#&gt;   member                 type        weight
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> .pred_yes_log_res_nn1  mlp          7.20 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> .pred_yes_log_res_rf03 rand_forest  1.23 
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> .pred_yes_log_res_rf09 rand_forest  1.07 
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> .pred_yes_log_res_rf01 rand_forest  0.899</div><div class='input'><span class='co'># }</span>
-
+<span class='co'># check out the hyperparameters for some of the candidates</span>
+<span class='fu'>collect_parameters</span>(<span class='kw'>reg_st</span>, <span class='st'>"reg_res_svm"</span>)
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 3</span><span>
+#&gt;   member           cost rbf_sigma
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> reg_res_svm1 12.0      3.62</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 8</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> reg_res_svm2  0.022</span><span style='text-decoration: underline;'>1</span><span>   4.15</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 3</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> reg_res_svm3  0.215    5.07</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> reg_res_svm4  0.001</span><span style='text-decoration: underline;'>16</span><span>  9.29</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-10</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> reg_res_svm5  1.44     5.40</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 6</span><span></div><div class='input'>
+<span class='fu'>collect_parameters</span>(<span class='kw'>reg_st</span>, <span class='st'>"spline"</span>)
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 9 x 2</span><span>
+#&gt;   member    age
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> spline1    12
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> spline2     7
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> spline3     9
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> spline4    10
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> spline5     2
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> spline6    13
+#&gt; </span><span style='color: #BCBCBC;'>7</span><span> spline7     4
+#&gt; </span><span style='color: #BCBCBC;'>8</span><span> spline8     6
+#&gt; </span><span style='color: #BCBCBC;'>9</span><span> spline9    14</div><div class='input'>
+<span class='co'># blend the data stack to view the hyperparameters </span>
+<span class='co'># along with the stacking coefficients!</span>
+<span class='fu'>collect_parameters</span>(
+  <span class='kw'>reg_st</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span>(), 
+  <span class='st'>"spline"</span>
+)
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 9 x 3</span><span>
+#&gt;   member    age  coef
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> spline1    12 0    
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> spline2     7 0    
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> spline3     9 0    
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> spline4    10 0    
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> spline5     2 0    
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> spline6    13 0    
+#&gt; </span><span style='color: #BCBCBC;'>7</span><span> spline7     4 0    
+#&gt; </span><span style='color: #BCBCBC;'>8</span><span> spline8     6 0    
+#&gt; </span><span style='color: #BCBCBC;'>9</span><span> spline9    14 0.294</div><div class='input'><span class='co'># }</span>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -1,4 +1,4 @@
-#' Model predictions
+#' Predicting with a model stack
 #'
 #' Apply a model stack to create different types of predictions.
 #'
@@ -113,7 +113,12 @@ predict.model_stack <- function(object, new_data, type = NULL, members = FALSE,
   res
 }
 
-#' Apply a stacked_ensemble to create different types of predictions.
+#' Predicting with a model stack
+#' 
+#' @description 
+#' To predict with a stacked ensemble, the data stack must be evaluated 
+#' with `blend_predictions()` and its member models fitted with 
+#' `fit_members()` to predict on new data. 
 #' 
 #' @param object A data stack.
 #' @inheritParams stacks
