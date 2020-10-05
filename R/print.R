@@ -128,7 +128,7 @@ top_coefs <- function(x, penalty = x$penalty$penalty, n = 10) {
 print_top_coefs <- function(x, penalty = x$penalty$penalty, n = 10, digits = 3) {
   res <- top_coefs(x, penalty = penalty, n = n)
   
-  msg <- paste0("\nThe highest weighted member",
+  msg <- paste0("\nThe ", n, " highest weighted member",
                if (x$mode == "regression") {"s"} else {" classes"},
                " are:")
   rlang::inform(msg)
@@ -142,7 +142,7 @@ member_summary <- function(x, penalty = x$penalty$penalty) {
     dplyr::filter(terms != "(Intercept)")
   all_terms <- unique(betas$terms)
   used_betas <- dplyr::filter(betas, estimate != 0)
-  used_terms <- nrow(used_betas) - 1
+  used_terms <- nrow(used_betas)
   
   msg <- paste0("\nOut of ", length(all_terms), " possible blending coefficients, the ",
                 "ensemble used ", used_terms, ".",
