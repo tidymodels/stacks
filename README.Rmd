@@ -13,7 +13,7 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## stacks - tidy model stacking
+## stacks - tidy model stacking <a href='https://stacks.tidymodels.org'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
 stacks is an R package for model stacking that aligns with the tidymodels. Model stacking is an ensembling method that takes the outputs of many models and combines them to generate a new model—referred to as an _ensemble_ in this package—that generates predictions informed by each of its _members_.
 

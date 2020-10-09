@@ -7,6 +7,8 @@
 \alias{stacks_package}
 \title{stacks: Tidy Model Stacking Stools}
 \description{
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+
 'stacks' provides an API for model stacking/ensembling that
     aligns with functionality from the 'tidymodels' packages. The 
     package contains functions that combine fitted resampling objects to form 

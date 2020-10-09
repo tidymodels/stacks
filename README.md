@@ -10,7 +10,7 @@ status](https://www.r-pkg.org/badges/version/stacks)](https://CRAN.R-project.org
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-blue.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
-## stacks - tidy model stacking
+## stacks - tidy model stacking <a href='https://stacks.tidymodels.org'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
 stacks is an R package for model stacking that aligns with the
 tidymodels. Model stacking is an ensembling method that takes the
@@ -29,7 +29,8 @@ The process goes something like this:
 2.  Initialize a `data_stack` object with `stacks()`  
 3.  Iteratively add candidate ensemble members to the `data_stack` with
     `add_candidates()`  
-4.  Evaluate how to combine their predictions with `blend_predictions()`  
+4.  Evaluate how to combine their predictions with
+    `blend_predictions()`  
 5.  Fit candidate ensemble members with non-zero stacking coefficients
     with `fit_members()`  
 6.  Predict on new data with `predict()`
@@ -81,9 +82,9 @@ attributes to keep track of model definitions.
 
 ![](man/figures/data_stack.png)
 
-Then, the data stack can be evaluated using `blend_predictions()` to determine
-to how best to combine the outputs from each of the candidate member
-models.
+Then, the data stack can be evaluated using `blend_predictions()` to
+determine to how best to combine the outputs from each of the candidate
+member models.
 
 Note that the fitting process is not sensitive to model definition
 membership. That is, while fitting an ensemble from a stack, the
