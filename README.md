@@ -135,3 +135,9 @@ to abide by its terms.
   - Check out further details on [contributing guidelines for tidymodels
     packages](https://www.tidymodels.org/contribute/) and [how to get
     help](https://www.tidymodels.org/help/).
+
+In the stacks package, some test objects take too long to build with
+every commit. If your contribution changes the structure of `data_stack`
+or `model_stacks` objects, please regenerate these test objects by
+running the scripts in `man-roxygen/example_models.Rmd`, including those
+with chunk options `eval = FALSE`.
