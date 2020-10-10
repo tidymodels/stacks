@@ -237,13 +237,17 @@ the source code that generated them.</p>
 <span class='va'>reg_st</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>fit_members</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'>Out of 15 possible candidates, the ensemble contains 4 members.</span></div><div class='output co'>#&gt; <span class='message'>The highest weighted members are:</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 4 x 3</span><span>
+</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Out of 15 possible blending coefficients, the ensemble used 5.</span>
+#&gt; <span class='message'>Lasso penalty: 0.1.</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>The 5 highest weighted members are:</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 3</span><span>
 #&gt;   member       type       weight
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> reg_res_svm3 svm_rbf     0.993
-#&gt; </span><span style='color: #555555;'>2</span><span> reg_res_svm4 svm_rbf     0.935
-#&gt; </span><span style='color: #555555;'>3</span><span> reg_res_svm1 svm_rbf     0.526
-#&gt; </span><span style='color: #555555;'>4</span><span> reg_res_sp9  linear_reg  0.295</div><div class='input'>  
+#&gt; </span><span style='color: #555555;'>1</span><span> reg_res_svm3 svm_rbf     0.987
+#&gt; </span><span style='color: #555555;'>2</span><span> reg_res_svm4 svm_rbf     0.640
+#&gt; </span><span style='color: #555555;'>3</span><span> reg_res_svm1 svm_rbf     0.405
+#&gt; </span><span style='color: #555555;'>4</span><span> reg_res_sp9  linear_reg  0.294
+#&gt; </span><span style='color: #555555;'>5</span><span> reg_res_svm5 svm_rbf     0.293</div><div class='input'>  
 <span class='va'>reg_st</span>
 </div><div class='output co'>#&gt; # A data stack with 3 model definitions and 15 candidate members:
 #&gt; #   reg_res_lr: 1 sub-model
@@ -259,7 +263,10 @@ the source code that generated them.</p>
   <span class='fu'>fit_members</span><span class='op'>(</span><span class='op'>)</span>
   
 <span class='va'>class_st</span>
-</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'>Out of 22 possible candidates, the ensemble contains 4 members.</span></div><div class='output co'>#&gt; <span class='message'>Across the 3 classes, there are an average of 2 members per class.</span></div><div class='output co'>#&gt; <span class='message'>The highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 4</span><span>
+</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Out of 22 possible blending coefficients, the ensemble used 4.</span>
+#&gt; <span class='message'>Lasso penalty: 0.01.</span></div><div class='output co'>#&gt; <span class='message'>Across the 3 classes, there are an average of 2 coefficients per class.</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>The 4 highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 4</span><span>
 #&gt;   member                    type        weight class
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> .pred_full_class_res_nn1  mlp         20.0   full 
@@ -275,13 +282,15 @@ the source code that generated them.</p>
   <span class='fu'>fit_members</span><span class='op'>(</span><span class='op'>)</span>
   
 <span class='va'>log_st</span>
-</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'>Out of 11 possible candidates, the ensemble contains 4 members.</span></div><div class='output co'>#&gt; <span class='message'>The highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 3</span><span>
+</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Out of 11 possible blending coefficients, the ensemble used 3.</span>
+#&gt; <span class='message'>Lasso penalty: 0.1.</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>The 3 highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt;   member                 type        weight
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> .pred_yes_log_res_nn1  mlp          7.20 
-#&gt; </span><span style='color: #555555;'>2</span><span> .pred_yes_log_res_rf03 rand_forest  1.23 
-#&gt; </span><span style='color: #555555;'>3</span><span> .pred_yes_log_res_rf09 rand_forest  1.07 
-#&gt; </span><span style='color: #555555;'>4</span><span> .pred_yes_log_res_rf01 rand_forest  0.899</div><div class='input'><span class='co'># }</span>
+#&gt; </span><span style='color: #555555;'>1</span><span> .pred_yes_log_res_nn1  mlp          5.08 
+#&gt; </span><span style='color: #555555;'>2</span><span> .pred_yes_log_res_rf03 rand_forest  1.00 
+#&gt; </span><span style='color: #555555;'>3</span><span> .pred_yes_log_res_rf01 rand_forest  0.287</div><div class='input'><span class='co'># }</span>
 
 </div></span></pre>
   </div>

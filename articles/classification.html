@@ -213,18 +213,19 @@
   <span class="fu"><a href="../reference/fit_members.html">fit_members</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="va">tree_frogs_model_st</span>
-<span class="co">#&gt; # A tibble: 9 x 4</span>
-<span class="co">#&gt;   member                       type        weight class</span>
-<span class="co">#&gt;   &lt;chr&gt;                        &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;</span>
-<span class="co">#&gt; 1 .pred_full_rand_forest_res09 rand_forest 6.88   full </span>
-<span class="co">#&gt; 2 .pred_mid_rand_forest_res02  rand_forest 3.46   mid  </span>
-<span class="co">#&gt; 3 .pred_full_rand_forest_res06 rand_forest 0.989  full </span>
-<span class="co">#&gt; 4 .pred_full_rand_forest_res04 rand_forest 0.709  full </span>
-<span class="co">#&gt; 5 .pred_full_rand_forest_res01 rand_forest 0.120  full </span>
-<span class="co">#&gt; 6 .pred_mid_nnet_res07         mlp         0.0805 low  </span>
-<span class="co">#&gt; 7 .pred_full_rand_forest_res08 rand_forest 0.0675 full </span>
-<span class="co">#&gt; 8 .pred_mid_rand_forest_res04  rand_forest 0.0481 mid  </span>
-<span class="co">#&gt; 9 .pred_full_rand_forest_res02 rand_forest 0.0168 full</span></pre></div>
+<span class="co">#&gt; # A tibble: 10 x 4</span>
+<span class="co">#&gt;    member                       type        weight class</span>
+<span class="co">#&gt;    &lt;chr&gt;                        &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;</span>
+<span class="co">#&gt;  1 .pred_full_nnet_res09        mlp          22.9  low  </span>
+<span class="co">#&gt;  2 .pred_mid_rand_forest_res02  rand_forest  12.9  mid  </span>
+<span class="co">#&gt;  3 .pred_mid_rand_forest_res06  rand_forest  11.6  low  </span>
+<span class="co">#&gt;  4 .pred_mid_rand_forest_res04  rand_forest   7.99 mid  </span>
+<span class="co">#&gt;  5 .pred_full_rand_forest_res09 rand_forest   6.15 full </span>
+<span class="co">#&gt;  6 .pred_mid_rand_forest_res03  rand_forest   5.95 low  </span>
+<span class="co">#&gt;  7 .pred_full_nnet_res01        mlp           4.70 low  </span>
+<span class="co">#&gt;  8 .pred_mid_nnet_res07         mlp           3.98 low  </span>
+<span class="co">#&gt;  9 .pred_mid_nnet_res03         mlp           3.33 mid  </span>
+<span class="co">#&gt; 10 .pred_full_rand_forest_res06 rand_forest   3.31 full</span></pre></div>
 <p>To make sure that we have the right trade-off between minimizing the number of members and optimizing performance, the <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot()</a></code> method comes in hand:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit">
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
