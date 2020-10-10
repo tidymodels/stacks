@@ -139,15 +139,20 @@ blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1), verbose = FALS
       control = tune::control_grid(save_pred = TRUE, extract = get_models)
     )
   
+  metric <- tune::.get_tune_metric_names(candidates)[1]
+  best_param <- tune::select_best(candidates, metric = metric)
   coefs <-
     model_spec %>%
-    tune::finalize_model(tune::select_best(candidates)) %>%
+    tune::finalize_model(best_param) %>%
     generics::fit(formula = preds_formula, data = dat)
+  
+  
   
   model_stack <- 
     structure(
       list(model_defs = attr(data_stack, "model_defs"),
            coefs = coefs,
+           penalty = list(penalty = best_param$penalty, metric = metric),
            metrics = glmnet_metrics(candidates),
            equations = get_expressions(coefs),
            cols_map = attr(data_stack, "cols_map"),
@@ -196,7 +201,7 @@ check_penalty <- function(x) {
     glue_stop("Please supply one or more penalty values.")
   }
   
-  if (any(x <= 0)) {
+  if (any(x < 0)) {
     glue_stop("Please supply only nonnegative values to the penalty argument.")
   }
 }

@@ -37,7 +37,7 @@ autoplot.linear_stack <- function(object, type = "performance", n = Inf, ...) {
   } else if (type == "performance") {
     p <- performance_plot(object)
   } else {
-    p <- weights_plot(object, n)
+    p <- weights_plot(object, penalty = object$penalty$penalty, n = n)
   }
   p
 }
@@ -76,9 +76,10 @@ performance_plot <- function(x) {
   p
 }
 
-weights_plot <- function(x, n = Inf) {
-  dat <- top_coefs(x, n) %>%
-    dplyr::select(terms = member, model = type, weight, class)
+weights_plot <- function(x, penalty = x$penalty$penalty, n = Inf) {
+
+  dat <- top_coefs(x, penalty = penalty, n = n) %>%
+    dplyr::rename(terms = member, model = type)
   
   if (any(names(dat) == "class")) {
     dat_order <- 
@@ -102,7 +103,7 @@ weights_plot <- function(x, n = Inf) {
     ggplot2::ylab("Member") + 
     ggplot2::ggtitle(paste("penalty =", format(x$coefs$spec$args$penalty, digits = 3))) + 
     ggplot2::geom_vline(xintercept = 0) + 
-    ggplot2::xlab("Member Weight")
+    ggplot2::xlab("Blending Coefficient")
   
   if (any(names(dat) == "class")) {
    p <- p + ggplot2::facet_wrap(~ class) 

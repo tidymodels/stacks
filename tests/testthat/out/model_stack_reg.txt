@@ -1,16 +1,19 @@
 > st_reg_1_
 Message: -- A stacked ensemble model -------------------------------------
 
-Message: Out of 5 possible candidates, the ensemble contains 3 members.
+Message: 
+Out of 5 possible blending coefficients, the ensemble used 3.
+Lasso penalty: 0.1.
 
-Message: The highest weighted members are:
+Message: 
+The 3 highest weighted members are:
 
 # A tibble: 3 x 3
   member       type    weight
   <chr>        <chr>    <dbl>
 1 reg_res_svm3 svm_rbf  1.44 
-2 reg_res_svm1 svm_rbf  0.777
-3 reg_res_svm4 svm_rbf  0.368
+2 reg_res_svm1 svm_rbf  0.681
+3 reg_res_svm4 svm_rbf  0.317
 
 Message: 
 Members have not yet been fitted with `fit_members()`.
