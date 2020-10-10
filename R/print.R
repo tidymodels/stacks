@@ -75,7 +75,7 @@ print.butchered_linear_stack <- function(x, ...) {
   rlang::inform("\nPrint methods for butchered model stacks are disabled.")
 }
 
-top_coefs <- function(x, penalty = x$coefs$spec$args$penalty, n = 10) {
+top_coefs <- function(x, penalty = x$penalty$penalty, n = 10) {
   betas <- 
     .get_glmn_coefs(x$coefs$fit, penalty = penalty) %>% 
     dplyr::filter(estimate != 0 & terms != "(Intercept)")
@@ -125,7 +125,7 @@ top_coefs <- function(x, penalty = x$coefs$spec$args$penalty, n = 10) {
   res
 }
 
-print_top_coefs <- function(x, penalty = x$coefs$spec$args$penalty, n = 10, digits = 3) {
+print_top_coefs <- function(x, penalty = x$penalty$penalty, n = 10, digits = 3) {
   res <- top_coefs(x, penalty = penalty, n = n)
   
   msg <- paste0("\nThe ", nrow(res), " highest weighted member",
@@ -136,7 +136,7 @@ print_top_coefs <- function(x, penalty = x$coefs$spec$args$penalty, n = 10, digi
   invisible(NULL)
 }
 
-member_summary <- function(x, penalty = x$coefs$spec$args$penalty) {
+member_summary <- function(x, penalty = x$penalty$penalty) {
   betas <- 
     .get_glmn_coefs(x$coefs$fit, penalty = penalty) %>% 
     dplyr::filter(terms != "(Intercept)")
@@ -146,7 +146,7 @@ member_summary <- function(x, penalty = x$coefs$spec$args$penalty) {
   
   msg <- paste0("\nOut of ", length(all_terms), " possible blending coefficients, the ",
                 "ensemble used ", used_terms, ".",
-                "\nLasso penalty: ", x$coefs$spec$args$penalty, ".")
+                "\nLasso penalty: ", x$penalty$penalty, ".")
   rlang::inform(msg)
   if (any(names(betas) == "class")) {
     n_classes <- length(unique(betas$class))
