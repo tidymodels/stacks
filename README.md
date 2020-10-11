@@ -10,7 +10,7 @@ status](https://www.r-pkg.org/badges/version/stacks)](https://CRAN.R-project.org
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-blue.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
-## stacks - tidy model stacking <a href='https://stacks.tidymodels.org'><img src='man/figures/logo.png' align="right" height="139" /></a>
+## stacks - tidy model stacking <a href='https://stacks.tidymodels.org'><img src='man/figures/logo.png' align="right" height="280" /></a>
 
 stacks is an R package for model stacking that aligns with the
 tidymodels. Model stacking is an ensembling method that takes the
