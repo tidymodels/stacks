@@ -122,18 +122,11 @@ blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1), verbose = FALS
       workflows::pull_workflow_fit() %>% 
       purrr::pluck("fit")
   }
-  
-  splits <- attr(data_stack, "splits")
-  if (inherits(splits[[1]], "val_split")) {
-    rs <-  rsample::bootstraps(dat, times = 20)
-  } else {
-    rs <- reconstruct_resamples(attr(data_stack, "splits"), dat)
-  }
-  
+
   candidates <- 
     preds_wf %>%
     tune::tune_grid(
-      resamples = rs,
+      resamples = rsample::bootstraps(dat),
       grid = tibble::tibble(penalty = penalty),
       metrics = metric,
       control = tune::control_grid(save_pred = TRUE, extract = get_models)
@@ -145,9 +138,7 @@ blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1), verbose = FALS
     model_spec %>%
     tune::finalize_model(best_param) %>%
     generics::fit(formula = preds_formula, data = dat)
-  
-  
-  
+
   model_stack <- 
     structure(
       list(model_defs = attr(data_stack, "model_defs"),
@@ -166,27 +157,6 @@ blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1), verbose = FALS
     )
   
   if (model_stack_constr(model_stack)) {model_stack}
-}
-
-# makes an rsample-like object out of its splits
-# and replaces the training data with the stack data
-reconstruct_resamples <- function(splits, data) {
-  res <- splits
-  
-  res[["splits"]] <-
-    purrr::map(
-      res[["splits"]],
-      function(x) {x[["data"]] <- data; x}
-    )
-  
-  new_classes <- c(attr(splits, "rset_info")[["att"]][["class"]], 
-                   "rset", 
-                   class(res))
-  
-  
-  res <- safe_attr(res, attr(splits, "rset_info")[["att"]])
-  
-  structure(res, class = new_classes)
 }
 
 check_penalty <- function(x) {
