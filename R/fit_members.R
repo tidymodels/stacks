@@ -89,6 +89,7 @@ fit_members <- function(model_stack, verbose = FALSE, ...) {
     tibble::enframe(model_stack[["model_metrics"]]) %>%
     tidyr::unnest(cols = value) %>%
     dplyr::mutate(
+      .config = if (".config" %in% colnames(.)) {.config} else {NA_character_},
       .config = gsub(
         pattern = c("Model|Recipe"),
         replacement = "",
