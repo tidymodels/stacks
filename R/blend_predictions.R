@@ -1,14 +1,20 @@
 #' Evaluate a data stack
 #'
-#' Evaluates a stack by performing regularization on the out-of-sample
-#' predictions to determine coefficients for the combining of predictions
-#' from ensemble members.
+#' @description 
+#' Evaluates a data stack by fitting a regularized model on the out-of-sample
+#' predictions from each candidate member. This process determines the
+#' stacking coefficients of the model stack—candidates with non-zero stacking
+#' coefficients are model stack members.
 #' 
 #' @param data_stack A `data_stack` object
 #' @param penalty A numeric vector of proposed penalty values used in member
 #'   weighting. Higher penalties will generally result in fewer members 
 #'   being included in the resulting model stack, and vice versa. This argument
 #'   will be tuned on unless a single penalty value is given.
+#' @param non_negative A logical giving whether to restrict stacking 
+#'   coefficients to non-negative values. If TRUE (default), 0 is passed as 
+#'   the `lower.limits` argument to `glmnet::glmnet` in fitting the
+#'   model on the data stack. Otherwise, `-Inf`.
 #' @param verbose A logical for logging results as they are generated. Despite 
 #'   this argument, warnings and errors are always shown.
 #' @inheritParams add_candidates
@@ -62,10 +68,12 @@
 #' 
 #' @family core verbs
 #' @export
-blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1), verbose = FALSE, ...) {
+blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1), 
+                              non_negative = TRUE, verbose = FALSE, ...) {
   check_inherits(data_stack, "data_stack")
   check_blend_data_stack(data_stack)
   check_penalty(penalty)
+  check_inherits(non_negative, "logical")
   check_inherits(verbose, "logical")
   
   outcome <- attr(data_stack, "outcome")
@@ -77,10 +85,12 @@ blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1), verbose = FALS
   
   dat <- tibble::as_tibble(data_stack)
   
+  ll <- if (non_negative) {0} else {-Inf}
+  
   if (attr(data_stack, "mode") == "regression") {
     model_spec <- 
       parsnip::linear_reg(penalty = tune::tune(), mixture = 1) %>%
-      parsnip::set_engine("glmnet", lower.limits = 0)
+      parsnip::set_engine("glmnet", lower.limits = ll)
     
     metric <- yardstick::metric_set(yardstick::rmse)
     
@@ -96,12 +106,12 @@ blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1), verbose = FALS
     if (length(lvls) == 2) {
       model_spec <-
         parsnip::logistic_reg(penalty = tune::tune(), mixture = 1) %>% 
-        parsnip::set_engine("glmnet", lower.limits = 0) %>% 
+        parsnip::set_engine("glmnet", lower.limits = ll) %>% 
         parsnip::set_mode("classification")
     } else {
       model_spec <-
         parsnip::multinom_reg(penalty = tune::tune(), mixture = 1) %>% 
-        parsnip::set_engine("glmnet", lower.limits = 0) %>% 
+        parsnip::set_engine("glmnet", lower.limits = ll) %>% 
         parsnip::set_mode("classification")
     }
     metric <- yardstick::metric_set(yardstick::roc_auc)

@@ -4,7 +4,13 @@
 \alias{blend_predictions}
 \title{Evaluate a data stack}
 \usage{
-blend_predictions(data_stack, penalty = 10^(-6:-1), verbose = FALSE, ...)
+blend_predictions(
+  data_stack,
+  penalty = 10^(-6:-1),
+  non_negative = TRUE,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{data_stack}{A \code{data_stack} object}
@@ -13,6 +19,11 @@ blend_predictions(data_stack, penalty = 10^(-6:-1), verbose = FALSE, ...)
 weighting. Higher penalties will generally result in fewer members
 being included in the resulting model stack, and vice versa. This argument
 will be tuned on unless a single penalty value is given.}
+
+\item{non_negative}{A logical giving whether to restrict stacking
+coefficients to non-negative values. If TRUE (default), 0 is passed as
+the \code{lower.limits} argument to \code{glmnet::glmnet} in fitting the
+model on the data stack. Otherwise, \code{-Inf}.}
 
 \item{verbose}{A logical for logging results as they are generated. Despite
 this argument, warnings and errors are always shown.}
@@ -25,9 +36,10 @@ same elements as \code{data_stack}s, the primary data objects shift from the
 assessment set predictions to the member models.
 }
 \description{
-Evaluates a stack by performing regularization on the out-of-sample
-predictions to determine coefficients for the combining of predictions
-from ensemble members.
+Evaluates a data stack by fitting a regularized model on the out-of-sample
+predictions from each candidate member. This process determines the
+stacking coefficients of the model stack—candidates with non-zero stacking
+coefficients are model stack members.
 }
 \section{Example Data}{
 
