@@ -54,9 +54,26 @@ test_that("blend_predictions can handle many resample types", {
 })
 
 test_that("blend_predictions errors informatively with bad arguments", {
+  skip_if_not_installed("yardstick")
+  
   expect_error(
     st_reg_1__ %>% blend_predictions(),
     "needs to inherit from `data_stack`, but its class is"
+  )
+  
+  expect_error(
+    st_reg_1 %>% blend_predictions(non_negative = "Yup"),
+    "needs to inherit from `logical`, but its class is"
+  )
+  
+  expect_error(
+    st_reg_1 %>% blend_predictions(metric = "Yup"),
+    "needs to inherit from `metric_set`, but its class is"
+  )
+  
+  expect_error(
+    st_reg_1 %>% blend_predictions(metric = yardstick::accuracy),
+    "needs to inherit from `metric_set`, but its class is"
   )
   
   expect_error(
@@ -92,5 +109,26 @@ test_that("blend_predictions errors informatively with bad arguments", {
   expect_error(
     st_reg_1 %>% blend_predictions(numeric(0)),
     "Please supply one or more penalty values."
+  )
+})
+
+test_that("blend_predictions is sensitive to the non_negative argument", {
+  neg <- st_reg_1 %>% blend_predictions(non_negative = FALSE)
+  
+  expect_true(
+    nrow(.get_glmn_coefs(st_reg_1_$coefs$fit)) <=
+    nrow(.get_glmn_coefs(neg$coefs$fit))
+  )
+})
+
+test_that("blend_predictions is sensitive to the metric argument", {
+  skip_if_not_installed("yardstick")
+  library(yardstick)
+  
+  metric_1 <- st_reg_1 %>% blend_predictions(metric = metric_set(rmse))
+  metric_2 <- st_reg_1 %>% blend_predictions(metric = metric_set(rmse, mase))
+  
+  expect_true(
+    nrow(metric_1$metrics) <= nrow(metric_2$metrics)
   )
 })
