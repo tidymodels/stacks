@@ -50,9 +50,10 @@
 
 
 <meta property="og:title" content="Evaluate a data stack — blend_predictions" />
-<meta property="og:description" content="Evaluates a stack by performing regularization on the out-of-sample
-predictions to determine coefficients for the combining of predictions
-from ensemble members." />
+<meta property="og:description" content="Evaluates a data stack by fitting a regularized model on the out-of-sample
+predictions from each candidate member. This process determines the
+stacking coefficients of the model stack—candidates with non-zero stacking
+coefficients are model stack members." />
 <meta property="og:image" content="https://stacks.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -141,12 +142,19 @@ from ensemble members." />
     </div>
 
     <div class="ref-description">
-    <p>Evaluates a stack by performing regularization on the out-of-sample
-predictions to determine coefficients for the combining of predictions
-from ensemble members.</p>
+    <p>Evaluates a data stack by fitting a regularized model on the out-of-sample
+predictions from each candidate member. This process determines the
+stacking coefficients of the model stack—candidates with non-zero stacking
+coefficients are model stack members.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>blend_predictions</span><span class='op'>(</span><span class='va'>data_stack</span>, penalty <span class='op'>=</span> <span class='fl'>10</span><span class='op'>^</span><span class='op'>(</span><span class='op'>-</span><span class='fl'>6</span><span class='op'>:</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span>, verbose <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>blend_predictions</span><span class='op'>(</span>
+  <span class='va'>data_stack</span>,
+  penalty <span class='op'>=</span> <span class='fl'>10</span><span class='op'>^</span><span class='op'>(</span><span class='op'>-</span><span class='fl'>6</span><span class='op'>:</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span>,
+  non_negative <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -161,6 +169,13 @@ from ensemble members.</p>
 weighting. Higher penalties will generally result in fewer members
 being included in the resulting model stack, and vice versa. This argument
 will be tuned on unless a single penalty value is given.</p></td>
+    </tr>
+    <tr>
+      <th>non_negative</th>
+      <td><p>A logical giving whether to restrict stacking
+coefficients to non-negative values. If TRUE (default), 0 is passed as
+the <code>lower.limits</code> argument to <code><a href='https://glmnet.stanford.edu/reference/glmnet.html'>glmnet::glmnet</a></code> in fitting the
+model on the data stack. Otherwise, <code>-Inf</code>.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
