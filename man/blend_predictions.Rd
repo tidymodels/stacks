@@ -8,6 +8,7 @@ blend_predictions(
   data_stack,
   penalty = 10^(-6:-1),
   non_negative = TRUE,
+  metric = NULL,
   verbose = FALSE,
   ...
 )
@@ -21,9 +22,13 @@ being included in the resulting model stack, and vice versa. This argument
 will be tuned on unless a single penalty value is given.}
 
 \item{non_negative}{A logical giving whether to restrict stacking
-coefficients to non-negative values. If TRUE (default), 0 is passed as
+coefficients to non-negative values. If \code{TRUE} (default), 0 is passed as
 the \code{lower.limits} argument to \code{glmnet::glmnet} in fitting the
 model on the data stack. Otherwise, \code{-Inf}.}
+
+\item{metric}{A call to \code{yardstick::metric_set()}. The metric(s) to use in
+tuning the lasso penalty on the stacking coefficients. Default values are
+determined by \code{tune::tune_grid} from the outcome class.}
 
 \item{verbose}{A logical for logging results as they are generated. Despite
 this argument, warnings and errors are always shown.}
@@ -106,11 +111,22 @@ reg_st
 reg_st \%>\%
   blend_predictions()
 
-# include fewer models by proposing
-# higher penalties
-reg_st \%>\% blend_predictions(penalty = c(.5, 1))
+# include fewer models by proposing higher penalties
+reg_st \%>\% 
+  blend_predictions(penalty = c(.5, 1))
+
+# allow for negative stacking coefficients 
+# with the non_negative argument
+reg_st \%>\% 
+  blend_predictions(non_negative = FALSE)
   
-# do the same with multinomial classification models
+# use a custom metric in tuning the lasso penalty
+library(yardstick)
+reg_st \%>\% 
+  blend_predictions(metric = metric_set(rmse))
+  
+# the process looks the same with 
+# multinomial classification models
 class_st <-
   stacks() \%>\%
   add_candidates(class_res_nn) \%>\%

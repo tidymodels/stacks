@@ -12,9 +12,12 @@
 #'   being included in the resulting model stack, and vice versa. This argument
 #'   will be tuned on unless a single penalty value is given.
 #' @param non_negative A logical giving whether to restrict stacking 
-#'   coefficients to non-negative values. If TRUE (default), 0 is passed as 
+#'   coefficients to non-negative values. If `TRUE` (default), 0 is passed as 
 #'   the `lower.limits` argument to `glmnet::glmnet` in fitting the
 #'   model on the data stack. Otherwise, `-Inf`.
+#' @param metric A call to `yardstick::metric_set()`. The metric(s) to use in 
+#'   tuning the lasso penalty on the stacking coefficients. Default values are
+#'   determined by `tune::tune_grid` from the outcome class.
 #' @param verbose A logical for logging results as they are generated. Despite 
 #'   this argument, warnings and errors are always shown.
 #' @inheritParams add_candidates
@@ -43,11 +46,22 @@
 #' reg_st %>%
 #'   blend_predictions()
 #' 
-#' # include fewer models by proposing
-#' # higher penalties
-#' reg_st %>% blend_predictions(penalty = c(.5, 1))
+#' # include fewer models by proposing higher penalties
+#' reg_st %>% 
+#'   blend_predictions(penalty = c(.5, 1))
+#' 
+#' # allow for negative stacking coefficients 
+#' # with the non_negative argument
+#' reg_st %>% 
+#'   blend_predictions(non_negative = FALSE)
 #'   
-#' # do the same with multinomial classification models
+#' # use a custom metric in tuning the lasso penalty
+#' library(yardstick)
+#' reg_st %>% 
+#'   blend_predictions(metric = metric_set(rmse))
+#'   
+#' # the process looks the same with 
+#' # multinomial classification models
 #' class_st <-
 #'   stacks() %>%
 #'   add_candidates(class_res_nn) %>%
@@ -69,11 +83,13 @@
 #' @family core verbs
 #' @export
 blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1), 
-                              non_negative = TRUE, verbose = FALSE, ...) {
+                              non_negative = TRUE, metric = NULL, 
+                              verbose = FALSE,  ...) {
   check_inherits(data_stack, "data_stack")
   check_blend_data_stack(data_stack)
   check_penalty(penalty)
   check_inherits(non_negative, "logical")
+  check_inherits(metric, "metric_set")
   check_inherits(verbose, "logical")
   
   outcome <- attr(data_stack, "outcome")
@@ -81,6 +97,7 @@ blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1),
   preds_formula <- 
     paste0(outcome, " ~ .") %>%
     as.formula()
+  
   lvls <- levels(data_stack[[outcome]])
   
   dat <- tibble::as_tibble(data_stack)
@@ -91,8 +108,6 @@ blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1),
     model_spec <- 
       parsnip::linear_reg(penalty = tune::tune(), mixture = 1) %>%
       parsnip::set_engine("glmnet", lower.limits = ll)
-    
-    metric <- yardstick::metric_set(yardstick::rmse)
     
     preds_wf <-
       workflows::workflow() %>%
@@ -114,7 +129,6 @@ blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1),
         parsnip::set_engine("glmnet", lower.limits = ll) %>% 
         parsnip::set_mode("classification")
     }
-    metric <- yardstick::metric_set(yardstick::roc_auc)
     
     preds_wf <- 
       workflows::workflow() %>%
