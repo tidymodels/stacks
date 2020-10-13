@@ -89,7 +89,9 @@ blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1),
   check_blend_data_stack(data_stack)
   check_penalty(penalty)
   check_inherits(non_negative, "logical")
-  check_inherits(metric, "metric_set")
+  if (!is.null(metric)) {
+    check_inherits(metric, "metric_set")
+  }
   check_inherits(verbose, "logical")
   
   outcome <- attr(data_stack, "outcome")
