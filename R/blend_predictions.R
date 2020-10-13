@@ -102,7 +102,7 @@ blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1),
   
   lvls <- levels(data_stack[[outcome]])
   
-  dat <- tibble::as_tibble(data_stack)
+  dat <- tibble::as_tibble(data_stack) %>% na.omit()
   
   ll <- if (non_negative) {0} else {-Inf}
   
