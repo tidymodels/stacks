@@ -9,6 +9,7 @@ blend_predictions(
   penalty = 10^(-6:-1),
   non_negative = TRUE,
   metric = NULL,
+  control = tune::control_grid(),
   verbose = FALSE,
   ...
 )
@@ -29,6 +30,11 @@ model on the data stack. Otherwise, \code{-Inf}.}
 \item{metric}{A call to \code{yardstick::metric_set()}. The metric(s) to use in
 tuning the lasso penalty on the stacking coefficients. Default values are
 determined by \code{tune::tune_grid} from the outcome class.}
+
+\item{control}{An object inheriting from \code{control_grid} to be passed to
+the model determining stacking coefficients. See \code{tune::control_grid}
+documentation for details on possible values. Note that any \code{extract}
+entry will be overwritten internally.}
 
 \item{verbose}{A logical for logging results as they are generated. Despite
 this argument, warnings and errors are always shown.}

@@ -18,6 +18,10 @@
 #' @param metric A call to `yardstick::metric_set()`. The metric(s) to use in 
 #'   tuning the lasso penalty on the stacking coefficients. Default values are
 #'   determined by `tune::tune_grid` from the outcome class.
+#' @param control An object inheriting from `control_grid` to be passed to
+#'   the model determining stacking coefficients. See `tune::control_grid`
+#'   documentation for details on possible values. Note that any `extract`
+#'   entry will be overwritten internally.
 #' @param verbose A logical for logging results as they are generated. Despite 
 #'   this argument, warnings and errors are always shown.
 #' @inheritParams add_candidates
@@ -83,7 +87,8 @@
 #' @family core verbs
 #' @export
 blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1), 
-                              non_negative = TRUE, metric = NULL, 
+                              non_negative = TRUE, metric = NULL,
+                              control = tune::control_grid(),
                               verbose = FALSE,  ...) {
   check_inherits(data_stack, "data_stack")
   check_blend_data_stack(data_stack)
@@ -92,6 +97,7 @@ blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1),
   if (!is.null(metric)) {
     check_inherits(metric, "metric_set")
   }
+  check_inherits(control, "control_grid")
   check_inherits(verbose, "logical")
   
   outcome <- attr(data_stack, "outcome")
@@ -148,6 +154,8 @@ blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1),
       workflows::pull_workflow_fit() %>% 
       purrr::pluck("fit")
   }
+  
+  control$extract <- get_models
 
   candidates <- 
     preds_wf %>%
@@ -155,7 +163,7 @@ blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1),
       resamples = rsample::bootstraps(dat),
       grid = tibble::tibble(penalty = penalty),
       metrics = metric,
-      control = tune::control_grid(save_pred = TRUE, extract = get_models)
+      control = control
     )
   
   metric <- tune::.get_tune_metric_names(candidates)[1]
