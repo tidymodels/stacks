@@ -131,6 +131,12 @@ library(yardstick)
 reg_st \%>\% 
   blend_predictions(metric = metric_set(rmse))
   
+# pass control options for stack blending
+reg_st \%>\% 
+  blend_predictions(
+    control = tune::control_grid(allow_par = TRUE)
+  )
+  
 # the process looks the same with 
 # multinomial classification models
 class_st <-
