@@ -16,6 +16,10 @@
 #' `*_stack` method---this fitted model contains the 
 #' necessary components to predict on new data.
 #' 
+#' @details 
+#' To fit members in parallel, please register a parallel backend function. 
+#' See the documentation of [foreach::foreach()] for examples.
+#' 
 #' @template note_example_data
 #' 
 #' @examples 
@@ -118,15 +122,22 @@ fit_members <- function(model_stack, verbose = FALSE, ...) {
       dplyr::full_join(metrics_dict, by = c("value" = ".config"))
   }
   
+  if (foreach::getDoParWorkers() > 1) {
+    `%do_op%` <- foreach::`%dopar%`
+  } else {
+    `%do_op%` <- foreach::`%do%`
+  }
+  
   # fit each of them
   member_fits <- 
-    purrr::map(
-      member_names,
-      fit_member,
-      wflows = model_stack[["model_defs"]],
-      members_map = members_map,
-      train_dat = dat
-    )
+    foreach::foreach(mem = member_names, .inorder = FALSE) %do_op% {
+      fit_member(
+        name = mem,
+        wflows = model_stack[["model_defs"]],
+        members_map = members_map,
+        train_dat = dat
+      )
+    }
   
   model_stack[["member_fits"]] <- 
     setNames(member_fits, member_names)

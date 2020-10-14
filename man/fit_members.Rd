@@ -23,6 +23,10 @@ necessary components to predict on new data.
 \description{
 Fit model stack members
 }
+\details{
+To fit members in parallel, please register a parallel backend function.
+See the documentation of \code{\link[foreach:foreach]{foreach::foreach()}} for examples.
+}
 \section{Example Data}{
 
 

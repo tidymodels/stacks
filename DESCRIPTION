@@ -42,7 +42,8 @@ Imports:
     cli,
     crayon,
     butcher,
-    stats
+    stats,
+    foreach
 Suggests: 
     testthat,
     covr,
