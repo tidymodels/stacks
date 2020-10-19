@@ -2,7 +2,7 @@
 Message: -- A stacked ensemble model -------------------------------------
 
 Message: 
-Out of 10 possible candidate members, the ensemble used 1.
+Out of 10 possible candidate members, the ensemble retained 1.
 Lasso penalty: 0.1.
 
 Message: 
