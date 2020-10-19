@@ -1,10 +1,21 @@
-#' Evaluate a data stack
+#' Determine stacking coefficients from a data stack
 #'
 #' @description 
-#' Evaluates a data stack by fitting a regularized model on the out-of-sample
-#' predictions from each candidate member. This process determines the
-#' stacking coefficients of the model stack—candidates with non-zero stacking
-#' coefficients are model stack members.
+#' Evaluates a data stack by fitting a regularized model on the 
+#' assessment predictions from each candidate member to predict 
+#' the true outcome.
+#' 
+#' This process determines the "stacking coefficients" of the model 
+#' stack. The stacking coefficients are used to weight the
+#' predictions from each candidate (represented by a unique column
+#' in the data stack), and are given by the betas of a LASSO model
+#' fitting the true outcome with the predictions given in the
+#' remaining columns of the data stack.
+#' 
+#' Candidates with non-zero stacking coefficients are model stack 
+#' members, and need to be trained on the full training set (rather
+#' than just the assessment set) with `fit_members()`. This function
+#' is typically used after a number of calls to `add_candidates()`.
 #' 
 #' @param data_stack A `data_stack` object
 #' @param penalty A numeric vector of proposed penalty values used in member
@@ -18,11 +29,15 @@
 #' @param metric A call to `yardstick::metric_set()`. The metric(s) to use in 
 #'   tuning the lasso penalty on the stacking coefficients. Default values are
 #'   determined by `tune::tune_grid` from the outcome class.
+#' @param control An object inheriting from `control_grid` to be passed to
+#'   the model determining stacking coefficients. See `tune::control_grid`
+#'   documentation for details on possible values. Note that any `extract`
+#'   entry will be overwritten internally.
 #' @param verbose A logical for logging results as they are generated. Despite 
 #'   this argument, warnings and errors are always shown.
 #' @inheritParams add_candidates
 #' 
-#' @return A `model_stack` object—while `model_stacks` largely contain the
+#' @return A `model_stack` object—while `model_stack`s largely contain the
 #' same elements as `data_stack`s, the primary data objects shift from the
 #' assessment set predictions to the member models.
 #' 
@@ -60,6 +75,12 @@
 #' reg_st %>% 
 #'   blend_predictions(metric = metric_set(rmse))
 #'   
+#' # pass control options for stack blending
+#' reg_st %>% 
+#'   blend_predictions(
+#'     control = tune::control_grid(allow_par = TRUE)
+#'   )
+#'   
 #' # the process looks the same with 
 #' # multinomial classification models
 #' class_st <-
@@ -83,7 +104,8 @@
 #' @family core verbs
 #' @export
 blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1), 
-                              non_negative = TRUE, metric = NULL, 
+                              non_negative = TRUE, metric = NULL,
+                              control = tune::control_grid(),
                               verbose = FALSE,  ...) {
   check_inherits(data_stack, "data_stack")
   check_blend_data_stack(data_stack)
@@ -92,6 +114,7 @@ blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1),
   if (!is.null(metric)) {
     check_inherits(metric, "metric_set")
   }
+  check_inherits(control, "control_grid")
   check_inherits(verbose, "logical")
   
   outcome <- attr(data_stack, "outcome")
@@ -148,6 +171,8 @@ blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1),
       workflows::pull_workflow_fit() %>% 
       purrr::pluck("fit")
   }
+  
+  control$extract <- get_models
 
   candidates <- 
     preds_wf %>%
@@ -155,7 +180,7 @@ blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1),
       resamples = rsample::bootstraps(dat),
       grid = tibble::tibble(penalty = penalty),
       metrics = metric,
-      control = tune::control_grid(save_pred = TRUE, extract = get_models)
+      control = control
     )
   
   metric <- tune::.get_tune_metric_names(candidates)[1]

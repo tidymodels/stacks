@@ -2,13 +2,14 @@
 % Please edit documentation in R/blend_predictions.R
 \name{blend_predictions}
 \alias{blend_predictions}
-\title{Evaluate a data stack}
+\title{Determine stacking coefficients from a data stack}
 \usage{
 blend_predictions(
   data_stack,
   penalty = 10^(-6:-1),
   non_negative = TRUE,
   metric = NULL,
+  control = tune::control_grid(),
   verbose = FALSE,
   ...
 )
@@ -30,21 +31,37 @@ model on the data stack. Otherwise, \code{-Inf}.}
 tuning the lasso penalty on the stacking coefficients. Default values are
 determined by \code{tune::tune_grid} from the outcome class.}
 
+\item{control}{An object inheriting from \code{control_grid} to be passed to
+the model determining stacking coefficients. See \code{tune::control_grid}
+documentation for details on possible values. Note that any \code{extract}
+entry will be overwritten internally.}
+
 \item{verbose}{A logical for logging results as they are generated. Despite
 this argument, warnings and errors are always shown.}
 
 \item{...}{Additional arguments. Currently ignored.}
 }
 \value{
-A \code{model_stack} object—while \code{model_stacks} largely contain the
+A \code{model_stack} object—while \code{model_stack}s largely contain the
 same elements as \code{data_stack}s, the primary data objects shift from the
 assessment set predictions to the member models.
 }
 \description{
-Evaluates a data stack by fitting a regularized model on the out-of-sample
-predictions from each candidate member. This process determines the
-stacking coefficients of the model stack—candidates with non-zero stacking
-coefficients are model stack members.
+Evaluates a data stack by fitting a regularized model on the
+assessment predictions from each candidate member to predict
+the true outcome.
+
+This process determines the "stacking coefficients" of the model
+stack. The stacking coefficients are used to weight the
+predictions from each candidate (represented by a unique column
+in the data stack), and are given by the betas of a LASSO model
+fitting the true outcome with the predictions given in the
+remaining columns of the data stack.
+
+Candidates with non-zero stacking coefficients are model stack
+members, and need to be trained on the full training set (rather
+than just the assessment set) with \code{fit_members()}. This function
+is typically used after a number of calls to \code{add_candidates()}.
 }
 \section{Example Data}{
 
@@ -124,6 +141,12 @@ reg_st \%>\%
 library(yardstick)
 reg_st \%>\% 
   blend_predictions(metric = metric_set(rmse))
+  
+# pass control options for stack blending
+reg_st \%>\% 
+  blend_predictions(
+    control = tune::control_grid(allow_par = TRUE)
+  )
   
 # the process looks the same with 
 # multinomial classification models

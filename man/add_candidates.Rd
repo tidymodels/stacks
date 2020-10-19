@@ -31,8 +31,22 @@ of the \code{candidates} object.}
 A \code{data_stack} object--see \code{\link[=stacks]{stacks()}} for more details!
 }
 \description{
-Collates assessment set predictions and appends workflows and additional
-attributes to a \code{data_stack}.
+\code{add_candidates()} collates the assessment set predictions
+and additional attributes from the supplied model definition
+(i.e. set of "candidates") to a data stack.
+
+Behind the scenes, data stack objectss are just \code{\link[tibble:tibble]{tibble::tibble()}}s,
+where the first column gives the true response values,
+and the remaining columns give the assessment set predictions
+for each candidate. In the regression setting, there's only
+one column per ensemble member. In classification settings,
+there are as many columns per candidate ensemble member
+as there are levels of the outcome variable.
+
+To initialize a data stack, use the \code{stacks()} function.
+Model definitions are appended to a data stack iteratively
+using several calls to \code{add_candidates()}. Data stacks are
+evaluated using the \code{blend_predictions()} function.
 }
 \section{Example Data}{
 

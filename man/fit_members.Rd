@@ -2,7 +2,7 @@
 % Please edit documentation in R/fit_members.R
 \name{fit_members}
 \alias{fit_members}
-\title{Fit model stack members}
+\title{Fit model stack members with non-zero stacking coefficients}
 \usage{
 fit_members(model_stack, verbose = FALSE, ...)
 }
@@ -21,7 +21,16 @@ A \code{model_stack} object with a subclass inherited from the chosen
 necessary components to predict on new data.
 }
 \description{
-Fit model stack members
+After evaluating a data stack with \code{blend_predictions()},
+some number of candidates will have nonzero stacking
+coefficients. Such candidates are referred to as "members."
+Since members' predictions will ultimately inform the model
+stack's predictions, members should be trained on the full
+training set using \code{fit_members()}.
+}
+\details{
+To fit members in parallel, please register a parallel backend function.
+See the documentation of \code{\link[foreach:foreach]{foreach::foreach()}} for examples.
 }
 \section{Example Data}{
 
