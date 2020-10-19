@@ -2,7 +2,7 @@
 Message: -- A stacked ensemble model -------------------------------------
 
 Message: 
-Out of 20 possible blending coefficients, the ensemble used 19.
+Out of 20 possible candidate members, the ensemble used 19.
 Lasso penalty: 1e-06.
 
 Message: Across the 3 classes, there are an average of 6.33 coefficients per class.

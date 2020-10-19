@@ -144,7 +144,7 @@ member_summary <- function(x, penalty = x$penalty$penalty) {
   used_betas <- dplyr::filter(betas, estimate != 0)
   used_terms <- nrow(used_betas)
   
-  msg <- paste0("\nOut of ", length(all_terms), " possible blending coefficients, the ",
+  msg <- paste0("\nOut of ", length(all_terms), " possible candidate members, the ",
                 "ensemble used ", used_terms, ".",
                 "\nLasso penalty: ", x$penalty$penalty, ".")
   rlang::inform(msg)
