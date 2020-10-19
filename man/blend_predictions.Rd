@@ -2,7 +2,7 @@
 % Please edit documentation in R/blend_predictions.R
 \name{blend_predictions}
 \alias{blend_predictions}
-\title{Evaluate a data stack}
+\title{Determine stacking coefficients from a data stack}
 \usage{
 blend_predictions(
   data_stack,
@@ -42,15 +42,26 @@ this argument, warnings and errors are always shown.}
 \item{...}{Additional arguments. Currently ignored.}
 }
 \value{
-A \code{model_stack} object—while \code{model_stacks} largely contain the
+A \code{model_stack} object—while \code{model_stack}s largely contain the
 same elements as \code{data_stack}s, the primary data objects shift from the
 assessment set predictions to the member models.
 }
 \description{
-Evaluates a data stack by fitting a regularized model on the out-of-sample
-predictions from each candidate member. This process determines the
-stacking coefficients of the model stack—candidates with non-zero stacking
-coefficients are model stack members.
+Evaluates a data stack by fitting a regularized model on the
+assessment predictions from each candidate member to predict
+the true outcome.
+
+This process determines the "stacking coefficients" of the model
+stack. The stacking coefficients are used to weight the
+predictions from each candidate (represented by a unique column
+in the data stack), and are given by the betas of a LASSO model
+fitting the true outcome with the predictions given in the
+remaining columns of the data stack.
+
+Candidates with non-zero stacking coefficients are model stack
+members, and need to be trained on the full training set (rather
+than just the assessment set) with \code{fit_members()}. This function
+is typically used after a number of calls to \code{add_candidates()}.
 }
 \section{Example Data}{
 

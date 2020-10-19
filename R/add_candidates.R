@@ -1,7 +1,22 @@
 #' Add model definitions to a data stack
 #'
-#' Collates assessment set predictions and appends workflows and additional 
-#' attributes to a `data_stack`.
+#' @description 
+#' `add_candidates()` collates the assessment set predictions
+#' and additional attributes from the supplied model definition
+#' (i.e. set of "candidates") to a data stack. 
+#' 
+#' Behind the scenes, data stack objectss are just [tibble::tibble()]s,
+#' where the first column gives the true response values,
+#' and the remaining columns give the assessment set predictions
+#' for each candidate. In the regression setting, there's only 
+#' one column per ensemble member. In classification settings, 
+#' there are as many columns per candidate ensemble member 
+#' as there are levels of the outcome variable.
+#' 
+#' To initialize a data stack, use the `stacks()` function.
+#' Model definitions are appended to a data stack iteratively 
+#' using several calls to `add_candidates()`. Data stacks are 
+#' evaluated using the `blend_predictions()` function.
 #'
 #' @param data_stack A `data_stack` object.
 #' @param candidates A model definition: either a `tune_results` 

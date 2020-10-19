@@ -1,13 +1,13 @@
-#' Fit model stack members
+#' Fit model stack members with non-zero stacking coefficients
 #' 
-# @param n The total number of sub-models to incorporate in the stack.
-# @param replace Logical—whether to sample the sub-models to incorporate
-# in the stack with replacement.
-# @param n_initial The number of best sub-models to initialize the stack with
-# before initiating subset selection.
-# @param bag_p Numeric in (0, 1]—the proportion of models in the bag at
-# each iteration.
-#
+#' @description 
+#' After evaluating a data stack with `blend_predictions()`,
+#' some number of candidates will have nonzero stacking
+#' coefficients. Such candidates are referred to as "members."
+#' Since members' predictions will ultimately inform the model
+#' stack's predictions, members should be trained on the full
+#' training set using `fit_members()`.
+#' 
 #' @param model_stack A `model_stack` object outputted by `blend_predictions()` or
 #'   `fit_members()`
 #' @inheritParams stacks

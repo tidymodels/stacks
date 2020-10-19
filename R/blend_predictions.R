@@ -1,10 +1,21 @@
-#' Evaluate a data stack
+#' Determine stacking coefficients from a data stack
 #'
 #' @description 
-#' Evaluates a data stack by fitting a regularized model on the out-of-sample
-#' predictions from each candidate member. This process determines the
-#' stacking coefficients of the model stack—candidates with non-zero stacking
-#' coefficients are model stack members.
+#' Evaluates a data stack by fitting a regularized model on the 
+#' assessment predictions from each candidate member to predict 
+#' the true outcome.
+#' 
+#' This process determines the "stacking coefficients" of the model 
+#' stack. The stacking coefficients are used to weight the
+#' predictions from each candidate (represented by a unique column
+#' in the data stack), and are given by the betas of a LASSO model
+#' fitting the true outcome with the predictions given in the
+#' remaining columns of the data stack.
+#' 
+#' Candidates with non-zero stacking coefficients are model stack 
+#' members, and need to be trained on the full training set (rather
+#' than just the assessment set) with `fit_members()`. This function
+#' is typically used after a number of calls to `add_candidates()`.
 #' 
 #' @param data_stack A `data_stack` object
 #' @param penalty A numeric vector of proposed penalty values used in member
@@ -26,7 +37,7 @@
 #'   this argument, warnings and errors are always shown.
 #' @inheritParams add_candidates
 #' 
-#' @return A `model_stack` object—while `model_stacks` largely contain the
+#' @return A `model_stack` object—while `model_stack`s largely contain the
 #' same elements as `data_stack`s, the primary data objects shift from the
 #' assessment set predictions to the member models.
 #' 
