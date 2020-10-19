@@ -9,11 +9,11 @@
 \description{
 \if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
-'stacks' provides an API for model stacking/ensembling that
-    aligns with functionality from the 'tidymodels' packages. The 
-    package contains functions that combine fitted resampling objects to form 
-    models that generate predictions informed by many, diverse statistical 
-    models.
+Model stacking is an ensembling technique
+    that involves training a model to combine the outputs of many 
+    diverse statistical models, and has been shown to improve 
+    predictive performance in a variety of settings. 'stacks' 
+    implements a grammar for 'tidymodels'-aligned model stacking.
 }
 \details{
 At the highest level, ensembles are formed from \emph{model definitions}. In
