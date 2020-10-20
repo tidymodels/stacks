@@ -56,7 +56,12 @@ Suggests:
     nnet,
     broom
 Remotes:
-    tidymodels/tune
+    tidymodels/tune@d4ae497,
+    tidymodels/workflows@8f5d914,
+    tidymodels/rsample@2818c57,
+    tidymodels/dials@2b79300,
+    tidymodels/parsnip@7caf085,
+    tidymodels/recipes@147047c
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
