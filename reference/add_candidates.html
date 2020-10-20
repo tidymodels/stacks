@@ -50,8 +50,20 @@
 
 
 <meta property="og:title" content="Add model definitions to a data stack — add_candidates" />
-<meta property="og:description" content="Collates assessment set predictions and appends workflows and additional
-attributes to a data_stack." />
+<meta property="og:description" content="add_candidates() collates the assessment set predictions
+and additional attributes from the supplied model definition
+(i.e. set of &quot;candidates&quot;) to a data stack.
+Behind the scenes, data stack objectss are just tibble::tibble()s,
+where the first column gives the true response values,
+and the remaining columns give the assessment set predictions
+for each candidate. In the regression setting, there's only
+one column per ensemble member. In classification settings,
+there are as many columns per candidate ensemble member
+as there are levels of the outcome variable.
+To initialize a data stack, use the stacks() function.
+Model definitions are appended to a data stack iteratively
+using several calls to add_candidates(). Data stacks are
+evaluated using the blend_predictions() function." />
 <meta property="og:image" content="https://stacks.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -140,8 +152,20 @@ attributes to a data_stack." />
     </div>
 
     <div class="ref-description">
-    <p>Collates assessment set predictions and appends workflows and additional
-attributes to a <code>data_stack</code>.</p>
+    <p><code>add_candidates()</code> collates the assessment set predictions
+and additional attributes from the supplied model definition
+(i.e. set of "candidates") to a data stack.</p>
+<p>Behind the scenes, data stack objectss are just <code><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble::tibble()</a></code>s,
+where the first column gives the true response values,
+and the remaining columns give the assessment set predictions
+for each candidate. In the regression setting, there's only
+one column per ensemble member. In classification settings,
+there are as many columns per candidate ensemble member
+as there are levels of the outcome variable.</p>
+<p>To initialize a data stack, use the <code><a href='stacks.html'>stacks()</a></code> function.
+Model definitions are appended to a data stack iteratively
+using several calls to <code>add_candidates()</code>. Data stacks are
+evaluated using the <code><a href='blend_predictions.html'>blend_predictions()</a></code> function.</p>
     </div>
 
     <pre class="usage"><span class='fu'>add_candidates</span><span class='op'>(</span>
@@ -297,7 +321,7 @@ the source code that generated them.</p>
 #&gt; <span class='message'>Attaching package: ‘scales’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:purrr’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    discard</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: Matrix</span></div><div class='output co'>#&gt; <span class='message'>Loaded glmnet 4.0-2</span></div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Out of 11 possible blending coefficients, the ensemble used 4.</span>
+#&gt; <span class='message'>Out of 11 possible candidate members, the ensemble retained 4.</span>
 #&gt; <span class='message'>Lasso penalty: 1e-04.</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>The 4 highest weighted member classes are:</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 4 x 3</span><span>
 #&gt;   member                    type        weight

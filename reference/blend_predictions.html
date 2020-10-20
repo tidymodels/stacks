@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Evaluate a data stack — blend_predictions • stacks</title>
+<title>Determine stacking coefficients from a data stack — blend_predictions • stacks</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,11 +49,20 @@
 
 
 
-<meta property="og:title" content="Evaluate a data stack — blend_predictions" />
-<meta property="og:description" content="Evaluates a data stack by fitting a regularized model on the out-of-sample
-predictions from each candidate member. This process determines the
-stacking coefficients of the model stack—candidates with non-zero stacking
-coefficients are model stack members." />
+<meta property="og:title" content="Determine stacking coefficients from a data stack — blend_predictions" />
+<meta property="og:description" content="Evaluates a data stack by fitting a regularized model on the
+assessment predictions from each candidate member to predict
+the true outcome.
+This process determines the &quot;stacking coefficients&quot; of the model
+stack. The stacking coefficients are used to weight the
+predictions from each candidate (represented by a unique column
+in the data stack), and are given by the betas of a LASSO model
+fitting the true outcome with the predictions given in the
+remaining columns of the data stack.
+Candidates with non-zero stacking coefficients are model stack
+members, and need to be trained on the full training set (rather
+than just the assessment set) with fit_members(). This function
+is typically used after a number of calls to add_candidates()." />
 <meta property="og:image" content="https://stacks.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -136,16 +145,25 @@ coefficients are model stack members." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Evaluate a data stack</h1>
+    <h1>Determine stacking coefficients from a data stack</h1>
     
     <div class="hidden name"><code>blend_predictions.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Evaluates a data stack by fitting a regularized model on the out-of-sample
-predictions from each candidate member. This process determines the
-stacking coefficients of the model stack—candidates with non-zero stacking
-coefficients are model stack members.</p>
+    <p>Evaluates a data stack by fitting a regularized model on the
+assessment predictions from each candidate member to predict
+the true outcome.</p>
+<p>This process determines the "stacking coefficients" of the model
+stack. The stacking coefficients are used to weight the
+predictions from each candidate (represented by a unique column
+in the data stack), and are given by the betas of a LASSO model
+fitting the true outcome with the predictions given in the
+remaining columns of the data stack.</p>
+<p>Candidates with non-zero stacking coefficients are model stack
+members, and need to be trained on the full training set (rather
+than just the assessment set) with <code><a href='fit_members.html'>fit_members()</a></code>. This function
+is typically used after a number of calls to <code><a href='add_candidates.html'>add_candidates()</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>blend_predictions</span><span class='op'>(</span>
@@ -153,6 +171,7 @@ coefficients are model stack members.</p>
   penalty <span class='op'>=</span> <span class='fl'>10</span><span class='op'>^</span><span class='op'>(</span><span class='op'>-</span><span class='fl'>6</span><span class='op'>:</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span>,
   non_negative <span class='op'>=</span> <span class='cn'>TRUE</span>,
   metric <span class='op'>=</span> <span class='cn'>NULL</span>,
+  control <span class='op'>=</span> <span class='fu'>tune</span><span class='fu'>::</span><span class='fu'><a href='https://tune.tidymodels.org/reference/control_grid.html'>control_grid</a></span><span class='op'>(</span><span class='op'>)</span>,
   verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
@@ -185,6 +204,13 @@ tuning the lasso penalty on the stacking coefficients. Default values are
 determined by <code><a href='https://tune.tidymodels.org/reference/tune_grid.html'>tune::tune_grid</a></code> from the outcome class.</p></td>
     </tr>
     <tr>
+      <th>control</th>
+      <td><p>An object inheriting from <code>control_grid</code> to be passed to
+the model determining stacking coefficients. See <code><a href='https://tune.tidymodels.org/reference/control_grid.html'>tune::control_grid</a></code>
+documentation for details on possible values. Note that any <code>extract</code>
+entry will be overwritten internally.</p></td>
+    </tr>
+    <tr>
       <th>verbose</th>
       <td><p>A logical for logging results as they are generated. Despite
 this argument, warnings and errors are always shown.</p></td>
@@ -197,7 +223,7 @@ this argument, warnings and errors are always shown.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>model_stack</code> object—while <code>model_stacks</code> largely contain the
+    <p>A <code>model_stack</code> object—while <code>model_stack</code>s largely contain the
 same elements as <code>data_stack</code>s, the primary data objects shift from the
 assessment set predictions to the member models.</p>
     <h2 class="hasAnchor" id="example-data"><a class="anchor" href="#example-data"></a>Example Data</h2>
@@ -269,7 +295,7 @@ the source code that generated them.</p>
 <span class='va'>reg_st</span> <span class='op'>%&gt;%</span>
   <span class='fu'>blend_predictions</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Out of 15 possible blending coefficients, the ensemble used 5.</span>
+#&gt; <span class='message'>Out of 15 possible candidate members, the ensemble retained 5.</span>
 #&gt; <span class='message'>Lasso penalty: 0.1.</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>The 5 highest weighted members are:</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 3</span><span>
 #&gt;   member       type       weight
@@ -284,7 +310,7 @@ the source code that generated them.</p>
 <span class='va'>reg_st</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>blend_predictions</span><span class='op'>(</span>penalty <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.5</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Out of 15 possible blending coefficients, the ensemble used 3.</span>
+#&gt; <span class='message'>Out of 15 possible candidate members, the ensemble retained 3.</span>
 #&gt; <span class='message'>Lasso penalty: 1.</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>The 3 highest weighted members are:</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt;   member       type       weight
@@ -298,7 +324,7 @@ the source code that generated them.</p>
 <span class='va'>reg_st</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>blend_predictions</span><span class='op'>(</span>non_negative <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Out of 15 possible blending coefficients, the ensemble used 9.</span>
+#&gt; <span class='message'>Out of 15 possible candidate members, the ensemble retained 9.</span>
 #&gt; <span class='message'>Lasso penalty: 0.1.</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>The 9 highest weighted members are:</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 9 x 3</span><span>
 #&gt;   member       type           weight
@@ -318,7 +344,24 @@ the source code that generated them.</p>
 <span class='va'>reg_st</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>blend_predictions</span><span class='op'>(</span>metric <span class='op'>=</span> <span class='fu'><a href='https://yardstick.tidymodels.org/reference/metric_set.html'>metric_set</a></span><span class='op'>(</span><span class='va'>rmse</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Out of 15 possible blending coefficients, the ensemble used 5.</span>
+#&gt; <span class='message'>Out of 15 possible candidate members, the ensemble retained 5.</span>
+#&gt; <span class='message'>Lasso penalty: 0.1.</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>The 5 highest weighted members are:</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 5 x 3</span><span>
+#&gt;   member       type       weight
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> reg_res_svm3 svm_rbf     0.987
+#&gt; </span><span style='color: #555555;'>2</span><span> reg_res_svm4 svm_rbf     0.640
+#&gt; </span><span style='color: #555555;'>3</span><span> reg_res_svm1 svm_rbf     0.405
+#&gt; </span><span style='color: #555555;'>4</span><span> reg_res_sp9  linear_reg  0.294
+#&gt; </span><span style='color: #555555;'>5</span><span> reg_res_svm5 svm_rbf     0.293</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Members have not yet been fitted with `fit_members()`.</span></div><div class='input'>  
+<span class='co'># pass control options for stack blending</span>
+<span class='va'>reg_st</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>blend_predictions</span><span class='op'>(</span>
+    control <span class='op'>=</span> <span class='fu'>tune</span><span class='fu'>::</span><span class='fu'><a href='https://tune.tidymodels.org/reference/control_grid.html'>control_grid</a></span><span class='op'>(</span>allow_par <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+  <span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Out of 15 possible candidate members, the ensemble retained 5.</span>
 #&gt; <span class='message'>Lasso penalty: 0.1.</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>The 5 highest weighted members are:</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 5 x 3</span><span>
 #&gt;   member       type       weight
@@ -336,17 +379,24 @@ the source code that generated them.</p>
   <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>class_res_nn</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>class_res_rf</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>blend_predictions</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap06: model 1/1: from glmnet Fortran code (error code -99); Convergence for 99...</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap19: internal: No observations were detected in `truth` for level(s): 'low', ...</span><span></span></div><div class='input'>  
+</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap03: model 1/1: from glmnet Fortran code (error code -98); Convergence for 98...</span><span></span></div><div class='input'>  
 <span class='va'>class_st</span>
 </div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Out of 22 possible blending coefficients, the ensemble used 3.</span>
-#&gt; <span class='message'>Lasso penalty: 0.1.</span></div><div class='output co'>#&gt; <span class='message'>Across the 3 classes, there are an average of 1.5 coefficients per class.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>The 3 highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 4</span><span>
-#&gt;   member                    type        weight class
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> .pred_full_class_res_nn1  mlp         10.2   full 
-#&gt; </span><span style='color: #555555;'>2</span><span> .pred_mid_class_res_rf02  rand_forest  0.888 mid  
-#&gt; </span><span style='color: #555555;'>3</span><span> .pred_full_class_res_rf01 rand_forest  0.690 full </div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Out of 22 possible candidate members, the ensemble retained 17.</span>
+#&gt; <span class='message'>Lasso penalty: 1e-06.</span></div><div class='output co'>#&gt; <span class='message'>Across the 3 classes, there are an average of 5.67 coefficients per class.</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>The 10 highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
+#&gt;    member                    type        weight class
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> .pred_full_class_res_nn1  mlp         136.   full 
+#&gt; </span><span style='color: #555555;'> 2</span><span> .pred_full_class_res_nn1  mlp          43.4  mid  
+#&gt; </span><span style='color: #555555;'> 3</span><span> .pred_mid_class_res_rf04  rand_forest  37.2  mid  
+#&gt; </span><span style='color: #555555;'> 4</span><span> .pred_full_class_res_rf04 rand_forest  31.2  mid  
+#&gt; </span><span style='color: #555555;'> 5</span><span> .pred_mid_class_res_rf05  rand_forest  31.0  low  
+#&gt; </span><span style='color: #555555;'> 6</span><span> .pred_mid_class_res_rf09  rand_forest  18.7  low  
+#&gt; </span><span style='color: #555555;'> 7</span><span> .pred_mid_class_res_rf10  rand_forest   8.41 low  
+#&gt; </span><span style='color: #555555;'> 8</span><span> .pred_mid_class_res_rf02  rand_forest   7.30 mid  
+#&gt; </span><span style='color: #555555;'> 9</span><span> .pred_full_class_res_rf05 rand_forest   6.61 full 
+#&gt; </span><span style='color: #555555;'>10</span><span> .pred_mid_class_res_rf03  rand_forest   4.33 low  </div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Members have not yet been fitted with `fit_members()`.</span></div><div class='input'>
 <span class='co'># ...or binomial classification models</span>
 <span class='va'>log_st</span> <span class='op'>&lt;-</span>
@@ -357,7 +407,7 @@ the source code that generated them.</p>
   
 <span class='va'>log_st</span>
 </div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Out of 11 possible blending coefficients, the ensemble used 3.</span>
+#&gt; <span class='message'>Out of 11 possible candidate members, the ensemble retained 3.</span>
 #&gt; <span class='message'>Lasso penalty: 0.1.</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>The 3 highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt;   member                 type        weight
