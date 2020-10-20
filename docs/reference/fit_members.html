@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Fit model stack members — fit_members • stacks</title>
+<title>Fit model stack members with non-zero stacking coefficients — fit_members • stacks</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,8 +49,13 @@
 
 
 
-<meta property="og:title" content="Fit model stack members — fit_members" />
-<meta property="og:description" content="Fit model stack members" />
+<meta property="og:title" content="Fit model stack members with non-zero stacking coefficients — fit_members" />
+<meta property="og:description" content="After evaluating a data stack with blend_predictions(),
+some number of candidates will have nonzero stacking
+coefficients. Such candidates are referred to as &quot;members.&quot;
+Since members' predictions will ultimately inform the model
+stack's predictions, members should be trained on the full
+training set using fit_members()." />
 <meta property="og:image" content="https://stacks.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -139,13 +144,18 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Fit model stack members</h1>
+    <h1>Fit model stack members with non-zero stacking coefficients</h1>
     
     <div class="hidden name"><code>fit_members.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Fit model stack members</p>
+    <p>After evaluating a data stack with <code><a href='blend_predictions.html'>blend_predictions()</a></code>,
+some number of candidates will have nonzero stacking
+coefficients. Such candidates are referred to as "members."
+Since members' predictions will ultimately inform the model
+stack's predictions, members should be trained on the full
+training set using <code>fit_members()</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>fit_members</span>(<span class='kw'>model_stack</span>, verbose = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)</pre>
@@ -174,6 +184,10 @@ this argument, warnings and errors are always shown.</p></td>
     <p>A <code>model_stack</code> object with a subclass inherited from the chosen
 <code>*_stack</code> method---this fitted model contains the
 necessary components to predict on new data.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>To fit members in parallel, please register a parallel backend function.
+See the documentation of <code><a href='https://rdrr.io/pkg/foreach/man/foreach.html'>foreach::foreach()</a></code> for examples.</p>
     <h2 class="hasAnchor" id="example-data"><a class="anchor" href="#example-data"></a>Example Data</h2>
 
     
@@ -243,13 +257,17 @@ the source code that generated them.</p>
 <span class='kw'>reg_st</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span>() <span class='op'>%&gt;%</span>
   <span class='fu'>fit_members</span>()
-</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'>Out of 15 possible candidates, the ensemble contains 4 members.</span></div><div class='output co'>#&gt; <span class='message'>The highest weighted members are:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 3</span><span>
+</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Out of 15 possible candidate members, the ensemble retained 5.</span>
+#&gt; <span class='message'>Lasso penalty: 0.1.</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>The 5 highest weighted members are:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 3</span><span>
 #&gt;   member       type       weight
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> reg_res_svm3 svm_rbf     0.993
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> reg_res_svm4 svm_rbf     0.935
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> reg_res_svm1 svm_rbf     0.526
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> reg_res_sp9  linear_reg  0.295</div><div class='input'>  
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> reg_res_svm3 svm_rbf     0.987
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> reg_res_svm4 svm_rbf     0.640
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> reg_res_svm1 svm_rbf     0.405
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> reg_res_sp9  linear_reg  0.294
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> reg_res_svm5 svm_rbf     0.293</div><div class='input'>  
 <span class='kw'>reg_st</span>
 </div><div class='output co'>#&gt; # A data stack with 3 model definitions and 15 candidate members:
 #&gt; #   reg_res_lr: 1 sub-model
@@ -265,13 +283,15 @@ the source code that generated them.</p>
   <span class='fu'>fit_members</span>()
   
 <span class='kw'>class_st</span>
-</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'>Out of 22 possible candidates, the ensemble contains 4 members.</span></div><div class='output co'>#&gt; <span class='message'>Across the 3 classes, there are an average of 2 members per class.</span></div><div class='output co'>#&gt; <span class='message'>The highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 4 x 4</span><span>
+</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Out of 22 possible candidate members, the ensemble retained 3.</span>
+#&gt; <span class='message'>Lasso penalty: 0.1.</span></div><div class='output co'>#&gt; <span class='message'>Across the 3 classes, there are an average of 1.5 coefficients per class.</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>The 3 highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 4</span><span>
 #&gt;   member                    type        weight class
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> .pred_full_class_res_nn1  mlp         20.0   full 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> .pred_mid_class_res_rf02  rand_forest  3.53  mid  
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> .pred_full_class_res_rf01 rand_forest  1.52  full 
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> .pred_full_class_res_rf09 rand_forest  0.259 full </div><div class='input'>  
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> .pred_full_class_res_nn1  mlp         10.2   full 
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> .pred_mid_class_res_rf02  rand_forest  0.888 mid  
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> .pred_full_class_res_rf01 rand_forest  0.690 full </div><div class='input'>  
 <span class='co'># ...or binomial classification models</span>
 <span class='kw'>log_st</span> <span class='op'>&lt;-</span>
   <span class='fu'><a href='stacks.html'>stacks</a></span>() <span class='op'>%&gt;%</span>
@@ -281,7 +301,10 @@ the source code that generated them.</p>
   <span class='fu'>fit_members</span>()
   
 <span class='kw'>log_st</span>
-</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'>Out of 11 possible candidates, the ensemble contains 4 members.</span></div><div class='output co'>#&gt; <span class='message'>The highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 4 x 3</span><span>
+</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Out of 11 possible candidate members, the ensemble retained 4.</span>
+#&gt; <span class='message'>Lasso penalty: 0.01.</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>The 4 highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 4 x 3</span><span>
 #&gt;   member                 type        weight
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span> .pred_yes_log_res_nn1  mlp          7.20 

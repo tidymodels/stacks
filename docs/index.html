@@ -20,11 +20,11 @@
 <script src="pkgdown.js"></script><link href="tidyverse-2.css" rel="stylesheet">
 <!--optional theme--><link href="tidymodels.css" rel="stylesheet">
 <meta property="og:title" content="Tidy Model Stacking Tools">
-<meta property="og:description" content="stacks provides an API for model stacking/ensembling that
-    aligns with functionality from the tidymodels packages. The 
-    package contains functions that combine fitted resampling objects to form 
-    models that generate predictions informed by many, diverse statistical 
-    models.">
+<meta property="og:description" content="Model stacking is an ensembling technique
+    that involves training a model to combine the outputs of many 
+    diverse statistical models, and has been shown to improve 
+    predictive performance in a variety of settings. stacks 
+    implements a grammar for tidymodels-aligned model stacking.">
 <meta property="og:image" content="https://stacks.tidymodels.org/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -99,9 +99,10 @@
   <div class="contents col-md-9">
 
 
-<div id="stacks---tidy-model-stacking" class="section level2">
+<div id="stacks---tidy-model-stacking-" class="section level2">
 <h2 class="hasAnchor">
-<a href="#stacks---tidy-model-stacking" class="anchor"></a>stacks - tidy model stacking</h2>
+<a href="#stacks---tidy-model-stacking-" class="anchor"></a>stacks - tidy model stacking <a href="https://stacks.tidymodels.org"><img src="reference/figures/logo.png" align="right" height="280"></a>
+</h2>
 <p>stacks is an R package for model stacking that aligns with the tidymodels. Model stacking is an ensembling method that takes the outputs of many models and combines them to generate a new model—referred to as an <em>ensemble</em> in this package—that generates predictions informed by each of its <em>members</em>.</p>
 <p>The process goes something like this:</p>
 <ol>
@@ -154,6 +155,7 @@
 <li><p>Either way, learn how to create and share a <a href="https://rstd.io/reprex">reprex</a> (a minimal, reproducible example), to clearly communicate about your code.</p></li>
 <li><p>Check out further details on <a href="https://www.tidymodels.org/contribute/">contributing guidelines for tidymodels packages</a> and <a href="https://www.tidymodels.org/help/">how to get help</a>.</p></li>
 </ul>
+<p>In the stacks package, some test objects take too long to build with every commit. If your contribution changes the structure of <code>data_stack</code> or <code>model_stacks</code> objects, please regenerate these test objects by running the scripts in <code>man-roxygen/example_models.Rmd</code>, including those with chunk options <code>eval = FALSE</code>.</p>
 </div>
 
   </div>
