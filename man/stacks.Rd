@@ -30,19 +30,23 @@ See the \code{Details} section below for more discussion of the package, general
 }
 \details{
 At the highest level, ensembles are formed from \emph{model definitions}. In
-this package, model definitions are an instance of a minimal workflow,
-containing a \emph{model specification} (as defined in the parsnip package)
-and, optionally, a \emph{preprocessor} (as defined in the recipes package).
-Model definitions specify the form of candidate ensemble members.
+this package, model definitions are an instance of a minimal
+\href{https://workflows.tidymodels.org/}{workflow}, containing a \emph{model
+specification} (as defined in the
+\href{https://parsnip.tidymodels.org/}{parsnip} package) and, optionally, a
+\emph{preprocessor} (as defined in the
+\href{https://recipes.tidymodels.org/}{recipes} package). Model definitions
+specify the form of candidate ensemble members.
 
 \figure{model_defs.png}{options: width=500}
 
 To be used in the same ensemble, each of these model definitions must
-share the same \emph{resample}. This rsample \code{rset} object, when paired with
-the model definitions, can be used to generate the tuning/fitting
+share the same \emph{resample}. This
+\href{https://rsample.tidymodels.org/}{rsample} \code{rset} object, when paired
+with the model definitions, can be used to generate the tuning/fitting
 results objects for the candidate \emph{ensemble members} with tune.
 
-\figure{submodels.png}{options: width=500}
+\figure{candidates.png}{options: width=500}
 
 The package will sometimes refer to \emph{sub-models}. An ensemble member is
 a sub-model that has actually been selected (and possibly trained) for
@@ -50,9 +54,9 @@ use in the ensemble (via nonzero stacking coefficients, usually) that is
 not regarded as resulting from a specific model definition, where-as a
 sub-model is an untrained candidate ensemble member.
 
-Sub-models first come together in a \code{data_stack} object through the
-\code{add_candidates()} function. Principally, these objects are just
-\href{https://tibble.tidyverse.org/}{tibbles}, where the first column gives
+Candidate members first come together in a \code{data_stack} object through
+the \code{add_candidates()} function. Principally, these objects are just
+\href{https://tibble.tidyverse.org/}{tibble}s, where the first column gives
 the true outcome in the assessment set, and the remaining columns give
 the predictions from each candidate ensemble member. (When the outcome
 is numeric, there’s only one column per candidate ensemble member.
@@ -64,12 +68,7 @@ attributes to keep track of model definitions.
 
 Then, the data stack can be evaluated using \code{blend_predictions()} to
 determine to how best to combine the outputs from each of the candidate
-member models.
-
-Note that the fitting process is not sensitive to model definition
-membership. That is, while fitting an ensemble from a stack, the
-components are regarded as candidate ensemble members rather than as
-sub-models.
+members.
 
 The outputs of each member are likely highly correlated. Thus, depending
 on the degree of regularization you choose, the coefficients for the
@@ -79,9 +78,10 @@ thrown out.
 
 \figure{coefs.png}{options: width=500}
 
-These stacking coefficients decide then which sub-models will be
-ensemble members—sub-models with non-zero stacking coefficients are then
-fitted, altogether making up a \code{model_stack} object.
+These stacking coefficients determine which candidate ensemble members
+will become ensemble members. Candidates with non-zero stacking
+coefficients are then fitted on the whole training set, altogether
+making up a \code{model_stack} object.
 
 \figure{class_model_stack.png}{options: width=500}
 

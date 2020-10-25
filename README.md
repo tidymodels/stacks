@@ -50,29 +50,27 @@ action\!
 ## a grammar
 
 At the highest level, ensembles are formed from *model definitions*. In
-this package, model definitions are an instance of a minimal workflow,
-containing a *model specification* (as defined in the parsnip package)
-and, optionally, a *preprocessor* (as defined in the recipes package).
-Model definitions specify the form of candidate ensemble members.
+this package, model definitions are an instance of a minimal
+[workflow](https://workflows.tidymodels.org/), containing a *model
+specification* (as defined in the
+[parsnip](https://parsnip.tidymodels.org/) package) and, optionally, a
+*preprocessor* (as defined in the
+[recipes](https://recipes.tidymodels.org/) package). Model definitions
+specify the form of candidate ensemble members.
 
 ![](man/figures/model_defs.png)
 
 To be used in the same ensemble, each of these model definitions must
-share the same *resample*. This rsample `rset` object, when paired with
-the model definitions, can be used to generate the tuning/fitting
+share the same *resample*. This
+[rsample](https://rsample.tidymodels.org/) `rset` object, when paired
+with the model definitions, can be used to generate the tuning/fitting
 results objects for the candidate *ensemble members* with tune.
 
-![](man/figures/submodels.png)
+![](man/figures/candidates.png)
 
-The package will sometimes refer to *sub-models*. An ensemble member is
-a sub-model that has actually been selected (and possibly trained) for
-use in the ensemble (via nonzero stacking coefficients, usually) that is
-not regarded as resulting from a specific model definition, where-as a
-sub-model is an untrained candidate ensemble member.
-
-Sub-models first come together in a `data_stack` object through the
-`add_candidates()` function. Principally, these objects are just
-[tibbles](https://tibble.tidyverse.org/), where the first column gives
+Candidate members first come together in a `data_stack` object through
+the `add_candidates()` function. Principally, these objects are just
+[tibble](https://tibble.tidyverse.org/)s, where the first column gives
 the true outcome in the assessment set, and the remaining columns give
 the predictions from each candidate ensemble member. (When the outcome
 is numeric, there’s only one column per candidate ensemble member.
@@ -84,12 +82,7 @@ attributes to keep track of model definitions.
 
 Then, the data stack can be evaluated using `blend_predictions()` to
 determine to how best to combine the outputs from each of the candidate
-member models.
-
-Note that the fitting process is not sensitive to model definition
-membership. That is, while fitting an ensemble from a stack, the
-components are regarded as candidate ensemble members rather than as
-sub-models.
+members.
 
 The outputs of each member are likely highly correlated. Thus, depending
 on the degree of regularization you choose, the coefficients for the
@@ -99,9 +92,10 @@ thrown out.
 
 ![](man/figures/coefs.png)
 
-These stacking coefficients decide then which sub-models will be
-ensemble members—sub-models with non-zero stacking coefficients are then
-fitted, altogether making up a `model_stack` object.
+These stacking coefficients determine which candidate ensemble members
+will become ensemble members. Candidates with non-zero stacking
+coefficients are then fitted on the whole training set, altogether
+making up a `model_stack` object.
 
 ![](man/figures/class_model_stack.png)
 

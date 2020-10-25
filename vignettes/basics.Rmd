@@ -215,7 +215,7 @@ As mentioned before, under the hood, a `data_stack` object is really just a tibb
 as_tibble(tree_frogs_data_st)
 ```
 
-The first row gives the first response value, and the remaining columns give the assessment set predictions for each ensemble member. Since we're in the regression case, there's only one column per ensemble member. In classification settings, there are as many columns as there are levels of the outcome variable per candidate ensemble member.
+The first column gives the first response value, and the remaining columns give the assessment set predictions for each ensemble member. Since we're in the regression case, there's only one column per ensemble member. In classification settings, there are as many columns as there are levels of the outcome variable per candidate ensemble member.
 
 That's it! We're now ready to evaluate how it is that we need to combine predictions from each candidate ensemble member.
 
