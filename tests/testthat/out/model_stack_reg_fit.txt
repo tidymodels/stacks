@@ -9,9 +9,9 @@ Message:
 The 3 highest weighted members are:
 
 # A tibble: 3 x 3
-  member       type    weight
-  <chr>        <chr>    <dbl>
-1 reg_res_svm3 svm_rbf  1.44 
-2 reg_res_svm1 svm_rbf  0.681
-3 reg_res_svm4 svm_rbf  0.317
+  member          type    weight
+  <chr>           <chr>    <dbl>
+1 reg_res_svm_1_3 svm_rbf  1.44 
+2 reg_res_svm_1_1 svm_rbf  0.681
+3 reg_res_svm_1_4 svm_rbf  0.317
 
