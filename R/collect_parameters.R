@@ -92,7 +92,7 @@ collect_params <- function(cols_map, model_metrics, candidates, workflows, blend
   res <-
     model_metrics[[candidates]] %>%
     dplyr::mutate(
-      .config = if (".config" %in% colnames(.)) {.config} else {"Model1"},
+      .config = process_.config(.config, ., name = candidates),
       member = 
         gsub(
           pattern = c("Model|Recipe"),
