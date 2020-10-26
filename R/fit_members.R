@@ -92,18 +92,7 @@ fit_members <- function(model_stack, verbose = FALSE, ...) {
   metrics_dict <- 
     tibble::enframe(model_stack[["model_metrics"]]) %>%
     tidyr::unnest(cols = value) %>%
-    dplyr::mutate(
-      .config = if (".config" %in% colnames(.)) {.config} else {NA_character_},
-      .config = gsub(
-        pattern = c("Model|Recipe"),
-        replacement = "",
-        x = .config,
-      ),
-      .config = dplyr::case_when(
-        !is.na(.config) ~ paste0(name, .config),
-        TRUE ~ paste0(name, "1")
-      )
-    ) %>%
+    dplyr::mutate(.config = process_.config(.config, ., name = name)) %>%
     dplyr::filter(.metric %in% c("rmse", "roc_auc"))
   
   if (model_stack[["mode"]] == "regression") {
