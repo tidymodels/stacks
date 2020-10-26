@@ -203,7 +203,7 @@ add_candidates <- function(data_stack, candidates,
     tune::collect_predictions(candidates, summarize = TRUE) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(
-      .config = if (".config" %in% names(.)) .config else "Model1"
+      .config = if (".config" %in% names(.)) .config else NA_character_
     ) %>%
     dplyr::select(
       !!tune::.get_tune_outcome_names(candidates), 
@@ -212,11 +212,8 @@ add_candidates <- function(data_stack, candidates,
       .config
     ) %>%
     dplyr::mutate(
-      .config = gsub(
-        pattern = c("Model|Recipe"),
-        replacement = name,
-        x = .config,
-      )) %>%
+      .config = process_.config(.config, df = ., name = name)
+    ) %>%
     tidyr::pivot_wider(
       id_cols = c(".row", !!tune::.get_tune_outcome_names(candidates)), 
       names_from = ".config", 
@@ -368,4 +365,32 @@ check_name <- function(name) {
   } else {
     check_inherits(name, "character")
   }
+}
+
+# takes in the name a .config column and outputs the
+# processed version for use as a unique id
+process_.config <- function(.config, df, name) {
+  .config_ <- if (".config" %in% colnames(df)) {.config} else {NA_character_}
+  
+  .config_ <-
+    gsub(
+      pattern = c("Model|Recipe"),
+      replacement = "",
+      x = .config_,
+    )
+  
+  .config_ <-
+    gsub(
+      pattern = c("Preprocessor"),
+      replacement = "_",
+      x = .config_,
+    )
+  
+  .config_ <- 
+    dplyr::case_when(
+      !is.na(.config_) ~ paste0(name, .config_),
+      TRUE ~ paste0(name, "_1")
+    )
+  
+  .config_
 }
