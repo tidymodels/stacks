@@ -35,7 +35,6 @@ Imports:
     dials,
     digest,
     glue,
-    generics,
     ggplot2,
     glmnet,
     rsample,
@@ -53,8 +52,7 @@ Suggests:
     rmarkdown,
     palmerpenguins,
     ranger,
-    nnet,
-    broom
+    nnet
 Remotes:
     tidymodels/tune
 Encoding: UTF-8
