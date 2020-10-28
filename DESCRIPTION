@@ -39,7 +39,6 @@ Imports:
     glmnet,
     rsample,
     cli,
-    crayon,
     butcher,
     stats,
     foreach
