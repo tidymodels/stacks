@@ -41,7 +41,8 @@ Imports:
     cli,
     butcher,
     stats,
-    foreach
+    foreach,
+    generics
 Suggests: 
     testthat,
     covr,

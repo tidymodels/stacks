@@ -13,3 +13,4 @@ inst/figs
 data-raw/
 _pkgdown.yml
 docs/
+pkgdown/
