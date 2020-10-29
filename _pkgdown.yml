@@ -35,9 +35,6 @@ reference:
     - stacks_description
   - title: Methods
     contents:
-    - tidy.model_stack
-    - augment.model_stack
-    - glance.model_stack
     - starts_with("autoplot")
     - starts_with("axe_")
     - starts_with("predict")

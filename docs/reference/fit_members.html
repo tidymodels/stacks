@@ -261,13 +261,13 @@ the source code that generated them.</p>
 #&gt; <span class='message'>Out of 15 possible candidate members, the ensemble retained 5.</span>
 #&gt; <span class='message'>Lasso penalty: 0.1.</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>The 5 highest weighted members are:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 3</span><span>
-#&gt;   member       type       weight
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> reg_res_svm3 svm_rbf     0.987
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> reg_res_svm4 svm_rbf     0.640
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> reg_res_svm1 svm_rbf     0.405
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> reg_res_sp9  linear_reg  0.294
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> reg_res_svm5 svm_rbf     0.293</div><div class='input'>  
+#&gt;   member          type       weight
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> reg_res_svm_1_3 svm_rbf     0.987
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> reg_res_svm_1_4 svm_rbf     0.640
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> reg_res_svm_1_1 svm_rbf     0.405
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> reg_res_sp_9_1  linear_reg  0.294
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> reg_res_svm_1_5 svm_rbf     0.293</div><div class='input'>  
 <span class='kw'>reg_st</span>
 </div><div class='output co'>#&gt; # A data stack with 3 model definitions and 15 candidate members:
 #&gt; #   reg_res_lr: 1 sub-model
@@ -281,17 +281,24 @@ the source code that generated them.</p>
   <span class='fu'><a href='add_candidates.html'>add_candidates</a></span>(<span class='kw'>class_res_rf</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span>() <span class='op'>%&gt;%</span>
   <span class='fu'>fit_members</span>()
-  
+</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap01: internal: No observations were detected in `truth` for level(s): 'low', ...</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap15: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -82); ...</span><span></span></div><div class='input'>  
 <span class='kw'>class_st</span>
 </div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Out of 22 possible candidate members, the ensemble retained 3.</span>
-#&gt; <span class='message'>Lasso penalty: 0.1.</span></div><div class='output co'>#&gt; <span class='message'>Across the 3 classes, there are an average of 1.5 coefficients per class.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>The 3 highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 4</span><span>
-#&gt;   member                    type        weight class
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> .pred_full_class_res_nn1  mlp         10.2   full 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> .pred_mid_class_res_rf02  rand_forest  0.888 mid  
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> .pred_full_class_res_rf01 rand_forest  0.690 full </div><div class='input'>  
+#&gt; <span class='message'>Out of 22 possible candidate members, the ensemble retained 17.</span>
+#&gt; <span class='message'>Lasso penalty: 1e-06.</span></div><div class='output co'>#&gt; <span class='message'>Across the 3 classes, there are an average of 5.67 coefficients per class.</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>The 10 highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 4</span><span>
+#&gt;    member                       type        weight class
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> .pred_full_class_res_nn_1_1  mlp         136.   full 
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> .pred_full_class_res_nn_1_1  mlp          43.4  mid  
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> .pred_mid_class_res_rf_1_04  rand_forest  37.2  mid  
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> .pred_full_class_res_rf_1_04 rand_forest  31.2  mid  
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> .pred_mid_class_res_rf_1_05  rand_forest  31.0  low  
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> .pred_mid_class_res_rf_1_09  rand_forest  18.7  low  
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> .pred_mid_class_res_rf_1_10  rand_forest   8.41 low  
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> .pred_mid_class_res_rf_1_02  rand_forest   7.30 mid  
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> .pred_full_class_res_rf_1_05 rand_forest   6.61 full 
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> .pred_mid_class_res_rf_1_03  rand_forest   4.33 low  </div><div class='input'>  
 <span class='co'># ...or binomial classification models</span>
 <span class='kw'>log_st</span> <span class='op'>&lt;-</span>
   <span class='fu'><a href='stacks.html'>stacks</a></span>() <span class='op'>%&gt;%</span>
@@ -303,14 +310,14 @@ the source code that generated them.</p>
 <span class='kw'>log_st</span>
 </div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Out of 11 possible candidate members, the ensemble retained 4.</span>
-#&gt; <span class='message'>Lasso penalty: 0.01.</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Lasso penalty: 1e-04.</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>The 4 highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 4 x 3</span><span>
-#&gt;   member                 type        weight
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> .pred_yes_log_res_nn1  mlp          7.20 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> .pred_yes_log_res_rf03 rand_forest  1.23 
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> .pred_yes_log_res_rf09 rand_forest  1.07 
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> .pred_yes_log_res_rf01 rand_forest  0.899</div><div class='input'><span class='co'># }</span>
+#&gt;   member                    type        weight
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> .pred_yes_log_res_nn_1_1  mlp           7.58
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> .pred_yes_log_res_rf_1_09 rand_forest   1.49
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> .pred_yes_log_res_rf_1_03 rand_forest   1.13
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> .pred_yes_log_res_rf_1_01 rand_forest   1.03</div><div class='input'><span class='co'># }</span>
 
 </div></span></pre>
   </div>
