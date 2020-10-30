@@ -188,7 +188,7 @@ add_candidates <- function(data_stack, candidates,
 # training data if the new candidate is the first in the stack
 .set_training_data <- function(stack, candidates, name) {
   training_data <- attr(stack, "train")
-  new_data <- candidates[["splits"]][[1]][["data"]]
+  new_data <- tibble::as_tibble(candidates[["splits"]][[1]][["data"]])
   
   if ((!identical(training_data, tibble::tibble())) &&
       (!identical(training_data, new_data))) {
