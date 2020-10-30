@@ -71,9 +71,10 @@ results objects for the candidate *ensemble members* with tune.
 Candidate members first come together in a `data_stack` object through
 the `add_candidates()` function. Principally, these objects are just
 [tibble](https://tibble.tidyverse.org/)s, where the first column gives
-the true outcome in the assessment set, and the remaining columns give
-the predictions from each candidate ensemble member. (When the outcome
-is numeric, there’s only one column per candidate ensemble member.
+the true outcome in the assessment set (the portion of the training set
+used for model validation), and the remaining columns give the
+predictions from each candidate ensemble member. (When the outcome is
+numeric, there’s only one column per candidate ensemble member.
 Classification requires as many columns per candidate as there are
 levels in the outcome variable.) They also bring along a few extra
 attributes to keep track of model definitions.
@@ -82,7 +83,8 @@ attributes to keep track of model definitions.
 
 Then, the data stack can be evaluated using `blend_predictions()` to
 determine to how best to combine the outputs from each of the candidate
-members.
+members. In the stacking literature, this process is commonly called
+*metalearning*.
 
 The outputs of each member are likely highly correlated. Thus, depending
 on the degree of regularization you choose, the coefficients for the
@@ -100,7 +102,8 @@ making up a `model_stack` object.
 ![](man/figures/class_model_stack.png)
 
 This model stack object, outputted from `fit_members()`, is ready to
-predict on new data\!
+predict on new data\! The trained ensemble members are often referred to
+as *base models* in the stacking literature.
 
 At a high level, the process follows these steps:
 

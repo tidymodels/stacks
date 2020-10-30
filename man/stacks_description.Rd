@@ -44,9 +44,10 @@ sub-model is an untrained candidate ensemble member.
 Candidate members first come together in a \code{data_stack} object through
 the \code{add_candidates()} function. Principally, these objects are just
 \href{https://tibble.tidyverse.org/}{tibble}s, where the first column gives
-the true outcome in the assessment set, and the remaining columns give
-the predictions from each candidate ensemble member. (When the outcome
-is numeric, there’s only one column per candidate ensemble member.
+the true outcome in the assessment set (the portion of the training set
+used for model validation), and the remaining columns give the
+predictions from each candidate ensemble member. (When the outcome is
+numeric, there’s only one column per candidate ensemble member.
 Classification requires as many columns per candidate as there are
 levels in the outcome variable.) They also bring along a few extra
 attributes to keep track of model definitions.
@@ -55,7 +56,8 @@ attributes to keep track of model definitions.
 
 Then, the data stack can be evaluated using \code{blend_predictions()} to
 determine to how best to combine the outputs from each of the candidate
-members.
+members. In the stacking literature, this process is commonly called
+\emph{metalearning}.
 
 The outputs of each member are likely highly correlated. Thus, depending
 on the degree of regularization you choose, the coefficients for the
@@ -73,7 +75,8 @@ making up a \code{model_stack} object.
 \figure{class_model_stack.png}{options: width=500}
 
 This model stack object, outputted from \code{fit_members()}, is ready to
-predict on new data!
+predict on new data! The trained ensemble members are often referred to
+as \emph{base models} in the stacking literature.
 
 At a high level, the process follows these steps:
 

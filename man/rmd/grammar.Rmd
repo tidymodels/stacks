@@ -8,11 +8,11 @@ To be used in the same ensemble, each of these model definitions must share the 
 
 The package will sometimes refer to _sub-models_. An ensemble member is a sub-model that has actually been selected (and possibly trained) for use in the ensemble (via nonzero stacking coefficients, usually) that is not regarded as resulting from a specific model definition, where-as a sub-model is an untrained candidate ensemble member.
 
-Candidate members first come together in a `data_stack` object through the `add_candidates()` function. Principally, these objects are just [tibble](https://tibble.tidyverse.org/)s, where the first column gives the true outcome in the assessment set, and the remaining columns give the predictions from each candidate ensemble member. (When the outcome is numeric, there's only one column per candidate ensemble member. Classification requires as many columns per candidate as there are levels in the outcome variable.) They also bring along a few extra attributes to keep track of model definitions.
+Candidate members first come together in a `data_stack` object through the `add_candidates()` function. Principally, these objects are just [tibble](https://tibble.tidyverse.org/)s, where the first column gives the true outcome in the assessment set (the portion of the training set used for model validation), and the remaining columns give the predictions from each candidate ensemble member. (When the outcome is numeric, there's only one column per candidate ensemble member. Classification requires as many columns per candidate as there are levels in the outcome variable.) They also bring along a few extra attributes to keep track of model definitions.
 
 \\figure{data_stack.png}{options: width=500}
 
-Then, the data stack can be evaluated using `blend_predictions()` to determine to how best to combine the outputs from each of the candidate members.
+Then, the data stack can be evaluated using `blend_predictions()` to determine to how best to combine the outputs from each of the candidate members. In the stacking literature, this process is commonly called _metalearning_.
 
 The outputs of each member are likely highly correlated. Thus, depending on the degree of regularization you choose, the coefficients for the inputs of (possibly) many of the members will zero out—their predictions will have no influence on the final output, and those terms will thus be thrown out.
 
@@ -22,7 +22,7 @@ These stacking coefficients determine which candidate ensemble members will beco
 
 \\figure{class_model_stack.png}{options: width=500}
 
-This model stack object, outputted from `fit_members()`, is ready to predict on new data!
+This model stack object, outputted from `fit_members()`, is ready to predict on new data! The trained ensemble members are often referred to as _base models_ in the stacking literature.
 
 At a high level, the process follows these steps:
 
