@@ -203,16 +203,18 @@ sub-model is an untrained candidate ensemble member.</p>
 <p>Candidate members first come together in a <code>data_stack</code> object through
 the <code><a href='add_candidates.html'>add_candidates()</a></code> function. Principally, these objects are just
 <a href='https://tibble.tidyverse.org/'>tibble</a>s, where the first column gives
-the true outcome in the assessment set, and the remaining columns give
-the predictions from each candidate ensemble member. (When the outcome
-is numeric, there’s only one column per candidate ensemble member.
+the true outcome in the assessment set (the portion of the training set
+used for model validation), and the remaining columns give the
+predictions from each candidate ensemble member. (When the outcome is
+numeric, there’s only one column per candidate ensemble member.
 Classification requires as many columns per candidate as there are
 levels in the outcome variable.) They also bring along a few extra
 attributes to keep track of model definitions.</p>
 <p><img src='figures/data_stack.png' width=500 /></p>
 <p>Then, the data stack can be evaluated using <code><a href='blend_predictions.html'>blend_predictions()</a></code> to
 determine to how best to combine the outputs from each of the candidate
-members.</p>
+members. In the stacking literature, this process is commonly called
+<em>metalearning</em>.</p>
 <p>The outputs of each member are likely highly correlated. Thus, depending
 on the degree of regularization you choose, the coefficients for the
 inputs of (possibly) many of the members will zero out—their predictions
@@ -225,7 +227,8 @@ coefficients are then fitted on the whole training set, altogether
 making up a <code>model_stack</code> object.</p>
 <p><img src='figures/class_model_stack.png' width=500 /></p>
 <p>This model stack object, outputted from <code><a href='fit_members.html'>fit_members()</a></code>, is ready to
-predict on new data!</p>
+predict on new data! The trained ensemble members are often referred to
+as <em>base models</em> in the stacking literature.</p>
 <p>At a high level, the process follows these steps:</p>
 <p><img src='figures/outline.png' width=500 /></p>
 <p>The API for the package closely mirrors these ideas. See the <code>basics</code>
