@@ -4,7 +4,7 @@ pkgdown_sha: e5847476d79f08b4cdca0ed5cc55bf55fc18a161
 articles:
   basics: basics.html
   classification: classification.html
-last_built: 2020-11-04T16:45Z
+last_built: 2020-11-04T17:07Z
 urls:
   reference: https://stacks.tidymodels.org/reference
   article: https://stacks.tidymodels.org/articles
