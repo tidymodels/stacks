@@ -132,3 +132,20 @@ test_that("blend_predictions is sensitive to the metric argument", {
     nrow(metric_1$metrics) <= nrow(metric_2$metrics)
   )
 })
+
+test_that("process_data_stack works") {
+  expect_equal(
+    process_data_stack(data.frame(a = 1:5)),
+    tibble::as_tibble(data.frame(a = 1:5))
+  )
+  
+  expect_message(
+    process_data_stack(data.frame(a = c(1:5, NA))),
+    "1 of the 6 rows in the data stack"
+  )
+  
+  expect_error(
+    process_data_stack(data.frame(a = rep(NA, 5))),
+    "All rows in the data stack"
+  )
+}

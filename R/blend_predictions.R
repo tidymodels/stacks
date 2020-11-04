@@ -125,7 +125,7 @@ blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1),
   
   lvls <- levels(data_stack[[outcome]])
   
-  dat <- tibble::as_tibble(data_stack) %>% na.omit()
+  dat <- process_data_stack(data_stack)
   
   ll <- if (non_negative) {0} else {-Inf}
   
@@ -300,3 +300,22 @@ check_blend_data_stack <- function(data_stack) {
   invisible(NULL)
 }
 
+process_data_stack <- function(data_stack) {
+  dat <- tibble::as_tibble(data_stack) %>% na.omit()
+  
+  if (nrow(dat) == 0) {
+    glue_stop(
+      "All rows in the data stack have at least one missing value. ",
+      "Please ensure that all candidates supply predictions."
+    )
+  }
+  
+  if (nrow(dat) < nrow(data_stack)) {
+    glue_message(
+      "{nrow(data_stack) - nrow(dat)} of the {nrow(data_stack)} rows in the ", 
+      "data stack have missing values, and will be omitted in the blending process."
+    )
+  }
+
+  dat
+}
