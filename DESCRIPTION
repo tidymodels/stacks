@@ -54,7 +54,7 @@ Suggests:
     ranger,
     nnet
 Remotes:
-    tidymodels/tune
+    tidymodels/tune,
     tidymodels/recipes
 Encoding: UTF-8
 LazyData: true
