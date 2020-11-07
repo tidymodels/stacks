@@ -268,9 +268,9 @@ the source code that generated them.</p>
   
 <span class='va'>reg_st</span>
 </div><div class='output co'>#&gt; # A data stack with 3 model definitions and 15 candidate members:
-#&gt; #   reg_res_lr: 1 sub-model
-#&gt; #   reg_res_svm: 5 sub-models
-#&gt; #   reg_res_sp: 9 sub-models
+#&gt; #   reg_res_lr: 1 model configuration
+#&gt; #   reg_res_svm: 5 model configurations
+#&gt; #   reg_res_sp: 9 model configurations
 #&gt; # Outcome: latency (numeric)</div><div class='input'>  
 <span class='co'># do the same with multinomial classification models</span>
 <span class='va'>class_st</span> <span class='op'>&lt;-</span>
@@ -280,8 +280,8 @@ the source code that generated them.</p>
   
 <span class='va'>class_st</span>
 </div><div class='output co'>#&gt; # A data stack with 2 model definitions and 11 candidate members:
-#&gt; #   class_res_nn: 1 sub-model
-#&gt; #   class_res_rf: 10 sub-models
+#&gt; #   class_res_nn: 1 model configuration
+#&gt; #   class_res_rf: 10 model configurations
 #&gt; # Outcome: reflex (factor)</div><div class='input'>  
 <span class='co'># ...or binomial classification models</span>
 <span class='va'>log_st</span> <span class='op'>&lt;-</span>
@@ -291,8 +291,8 @@ the source code that generated them.</p>
   
 <span class='va'>log_st</span>
 </div><div class='output co'>#&gt; # A data stack with 2 model definitions and 11 candidate members:
-#&gt; #   log_res_nn: 1 sub-model
-#&gt; #   log_res_rf: 10 sub-models
+#&gt; #   log_res_nn: 1 model configuration
+#&gt; #   log_res_rf: 10 model configurations
 #&gt; # Outcome: hatched (factor)</div><div class='input'>  
 <span class='co'># use custom names for each model:</span>
 <span class='va'>log_st2</span> <span class='op'>&lt;-</span>
@@ -302,8 +302,8 @@ the source code that generated them.</p>
   
 <span class='va'>log_st2</span>
 </div><div class='output co'>#&gt; # A data stack with 2 model definitions and 11 candidate members:
-#&gt; #   neural_network: 1 sub-model
-#&gt; #   random_forest: 10 sub-models
+#&gt; #   neural_network: 1 model configuration
+#&gt; #   random_forest: 10 model configurations
 #&gt; # Outcome: hatched (factor)</div><div class='input'>  
 <span class='co'># these objects would likely then be</span>
 <span class='co'># passed to blend_predictions():</span>
