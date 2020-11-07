@@ -219,7 +219,7 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     data_frame</span>
 <span class="co">#&gt; The workflow being saved contains a recipe, which is 0.22 Mb in memory. If this was not intentional, please set the control setting `save_workflow = FALSE`.</span></pre></div>
-<p>Since this model definition only has one sub-model, we use <code><a href="https://tune.tidymodels.org/reference/fit_resamples.html">fit_resamples()</a></code> rather than <code><a href="https://tune.tidymodels.org/reference/tune_grid.html">tune_grid()</a></code>.</p>
+<p>Since this model definition only has one model configuration, we use <code><a href="https://tune.tidymodels.org/reference/fit_resamples.html">fit_resamples()</a></code> rather than <code><a href="https://tune.tidymodels.org/reference/tune_grid.html">tune_grid()</a></code>.</p>
 <p>Now, moving on to the spline model definition:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit">
 <span class="co"># modify the recipe and use the same linear reg spec</span>
@@ -295,9 +295,9 @@
 
 <span class="kw">tree_frogs_data_st</span>
 <span class="co">#&gt; # A data stack with 3 model definitions and 15 candidate members:</span>
-<span class="co">#&gt; #   lin_reg_res: 1 sub-model</span>
-<span class="co">#&gt; #   spline_res: 9 sub-models</span>
-<span class="co">#&gt; #   svm_res: 5 sub-models</span>
+<span class="co">#&gt; #   lin_reg_res: 1 model configuration</span>
+<span class="co">#&gt; #   spline_res: 9 model configurations</span>
+<span class="co">#&gt; #   svm_res: 5 model configurations</span>
 <span class="co">#&gt; # Outcome: latency (numeric)</span></pre></div>
 <p>As mentioned before, under the hood, a <code>data_stack</code> object is really just a tibble with some extra attributes. Checking out the actual data:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit">

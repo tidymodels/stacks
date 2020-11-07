@@ -35,12 +35,6 @@ results objects for the candidate \emph{ensemble members} with tune.
 
 \figure{candidates.png}{options: width=500}
 
-The package will sometimes refer to \emph{sub-models}. An ensemble member is
-a sub-model that has actually been selected (and possibly trained) for
-use in the ensemble (via nonzero stacking coefficients, usually) that is
-not regarded as resulting from a specific model definition, where-as a
-sub-model is an untrained candidate ensemble member.
-
 Candidate members first come together in a \code{data_stack} object through
 the \code{add_candidates()} function. Principally, these objects are just
 \href{https://tibble.tidyverse.org/}{tibble}s, where the first column gives

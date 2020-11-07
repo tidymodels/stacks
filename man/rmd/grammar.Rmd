@@ -6,8 +6,6 @@ To be used in the same ensemble, each of these model definitions must share the 
 
 \\figure{candidates.png}{options: width=500}
 
-The package will sometimes refer to _sub-models_. An ensemble member is a sub-model that has actually been selected (and possibly trained) for use in the ensemble (via nonzero stacking coefficients, usually) that is not regarded as resulting from a specific model definition, where-as a sub-model is an untrained candidate ensemble member.
-
 Candidate members first come together in a `data_stack` object through the `add_candidates()` function. Principally, these objects are just [tibble](https://tibble.tidyverse.org/)s, where the first column gives the true outcome in the assessment set (the portion of the training set used for model validation), and the remaining columns give the predictions from each candidate ensemble member. (When the outcome is numeric, there's only one column per candidate ensemble member. Classification requires as many columns per candidate as there are levels in the outcome variable.) They also bring along a few extra attributes to keep track of model definitions.
 
 \\figure{data_stack.png}{options: width=500}

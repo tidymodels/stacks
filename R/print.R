@@ -36,7 +36,7 @@ print.data_stack <- function(x, ...) {
       function(submodels, name) {
         cat(glue::glue(
           "#   {name}: ",
-          "{submodels} sub-model",
+          "{submodels} model configuration",
           "{if (submodels != 1) 's' else ''}")
         )
         cat("\n")

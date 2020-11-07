@@ -135,7 +135,7 @@ lin_reg_res <-
   )
 ```
 
-Since this model definition only has one sub-model, we use `fit_resamples()` rather than `tune_grid()`.
+Since this model definition only has one model configuration, we use `fit_resamples()` rather than `tune_grid()`.
 
 Now, moving on to the spline model definition:
 
