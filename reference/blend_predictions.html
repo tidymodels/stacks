@@ -172,7 +172,6 @@ is typically used after a number of calls to <code><a href='add_candidates.html'
   non_negative <span class='op'>=</span> <span class='cn'>TRUE</span>,
   metric <span class='op'>=</span> <span class='cn'>NULL</span>,
   control <span class='op'>=</span> <span class='fu'>tune</span><span class='fu'>::</span><span class='fu'><a href='https://tune.tidymodels.org/reference/control_grid.html'>control_grid</a></span><span class='op'>(</span><span class='op'>)</span>,
-  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -209,11 +208,6 @@ determined by <code><a href='https://tune.tidymodels.org/reference/tune_grid.htm
 the model determining stacking coefficients. See <code><a href='https://tune.tidymodels.org/reference/control_grid.html'>tune::control_grid</a></code>
 documentation for details on possible values. Note that any <code>extract</code>
 entry will be overwritten internally.</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>A logical for logging results as they are generated. Despite
-this argument, warnings and errors are always shown.</p></td>
     </tr>
     <tr>
       <th>...</th>
