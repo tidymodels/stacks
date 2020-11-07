@@ -4,14 +4,11 @@
 \alias{fit_members}
 \title{Fit model stack members with non-zero stacking coefficients}
 \usage{
-fit_members(model_stack, verbose = FALSE, ...)
+fit_members(model_stack, ...)
 }
 \arguments{
 \item{model_stack}{A \code{model_stack} object outputted by \code{blend_predictions()} or
 \code{fit_members()}}
-
-\item{verbose}{A logical for logging results as they are generated. Despite
-this argument, warnings and errors are always shown.}
 
 \item{...}{Additional arguments. Currently ignored.}
 }

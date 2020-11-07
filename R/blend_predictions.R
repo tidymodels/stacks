@@ -33,8 +33,6 @@
 #'   the model determining stacking coefficients. See `tune::control_grid`
 #'   documentation for details on possible values. Note that any `extract`
 #'   entry will be overwritten internally.
-#' @param verbose A logical for logging results as they are generated. Despite 
-#'   this argument, warnings and errors are always shown.
 #' @inheritParams add_candidates
 #' 
 #' @return A `model_stack` object—while `model_stack`s largely contain the
@@ -105,8 +103,7 @@
 #' @export
 blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1), 
                               non_negative = TRUE, metric = NULL,
-                              control = tune::control_grid(),
-                              verbose = FALSE,  ...) {
+                              control = tune::control_grid(),  ...) {
   check_inherits(data_stack, "data_stack")
   check_blend_data_stack(data_stack)
   check_penalty(penalty)
@@ -115,7 +112,6 @@ blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1),
     check_inherits(metric, "metric_set")
   }
   check_inherits(control, "control_grid")
-  check_inherits(verbose, "logical")
   
   outcome <- attr(data_stack, "outcome")
   

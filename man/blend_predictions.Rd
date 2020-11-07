@@ -10,7 +10,6 @@ blend_predictions(
   non_negative = TRUE,
   metric = NULL,
   control = tune::control_grid(),
-  verbose = FALSE,
   ...
 )
 }
@@ -35,9 +34,6 @@ determined by \code{tune::tune_grid} from the outcome class.}
 the model determining stacking coefficients. See \code{tune::control_grid}
 documentation for details on possible values. Note that any \code{extract}
 entry will be overwritten internally.}
-
-\item{verbose}{A logical for logging results as they are generated. Despite
-this argument, warnings and errors are always shown.}
 
 \item{...}{Additional arguments. Currently ignored.}
 }

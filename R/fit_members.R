@@ -66,7 +66,7 @@
 #' 
 #' @family core verbs
 #' @export
-fit_members <- function(model_stack, verbose = FALSE, ...) {
+fit_members <- function(model_stack, ...) {
   check_model_stack(model_stack)
   
   dat <- model_stack[["train"]]
