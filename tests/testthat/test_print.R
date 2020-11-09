@@ -3,6 +3,8 @@ context("print")
 load(test_path("helper_data.Rda"))
 
 test_that("data stack printing works", {
+  skip_on_cran()
+  
   verify_output(
     test_path("out/data_stack_init.txt"),
     {stacks()}
@@ -25,6 +27,8 @@ test_that("data stack printing works", {
 })
 
 test_that("model stack printing works", {
+  skip_on_cran()
+  
   verify_output(
     test_path("out/model_stack_reg.txt"),
     {st_reg_1_}

@@ -3,6 +3,8 @@ context("predict")
 load(test_path("helper_data.Rda"))
 
 test_that("predict method works (regression)", {
+  skip_on_cran()
+  
   pred_r <- predict(st_reg_1__, tree_frogs_reg_test)
   pred_r2 <- predict(st_reg_1__, tree_frogs_reg_test, members = TRUE)
   
@@ -17,6 +19,8 @@ test_that("predict method works (regression)", {
 })
 
 test_that("predict method works (classification)", {
+  skip_on_cran()
+  
   pred_c <- predict(st_class_1__, tree_frogs_class_test)
   pred_l <- predict(st_log_1__, tree_frogs_class_test)
   pred_c2 <- predict(st_class_1__, tree_frogs_class_test, members = TRUE)
@@ -43,6 +47,8 @@ test_that("predict method works (classification)", {
 })
 
 test_that("predict method errors informatively", {
+  skip_on_cran()
+  
   expect_error(
     st_reg_1 %>% predict(penguins_test),
     "supplied data stack must be evaluated with"

@@ -1,4 +1,4 @@
-#' stacks: Tidy Model Stacking Stools
+#' stacks: Tidy Model Stacking
 #'
 #' @docType package
 #' @name stacks_description

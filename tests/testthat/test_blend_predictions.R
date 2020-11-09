@@ -3,6 +3,8 @@ context("blend_predictions")
 load(test_path("helper_data.Rda"))
 
 test_that("blend_predictions works", {
+  skip_on_cran()
+  
   expect_true(check_inherits(st_reg_1 %>% blend_predictions(), "model_stack"))
   expect_true(check_inherits(st_class_1 %>% blend_predictions(), "model_stack"))
   expect_true(check_inherits(st_log_1 %>% blend_predictions(), "model_stack"))
@@ -13,6 +15,8 @@ test_that("blend_predictions works", {
 })
 
 test_that("penalty argument works correctly", {
+  skip_on_cran()
+  
   expect_true(check_inherits(st_reg_1 %>% blend_predictions(10^-2), "model_stack"))
   expect_equal(
     class(all.equal(
@@ -24,6 +28,8 @@ test_that("penalty argument works correctly", {
 })
 
 test_that("blend_predictions can handle many resample types", {
+  skip_on_cran()
+  
   expect_true(
     check_inherits(
       stacks() %>% add_candidates(reg_res_svm_2) %>% blend_predictions(), 
@@ -54,6 +60,7 @@ test_that("blend_predictions can handle many resample types", {
 })
 
 test_that("blend_predictions errors informatively with bad arguments", {
+  skip_on_cran()
   skip_if_not_installed("yardstick")
   
   expect_error(
@@ -113,6 +120,8 @@ test_that("blend_predictions errors informatively with bad arguments", {
 })
 
 test_that("blend_predictions is sensitive to the non_negative argument", {
+  skip_on_cran()
+  
   neg <- st_reg_1 %>% blend_predictions(non_negative = FALSE)
   
   expect_true(
@@ -134,6 +143,8 @@ test_that("blend_predictions is sensitive to the metric argument", {
 })
 
 test_that("process_data_stack works", {
+  skip_on_cran()
+  
   expect_equal(
     process_data_stack(data.frame(a = 1:5)),
     tibble::as_tibble(data.frame(a = 1:5))

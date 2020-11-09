@@ -55,6 +55,8 @@ test_that("stack can add candidates (two-way classification)", {
 })
 
 test_that("add_candidates errors informatively with bad arguments", {
+  skip_on_cran()
+  
   expect_error(
     add_candidates(reg_res_svm, "svm"),
     "Did you accidentally supply the candidate members as the first argument?"
@@ -163,6 +165,8 @@ test_that("add_candidates errors informatively with bad arguments", {
 })
 
 test_that("model definition naming works as expected", {
+  skip_on_cran()
+  
   st_reg_1_newname <- 
     stacks() %>%
     add_candidates(reg_res_svm, name = "boop")

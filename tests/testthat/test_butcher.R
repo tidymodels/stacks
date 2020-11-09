@@ -14,18 +14,24 @@ test_axe <- function(st, fxn) {
 }
 
 test_that("model_stack + axe_call() works", {
+  skip_on_cran()
+  
   test_axe(st_reg_1__, axe_call)
   test_axe(st_class_1__, axe_call)
   test_axe(st_log_1__, axe_call)
 })
 
 test_that("model_stack + axe_ctrl() works", {
+  skip_on_cran()
+  
   test_axe(st_reg_1__, axe_ctrl)
   test_axe(st_class_1__, axe_ctrl)
   test_axe(st_log_1__, axe_ctrl)
 })
 
 test_that("model_stack + axe_data() works", {
+  skip_on_cran()
+  
   expect_identical(
     axe_data(st_reg_1__)[["train"]],
     tibble::tibble()
@@ -43,24 +49,32 @@ test_that("model_stack + axe_data() works", {
 })
 
 test_that("model_stack + axe_env() works", {
+  skip_on_cran()
+  
   test_axe(st_reg_1__, axe_env)
   test_axe(st_class_1__, axe_env)
   test_axe(st_log_1__, axe_env)
 })
 
 test_that("model_stack + axe_fitted() works", {
+  skip_on_cran()
+  
   test_axe(st_reg_1__, axe_fitted)
   test_axe(st_class_1__, axe_fitted)
   test_axe(st_log_1__, axe_fitted)
 })
 
 test_that("model_stack + butcher() works", {
+  skip_on_cran()
+  
   test_axe(st_reg_1__, butcher)
   test_axe(st_class_1__, butcher)
   test_axe(st_log_1__, axe_call)
 })
 
 test_that("butchered model stack printing works", {
+  skip_on_cran()
+  
   verify_output(
     test_path("out/model_stack_reg_butcher.txt"),
     {butcher(st_reg_1__)}

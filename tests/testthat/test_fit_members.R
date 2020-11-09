@@ -3,6 +3,8 @@ context("fit_members")
 load(test_path("helper_data.Rda"))
 
 test_that("basic fit_members works", {
+  skip_on_cran()
+  
   expect_silent(
     st_reg_1 %>% add_candidates(reg_res_lr) %>% blend_predictions() %>% fit_members()
   )
@@ -28,6 +30,8 @@ test_that("basic fit_members works", {
 })
 
 test_that("fit_members leaves most model stack elements alone", {
+  skip_on_cran()
+  
   expect_equal(st_reg_1__[["train"]], st_reg_1_[["train"]])
   expect_equal(st_class_1__[["train"]], st_class_1_[["train"]])
   expect_equal(st_log_1__[["train"]], st_log_1_[["train"]])
@@ -66,6 +70,8 @@ test_that("fit_members leaves most model stack elements alone", {
 })
 
 test_that("fit_members errors informatively with a bad model_stack arg", {
+  skip_on_cran()
+  
   expect_error(
     st_reg_1 %>% fit_members(),
     "Did you forget to first evaluate the ensemble's stacking coefficients w"

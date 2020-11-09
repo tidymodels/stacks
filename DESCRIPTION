@@ -1,5 +1,5 @@
 Package: stacks
-Title: Tidy Model Stacking Tools
+Title: Tidy Model Stacking
 Version: 0.0.0.9000
 Authors@R: c(
     person(given = "Simon",
