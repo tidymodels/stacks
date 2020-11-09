@@ -1,0 +1,51 @@
+context("on cran")
+
+# many of the tests for core verbs take a significant amount of time to run.
+# skip most all of them on cran in favor of a minimal test that will at least
+# flag breakages, even if uninformatively.
+
+test_that("basic stacks pipeline works", {
+  library(tibble)
+  library(dplyr)
+  library(purrr)
+  library(tune)
+  library(workflows)
+  library(parsnip)
+  library(rsample)
+  
+  set.seed(1)
+  
+  dat <-
+    tibble::tibble(
+      x = rnorm(200),
+      y = x + rnorm(200, 0, .1),
+      z = dplyr::case_when(
+        x > 0 ~ purrr::rbernoulli(1, p = .2),
+        TRUE ~ TRUE
+      )
+    )
+  
+  lin_reg <- 
+    tune::tune_grid(
+      workflows::workflow() %>%
+        workflows::add_formula(x ~ y + z) %>%
+        workflows::add_model(
+          parsnip::linear_reg(
+            penalty = tune::tune("penalty"), 
+            mixture = tune::tune("mixture")
+          ) %>%
+          parsnip::set_engine("glmnet")
+        ),
+      rsample::vfold_cv(dat, v = 4),
+      grid = 4,
+      control = control_stack_grid()
+    )
+  
+  st <-
+    stacks() %>%
+    add_candidates(svm_reg) %>%
+    blend_predictions() %>%
+    fit_members()
+  
+  expect_true(model_stack_constr(st))
+})
