@@ -226,7 +226,7 @@
 <span class="co">#&gt;  8 .pred_mid_rand_forest_res_1_08  rand_forest  10.4  mid  </span>
 <span class="co">#&gt;  9 .pred_mid_nnet_res_1_03         mlp          10.0  mid  </span>
 <span class="co">#&gt; 10 .pred_mid_rand_forest_res_1_01  rand_forest   9.20 mid</span></code></pre></div>
-<p>To make sure that we have the right trade-off between minimizing the number of members and optimizing performance, the <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot()</a></code> method comes in hand:</p>
+<p>To make sure that we have the right trade-off between minimizing the number of members and optimizing performance, we can use the <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot()</a></code> method:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span><span class="op">)</span></code></pre></div>
@@ -240,20 +240,37 @@
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span>, type <span class="op">=</span> <span class="st">"weights"</span><span class="op">)</span></code></pre></div>
 <p><img src="classification_files/figure-html/weight-plot-1.png" width="768"></p>
 <p>There are multiple facets since the ensemble members can have different effects on different classes.</p>
-<p>This object is now ready to predict with new data!</p>
+<p>To identify which model configurations were assigned what stacking coefficients, we can make use of the <code><a href="../reference/collect_parameters.html">collect_parameters()</a></code> function:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/collect_parameters.html">collect_parameters</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span>, <span class="st">"rand_forest_res"</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 60 x 6</span>
+<span class="co">#&gt;    member                mtry min_n class terms                            coef</span>
+<span class="co">#&gt;    &lt;chr&gt;                &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;                           &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 rand_forest_res_1_01     2    33 low   .pred_mid_rand_forest_res_1_01   0   </span>
+<span class="co">#&gt;  2 rand_forest_res_1_01     2    33 low   .pred_full_rand_forest_res_1_01  0   </span>
+<span class="co">#&gt;  3 rand_forest_res_1_01     2    33 mid   .pred_mid_rand_forest_res_1_01   9.20</span>
+<span class="co">#&gt;  4 rand_forest_res_1_01     2    33 mid   .pred_full_rand_forest_res_1_01  0   </span>
+<span class="co">#&gt;  5 rand_forest_res_1_01     2    33 full  .pred_mid_rand_forest_res_1_01   0   </span>
+<span class="co">#&gt;  6 rand_forest_res_1_01     2    33 full  .pred_full_rand_forest_res_1_01  0   </span>
+<span class="co">#&gt;  7 rand_forest_res_1_02     5     6 low   .pred_mid_rand_forest_res_1_02   0   </span>
+<span class="co">#&gt;  8 rand_forest_res_1_02     5     6 low   .pred_full_rand_forest_res_1_02  0   </span>
+<span class="co">#&gt;  9 rand_forest_res_1_02     5     6 mid   .pred_mid_rand_forest_res_1_02  16.3 </span>
+<span class="co">#&gt; 10 rand_forest_res_1_02     5     6 mid   .pred_full_rand_forest_res_1_02  0   </span>
+<span class="co">#&gt; # … with 50 more rows</span></code></pre></div>
+<p>This object is now ready to predict with new data!</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tree_frogs_pred</span> <span class="op">&lt;-</span>
   <span class="va">tree_frogs_test</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_cols</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span>, <span class="va">.</span>, type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Computing the ROC AUC for the model:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">yardstick</span><span class="fu">::</span><span class="fu"><a href="https://yardstick.tidymodels.org/reference/roc_auc.html">roc_auc</a></span><span class="op">(</span>
   <span class="va">tree_frogs_pred</span>,
   truth <span class="op">=</span> <span class="va">reflex</span>,
   <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">".pred_"</span><span class="op">)</span>
   <span class="op">)</span></code></pre></div>
 <p>Looks like our predictions were pretty strong! How do the stacks predictions perform, though, as compared to the members’ predictions? We can use the <code>members</code> argument to generate predictions from each of the ensemble members.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tree_frogs_pred</span> <span class="op">&lt;-</span>
   <span class="va">tree_frogs_test</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">reflex</span><span class="op">)</span> <span class="op">%&gt;%</span>
