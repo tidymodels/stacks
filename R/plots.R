@@ -103,7 +103,7 @@ weights_plot <- function(x, penalty = x$penalty$penalty, n = Inf) {
     ggplot2::ylab("Member") + 
     ggplot2::ggtitle(paste("penalty =", format(x$coefs$spec$args$penalty, digits = 3))) + 
     ggplot2::geom_vline(xintercept = 0) + 
-    ggplot2::xlab("Blending Coefficient")
+    ggplot2::xlab("Stacking Coefficient")
   
   if (any(names(dat) == "class")) {
    p <- p + ggplot2::facet_wrap(~ class) 

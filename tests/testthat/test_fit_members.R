@@ -68,7 +68,7 @@ test_that("fit_members leaves most model stack elements alone", {
 test_that("fit_members errors informatively with a bad model_stack arg", {
   expect_error(
     st_reg_1 %>% fit_members(),
-    "Did you forget to first evaluate the data stack's blending coefficients w"
+    "Did you forget to first evaluate the ensemble's stacking coefficients w"
   )
   
   expect_error(

@@ -204,8 +204,8 @@ check_model_stack <- function(model_stack) {
   } else if (inherits(model_stack, "data_stack")) {
     glue_stop(
       "The supplied `model_stack` argument is a data stack rather than ",
-      "a model stack. Did you forget to first evaluate the data stack's ",
-      "blending coefficients with `blend_predictions()`?"
+      "a model stack. Did you forget to first evaluate the ensemble's ",
+      "stacking coefficients with `blend_predictions()`?"
     )
   } else {
     check_inherits(model_stack, "model_stack")
