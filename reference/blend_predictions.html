@@ -193,19 +193,19 @@ will be tuned on unless a single penalty value is given.</p></td>
       <th>non_negative</th>
       <td><p>A logical giving whether to restrict stacking
 coefficients to non-negative values. If <code>TRUE</code> (default), 0 is passed as
-the <code>lower.limits</code> argument to <code><a href='https://glmnet.stanford.edu/reference/glmnet.html'>glmnet::glmnet</a></code> in fitting the
+the <code>lower.limits</code> argument to <code><a href='https://glmnet.stanford.edu/reference/glmnet.html'>glmnet::glmnet()</a></code> in fitting the
 model on the data stack. Otherwise, <code>-Inf</code>.</p></td>
     </tr>
     <tr>
       <th>metric</th>
       <td><p>A call to <code><a href='https://yardstick.tidymodels.org/reference/metric_set.html'>yardstick::metric_set()</a></code>. The metric(s) to use in
 tuning the lasso penalty on the stacking coefficients. Default values are
-determined by <code><a href='https://tune.tidymodels.org/reference/tune_grid.html'>tune::tune_grid</a></code> from the outcome class.</p></td>
+determined by <code><a href='https://tune.tidymodels.org/reference/tune_grid.html'>tune::tune_grid()</a></code> from the outcome class.</p></td>
     </tr>
     <tr>
       <th>control</th>
       <td><p>An object inheriting from <code>control_grid</code> to be passed to
-the model determining stacking coefficients. See <code><a href='https://tune.tidymodels.org/reference/control_grid.html'>tune::control_grid</a></code>
+the model determining stacking coefficients. See <code><a href='https://tune.tidymodels.org/reference/control_grid.html'>tune::control_grid()</a></code>
 documentation for details on possible values. Note that any <code>extract</code>
 entry will be overwritten internally.</p></td>
     </tr>
