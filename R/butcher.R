@@ -7,7 +7,7 @@ butcher::butcher
 #' @param x A model object
 #' @param verbose Print information each time an axe method is executed. 
 #'   Notes how much memory is released and what functions are disabled. 
-#'   Default is FALSE.
+#'   Default is `FALSE`.
 #' @inheritParams stacks
 #'
 #' @return Axed model_stack object.

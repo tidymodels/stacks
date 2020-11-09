@@ -2,12 +2,13 @@
 % Please edit documentation in R/plots.R
 \name{autoplot.linear_stack}
 \alias{autoplot.linear_stack}
-\title{Plot results of a linear stacking model}
+\title{Plot results of a stacked ensemble model.}
 \usage{
 \method{autoplot}{linear_stack}(object, type = "performance", n = Inf, ...)
 }
 \arguments{
-\item{object}{A \code{linear_stack} object.}
+\item{object}{A \code{linear_stack} object outputted from \code{\link[=blend_predictions]{blend_predictions()}}
+or \code{\link[=fit_members]{fit_members()}}.}
 
 \item{type}{A single character string for plot type with values "performance",
 "members", or "weights".}
@@ -22,7 +23,7 @@ across classes; otherwise this is equal to the number of members.}
 A \code{ggplot} object.
 }
 \description{
-Plot results of a linear stacking model
+Plot results of a stacked ensemble model.
 }
 \details{
 A "performance" plot shows the relationship between the lasso penalty and the

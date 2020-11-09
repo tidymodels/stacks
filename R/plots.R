@@ -3,9 +3,10 @@
 ggplot2::autoplot
 
 
-#' Plot results of a linear stacking model
+#' Plot results of a stacked ensemble model.
 #' 
-#' @param object A `linear_stack` object.
+#' @param object A `linear_stack` object outputted from [blend_predictions()]
+#' or [fit_members()].
 #' @param type A single character string for plot type with values "performance", 
 #' "members", or "weights".
 #' @param n An integer for how many members weights to plot when 

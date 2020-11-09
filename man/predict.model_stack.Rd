@@ -7,7 +7,7 @@
 \method{predict}{model_stack}(object, new_data, type = NULL, members = FALSE, opts = list(), ...)
 }
 \arguments{
-\item{object}{A model stack with fitted members.}
+\item{object}{A model stack with fitted members outputted from \code{\link[=fit_members]{fit_members()}}.}
 
 \item{new_data}{A rectangular data object, such as a data frame.}
 

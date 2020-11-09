@@ -7,8 +7,7 @@
 fit_members(model_stack, ...)
 }
 \arguments{
-\item{model_stack}{A \code{model_stack} object outputted by \code{blend_predictions()} or
-\code{fit_members()}}
+\item{model_stack}{A \code{model_stack} object outputted by \code{\link[=blend_predictions]{blend_predictions()}}.}
 
 \item{...}{Additional arguments. Currently ignored.}
 }
@@ -17,7 +16,7 @@ A \code{model_stack} object with a subclass \code{linear_stack}---this fitted
 model contains the necessary components to predict on new data.
 }
 \description{
-After evaluating a data stack with \code{blend_predictions()},
+After evaluating a data stack with \code{\link[=blend_predictions]{blend_predictions()}},
 some number of candidates will have nonzero stacking
 coefficients. Such candidates are referred to as "members."
 Since members' predictions will ultimately inform the model

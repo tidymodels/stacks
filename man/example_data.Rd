@@ -59,7 +59,7 @@ log_res_nn
 log_res_rf
 }
 \description{
-This package provides some resampling objects and datasets for use in examples
+stacks provides some resampling objects and datasets for use in examples
 and vignettes derived from a study on 1212 red-eyed tree frog embryos!
 }
 \details{

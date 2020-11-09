@@ -5,7 +5,7 @@
 #' and additional attributes from the supplied model definition
 #' (i.e. set of "candidates") to a data stack. 
 #' 
-#' Behind the scenes, data stack objectss are just [tibble::tibble()]s,
+#' Behind the scenes, data stack objects are just [tibble::tbl_df]s,
 #' where the first column gives the true response values,
 #' and the remaining columns give the assessment set predictions
 #' for each candidate. In the regression setting, there's only 
@@ -16,7 +16,7 @@
 #' To initialize a data stack, use the `stacks()` function.
 #' Model definitions are appended to a data stack iteratively 
 #' using several calls to `add_candidates()`. Data stacks are 
-#' evaluated using the `blend_predictions()` function.
+#' evaluated using the [blend_predictions()] function.
 #'
 #' @param data_stack A `data_stack` object.
 #' @param candidates A model definition: either a `tune_results` 

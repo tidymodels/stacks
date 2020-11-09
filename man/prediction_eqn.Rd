@@ -16,7 +16,7 @@ prediction_eqn(x, ...)
 \method{prediction_eqn}{`_multnet`}(x, type = "class", ...)
 }
 \arguments{
-\item{x}{An object that uses a \code{glmnet} model and all numeric predictors.}
+\item{x}{An object that uses a \code{\link[glmnet:glmnet]{glmnet::glmnet()}} model and all numeric predictors.}
 
 \item{...}{Not currently used.}
 

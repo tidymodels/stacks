@@ -35,7 +35,7 @@ A \code{data_stack} object--see \code{\link[=stacks]{stacks()}} for more details
 and additional attributes from the supplied model definition
 (i.e. set of "candidates") to a data stack.
 
-Behind the scenes, data stack objectss are just \code{\link[tibble:tibble]{tibble::tibble()}}s,
+Behind the scenes, data stack objects are just \link[tibble:tbl_df-class]{tibble::tbl_df}s,
 where the first column gives the true response values,
 and the remaining columns give the assessment set predictions
 for each candidate. In the regression setting, there's only
@@ -46,7 +46,7 @@ as there are levels of the outcome variable.
 To initialize a data stack, use the \code{stacks()} function.
 Model definitions are appended to a data stack iteratively
 using several calls to \code{add_candidates()}. Data stacks are
-evaluated using the \code{blend_predictions()} function.
+evaluated using the \code{\link[=blend_predictions]{blend_predictions()}} function.
 }
 \section{Example Data}{
 

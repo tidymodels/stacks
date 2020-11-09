@@ -17,7 +17,7 @@ build_linear_predictor(x, ...)
 \method{build_linear_predictor}{`_multnet`}(x, ...)
 }
 \arguments{
-\item{x}{An object that uses a \code{glmnet} model and all numeric predictors.}
+\item{x}{An object that uses a \code{\link[glmnet:glmnet]{glmnet::glmnet()}} model and all numeric predictors.}
 
 \item{...}{Not currently used.}
 }

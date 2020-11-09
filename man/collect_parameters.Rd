@@ -19,14 +19,14 @@ collect_parameters(stack, candidates, ...)
 \item{stack}{A \code{data_stack} or \code{model_stack} object.}
 
 \item{candidates}{The name of the candidates to collect parameters on.
-This will either be the \code{name} argument supplied to \code{add_candidates()} or,
+This will either be the \code{name} argument supplied to \code{\link[=add_candidates]{add_candidates()}} or,
 if not supplied, the name of the object supplied to the \code{candidates}
-argument in \code{add_candidates()}.}
+argument in \code{\link[=add_candidates]{add_candidates()}}.}
 
 \item{...}{Additional arguments. Currently ignored.}
 }
 \value{
-A \code{tibble} with information on member names and hyperparameters.
+A \link[tibble:tbl_df-class]{tibble::tbl_df} with information on member names and hyperparameters.
 }
 \description{
 A function to help situate candidates within a stack. Takes in a data

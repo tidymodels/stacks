@@ -12,7 +12,6 @@
 \item{...}{Additional arguments. Currently ignored.}
 }
 \description{
-To predict with a stacked ensemble, the data stack must be evaluated
-with \code{blend_predictions()} and its member models fitted with
-\code{fit_members()} to predict on new data.
+The data stack must be evaluated with \code{\link[=blend_predictions]{blend_predictions()}} and its member
+models fitted with \code{\link[=fit_members]{fit_members()}} to predict on new data.
 }

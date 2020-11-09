@@ -8,12 +8,12 @@
 #'
 #' @param stack A `data_stack` or `model_stack` object.
 #' @param candidates The name of the candidates to collect parameters on.
-#' This will either be the `name` argument supplied to `add_candidates()` or,
+#' This will either be the `name` argument supplied to [add_candidates()] or,
 #' if not supplied, the name of the object supplied to the `candidates`
-#' argument in `add_candidates()`.
+#' argument in [add_candidates()].
 #' @inheritParams stacks
 #' 
-#' @return A `tibble` with information on member names and hyperparameters.
+#' @return A [tibble::tbl_df] with information on member names and hyperparameters.
 #' 
 #' @template note_example_data
 #' 

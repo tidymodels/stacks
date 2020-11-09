@@ -1,15 +1,14 @@
 #' Fit model stack members with non-zero stacking coefficients
 #' 
 #' @description 
-#' After evaluating a data stack with `blend_predictions()`,
+#' After evaluating a data stack with [blend_predictions()],
 #' some number of candidates will have nonzero stacking
 #' coefficients. Such candidates are referred to as "members."
 #' Since members' predictions will ultimately inform the model
 #' stack's predictions, members should be trained on the full
 #' training set using `fit_members()`.
 #' 
-#' @param model_stack A `model_stack` object outputted by `blend_predictions()` or
-#'   `fit_members()`
+#' @param model_stack A `model_stack` object outputted by [blend_predictions()].
 #' @inheritParams stacks
 #' @inheritParams blend_predictions
 #' @return A `model_stack` object with a subclass `linear_stack`---this fitted 

@@ -1,6 +1,6 @@
 #' Example Objects
 #'
-#' This package provides some resampling objects and datasets for use in examples
+#' stacks provides some resampling objects and datasets for use in examples
 #' and vignettes derived from a study on 1212 red-eyed tree frog embryos!
 #' 
 #' Red-eyed tree frog (RETF) embryos can hatch earlier than their normal 

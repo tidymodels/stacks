@@ -23,15 +23,15 @@ will be tuned on unless a single penalty value is given.}
 
 \item{non_negative}{A logical giving whether to restrict stacking
 coefficients to non-negative values. If \code{TRUE} (default), 0 is passed as
-the \code{lower.limits} argument to \code{glmnet::glmnet} in fitting the
+the \code{lower.limits} argument to \code{\link[glmnet:glmnet]{glmnet::glmnet()}} in fitting the
 model on the data stack. Otherwise, \code{-Inf}.}
 
-\item{metric}{A call to \code{yardstick::metric_set()}. The metric(s) to use in
+\item{metric}{A call to \code{\link[yardstick:metric_set]{yardstick::metric_set()}}. The metric(s) to use in
 tuning the lasso penalty on the stacking coefficients. Default values are
-determined by \code{tune::tune_grid} from the outcome class.}
+determined by \code{\link[tune:tune_grid]{tune::tune_grid()}} from the outcome class.}
 
 \item{control}{An object inheriting from \code{control_grid} to be passed to
-the model determining stacking coefficients. See \code{tune::control_grid}
+the model determining stacking coefficients. See \code{\link[tune:control_grid]{tune::control_grid()}}
 documentation for details on possible values. Note that any \code{extract}
 entry will be overwritten internally.}
 
@@ -56,8 +56,8 @@ remaining columns of the data stack.
 
 Candidates with non-zero stacking coefficients are model stack
 members, and need to be trained on the full training set (rather
-than just the assessment set) with \code{fit_members()}. This function
-is typically used after a number of calls to \code{add_candidates()}.
+than just the assessment set) with \code{\link[=fit_members]{fit_members()}}. This function
+is typically used after a number of calls to \code{\link[=add_candidates]{add_candidates()}}.
 }
 \section{Example Data}{
 

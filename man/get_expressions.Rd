@@ -16,7 +16,7 @@ get_expressions(x, ...)
 \method{get_expressions}{`_elnet`}(x, ...)
 }
 \arguments{
-\item{x}{A \code{parsnip} model with the glmnet engine.}
+\item{x}{A \code{parsnip} model with the \code{glmnet} engine.}
 
 \item{...}{Not used}
 }

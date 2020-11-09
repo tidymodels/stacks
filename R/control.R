@@ -2,7 +2,7 @@
 #'
 #' @description 
 #' Supply these light wrappers as the `control` argument in a
-#' [tune::tune_grid], [tune::tune_bayes], or [tune::fit_resamples]
+#' [tune::tune_grid()], [tune::tune_bayes()], or [tune::fit_resamples()]
 #' call to return the needed elements for use in a data stack.
 #' These functions will return the appropriate control grid to ensure that
 #' assessment set predictions and information on model specifications and

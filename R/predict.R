@@ -2,7 +2,7 @@
 #'
 #' Apply a model stack to create different types of predictions.
 #'
-#' @param object A model stack with fitted members.
+#' @param object A model stack with fitted members outputted from [fit_members()].
 #' @param new_data A rectangular data object, such as a data frame.
 #' @param type Format of returned predicted values—one of "numeric", "class",
 #'   or "prob". When NULL, `predict()` will
@@ -116,9 +116,8 @@ predict.model_stack <- function(object, new_data, type = NULL, members = FALSE,
 #' Predicting with a model stack
 #' 
 #' @description 
-#' To predict with a stacked ensemble, the data stack must be evaluated 
-#' with `blend_predictions()` and its member models fitted with 
-#' `fit_members()` to predict on new data. 
+#' The data stack must be evaluated with [blend_predictions()] and its member 
+#' models fitted with [fit_members()] to predict on new data. 
 #' 
 #' @param object A data stack.
 #' @inheritParams stacks

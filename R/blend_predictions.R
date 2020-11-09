@@ -14,8 +14,8 @@
 #' 
 #' Candidates with non-zero stacking coefficients are model stack 
 #' members, and need to be trained on the full training set (rather
-#' than just the assessment set) with `fit_members()`. This function
-#' is typically used after a number of calls to `add_candidates()`.
+#' than just the assessment set) with [fit_members()]. This function
+#' is typically used after a number of calls to [add_candidates()].
 #' 
 #' @param data_stack A `data_stack` object
 #' @param penalty A numeric vector of proposed penalty values used in member
@@ -24,13 +24,13 @@
 #'   will be tuned on unless a single penalty value is given.
 #' @param non_negative A logical giving whether to restrict stacking 
 #'   coefficients to non-negative values. If `TRUE` (default), 0 is passed as 
-#'   the `lower.limits` argument to `glmnet::glmnet` in fitting the
+#'   the `lower.limits` argument to [glmnet::glmnet()] in fitting the
 #'   model on the data stack. Otherwise, `-Inf`.
-#' @param metric A call to `yardstick::metric_set()`. The metric(s) to use in 
+#' @param metric A call to [yardstick::metric_set()]. The metric(s) to use in 
 #'   tuning the lasso penalty on the stacking coefficients. Default values are
-#'   determined by `tune::tune_grid` from the outcome class.
+#'   determined by [tune::tune_grid()] from the outcome class.
 #' @param control An object inheriting from `control_grid` to be passed to
-#'   the model determining stacking coefficients. See `tune::control_grid`
+#'   the model determining stacking coefficients. See [tune::control_grid()]
 #'   documentation for details on possible values. Note that any `extract`
 #'   entry will be overwritten internally.
 #' @inheritParams add_candidates
