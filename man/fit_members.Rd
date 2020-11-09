@@ -13,9 +13,8 @@ fit_members(model_stack, ...)
 \item{...}{Additional arguments. Currently ignored.}
 }
 \value{
-A \code{model_stack} object with a subclass inherited from the chosen
-\verb{*_stack} method---this fitted model contains the
-necessary components to predict on new data.
+A \code{model_stack} object with a subclass \code{linear_stack}---this fitted
+model contains the necessary components to predict on new data.
 }
 \description{
 After evaluating a data stack with \code{blend_predictions()},

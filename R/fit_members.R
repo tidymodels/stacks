@@ -12,9 +12,8 @@
 #'   `fit_members()`
 #' @inheritParams stacks
 #' @inheritParams blend_predictions
-#' @return A `model_stack` object with a subclass inherited from the chosen
-#' `*_stack` method---this fitted model contains the 
-#' necessary components to predict on new data.
+#' @return A `model_stack` object with a subclass `linear_stack`---this fitted 
+#' model contains the necessary components to predict on new data.
 #' 
 #' @details 
 #' To fit members in parallel, please register a parallel backend function. 

@@ -13,84 +13,18 @@ stacks(...)
 A \code{data_stack} object.
 }
 \description{
-This help-file describes both the initialization function in the package
-as well as the general principles behind the package.
-
 The \code{stacks()} function initializes a \code{data_stack} object. Principally,
-\code{data_stack}s are just
-tibbles, where the first column gives the true outcome in the assessment set,
-and the remaining columns give the predictions from each candidate ensemble
+\code{data_stack}s are tibbles, where the first column gives
+the true outcome in the assessment set, and the remaining
+columns give the predictions from each candidate ensemble
 member. (When the outcome is numeric, there’s only one column per candidate
 member. For classification, there are as many columns per candidate
 member as there are levels in the outcome variable minus 1.) They also bring
 along a few extra attributes to keep track of model definitions, resamples,
 and training data.
 
-See the \code{Details} section below for more discussion of the package, generally.
-}
-\details{
-At the highest level, ensembles are formed from \emph{model definitions}. In
-this package, model definitions are an instance of a minimal
-\href{https://workflows.tidymodels.org/}{workflow}, containing a \emph{model
-specification} (as defined in the
-\href{https://parsnip.tidymodels.org/}{parsnip} package) and, optionally, a
-\emph{preprocessor} (as defined in the
-\href{https://recipes.tidymodels.org/}{recipes} package). Model definitions
-specify the form of candidate ensemble members.
-
-\figure{model_defs.png}{options: width=500}
-
-To be used in the same ensemble, each of these model definitions must
-share the same \emph{resample}. This
-\href{https://rsample.tidymodels.org/}{rsample} \code{rset} object, when paired
-with the model definitions, can be used to generate the tuning/fitting
-results objects for the candidate \emph{ensemble members} with tune.
-
-\figure{candidates.png}{options: width=500}
-
-Candidate members first come together in a \code{data_stack} object through
-the \code{add_candidates()} function. Principally, these objects are just
-\href{https://tibble.tidyverse.org/}{tibble}s, where the first column gives
-the true outcome in the assessment set (the portion of the training set
-used for model validation), and the remaining columns give the
-predictions from each candidate ensemble member. (When the outcome is
-numeric, there’s only one column per candidate ensemble member.
-Classification requires as many columns per candidate as there are
-levels in the outcome variable.) They also bring along a few extra
-attributes to keep track of model definitions.
-
-\figure{data_stack.png}{options: width=500}
-
-Then, the data stack can be evaluated using \code{blend_predictions()} to
-determine to how best to combine the outputs from each of the candidate
-members. In the stacking literature, this process is commonly called
-\emph{metalearning}.
-
-The outputs of each member are likely highly correlated. Thus, depending
-on the degree of regularization you choose, the coefficients for the
-inputs of (possibly) many of the members will zero out—their predictions
-will have no influence on the final output, and those terms will thus be
-thrown out.
-
-\figure{coefs.png}{options: width=500}
-
-These stacking coefficients determine which candidate ensemble members
-will become ensemble members. Candidates with non-zero stacking
-coefficients are then fitted on the whole training set, altogether
-making up a \code{model_stack} object.
-
-\figure{class_model_stack.png}{options: width=500}
-
-This model stack object, outputted from \code{fit_members()}, is ready to
-predict on new data! The trained ensemble members are often referred to
-as \emph{base models} in the stacking literature.
-
-At a high level, the process follows these steps:
-
-\figure{outline.png}{options: width=500}
-
-The API for the package closely mirrors these ideas. See the \code{basics}
-vignette for an example of how this grammar is implemented!
+See \code{?stacks_description} for more discussion of the package, generally,
+and the \code{basics} vignette for a detailed walk-through of functionality.
 }
 \seealso{
 Other core verbs: 

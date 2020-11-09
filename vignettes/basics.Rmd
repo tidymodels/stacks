@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-In this article, we'll be working through an example of the workflow of model stacking with the stacks package. If you're unfamiliar with the language used in this vignette, please see the package README. At a high level, the workflow looks something like this:
+In this article, we'll be working through an example of the workflow of model stacking with the stacks package. At a high level, the workflow looks something like this:
 
 1. Define candidate ensemble members using functionality from rsample, parsnip, workflows, recipes, and tune
 2. Initialize a `data_stack` object with `stacks()`  
@@ -73,6 +73,12 @@ Let's give this a go!
 
 # Define candidate ensemble members
 
+At the highest level, ensembles are formed from _model definitions_. In this package, model definitions are an instance of a minimal [`workflow`](https://workflows.tidymodels.org/), containing a _model specification_ (as defined in the [`parsnip`](https://parsnip.tidymodels.org/) package) and, optionally, a _preprocessor_ (as defined in the [`recipes`](https://recipes.tidymodels.org/) package). Model definitions specify the form of candidate ensemble members. 
+
+```{r, echo = FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/model_defs.png")
+```
+
 Defining the constituent model definitions is undoubtedly the longest part of building an ensemble with `stacks`. If you're familiar with tidymodels "proper," you're probably fine to skip this section, keeping a few things in mind:
 
 * You'll need to save the assessment set predictions and workflow utilized in your `tune_grid()`, `tune_bayes()`, or `fit_resamples()` objects by setting the `control` arguments  `save_pred = TRUE` and `save_workflow = TRUE`. Note the use of the `control_stack_*()` convenience functions below!
@@ -91,13 +97,7 @@ set.seed(1)
 folds <- rsample::vfold_cv(tree_frogs_train, v = 5)
 
 tree_frogs_rec <- 
-  recipe(latency ~ ., data = tree_frogs_train) %>%
-  step_dummy(all_nominal()) %>%
-  step_zv(all_predictors())
-
-tree_frogs_wflow <- 
-  workflow() %>% 
-  add_recipe(tree_frogs_rec)
+  recipe(latency ~ ., data = tree_frogs_train)
 
 metric <- metric_set(rmse)
 ```
@@ -111,21 +111,93 @@ ctrl_grid <- control_stack_grid()
 ctrl_res <- control_stack_resamples()
 ```
 
-We'll define three different model definitions to try to predict time to hatch—a linear model, a spline model (with hyperparameters to tune), and a support vector machine model (again, with hyperparameters to tune).
+We'll define three different model definitions to try to predict time to hatch—a K-nearest neighbors model (with hyperparameters to tune), a linear model, and a support vector machine model (again, with hyperparameters to tune).
 
-Starting out with linear regression:
+Starting out with K-nearest neighbors, we begin by creating a `parsnip` model specification:
 
 ```{r}
-# create a linear model definition
+# create a model definition
+knn_spec <-
+  nearest_neighbor(
+    mode = "regression", 
+    neighbors = tune("k")
+  ) %>%
+  set_engine("kknn")
+
+knn_spec
+```
+
+Note that, since we are tuning over several possible numbers of neighbors, this model specification defines multiple model configurations. The specific form of those configurations will be determined when specifying the grid search in `tune_grid()`.
+
+From here, we extend the basic recipe defined earlier to fully specify the form of the design matrix for use in a K-nearest neighbors model:
+
+```{r}
+# extend the recipe
+knn_rec <-
+  tree_frogs_rec %>%
+  step_dummy(all_nominal()) %>%
+  step_zv(all_predictors(), skip = TRUE) %>%
+  step_meanimpute(all_numeric(), skip = TRUE) %>%
+  step_normalize(all_numeric(), skip = TRUE)
+
+knn_rec
+```
+
+Starting with the basic recipe, we convert categorical variables to dummy variables, remove column with only one observation, impute missing values in numeric variables using the mean, and normalize numeric predictors. Pre-processing instructions for the remaining models are defined similarly.
+
+Now, we combine the model specification and pre-processing instructions defined above to form a `workflow` object:
+
+```{r}
+# add both to a workflow
+knn_wflow <- 
+  workflow() %>% 
+  add_model(knn_spec) %>%
+  add_recipe(knn_rec)
+
+knn_wflow
+```
+
+Finally, we can make use of the workflow, training set resamples, metric set, and control object to tune our hyperparameters. Using the `grid` argument, we specify that we would like to optimize over four possible values of `k` using a grid search.
+
+```{r}
+# tune k and fit to the 5-fold cv
+set.seed(2020)
+knn_res <- 
+  tune_grid(
+    knn_wflow,
+    resamples = folds,
+    metrics = metric,
+    grid = 4,
+    control = ctrl_grid
+  )
+
+knn_res
+```
+
+This `knn_res` object fully specifies the candidate members, and is ready to be included in a `stacks` workflow. 
+
+Now, specifying the linear model, note that we are not optimizing over any hyperparameters. Thus, we use the `fit_resamples()` function rather than `tune_grid()` or `tune_bayes()` when fitting to our resamples.
+
+```{r}
+# create a model definition
 lin_reg_spec <-
   linear_reg() %>%
   set_engine("lm")
 
-lin_reg_wflow <- 
-  tree_frogs_wflow %>% 
-  add_model(lin_reg_spec)
+# extend the recipe
+lin_reg_rec <-
+  tree_frogs_rec %>%
+  step_dummy(all_nominal()) %>%
+  step_zv(all_predictors(), skip = TRUE)
 
-set.seed(1)
+# add both to a workflow
+lin_reg_wflow <- 
+  workflow() %>%
+  add_model(lin_reg_spec) %>%
+  add_recipe(lin_reg_rec)
+
+# fit to the 5-fold cv
+set.seed(2020)
 lin_reg_res <- 
   fit_resamples(
     lin_reg_wflow,
@@ -133,63 +205,68 @@ lin_reg_res <-
     metrics = metric,
     control = ctrl_res
   )
-```
 
-Since this model definition only has one model configuration, we use `fit_resamples()` rather than `tune_grid()`.
-
-Now, moving on to the spline model definition:
-
-```{r}
-# modify the recipe and use the same linear reg spec
-spline_rec <- 
-  tree_frogs_rec %>%
-  step_ns(age, deg_free = tune::tune("length"))
-
-spline_wflow <- 
-  workflow() %>% 
-  add_recipe(spline_rec) %>% 
-  add_model(lin_reg_spec)
-
-set.seed(1)
-spline_res <- 
-  tune_grid(
-    spline_wflow,
-    resamples = folds,
-    metrics = metric,
-    control = ctrl_grid
-  )
+lin_reg_res
 ```
 
 Finally, putting together the model definition for the support vector machine:
 
 ```{r}
+# create a model definition
 svm_spec <- 
   svm_rbf(
-    cost = tune(), 
-    rbf_sigma = tune()
+    cost = tune("cost"), 
+    rbf_sigma = tune("sigma")
   ) %>%
   set_engine("kernlab") %>%
   set_mode("regression")
 
-svm_wflow <- 
-  tree_frogs_wflow %>% 
-  add_model(svm_spec)
+# extend the recipe
+svm_rec <-
+  tree_frogs_rec %>%
+  step_dummy(all_nominal()) %>%
+  step_zv(all_predictors(), skip = TRUE) %>%
+  step_meanimpute(all_numeric(), skip = TRUE) %>%
+  step_corr(all_predictors(), skip = TRUE) %>%
+  step_normalize(all_numeric(), skip = TRUE)
 
-set.seed(1)
+# add both to a workflow
+svm_wflow <- 
+  workflow() %>% 
+  add_model(svm_spec) %>%
+  add_recipe(svm_rec)
+
+# tune cost and sigma and fit to the 5-fold cv
+set.seed(2020)
 svm_res <- 
   tune_grid(
     svm_wflow, 
     resamples = folds, 
-    grid = 5,
+    grid = 6,
+    metrics = metric,
     control = ctrl_grid
   )
+
+svm_res
 ```
 
-With these three model definitions fully specified, we're ready to start putting together an ensemble!
+Altogether, we've created three model definitions, where the K-nearest neighbors model definition specifies 4 model configurations, the linear regression specifies 1, and the support vector machine specifies 6.
+
+```{r, echo = FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/candidates.png")
+```
+
+With these three model definitions fully specified, we are ready to begin stacking these model configurations. (Note that, in most applied settings, one would likely specify many more than 11 candidate members.)
 
 # Putting together a stack
 
 The first step to building an ensemble with stacks is to create a `data_stack` object—in this package, data stacks are tibbles (with some extra attributes) that contain the assessment set predictions for each candidate ensemble member.
+
+```{r, echo = FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/data_stack.png")
+```
+
+We can initialize a data stack using the `stacks()` function.
 
 ```{r}
 stacks()
@@ -202,8 +279,8 @@ The `add_candidates()` function adds ensemble members to the stack.
 ```{r}
 tree_frogs_data_st <- 
   stacks() %>%
+  add_candidates(knn_res) %>%
   add_candidates(lin_reg_res) %>%
-  add_candidates(spline_res) %>%
   add_candidates(svm_res)
 
 tree_frogs_data_st
@@ -221,7 +298,7 @@ That's it! We're now ready to evaluate how it is that we need to combine predict
 
 # Fit the stack
 
-The outputs from each of these candidate ensemble members are highly correlated, so the `blend_predictions` method performs regularization to figure out how we can combine the outputs from the stack members to come up with a final prediction.
+The outputs from each of these candidate ensemble members are highly correlated, so the `blend_predictions()` function performs regularization to figure out how we can combine the outputs from the stack members to come up with a final prediction.
 
 ```{r}
 tree_frogs_model_st <-
@@ -229,7 +306,32 @@ tree_frogs_model_st <-
   blend_predictions()
 ```
 
-The `blend_predictions` function determines how member model output will ultimately be combined in the final prediction. Now that we know how to combine our model output, we can fit the models that we now know we need.
+The `blend_predictions` function determines how member model output will ultimately be combined in the final prediction by fitting a LASSO model on the data stack, predicting the true assessment set outcome using the predictions from each of the candidate members. Candidates with nonzero stacking coefficients become members. 
+
+```{r, echo = FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/coefs.png")
+```
+
+To make sure that we have the right trade-off between minimizing the number of members and optimizing performance, we can use the `autoplot()` method: 
+
+```{r penalty-plot}
+theme_set(theme_bw())
+autoplot(tree_frogs_model_st)
+```
+
+To show the relationship more directly: 
+
+```{r members-plot}
+autoplot(tree_frogs_model_st, type = "members")
+```
+
+If these results were not good enough, `blend_predictions()` could be called again with different values of `penalty`. As it is, `blend_predictions()` picks the penalty parameter with the numerically optimal results. To see the top results: 
+
+```{r weight-plot}
+autoplot(tree_frogs_model_st, type = "weights")
+```
+
+Now that we know how to combine our model output, we can fit the candidates with non-zero stacking coefficients on the full training set.
 
 ```{r}
 tree_frogs_model_st <-
@@ -237,7 +339,23 @@ tree_frogs_model_st <-
   fit_members()
 ```
 
-This object is now ready to predict with new data! 
+```{r, echo = FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/members.png")
+```
+
+Model stacks can be thought of as a group of fitted member models and a set of instructions on how to combine their predictions.
+
+```{r, echo = FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/class_model_stack.png")
+```
+
+To identify which model configurations were assigned what stacking coefficients, we can make use of the `collect_parameters()` function:
+
+```{r}
+collect_parameters(tree_frogs_model_st, "svm_res")
+```
+
+This object is now ready to predict with new data!
 
 ```{r}
 tree_frogs_test <- 
@@ -271,7 +389,11 @@ map_dfr(member_preds, rmse, truth = latency, data = member_preds) %>%
   mutate(member = colnames(member_preds))
 ```
 
-As we can see, the stacked ensemble outperforms each of the member models, though is closely followed by one of the spline members.
+As we can see, the stacked ensemble outperforms each of the member models, though is closely followed by one of its members.
 
-Voila! You've now made use of the stacks package to predict red-eyed tree frog embryo hatching using a stacked ensemble!  
+Voila! You've now made use of the stacks package to predict red-eyed tree frog embryo hatching using a stacked ensemble! Altogether, the process looks something like this:
+
+```{r, echo = FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/outline.png")
+```
 

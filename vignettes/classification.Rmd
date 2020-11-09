@@ -167,7 +167,7 @@ tree_frogs_model_st <-
 tree_frogs_model_st
 ```
 
-To make sure that we have the right trade-off between minimizing the number of members and optimizing performance, the `autoplot()` method comes in hand: 
+To make sure that we have the right trade-off between minimizing the number of members and optimizing performance, we can use the `autoplot()` method: 
 
 ```{r penalty-plot}
 theme_set(theme_bw())
@@ -187,6 +187,12 @@ autoplot(tree_frogs_model_st, type = "weights")
 ```
 
 There are multiple facets since the ensemble members can have different effects on different classes. 
+
+To identify which model configurations were assigned what stacking coefficients, we can make use of the `collect_parameters()` function:
+
+```{r}
+collect_parameters(tree_frogs_model_st, "rand_forest_res")
+```
 
 This object is now ready to predict with new data!
 
