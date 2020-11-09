@@ -43,7 +43,7 @@ test_that("basic stacks pipeline works", {
   
   st <-
     stacks() %>%
-    add_candidates(svm_reg) %>%
+    add_candidates(lin_reg) %>%
     blend_predictions() %>%
     fit_members()
   
