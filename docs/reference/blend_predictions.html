@@ -178,7 +178,6 @@ is typically used after a number of calls to <code><a href='add_candidates.html'
   non_negative = <span class='fl'>TRUE</span>,
   metric = <span class='kw'>NULL</span>,
   control = <span class='kw'>tune</span>::<span class='fu'><a href='https://tune.tidymodels.org/reference/control_grid.html'>control_grid</a></span>(),
-  verbose = <span class='fl'>FALSE</span>,
   <span class='kw'>...</span>
 )</pre>
 
@@ -215,11 +214,6 @@ determined by <code><a href='https://tune.tidymodels.org/reference/tune_grid.htm
 the model determining stacking coefficients. See <code><a href='https://tune.tidymodels.org/reference/control_grid.html'>tune::control_grid</a></code>
 documentation for details on possible values. Note that any <code>extract</code>
 entry will be overwritten internally.</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>A logical for logging results as they are generated. Despite
-this argument, warnings and errors are always shown.</p></td>
     </tr>
     <tr>
       <th>...</th>
