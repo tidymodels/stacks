@@ -45,7 +45,7 @@ Remove environments.
 Remove fitted values.
 }
 \examples{
-
+\donttest{
 # build a regression model stack
 st <-
   stacks() \%>\%
@@ -67,5 +67,5 @@ butchered_st <- butcher(st, verbose = TRUE)
 
 format(object.size(st))
 format(object.size(butchered_st))
-
+}
 }

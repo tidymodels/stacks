@@ -13,7 +13,7 @@ butcher::butcher
 #' @return Axed model_stack object.
 #'
 #' @examples
-#' 
+#' \donttest{
 #' # build a regression model stack
 #' st <-
 #'   stacks() %>%
@@ -35,7 +35,7 @@ butcher::butcher
 #' 
 #' format(object.size(st))
 #' format(object.size(butchered_st))
-#' 
+#' }
 #' @name axe_model_stack
 NULL
 
