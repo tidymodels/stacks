@@ -118,7 +118,7 @@ fit_members <- function(model_stack, ...) {
   # fit each of them
   member_fits <- 
     foreach::foreach(mem = member_names, .inorder = FALSE) %do_op% {
-      fit_member(
+      asNamespace("stacks")$fit_member(
         name = mem,
         wflows = model_stack[["model_defs"]],
         members_map = members_map,
