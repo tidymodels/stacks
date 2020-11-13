@@ -216,16 +216,16 @@
 <span class="co">#&gt; # A tibble: 10 x 4</span>
 <span class="co">#&gt;    member                          type        weight class</span>
 <span class="co">#&gt;    &lt;chr&gt;                           &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;</span>
-<span class="co">#&gt;  1 .pred_full_nnet_res_1_09        mlp          77.7  low  </span>
-<span class="co">#&gt;  2 .pred_mid_rand_forest_res_1_03  rand_forest  31.6  low  </span>
-<span class="co">#&gt;  3 .pred_mid_rand_forest_res_1_04  rand_forest  21.2  mid  </span>
-<span class="co">#&gt;  4 .pred_mid_rand_forest_res_1_02  rand_forest  16.3  mid  </span>
-<span class="co">#&gt;  5 .pred_mid_rand_forest_res_1_06  rand_forest  12.8  low  </span>
-<span class="co">#&gt;  6 .pred_full_rand_forest_res_1_06 rand_forest  11.5  full </span>
-<span class="co">#&gt;  7 .pred_mid_rand_forest_res_1_09  rand_forest  11.1  low  </span>
-<span class="co">#&gt;  8 .pred_mid_rand_forest_res_1_08  rand_forest  10.4  mid  </span>
-<span class="co">#&gt;  9 .pred_mid_nnet_res_1_03         mlp          10.0  mid  </span>
-<span class="co">#&gt; 10 .pred_mid_rand_forest_res_1_01  rand_forest   9.20 mid</span></code></pre></div>
+<span class="co">#&gt;  1 .pred_mid_nnet_res_1_06         mlp         127.   low  </span>
+<span class="co">#&gt;  2 .pred_full_nnet_res_1_09        mlp          88.6  low  </span>
+<span class="co">#&gt;  3 .pred_mid_rand_forest_res_1_07  rand_forest  37.2  low  </span>
+<span class="co">#&gt;  4 .pred_mid_rand_forest_res_1_06  rand_forest  32.3  mid  </span>
+<span class="co">#&gt;  5 .pred_mid_rand_forest_res_1_01  rand_forest  21.9  low  </span>
+<span class="co">#&gt;  6 .pred_mid_nnet_res_1_05         mlp          11.4  low  </span>
+<span class="co">#&gt;  7 .pred_full_rand_forest_res_1_09 rand_forest   9.64 full </span>
+<span class="co">#&gt;  8 .pred_mid_nnet_res_1_04         mlp           8.62 mid  </span>
+<span class="co">#&gt;  9 .pred_mid_rand_forest_res_1_05  rand_forest   8.58 mid  </span>
+<span class="co">#&gt; 10 .pred_full_rand_forest_res_1_07 rand_forest   7.77 low</span></code></pre></div>
 <p>To make sure that we have the right trade-off between minimizing the number of members and optimizing performance, we can use the <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot()</a></code> method:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
@@ -244,18 +244,18 @@
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/collect_parameters.html">collect_parameters</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span>, <span class="st">"rand_forest_res"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 60 x 6</span>
-<span class="co">#&gt;    member                mtry min_n class terms                            coef</span>
-<span class="co">#&gt;    &lt;chr&gt;                &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;                           &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 rand_forest_res_1_01     2    33 low   .pred_mid_rand_forest_res_1_01   0   </span>
-<span class="co">#&gt;  2 rand_forest_res_1_01     2    33 low   .pred_full_rand_forest_res_1_01  0   </span>
-<span class="co">#&gt;  3 rand_forest_res_1_01     2    33 mid   .pred_mid_rand_forest_res_1_01   9.20</span>
-<span class="co">#&gt;  4 rand_forest_res_1_01     2    33 mid   .pred_full_rand_forest_res_1_01  0   </span>
-<span class="co">#&gt;  5 rand_forest_res_1_01     2    33 full  .pred_mid_rand_forest_res_1_01   0   </span>
-<span class="co">#&gt;  6 rand_forest_res_1_01     2    33 full  .pred_full_rand_forest_res_1_01  0   </span>
-<span class="co">#&gt;  7 rand_forest_res_1_02     5     6 low   .pred_mid_rand_forest_res_1_02   0   </span>
-<span class="co">#&gt;  8 rand_forest_res_1_02     5     6 low   .pred_full_rand_forest_res_1_02  0   </span>
-<span class="co">#&gt;  9 rand_forest_res_1_02     5     6 mid   .pred_mid_rand_forest_res_1_02  16.3 </span>
-<span class="co">#&gt; 10 rand_forest_res_1_02     5     6 mid   .pred_full_rand_forest_res_1_02  0   </span>
+<span class="co">#&gt;    member                mtry min_n class terms                             coef</span>
+<span class="co">#&gt;    &lt;chr&gt;                &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;                            &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 rand_forest_res_1_01     3    15 low   .pred_mid_rand_forest_res_1_01 2.19e+1</span>
+<span class="co">#&gt;  2 rand_forest_res_1_01     3    15 low   .pred_full_rand_forest_res_1_… 7.16e-3</span>
+<span class="co">#&gt;  3 rand_forest_res_1_01     3    15 mid   .pred_mid_rand_forest_res_1_01 0.     </span>
+<span class="co">#&gt;  4 rand_forest_res_1_01     3    15 mid   .pred_full_rand_forest_res_1_… 0.     </span>
+<span class="co">#&gt;  5 rand_forest_res_1_01     3    15 full  .pred_mid_rand_forest_res_1_01 0.     </span>
+<span class="co">#&gt;  6 rand_forest_res_1_01     3    15 full  .pred_full_rand_forest_res_1_… 0.     </span>
+<span class="co">#&gt;  7 rand_forest_res_1_02     3    39 low   .pred_mid_rand_forest_res_1_02 6.89e+0</span>
+<span class="co">#&gt;  8 rand_forest_res_1_02     3    39 low   .pred_full_rand_forest_res_1_… 1.89e-1</span>
+<span class="co">#&gt;  9 rand_forest_res_1_02     3    39 mid   .pred_mid_rand_forest_res_1_02 0.     </span>
+<span class="co">#&gt; 10 rand_forest_res_1_02     3    39 mid   .pred_full_rand_forest_res_1_… 0.     </span>
 <span class="co">#&gt; # … with 50 more rows</span></code></pre></div>
 <p>This object is now ready to predict with new data!</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
@@ -284,58 +284,53 @@
     <span class="op">)</span>
 
 <span class="va">tree_frogs_pred</span>
-<span class="co">#&gt; # A tibble: 303 x 20</span>
+<span class="co">#&gt; # A tibble: 303 x 17</span>
 <span class="co">#&gt;    reflex .pred_class .pred_class_ran… .pred_class_ran… .pred_class_ran…</span>
 <span class="co">#&gt;    &lt;fct&gt;  &lt;fct&gt;       &lt;fct&gt;            &lt;fct&gt;            &lt;fct&gt;           </span>
-<span class="co">#&gt;  1 full   low         full             full             full            </span>
-<span class="co">#&gt;  2 low    mid         low              low              low             </span>
-<span class="co">#&gt;  3 full   low         full             full             full            </span>
-<span class="co">#&gt;  4 low    mid         low              low              low             </span>
-<span class="co">#&gt;  5 full   low         full             full             full            </span>
-<span class="co">#&gt;  6 full   low         full             full             full            </span>
-<span class="co">#&gt;  7 mid    mid         low              low              low             </span>
+<span class="co">#&gt;  1 full   mid         full             full             full            </span>
+<span class="co">#&gt;  2 low    full        low              low              low             </span>
+<span class="co">#&gt;  3 full   mid         full             full             full            </span>
+<span class="co">#&gt;  4 low    full        low              low              low             </span>
+<span class="co">#&gt;  5 full   mid         full             full             full            </span>
+<span class="co">#&gt;  6 full   mid         full             full             full            </span>
+<span class="co">#&gt;  7 mid    full        low              low              low             </span>
 <span class="co">#&gt;  8 mid    full        low              mid              mid             </span>
 <span class="co">#&gt;  9 low    full        mid              mid              mid             </span>
-<span class="co">#&gt; 10 full   low         full             full             full            </span>
-<span class="co">#&gt; # … with 293 more rows, and 15 more variables:</span>
+<span class="co">#&gt; 10 full   mid         full             full             full            </span>
+<span class="co">#&gt; # … with 293 more rows, and 12 more variables:</span>
+<span class="co">#&gt; #   .pred_class_rand_forest_res_1_08 &lt;fct&gt;, .pred_class_nnet_res_1_03 &lt;fct&gt;,</span>
+<span class="co">#&gt; #   .pred_class_nnet_res_1_05 &lt;fct&gt;, .pred_class_nnet_res_1_06 &lt;fct&gt;,</span>
+<span class="co">#&gt; #   .pred_class_nnet_res_1_09 &lt;fct&gt;, .pred_class_rand_forest_res_1_10 &lt;fct&gt;,</span>
 <span class="co">#&gt; #   .pred_class_rand_forest_res_1_06 &lt;fct&gt;,</span>
-<span class="co">#&gt; #   .pred_class_rand_forest_res_1_10 &lt;fct&gt;,</span>
-<span class="co">#&gt; #   .pred_class_rand_forest_res_1_07 &lt;fct&gt;, .pred_class_nnet_res_1_08 &lt;fct&gt;,</span>
-<span class="co">#&gt; #   .pred_class_nnet_res_1_07 &lt;fct&gt;, .pred_class_nnet_res_1_09 &lt;fct&gt;,</span>
-<span class="co">#&gt; #   .pred_class_nnet_res_1_10 &lt;fct&gt;, .pred_class_nnet_res_1_06 &lt;fct&gt;,</span>
-<span class="co">#&gt; #   .pred_class_nnet_res_1_02 &lt;fct&gt;, .pred_class_nnet_res_1_01 &lt;fct&gt;,</span>
+<span class="co">#&gt; #   .pred_class_rand_forest_res_1_03 &lt;fct&gt;,</span>
+<span class="co">#&gt; #   .pred_class_rand_forest_res_1_09 &lt;fct&gt;,</span>
 <span class="co">#&gt; #   .pred_class_rand_forest_res_1_04 &lt;fct&gt;,</span>
-<span class="co">#&gt; #   .pred_class_rand_forest_res_1_01 &lt;fct&gt;,</span>
-<span class="co">#&gt; #   .pred_class_rand_forest_res_1_08 &lt;fct&gt;,</span>
-<span class="co">#&gt; #   .pred_class_rand_forest_res_1_02 &lt;fct&gt;, .pred_class_nnet_res_1_03 &lt;fct&gt;</span>
+<span class="co">#&gt; #   .pred_class_rand_forest_res_1_05 &lt;fct&gt;, .pred_class_nnet_res_1_04 &lt;fct&gt;</span>
 
 <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dfr</a></span><span class="op">(</span>
   <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span><span class="op">)</span><span class="op">)</span>,
   <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span><span class="op">$</span><span class="va">reflex</span> <span class="op">==</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span>, <span class="va">.x</span><span class="op">)</span><span class="op">)</span>
 <span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">pivot_longer</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">-</span><span class="va">reflex</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 19 x 3</span>
-<span class="co">#&gt;    reflex name                              value</span>
-<span class="co">#&gt;     &lt;dbl&gt; &lt;chr&gt;                             &lt;dbl&gt;</span>
-<span class="co">#&gt;  1      1 .pred_class                      0.0528</span>
-<span class="co">#&gt;  2      1 .pred_class_rand_forest_res_1_03 0.815 </span>
-<span class="co">#&gt;  3      1 .pred_class_rand_forest_res_1_09 0.848 </span>
-<span class="co">#&gt;  4      1 .pred_class_rand_forest_res_1_05 0.842 </span>
-<span class="co">#&gt;  5      1 .pred_class_rand_forest_res_1_06 0.868 </span>
-<span class="co">#&gt;  6      1 .pred_class_rand_forest_res_1_10 0.851 </span>
-<span class="co">#&gt;  7      1 .pred_class_rand_forest_res_1_07 0.845 </span>
-<span class="co">#&gt;  8      1 .pred_class_nnet_res_1_08        0.518 </span>
-<span class="co">#&gt;  9      1 .pred_class_nnet_res_1_07        0.805 </span>
-<span class="co">#&gt; 10      1 .pred_class_nnet_res_1_09        0.518 </span>
-<span class="co">#&gt; 11      1 .pred_class_nnet_res_1_10        0.518 </span>
-<span class="co">#&gt; 12      1 .pred_class_nnet_res_1_06        0.518 </span>
-<span class="co">#&gt; 13      1 .pred_class_nnet_res_1_02        0.518 </span>
-<span class="co">#&gt; 14      1 .pred_class_nnet_res_1_01        0.518 </span>
-<span class="co">#&gt; 15      1 .pred_class_rand_forest_res_1_04 0.838 </span>
-<span class="co">#&gt; 16      1 .pred_class_rand_forest_res_1_01 0.835 </span>
-<span class="co">#&gt; 17      1 .pred_class_rand_forest_res_1_08 0.832 </span>
-<span class="co">#&gt; 18      1 .pred_class_rand_forest_res_1_02 0.875 </span>
-<span class="co">#&gt; 19      1 .pred_class_nnet_res_1_03        0.809</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 16 x 3</span>
+<span class="co">#&gt;    reflex name                             value</span>
+<span class="co">#&gt;     &lt;dbl&gt; &lt;chr&gt;                            &lt;dbl&gt;</span>
+<span class="co">#&gt;  1      1 .pred_class                      0    </span>
+<span class="co">#&gt;  2      1 .pred_class_rand_forest_res_1_07 0.805</span>
+<span class="co">#&gt;  3      1 .pred_class_rand_forest_res_1_01 0.835</span>
+<span class="co">#&gt;  4      1 .pred_class_rand_forest_res_1_02 0.832</span>
+<span class="co">#&gt;  5      1 .pred_class_rand_forest_res_1_08 0.848</span>
+<span class="co">#&gt;  6      1 .pred_class_nnet_res_1_03        0.518</span>
+<span class="co">#&gt;  7      1 .pred_class_nnet_res_1_05        0.518</span>
+<span class="co">#&gt;  8      1 .pred_class_nnet_res_1_06        0.518</span>
+<span class="co">#&gt;  9      1 .pred_class_nnet_res_1_09        0.805</span>
+<span class="co">#&gt; 10      1 .pred_class_rand_forest_res_1_10 0.835</span>
+<span class="co">#&gt; 11      1 .pred_class_rand_forest_res_1_06 0.835</span>
+<span class="co">#&gt; 12      1 .pred_class_rand_forest_res_1_03 0.838</span>
+<span class="co">#&gt; 13      1 .pred_class_rand_forest_res_1_09 0.861</span>
+<span class="co">#&gt; 14      1 .pred_class_rand_forest_res_1_04 0.858</span>
+<span class="co">#&gt; 15      1 .pred_class_rand_forest_res_1_05 0.868</span>
+<span class="co">#&gt; 16      1 .pred_class_nnet_res_1_04        0.809</span></code></pre></div>
 <p>Voila! You’ve now made use of the stacks package to predict tree frog embryo ear function using a stacked ensemble!</p>
 </div>
   </div>
