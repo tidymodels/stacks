@@ -11,6 +11,7 @@ inst/figs
 ^CODE_OF_CONDUCT\.md$
 ..Rcheck
 data-raw/
-_pkgdown.yml
+_pkgdown\.yml$
 docs/
 pkgdown/
+tests/testthat/helper_data\.Rda$
