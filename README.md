@@ -105,10 +105,8 @@ This model stack object, outputted from `fit_members()`, is ready to
 predict on new data\! The trained ensemble members are often referred to
 as *base models* in the stacking literature.
 
-At a high level, the process follows these steps:
-
-![](man/figures/outline.png)
-
+The full visual outline for these steps can be found
+[here](https://github.com/tidymodels/stacks/blob/main/inst/figs/outline.png).
 The API for the package closely mirrors these ideas. See the `basics`
 vignette for an example of how this grammar is implemented\!
 

@@ -391,9 +391,5 @@ map_dfr(member_preds, rmse, truth = latency, data = member_preds) %>%
 
 As we can see, the stacked ensemble outperforms each of the member models, though is closely followed by one of its members.
 
-Voila! You've now made use of the stacks package to predict red-eyed tree frog embryo hatching using a stacked ensemble! Altogether, the process looks something like this:
-
-```{r, echo = FALSE}
-knitr::include_graphics("https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/outline.png")
-```
+Voila! You've now made use of the stacks package to predict red-eyed tree frog embryo hatching using a stacked ensemble! The full visual outline for these steps can be found [here](https://github.com/tidymodels/stacks/blob/main/inst/figs/outline.png).
 
