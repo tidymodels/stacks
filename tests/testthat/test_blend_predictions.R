@@ -1,6 +1,6 @@
 context("blend_predictions")
 
-load(test_path("helper_data.Rda"))
+if ((!on_cran()) || interactive()) {load(test_path("helper_data.Rda"))}
 
 test_that("blend_predictions works", {
   skip_on_cran()
@@ -133,6 +133,7 @@ test_that("blend_predictions is sensitive to the non_negative argument", {
 test_that("blend_predictions is sensitive to the metric argument", {
   skip_if_not_installed("yardstick")
   library(yardstick)
+  skip_on_cran()
   
   metric_1 <- st_reg_1 %>% blend_predictions(metric = metric_set(rmse))
   metric_2 <- st_reg_1 %>% blend_predictions(metric = metric_set(rmse, mase))

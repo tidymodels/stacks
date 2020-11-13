@@ -1,6 +1,6 @@
 context("print")
 
-load(test_path("helper_data.Rda"))
+if ((!on_cran()) || interactive()) {load(test_path("helper_data.Rda"))}
 
 test_that("data stack printing works", {
   skip_on_cran()

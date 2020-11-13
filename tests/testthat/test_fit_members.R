@@ -1,6 +1,6 @@
 context("fit_members")
 
-load(test_path("helper_data.Rda"))
+if ((!on_cran()) || interactive()) {load(test_path("helper_data.Rda"))}
 
 test_that("basic fit_members works", {
   skip_on_cran()

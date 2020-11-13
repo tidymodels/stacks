@@ -1,6 +1,6 @@
 context("helpers")
 
-load(test_path("helper_data.Rda"))
+if ((!on_cran()) || interactive()) {load(test_path("helper_data.Rda"))}
 
 test_that("object types relate as expected", {
   atts_d <- attributes(st_reg_1)
@@ -45,12 +45,3 @@ test_that("misc. utilities work", {
   expect_warning(glue_warn("howdy {yall}"), "howdy y'all")
   expect_message(glue_message("howdy {yall}"), "howdy y'all")
 })
-
-
-
-
-
-
-
-
-

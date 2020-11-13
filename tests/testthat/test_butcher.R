@@ -1,6 +1,6 @@
 context("butcher")
 
-load(test_path("helper_data.Rda"))
+if ((!on_cran()) || interactive()) {load(test_path("helper_data.Rda"))}
 
 # Unit testing for the component members would duplicate unit testing
 # from the butcher package. Since the desired functionality to test

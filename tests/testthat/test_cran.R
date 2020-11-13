@@ -5,13 +5,14 @@ context("on cran")
 # flag breakages, even if uninformatively.
 
 test_that("basic stacks pipeline works", {
-  library(tibble)
-  library(dplyr)
-  library(purrr)
-  library(tune)
-  library(workflows)
-  library(parsnip)
-  library(rsample)
+  skip_if_not_installed("tibble")
+  skip_if_not_installed("dplyr")
+  skip_if_not_installed("purrr")
+  skip_if_not_installed("tune")
+  skip_if_not_installed("workflows")
+  skip_if_not_installed("parsnip")
+  skip_if_not_installed("rsample")
+  skip_if_not_installed("glmnet")
   
   set.seed(1)
   

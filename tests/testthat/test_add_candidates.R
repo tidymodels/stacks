@@ -1,6 +1,6 @@
 context("add_candidates")
 
-load(test_path("helper_data.Rda"))
+if ((!on_cran()) || interactive()) {load(test_path("helper_data.Rda"))}
 
 test_that("stack can add candidates (regression)", {
   skip("still some inconsistencies with stored objects")

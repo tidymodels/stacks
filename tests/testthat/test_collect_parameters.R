@@ -1,6 +1,6 @@
 context("collect_parameters")
 
-load(test_path("helper_data.Rda"))
+if ((!on_cran()) || interactive()) {load(test_path("helper_data.Rda"))}
 
 test_that("collect_parameters dispatch works", {
   skip_on_cran()
