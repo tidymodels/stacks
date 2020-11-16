@@ -53,7 +53,7 @@
 <meta property="og:description" content="add_candidates() collates the assessment set predictions
 and additional attributes from the supplied model definition
 (i.e. set of &quot;candidates&quot;) to a data stack.
-Behind the scenes, data stack objectss are just tibble::tibble()s,
+Behind the scenes, data stack objects are just tibble::tbl_dfs,
 where the first column gives the true response values,
 and the remaining columns give the assessment set predictions
 for each candidate. In the regression setting, there's only
@@ -161,7 +161,7 @@ evaluated using the blend_predictions() function." />
     <p><code>add_candidates()</code> collates the assessment set predictions
 and additional attributes from the supplied model definition
 (i.e. set of "candidates") to a data stack.</p>
-<p>Behind the scenes, data stack objectss are just <code><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble::tibble()</a></code>s,
+<p>Behind the scenes, data stack objects are just <a href='https://tibble.tidyverse.org/reference/tbl_df-class.html'>tibble::tbl_df</a>s,
 where the first column gives the true response values,
 and the remaining columns give the assessment set predictions
 for each candidate. In the regression setting, there's only
