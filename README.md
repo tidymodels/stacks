@@ -7,7 +7,6 @@ status](https://github.com/simonpcouch/stacks/workflows/R-CMD-check/badge.svg)](
 coverage](https://codecov.io/gh/tidymodels/stacks/branch/main/graph/badge.svg)](https://codecov.io/gh/tidymodels/stacks?branch=main)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/stacks)](https://CRAN.R-project.org/package=stacks)
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-blue.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
 ## stacks - tidy model stacking <a href='https://stacks.tidymodels.org'><img src='man/figures/logo.png' align="right" height="280" /></a>
