@@ -3,6 +3,8 @@ context("helpers")
 if ((!on_cran()) || interactive()) {load(test_path("helper_data.Rda"))}
 
 test_that("object types relate as expected", {
+  skip_on_cran()
+  
   atts_d <- attributes(st_reg_1)
   
   expect_true(check_inherits(st_reg_1, "data_stack"))
@@ -19,6 +21,8 @@ test_that("object types relate as expected", {
 })
 
 test_that("control_* functions work", {
+  skip_on_cran()
+  
   ctrl_grid <- control_stack_grid()
   ctrl_bayes <- control_stack_bayes()
   ctrl_res <- control_stack_resamples()
@@ -37,6 +41,8 @@ test_that("control_* functions work", {
 })
 
 test_that("misc. utilities work", {
+  skip_on_cran()
+  
   expect_error(check_inherits("howdy", "numeric"), "`howdy` needs to inherit")
   expect_true(check_inherits("howdy", "character"))
   

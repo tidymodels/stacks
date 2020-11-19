@@ -13,7 +13,7 @@ Authors@R: c(
     person("RStudio", 
            role = "cph")
     )
-Description: Model stacking is an ensembling technique
+Description: Model stacking is an ensemble technique
     that involves training a model to combine the outputs of many 
     diverse statistical models, and has been shown to improve 
     predictive performance in a variety of settings. 'stacks' 

@@ -3,7 +3,7 @@ output: github_document
 ---
 
 <!-- badges: start -->
-[![R build status](https://github.com/simonpcouch/stacks/workflows/R-CMD-check/badge.svg)](https://github.com/simonpcouch/stacks/actions)
+[![R build status](https://github.com/simonpcouch/stacks/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/stacks/actions)
 [![Codecov test coverage](https://codecov.io/gh/tidymodels/stacks/branch/main/graph/badge.svg)](https://codecov.io/gh/tidymodels/stacks?branch=main)
 [![CRAN status](https://www.r-pkg.org/badges/version/stacks)](https://CRAN.R-project.org/package=stacks)
 <!-- badges: end -->
@@ -18,7 +18,7 @@ stacks is an R package for model stacking that aligns with the tidymodels. Model
 
 The process goes something like this:
 
-1. Define candidate ensemble members using functionality from [rsample](https://rsample.tidymodels.org/), [parsnip](https://parsnip.tidymodels.org/), [workflows](https://workflows.tidymodels.org/), [recipes](https://recipes.tidymodels.org/), and [tune](http://tune.tidymodels.org/)
+1. Define candidate ensemble members using functionality from [rsample](https://rsample.tidymodels.org/), [parsnip](https://parsnip.tidymodels.org/), [workflows](https://workflows.tidymodels.org/), [recipes](https://recipes.tidymodels.org/), and [tune](https://tune.tidymodels.org/)
 2. Initialize a `data_stack` object with `stacks()`  
 3. Iteratively add candidate ensemble members to the `data_stack` with `add_candidates()`  
 4. Evaluate how to combine their predictions with `blend_predictions()`  
@@ -63,13 +63,13 @@ The full visual outline for these steps can be found [here](https://github.com/t
 
 ## contributing
 
-This project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+This project is released with a [Contributor Code of Conduct](https://github.com/tidymodels/stacks/blob/main/CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
 - For questions and discussions about tidymodels packages, modeling, and machine learning, please [post on RStudio Community](https://rstd.io/tidymodels-community).
 
 - If you think you have encountered a bug, please [submit an issue](https://github.com/tidymodels/stacks/issues).
 
-- Either way, learn how to create and share a [reprex](https://rstd.io/reprex) (a minimal, reproducible example), to clearly communicate about your code.
+- Either way, learn how to create and share a [reprex](https://reprex.tidyverse.org/articles/articles/learn-reprex.html) (a minimal, reproducible example), to clearly communicate about your code.
 
 - Check out further details on [contributing guidelines for tidymodels packages](https://www.tidymodels.org/contribute/) and [how to get help](https://www.tidymodels.org/help/).
 
