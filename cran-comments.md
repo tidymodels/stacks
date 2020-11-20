@@ -1,5 +1,8 @@
 # stacks 0.1.0
 
+This submission is a resubmission following a request to adjust a URL with
+200 status.
+
 ## Test environments
 
 * local macOS install, R 3.6.3
