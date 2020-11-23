@@ -68,6 +68,7 @@ jobs:
       - name: Install dependencies
         run: |
           remotes::install_cran("vctrs")
+          remotes::install_cran("parsnip")
           remotes::install_cran("tune")
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
