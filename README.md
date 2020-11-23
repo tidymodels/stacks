@@ -34,8 +34,13 @@ The process goes something like this:
     with `fit_members()`  
 6.  Predict on new data with `predict()`
 
-You can install the (unstable) development version of this package with
-the following code\!
+You can install the package with the following code:
+
+``` r
+install.packages("stacks")
+```
+
+Install the (unstable) development version with:
 
 ``` r
 remotes::install_github("tidymodels/stacks", ref = "main")
@@ -111,8 +116,9 @@ vignette for an example of how this grammar is implemented\!
 
 ## contributing
 
-This project is released with a [Contributor Code of Conduct](https://github.com/tidymodels/stacks/blob/main/CODE_OF_CONDUCT.md). By contributing to this project, you agree
-to abide by its terms.
+This project is released with a [Contributor Code of
+Conduct](https://github.com/tidymodels/stacks/blob/main/CODE_OF_CONDUCT.md).
+By contributing to this project, you agree to abide by its terms.
 
   - For questions and discussions about tidymodels packages, modeling,
     and machine learning, please [post on RStudio
@@ -122,8 +128,9 @@ to abide by its terms.
     issue](https://github.com/tidymodels/stacks/issues).
 
   - Either way, learn how to create and share a
-    [reprex](https://reprex.tidyverse.org/articles/articles/learn-reprex.html) (a minimal, reproducible example),
-    to clearly communicate about your code.
+    [reprex](https://reprex.tidyverse.org/articles/articles/learn-reprex.html)
+    (a minimal, reproducible example), to clearly communicate about your
+    code.
 
   - Check out further details on [contributing guidelines for tidymodels
     packages](https://www.tidymodels.org/contribute/) and [how to get
