@@ -2,12 +2,11 @@
 <!-- badges: start -->
 
 [![R build
-status](https://github.com/simonpcouch/stacks/workflows/R-CMD-check/badge.svg)](https://github.com/simonpcouch/stacks/actions)
+status](https://github.com/simonpcouch/stacks/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/stacks/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/tidymodels/stacks/branch/main/graph/badge.svg)](https://codecov.io/gh/tidymodels/stacks?branch=main)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/stacks)](https://CRAN.R-project.org/package=stacks)
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-blue.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
 ## stacks - tidy model stacking <a href='https://stacks.tidymodels.org'><img src='man/figures/logo.png' align="right" height="280" /></a>
@@ -25,7 +24,7 @@ The process goes something like this:
     [parsnip](https://parsnip.tidymodels.org/),
     [workflows](https://workflows.tidymodels.org/),
     [recipes](https://recipes.tidymodels.org/), and
-    [tune](http://tune.tidymodels.org/)
+    [tune](https://tune.tidymodels.org/)
 2.  Initialize a `data_stack` object with `stacks()`  
 3.  Iteratively add candidate ensemble members to the `data_stack` with
     `add_candidates()`  
@@ -112,19 +111,18 @@ vignette for an example of how this grammar is implemented\!
 
 ## contributing
 
-This project is released with a [Contributor Code of
-Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree
+This project is released with a [Contributor Code of Conduct](https://github.com/tidymodels/stacks/blob/main/CODE_OF_CONDUCT.md). By contributing to this project, you agree
 to abide by its terms.
 
   - For questions and discussions about tidymodels packages, modeling,
     and machine learning, please [post on RStudio
-    Community](https://rstd.io/tidymodels-community).
+    Community](https://community.rstudio.com/new-topic?category_id=15&tags=tidymodels,question).
 
   - If you think you have encountered a bug, please [submit an
     issue](https://github.com/tidymodels/stacks/issues).
 
   - Either way, learn how to create and share a
-    [reprex](https://rstd.io/reprex) (a minimal, reproducible example),
+    [reprex](https://reprex.tidyverse.org/articles/articles/learn-reprex.html) (a minimal, reproducible example),
     to clearly communicate about your code.
 
   - Check out further details on [contributing guidelines for tidymodels

@@ -106,7 +106,7 @@
 <p>stacks is an R package for model stacking that aligns with the tidymodels. Model stacking is an ensembling method that takes the outputs of many models and combines them to generate a new model—referred to as an <em>ensemble</em> in this package—that generates predictions informed by each of its <em>members</em>.</p>
 <p>The process goes something like this:</p>
 <ol>
-<li>Define candidate ensemble members using functionality from <a href="https://rsample.tidymodels.org/">rsample</a>, <a href="https://parsnip.tidymodels.org/">parsnip</a>, <a href="https://workflows.tidymodels.org/">workflows</a>, <a href="https://recipes.tidymodels.org/">recipes</a>, and <a href="http://tune.tidymodels.org/">tune</a>
+<li>Define candidate ensemble members using functionality from <a href="https://rsample.tidymodels.org/">rsample</a>, <a href="https://parsnip.tidymodels.org/">parsnip</a>, <a href="https://workflows.tidymodels.org/">workflows</a>, <a href="https://recipes.tidymodels.org/">recipes</a>, and <a href="https://tune.tidymodels.org/">tune</a>
 </li>
 <li>Initialize a <code>data_stack</code> object with <code><a href="reference/stacks.html">stacks()</a></code><br>
 </li>
@@ -148,7 +148,7 @@
 <ul>
 <li><p>For questions and discussions about tidymodels packages, modeling, and machine learning, please <a href="https://rstd.io/tidymodels-community">post on RStudio Community</a>.</p></li>
 <li><p>If you think you have encountered a bug, please <a href="https://github.com/tidymodels/stacks/issues">submit an issue</a>.</p></li>
-<li><p>Either way, learn how to create and share a <a href="https://rstd.io/reprex">reprex</a> (a minimal, reproducible example), to clearly communicate about your code.</p></li>
+<li><p>Either way, learn how to create and share a <a href="https://reprex.tidyverse.org/articles/articles/learn-reprex.html">reprex</a> (a minimal, reproducible example), to clearly communicate about your code.</p></li>
 <li><p>Check out further details on <a href="https://www.tidymodels.org/contribute/">contributing guidelines for tidymodels packages</a> and <a href="https://www.tidymodels.org/help/">how to get help</a>.</p></li>
 </ul>
 <p>In the stacks package, some test objects take too long to build with every commit. If your contribution changes the structure of <code>data_stack</code> or <code>model_stacks</code> objects, please regenerate these test objects by running the scripts in <code>man-roxygen/example_models.Rmd</code>, including those with chunk options <code>eval = FALSE</code>.</p>
@@ -182,7 +182,7 @@
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/simonpcouch/stacks/actions"><img src="https://github.com/simonpcouch/stacks/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://github.com/tidymodels/stacks/actions"><img src="https://github.com/simonpcouch/stacks/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
 <li><a href="https://codecov.io/gh/tidymodels/stacks?branch=main"><img src="https://codecov.io/gh/tidymodels/stacks/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
 <li><a href="https://CRAN.R-project.org/package=stacks"><img src="https://www.r-pkg.org/badges/version/stacks" alt="CRAN status"></a></li>
 <li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-blue.svg" alt="lifecycle"></a></li>
