@@ -45,18 +45,3 @@ on_github <- function() {
 on_cran <- function() {
   !identical(Sys.getenv("NOT_CRAN"), "true")
 }
-
-dl_mode <- if (identical(.Platform$OS.type, "windows")) {"wb"} else {"w"}
-
-if (on_github()) {
-  # download.file(
-  #   paste0(
-  #     "https://github.com/tidymodels/stacks/blob/", 
-  #     get_current_branch(), 
-  #     "/tests/testthat/helper_data.Rda?raw=true"
-  #   ),
-  #   destfile = paste0(test_path(), "/helper_data.Rda"),
-  #   mode = dl_mode
-  # )
-  TRUE
-}
