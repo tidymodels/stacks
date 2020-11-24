@@ -1,6 +1,12 @@
 context("butcher")
 
-if ((!on_cran()) || interactive()) {load(test_path("helper_data.Rda"))}
+if ((!on_cran()) || interactive()) {
+  if (on_github()) {
+    load(paste0(Sys.getenv("GITHUB_WORKSPACE"), "/tests/testthat/helper_data.Rda"))
+  } else {
+    load(test_path("helper_data.Rda"))
+  }
+}
 
 # Unit testing for the component members would duplicate unit testing
 # from the butcher package. Since the desired functionality to test

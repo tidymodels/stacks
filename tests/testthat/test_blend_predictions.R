@@ -1,6 +1,12 @@
 context("blend_predictions")
 
-if ((!on_cran()) || interactive()) {load(test_path("helper_data.Rda"))}
+if ((!on_cran()) || interactive()) {
+  if (on_github()) {
+    load(paste0(Sys.getenv("GITHUB_WORKSPACE"), "/tests/testthat/helper_data.Rda"))
+  } else {
+    load(test_path("helper_data.Rda"))
+  }
+}
 
 test_that("blend_predictions works", {
   skip_on_cran()

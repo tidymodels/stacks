@@ -1,6 +1,13 @@
 context("helpers")
 
-if ((!on_cran()) || interactive()) {load(test_path("helper_data.Rda"))}
+if ((!on_cran()) || interactive()) {
+  if (on_github()) {
+    load(paste0(Sys.getenv("GITHUB_WORKSPACE"), "/tests/testthat/helper_data.Rda"))
+  } else {
+    load(test_path("helper_data.Rda"))
+  }
+}
+
 
 test_that("object types relate as expected", {
   skip_on_cran()
