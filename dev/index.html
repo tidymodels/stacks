@@ -141,6 +141,7 @@
 <p><img src="reference/figures/class_model_stack.png"></p>
 <p>This model stack object, outputted from <code><a href="reference/fit_members.html">fit_members()</a></code>, is ready to predict on new data! The trained ensemble members are often referred to as <em>base models</em> in the stacking literature.</p>
 <p>The full visual outline for these steps can be found <a href="https://github.com/tidymodels/stacks/blob/main/inst/figs/outline.png">here</a>. The API for the package closely mirrors these ideas. See the <code>basics</code> vignette for an example of how this grammar is implemented!</p>
+<p>Note that a regularized linear model is one of many possible learning algorithms that could be used to fit a stacked ensemble model. For implementations of additional ensemble learning algorithms, see <a href="http://docs.h2o.ai/h2o/latest-stable/h2o-r/docs/reference/h2o.stackedEnsemble.html"><code>h2o::h2o.stackedEnsemble()</code></a> and <a href="https://cran.r-project.org/web/packages/SuperLearner/SuperLearner.pdf"><code>SuperLearner::SuperLearner()</code></a>.</p>
 </div>
 <div id="contributing" class="section level2">
 <h2 class="hasAnchor">

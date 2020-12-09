@@ -223,6 +223,12 @@ entry will be overwritten internally.</p></td>
     <p>A <code>model_stack</code> object—while <code>model_stack</code>s largely contain the
 same elements as <code>data_stack</code>s, the primary data objects shift from the
 assessment set predictions to the member models.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Note that a regularized linear model is one of many possible
+learning algorithms that could be used to fit a stacked ensemble
+model. For implementations of additional ensemble learning algorithms, see
+<code>h2o::h2o.stackedEnsemble()</code> and <code>SuperLearner::SuperLearner()</code>.</p>
     <h2 class="hasAnchor" id="example-data"><a class="anchor" href="#example-data"></a>Example Data</h2>
 
     
