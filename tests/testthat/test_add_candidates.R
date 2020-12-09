@@ -168,6 +168,36 @@ test_that("add_candidates errors informatively with bad arguments", {
     stacks() %>% add_candidates(reg_res_lr) %>% add_candidates(reg_res_lr_renamed),
     "were identical to those"
   )
+  
+  dat <-
+    tibble::tibble(
+      x = rnorm(200),
+      y = x + rnorm(200, 0, .1),
+      z = factor(sample(letters[1:3], 200, TRUE))
+    )
+  
+  # use a metric that only relies on hard class prediction
+  log_res <- 
+    tune_grid(
+      workflows::workflow() %>%
+        workflows::add_formula(z ~ x + y) %>%
+        workflows::add_model(
+          parsnip::multinom_reg(
+            penalty = tune::tune("penalty"), 
+            mixture = tune::tune("mixture")
+          ) %>%
+            parsnip::set_engine("glmnet")
+        ),
+      rsample::vfold_cv(dat, v = 4),
+      grid = 4,
+      control = control_stack_grid(),
+      metrics = yardstick::metric_set(accuracy)
+    )
+  
+  expect_error(
+    stacks() %>% add_candidates(log_res),
+    "only metrics that rely on hard class predictions"
+  )
 })
 
 test_that("model definition naming works as expected", {

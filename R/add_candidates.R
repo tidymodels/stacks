@@ -171,6 +171,26 @@ add_candidates <- function(data_stack, candidates,
     )
   }
   
+  if (attr(stack, "mode") == "classification") {
+    # check to make sure that the candidates include a prob_metric so that
+    # collect_predictions won't supply only hard class predictions
+    metric_types <- candidates %>%
+      attributes() %>%
+      purrr::pluck("metrics") %>%
+      attributes() %>%
+      purrr::pluck("metrics") %>%
+      purrr::map_chr(~class(.x)[[1]]) %>%
+      unname()
+    
+    if (!"prob_metric" %in% metric_types) {
+      glue_stop(
+        "The supplied candidates were tuned/fitted using only metrics that ",
+        "rely on hard class predictions. Please tune/fit with at least one ",
+        "class probability-based metric, such as `yardstick::roc_auc()`."        
+      )
+    }
+  }
+  
   model_defs <- attr(stack, "model_defs")
   model_metrics <- attr(stack, "model_metrics")
   
