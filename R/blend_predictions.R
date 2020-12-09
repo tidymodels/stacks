@@ -17,6 +17,12 @@
 #' than just the assessment set) with [fit_members()]. This function
 #' is typically used after a number of calls to [add_candidates()].
 #' 
+#' @details 
+#' Note that a regularized linear model is one of many possible
+#' learning algorithms that could be used to fit a stacked ensemble
+#' model. For implementations of additional ensemble learning algorithms, see
+#' [h2o::h2o.stackedEnsemble()] and [SuperLearner::SuperLearner()].
+#' 
 #' @param data_stack A `data_stack` object
 #' @param penalty A numeric vector of proposed penalty values used in member
 #'   weighting. Higher penalties will generally result in fewer members 

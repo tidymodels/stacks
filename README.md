@@ -114,6 +114,13 @@ The full visual outline for these steps can be found
 The API for the package closely mirrors these ideas. See the `basics`
 vignette for an example of how this grammar is implemented\!
 
+Note that a regularized linear model is one of many possible learning
+algorithms that could be used to fit a stacked ensemble model. For
+implementations of additional ensemble learning algorithms, see
+[`h2o::h2o.stackedEnsemble()`](http://docs.h2o.ai/h2o/latest-stable/h2o-r/docs/reference/h2o.stackedEnsemble.html)
+and
+[`SuperLearner::SuperLearner()`](https://cran.r-project.org/web/packages/SuperLearner/SuperLearner.pdf).
+
 ## contributing
 
 This project is released with a [Contributor Code of

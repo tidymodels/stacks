@@ -59,6 +59,12 @@ members, and need to be trained on the full training set (rather
 than just the assessment set) with \code{\link[=fit_members]{fit_members()}}. This function
 is typically used after a number of calls to \code{\link[=add_candidates]{add_candidates()}}.
 }
+\details{
+Note that a regularized linear model is one of many possible
+learning algorithms that could be used to fit a stacked ensemble
+model. For implementations of additional ensemble learning algorithms, see
+\code{\link[h2o:h2o.stackedEnsemble]{h2o::h2o.stackedEnsemble()}} and \code{\link[SuperLearner:SuperLearner]{SuperLearner::SuperLearner()}}.
+}
 \section{Example Data}{
 
 
