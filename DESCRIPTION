@@ -19,6 +19,8 @@ Description: Model stacking is an ensemble technique
     predictive performance in a variety of settings. 'stacks' 
     implements a grammar for 'tidymodels'-aligned model stacking.
 License: MIT + file LICENSE
+URL: https://stacks.tidymodels.org/, https://github.com/tidymodels/stacks
+BugReports: https://github.com/tidymodels/stacks/issues
 Depends:
     R (>= 2.10)
 Imports:
