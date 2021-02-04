@@ -31,11 +31,19 @@ You can install the  package with the following code:
 install.packages("stacks")
 ```
 
-Install the (unstable) development version with:
+Install the development version with:
 
 ```{r, eval = FALSE}
 remotes::install_github("tidymodels/stacks", ref = "main")
 ```
+
+stacks is generalized with respect to:
+
+* Model type: Any model type implemented in [parsnip](https://parsnip.tidymodels.org/) or adjacent packages is fair game to add to a stacks model stack. [Here](https://www.tidymodels.org/find/parsnip/)'s a table of many of the implemented model types in the tidymodels core, with a link there to an article about implementing your own model classes as well.
+* Cross-validation scheme: Any resampling algorithm implemented in [rsample](https://rsample.tidymodels.org/) or adjacent packages is fair game for resampling data for use in training a model stack.
+* Error metric: Any metric function implemented in [yardstick](https://yardstick.tidymodels.org/) or adjacent packages is fair game for evaluating model stacks and their members. That package provides some infrastructure for creating your own metric functions as well!
+
+stacks uses a regularized linear model to combine predictions from ensemble members, though this model type is only one of many possible learning algorithms that could be used to fit a stacked ensemble model. For implementations of additional ensemble learning algorithms, check out [h2o](http://docs.h2o.ai/h2o/latest-stable/h2o-r/docs/reference/h2o.stackedEnsemble.html) and [SuperLearner](https://cran.r-project.org/web/packages/SuperLearner/SuperLearner.pdf).
 
 Rather than diving right into the implementation, we'll focus here on how the pieces fit together, conceptually, in building an ensemble with `stacks`. See the `basics` vignette for an example of the API in action!
 
@@ -66,8 +74,6 @@ These stacking coefficients determine which candidate ensemble members will beco
 This model stack object, outputted from `fit_members()`, is ready to predict on new data! The trained ensemble members are often referred to as _base models_ in the stacking literature.
 
 The full visual outline for these steps can be found [here](https://github.com/tidymodels/stacks/blob/main/inst/figs/outline.png). The API for the package closely mirrors these ideas. See the `basics` vignette for an example of how this grammar is implemented!
-
-Note that a regularized linear model is one of many possible learning algorithms that could be used to fit a stacked ensemble model. For implementations of additional ensemble learning algorithms, see [`h2o::h2o.stackedEnsemble()`](http://docs.h2o.ai/h2o/latest-stable/h2o-r/docs/reference/h2o.stackedEnsemble.html) and [`SuperLearner::SuperLearner()`](https://cran.r-project.org/web/packages/SuperLearner/SuperLearner.pdf).
 
 ## contributing
 
