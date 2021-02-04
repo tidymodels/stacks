@@ -125,9 +125,16 @@
 <p>You can install the package with the following code:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"stacks"</span><span class="op">)</span></code></pre></div>
-<p>Install the (unstable) development version with:</p>
+<p>Install the development version with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"tidymodels/stacks"</span>, ref <span class="op">=</span> <span class="st">"main"</span><span class="op">)</span></code></pre></div>
+<p>stacks is generalized with respect to:</p>
+<ul>
+<li>Model type: Any model type implemented in <a href="https://parsnip.tidymodels.org/">parsnip</a> or adjacent packages is fair game to add to a stacks model stack. <a href="https://www.tidymodels.org/find/parsnip/">Here</a>’s a table of many of the implemented model types in the tidymodels core, with a link there to an article about implementing your own model classes as well.</li>
+<li>Cross-validation scheme: Any resampling algorithm implemented in <a href="https://rsample.tidymodels.org/">rsample</a> or adjacent packages is fair game for resampling data for use in training a model stack.</li>
+<li>Error metric: Any metric function implemented in <a href="https://yardstick.tidymodels.org/">yardstick</a> or adjacent packages is fair game for evaluating model stacks and their members. That package provides some infrastructure for creating your own metric functions as well!</li>
+</ul>
+<p>stacks uses a regularized linear model to combine predictions from ensemble members, though this model type is only one of many possible learning algorithms that could be used to fit a stacked ensemble model. For implementations of additional ensemble learning algorithms, check out <a href="http://docs.h2o.ai/h2o/latest-stable/h2o-r/docs/reference/h2o.stackedEnsemble.html">h2o</a> and <a href="https://cran.r-project.org/web/packages/SuperLearner/SuperLearner.pdf">SuperLearner</a>.</p>
 <p>Rather than diving right into the implementation, we’ll focus here on how the pieces fit together, conceptually, in building an ensemble with <code>stacks</code>. See the <code>basics</code> vignette for an example of the API in action!</p>
 </div>
 <div id="a-grammar" class="section level2">
@@ -146,7 +153,6 @@
 <p><img src="reference/figures/class_model_stack.png"></p>
 <p>This model stack object, outputted from <code><a href="reference/fit_members.html">fit_members()</a></code>, is ready to predict on new data! The trained ensemble members are often referred to as <em>base models</em> in the stacking literature.</p>
 <p>The full visual outline for these steps can be found <a href="https://github.com/tidymodels/stacks/blob/main/inst/figs/outline.png">here</a>. The API for the package closely mirrors these ideas. See the <code>basics</code> vignette for an example of how this grammar is implemented!</p>
-<p>Note that a regularized linear model is one of many possible learning algorithms that could be used to fit a stacked ensemble model. For implementations of additional ensemble learning algorithms, see <a href="http://docs.h2o.ai/h2o/latest-stable/h2o-r/docs/reference/h2o.stackedEnsemble.html"><code>h2o::h2o.stackedEnsemble()</code></a> and <a href="https://cran.r-project.org/web/packages/SuperLearner/SuperLearner.pdf"><code>SuperLearner::SuperLearner()</code></a>.</p>
 </div>
 <div id="contributing" class="section level2">
 <h2 class="hasAnchor">
