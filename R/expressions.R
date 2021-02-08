@@ -170,7 +170,8 @@ multi_net_helper <- function(data, ...) {
   data %>%
     dplyr::rowwise() %>% 
     dplyr::mutate(
-      .sum = sum(dplyr::c_across(dplyr::starts_with(".pred_"))),
+      .sum = sum(dplyr::c_across(dplyr::starts_with(".pred_")))) %>%
+    dplyr::mutate(
       dplyr::across(dplyr::starts_with(".pred_"), ~ .x/.sum),
       idx = which.max(dplyr::c_across(dplyr::starts_with(".pred_")))
     ) %>% 
