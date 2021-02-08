@@ -15,6 +15,15 @@ Model stacking is an ensemble technique
     predictive performance in a variety of settings. 'stacks' 
     implements a grammar for 'tidymodels'-aligned model stacking.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://stacks.tidymodels.org/}
+  \item \url{https://github.com/tidymodels/stacks}
+  \item Report bugs at \url{https://github.com/tidymodels/stacks/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Simon Couch \email{simonpatrickcouch@gmail.com}
 
