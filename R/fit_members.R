@@ -91,7 +91,7 @@ fit_members <- function(model_stack, ...) {
     tibble::enframe(model_stack[["model_metrics"]]) %>%
     tidyr::unnest(cols = value) %>%
     dplyr::mutate(.config = process_.config(.config, ., name = name)) %>%
-    dplyr::filter(.metric %in% c("rmse", "roc_auc"))
+    dplyr::filter(.metric == model_stack$penalty$metric)
   
   if (model_stack[["mode"]] == "regression") {
     members_map <- 
