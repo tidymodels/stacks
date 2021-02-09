@@ -90,8 +90,7 @@ fit_members <- function(model_stack, ...) {
   metrics_dict <- 
     tibble::enframe(model_stack[["model_metrics"]]) %>%
     tidyr::unnest(cols = value) %>%
-    dplyr::mutate(.config = process_.config(.config, ., name = name)) %>%
-    dplyr::filter(.metric == model_stack$penalty$metric)
+    dplyr::mutate(.config = process_.config(.config, ., name = name))
   
   if (model_stack[["mode"]] == "regression") {
     members_map <- 
@@ -140,7 +139,7 @@ fit_member <- function(name, wflows, members_map, train_dat) {
     dplyr::filter(value == name)
   
   member_params <- 
-    wflows[[member_row$name.x]] %>%
+    wflows[[member_row$name.x[1]]] %>%
     dials::parameters() %>%
     dplyr::pull(id)
   
@@ -149,7 +148,8 @@ fit_member <- function(name, wflows, members_map, train_dat) {
   if (needs_finalizing) {
     member_metrics <-
       members_map %>%
-      dplyr::filter(value == name)
+      dplyr::filter(value == name) %>%
+      dplyr::slice(1)
     
     member_wf <- 
       wflows[[member_metrics$name.x]]
