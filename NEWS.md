@@ -4,8 +4,8 @@
 
 Developmental version, to be released as v0.1.1.
 
-* Fixed bug in `fit_members()` not inheriting the appropriate metric from its
-  candidates during member fitting.
+* Fixed bug in determining member hyperparameters during member
+  fitting when using non-RMSE/ROC AUC metrics.
 * Various bug fixes and improvements to documentation.
 
 ### v0.1.0
