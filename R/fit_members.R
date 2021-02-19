@@ -199,6 +199,13 @@ sanitize_classification_names <- function(model_stack, member_names) {
 
 check_model_stack <- function(model_stack) {
   if (inherits(model_stack, "model_stack")) {
+    if (!is.null(model_stack[["member_fits"]])) {
+      glue_warn(
+        "The members in the supplied `model_stack` have already been fitted ",
+        "and need not be fitted again."
+      )
+    }
+    
     return(invisible(TRUE))
   } else if (inherits(model_stack, "data_stack")) {
     glue_stop(

@@ -88,4 +88,9 @@ test_that("fit_members errors informatively with a bad model_stack arg", {
     "howdy" %>% fit_members(),
     "`model_stack` needs to inherit from `model_stack`"
   )
+  
+  expect_warning(
+    st_reg_1__ %>% fit_members(),
+    "`model_stack` have already been fitted and need not"
+  )
 })
