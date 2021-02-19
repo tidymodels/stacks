@@ -261,24 +261,24 @@ the source code that generated them.</p>
 </div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 3</span><span>
 #&gt;   member              cost rbf_sigma
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> reg_res_svm_1_1 12.0      3.62</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 8</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span> reg_res_svm_1_2  0.022</span><span style='text-decoration: underline;'>1</span><span>   4.15</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 3</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span> reg_res_svm_1_3  0.215    5.07</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span>
-#&gt; </span><span style='color: #555555;'>4</span><span> reg_res_svm_1_4  0.001</span><span style='text-decoration: underline;'>16</span><span>  9.29</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span>
-#&gt; </span><span style='color: #555555;'>5</span><span> reg_res_svm_1_5  1.44     5.40</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span></div><div class='input'>
+#&gt; </span><span style='color: #555555;'>1</span><span> reg_res_svm_1_1 17.2      1.87</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 1</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span> reg_res_svm_1_2  0.001</span><span style='text-decoration: underline;'>29</span><span>  1.28</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span> reg_res_svm_1_3  3.26     2.54</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 3</span><span>
+#&gt; </span><span style='color: #555555;'>4</span><span> reg_res_svm_1_4  0.111    5.19</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span>
+#&gt; </span><span style='color: #555555;'>5</span><span> reg_res_svm_1_5  0.024</span><span style='text-decoration: underline;'>1</span><span>   4.02</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span></div><div class='input'>
 <span class='fu'>collect_parameters</span><span class='op'>(</span><span class='va'>reg_st</span>, <span class='st'>"spline"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 9 x 2</span><span>
 #&gt;   member       age
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> spline_1_1    12
-#&gt; </span><span style='color: #555555;'>2</span><span> spline_2_1     7
-#&gt; </span><span style='color: #555555;'>3</span><span> spline_3_1     9
-#&gt; </span><span style='color: #555555;'>4</span><span> spline_4_1    10
-#&gt; </span><span style='color: #555555;'>5</span><span> spline_5_1     2
-#&gt; </span><span style='color: #555555;'>6</span><span> spline_6_1    13
-#&gt; </span><span style='color: #555555;'>7</span><span> spline_7_1     4
-#&gt; </span><span style='color: #555555;'>8</span><span> spline_8_1     6
-#&gt; </span><span style='color: #555555;'>9</span><span> spline_9_1    14</div><div class='input'>
+#&gt; </span><span style='color: #555555;'>1</span><span> spline_1_1     8
+#&gt; </span><span style='color: #555555;'>2</span><span> spline_2_1    14
+#&gt; </span><span style='color: #555555;'>3</span><span> spline_3_1     5
+#&gt; </span><span style='color: #555555;'>4</span><span> spline_4_1    13
+#&gt; </span><span style='color: #555555;'>5</span><span> spline_5_1     3
+#&gt; </span><span style='color: #555555;'>6</span><span> spline_6_1     6
+#&gt; </span><span style='color: #555555;'>7</span><span> spline_7_1    10
+#&gt; </span><span style='color: #555555;'>8</span><span> spline_8_1     2
+#&gt; </span><span style='color: #555555;'>9</span><span> spline_9_1    12</div><div class='input'>
 <span class='co'># blend the data stack to view the hyperparameters </span>
 <span class='co'># along with the stacking coefficients!</span>
 <span class='fu'>collect_parameters</span><span class='op'>(</span>
@@ -288,15 +288,15 @@ the source code that generated them.</p>
 </div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 9 x 3</span><span>
 #&gt;   member       age  coef
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> spline_1_1    12 0    
-#&gt; </span><span style='color: #555555;'>2</span><span> spline_2_1     7 0    
-#&gt; </span><span style='color: #555555;'>3</span><span> spline_3_1     9 0    
-#&gt; </span><span style='color: #555555;'>4</span><span> spline_4_1    10 0    
-#&gt; </span><span style='color: #555555;'>5</span><span> spline_5_1     2 0    
-#&gt; </span><span style='color: #555555;'>6</span><span> spline_6_1    13 0    
-#&gt; </span><span style='color: #555555;'>7</span><span> spline_7_1     4 0    
-#&gt; </span><span style='color: #555555;'>8</span><span> spline_8_1     6 0    
-#&gt; </span><span style='color: #555555;'>9</span><span> spline_9_1    14 0.294</div><div class='input'><span class='co'># }</span>
+#&gt; </span><span style='color: #555555;'>1</span><span> spline_1_1     8 0    
+#&gt; </span><span style='color: #555555;'>2</span><span> spline_2_1    14 0.237
+#&gt; </span><span style='color: #555555;'>3</span><span> spline_3_1     5 0    
+#&gt; </span><span style='color: #555555;'>4</span><span> spline_4_1    13 0    
+#&gt; </span><span style='color: #555555;'>5</span><span> spline_5_1     3 0    
+#&gt; </span><span style='color: #555555;'>6</span><span> spline_6_1     6 0    
+#&gt; </span><span style='color: #555555;'>7</span><span> spline_7_1    10 0    
+#&gt; </span><span style='color: #555555;'>8</span><span> spline_8_1     2 0    
+#&gt; </span><span style='color: #555555;'>9</span><span> spline_9_1    12 0    </div><div class='input'><span class='co'># }</span>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
