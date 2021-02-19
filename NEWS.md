@@ -6,6 +6,8 @@ Developmental version, to be released as v0.1.1.
 
 * Fixed bug in determining member hyperparameters during member
   fitting when using non-RMSE/ROC AUC metrics.
+* Drop {digest} dependency in favor of {tune}/{rsample} "fingerprinting"
+  to check consistency of resamples.
 * `fit_members()` will now warn when supplied a model stack whose
   members have already been fitted.
 * Various bug fixes and improvements to documentation.

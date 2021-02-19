@@ -114,11 +114,7 @@ add_candidates <- function(data_stack, candidates,
 # checks that the hash for the resampling object
 # is appropriate and then sets it
 .set_rs_hash <- function(stack, candidates, name) {
-  if (".iter" %in% colnames(candidates)) {
-    new_hash <- digest::digest(candidates$splits[candidates$.iter == 0])
-  } else {
-    new_hash <- digest::digest(candidates$splits)
-  }
+  new_hash <- tune::.get_fingerprint(candidates)
   
   hash_matches <- .get_rs_hash(stack) %in% c("init_", new_hash)
   
