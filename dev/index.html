@@ -40,6 +40,8 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -109,7 +111,7 @@
 <p>stacks is an R package for model stacking that aligns with the tidymodels. Model stacking is an ensembling method that takes the outputs of many models and combines them to generate a new model—referred to as an <em>ensemble</em> in this package—that generates predictions informed by each of its <em>members</em>.</p>
 <p>The process goes something like this:</p>
 <ol style="list-style-type: decimal">
-<li>Define candidate ensemble members using functionality from <a href="https://rsample.tidymodels.org/">rsample</a>, <a href="https://parsnip.tidymodels.org/">parsnip</a>, <a href="https://workflows.tidymodels.org/">workflows</a>, <a href="https://recipes.tidymodels.org/">recipes</a>, and <a href="https://tune.tidymodels.org/">tune</a>
+<li>Define candidate ensemble members using functionality from <a href="https://rsample.tidymodels.org/" class="external-link">rsample</a>, <a href="https://parsnip.tidymodels.org/" class="external-link">parsnip</a>, <a href="https://workflows.tidymodels.org/" class="external-link">workflows</a>, <a href="https://recipes.tidymodels.org/" class="external-link">recipes</a>, and <a href="https://tune.tidymodels.org/" class="external-link">tune</a>
 </li>
 <li>Initialize a <code>data_stack</code> object with <code><a href="reference/stacks.html">stacks()</a></code><br>
 </li>
@@ -119,32 +121,32 @@
 </li>
 <li>Fit candidate ensemble members with non-zero stacking coefficients with <code><a href="reference/fit_members.html">fit_members()</a></code><br>
 </li>
-<li>Predict on new data with <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code>
+<li>Predict on new data with <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>
 </li>
 </ol>
 <p>You can install the package with the following code:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"stacks"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"stacks"</span><span class="op">)</span></code></pre></div>
 <p>Install the development version with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"tidymodels/stacks"</span>, ref <span class="op">=</span> <span class="st">"main"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"tidymodels/stacks"</span>, ref <span class="op">=</span> <span class="st">"main"</span><span class="op">)</span></code></pre></div>
 <p>stacks is generalized with respect to:</p>
 <ul>
-<li>Model type: Any model type implemented in <a href="https://parsnip.tidymodels.org/">parsnip</a> or adjacent packages is fair game to add to a stacks model stack. <a href="https://www.tidymodels.org/find/parsnip/">Here</a>’s a table of many of the implemented model types in the tidymodels core, with a link there to an article about implementing your own model classes as well.</li>
-<li>Cross-validation scheme: Any resampling algorithm implemented in <a href="https://rsample.tidymodels.org/">rsample</a> or adjacent packages is fair game for resampling data for use in training a model stack.</li>
-<li>Error metric: Any metric function implemented in <a href="https://yardstick.tidymodels.org/">yardstick</a> or adjacent packages is fair game for evaluating model stacks and their members. That package provides some infrastructure for creating your own metric functions as well!</li>
+<li>Model type: Any model type implemented in <a href="https://parsnip.tidymodels.org/" class="external-link">parsnip</a> or adjacent packages is fair game to add to a stacks model stack. <a href="https://www.tidymodels.org/find/parsnip/" class="external-link">Here</a>’s a table of many of the implemented model types in the tidymodels core, with a link there to an article about implementing your own model classes as well.</li>
+<li>Cross-validation scheme: Any resampling algorithm implemented in <a href="https://rsample.tidymodels.org/" class="external-link">rsample</a> or adjacent packages is fair game for resampling data for use in training a model stack.</li>
+<li>Error metric: Any metric function implemented in <a href="https://yardstick.tidymodels.org/" class="external-link">yardstick</a> or adjacent packages is fair game for evaluating model stacks and their members. That package provides some infrastructure for creating your own metric functions as well!</li>
 </ul>
-<p>stacks uses a regularized linear model to combine predictions from ensemble members, though this model type is only one of many possible learning algorithms that could be used to fit a stacked ensemble model. For implementations of additional ensemble learning algorithms, check out <a href="http://docs.h2o.ai/h2o/latest-stable/h2o-r/docs/reference/h2o.stackedEnsemble.html">h2o</a> and <a href="https://cran.r-project.org/web/packages/SuperLearner/SuperLearner.pdf">SuperLearner</a>.</p>
+<p>stacks uses a regularized linear model to combine predictions from ensemble members, though this model type is only one of many possible learning algorithms that could be used to fit a stacked ensemble model. For implementations of additional ensemble learning algorithms, check out <a href="http://docs.h2o.ai/h2o/latest-stable/h2o-r/docs/reference/h2o.stackedEnsemble.html" class="external-link">h2o</a> and <a href="https://cran.r-project.org/web/packages/SuperLearner/SuperLearner.pdf" class="external-link">SuperLearner</a>.</p>
 <p>Rather than diving right into the implementation, we’ll focus here on how the pieces fit together, conceptually, in building an ensemble with <code>stacks</code>. See the <code>basics</code> vignette for an example of the API in action!</p>
 </div>
 <div id="a-grammar" class="section level2">
 <h2 class="hasAnchor">
 <a href="#a-grammar" class="anchor"></a>a grammar</h2>
-<p>At the highest level, ensembles are formed from <em>model definitions</em>. In this package, model definitions are an instance of a minimal <a href="https://workflows.tidymodels.org/">workflow</a>, containing a <em>model specification</em> (as defined in the <a href="https://parsnip.tidymodels.org/">parsnip</a> package) and, optionally, a <em>preprocessor</em> (as defined in the <a href="https://recipes.tidymodels.org/">recipes</a> package). Model definitions specify the form of candidate ensemble members.</p>
+<p>At the highest level, ensembles are formed from <em>model definitions</em>. In this package, model definitions are an instance of a minimal <a href="https://workflows.tidymodels.org/" class="external-link">workflow</a>, containing a <em>model specification</em> (as defined in the <a href="https://parsnip.tidymodels.org/" class="external-link">parsnip</a> package) and, optionally, a <em>preprocessor</em> (as defined in the <a href="https://recipes.tidymodels.org/" class="external-link">recipes</a> package). Model definitions specify the form of candidate ensemble members.</p>
 <p><img src="reference/figures/model_defs.png"></p>
-<p>To be used in the same ensemble, each of these model definitions must share the same <em>resample</em>. This <a href="https://rsample.tidymodels.org/">rsample</a> <code>rset</code> object, when paired with the model definitions, can be used to generate the tuning/fitting results objects for the candidate <em>ensemble members</em> with tune.</p>
+<p>To be used in the same ensemble, each of these model definitions must share the same <em>resample</em>. This <a href="https://rsample.tidymodels.org/" class="external-link">rsample</a> <code>rset</code> object, when paired with the model definitions, can be used to generate the tuning/fitting results objects for the candidate <em>ensemble members</em> with tune.</p>
 <p><img src="reference/figures/candidates.png"></p>
-<p>Candidate members first come together in a <code>data_stack</code> object through the <code><a href="reference/add_candidates.html">add_candidates()</a></code> function. Principally, these objects are just <a href="https://tibble.tidyverse.org/">tibble</a>s, where the first column gives the true outcome in the assessment set (the portion of the training set used for model validation), and the remaining columns give the predictions from each candidate ensemble member. (When the outcome is numeric, there’s only one column per candidate ensemble member. Classification requires as many columns per candidate as there are levels in the outcome variable.) They also bring along a few extra attributes to keep track of model definitions.</p>
+<p>Candidate members first come together in a <code>data_stack</code> object through the <code><a href="reference/add_candidates.html">add_candidates()</a></code> function. Principally, these objects are just <a href="https://tibble.tidyverse.org/" class="external-link">tibble</a>s, where the first column gives the true outcome in the assessment set (the portion of the training set used for model validation), and the remaining columns give the predictions from each candidate ensemble member. (When the outcome is numeric, there’s only one column per candidate ensemble member. Classification requires as many columns per candidate as there are levels in the outcome variable.) They also bring along a few extra attributes to keep track of model definitions.</p>
 <p><img src="reference/figures/data_stack.png"></p>
 <p>Then, the data stack can be evaluated using <code><a href="reference/blend_predictions.html">blend_predictions()</a></code> to determine to how best to combine the outputs from each of the candidate members. In the stacking literature, this process is commonly called <em>metalearning</em>.</p>
 <p>The outputs of each member are likely highly correlated. Thus, depending on the degree of regularization you choose, the coefficients for the inputs of (possibly) many of the members will zero out—their predictions will have no influence on the final output, and those terms will thus be thrown out.</p>
@@ -152,17 +154,17 @@
 <p>These stacking coefficients determine which candidate ensemble members will become ensemble members. Candidates with non-zero stacking coefficients are then fitted on the whole training set, altogether making up a <code>model_stack</code> object.</p>
 <p><img src="reference/figures/class_model_stack.png"></p>
 <p>This model stack object, outputted from <code><a href="reference/fit_members.html">fit_members()</a></code>, is ready to predict on new data! The trained ensemble members are often referred to as <em>base models</em> in the stacking literature.</p>
-<p>The full visual outline for these steps can be found <a href="https://github.com/tidymodels/stacks/blob/main/inst/figs/outline.png">here</a>. The API for the package closely mirrors these ideas. See the <code>basics</code> vignette for an example of how this grammar is implemented!</p>
+<p>The full visual outline for these steps can be found <a href="https://github.com/tidymodels/stacks/blob/main/inst/figs/outline.png" class="external-link">here</a>. The API for the package closely mirrors these ideas. See the <code>basics</code> vignette for an example of how this grammar is implemented!</p>
 </div>
 <div id="contributing" class="section level2">
 <h2 class="hasAnchor">
 <a href="#contributing" class="anchor"></a>contributing</h2>
-<p>This project is released with a <a href="https://github.com/tidymodels/stacks/blob/main/CODE_OF_CONDUCT.md">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<p>This project is released with a <a href="https://github.com/tidymodels/stacks/blob/main/CODE_OF_CONDUCT.md" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 <ul>
-<li><p>For questions and discussions about tidymodels packages, modeling, and machine learning, please <a href="https://community.rstudio.com/new-topic?category_id=15&amp;tags=tidymodels,question">post on RStudio Community</a>.</p></li>
-<li><p>If you think you have encountered a bug, please <a href="https://github.com/tidymodels/stacks/issues">submit an issue</a>.</p></li>
-<li><p>Either way, learn how to create and share a <a href="https://reprex.tidyverse.org/articles/articles/learn-reprex.html">reprex</a> (a minimal, reproducible example), to clearly communicate about your code.</p></li>
-<li><p>Check out further details on <a href="https://www.tidymodels.org/contribute/">contributing guidelines for tidymodels packages</a> and <a href="https://www.tidymodels.org/help/">how to get help</a>.</p></li>
+<li><p>For questions and discussions about tidymodels packages, modeling, and machine learning, please <a href="https://community.rstudio.com/new-topic?category_id=15&amp;tags=tidymodels,question" class="external-link">post on RStudio Community</a>.</p></li>
+<li><p>If you think you have encountered a bug, please <a href="https://github.com/tidymodels/stacks/issues" class="external-link">submit an issue</a>.</p></li>
+<li><p>Either way, learn how to create and share a <a href="https://reprex.tidyverse.org/articles/articles/learn-reprex.html" class="external-link">reprex</a> (a minimal, reproducible example), to clearly communicate about your code.</p></li>
+<li><p>Check out further details on <a href="https://www.tidymodels.org/contribute/" class="external-link">contributing guidelines for tidymodels packages</a> and <a href="https://www.tidymodels.org/help/" class="external-link">how to get help</a>.</p></li>
 </ul>
 <p>In the stacks package, some test objects take too long to build with every commit. If your contribution changes the structure of <code>data_stack</code> or <code>model_stacks</code> objects, please regenerate these test objects by running the scripts in <code>man-roxygen/example_models.Rmd</code>, including those with chunk options <code>eval = FALSE</code>.</p>
 </div>
@@ -171,7 +173,7 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
 <li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=stacks">https://​cloud.r-project.org/​package=stacks</a>
 </li>
@@ -181,21 +183,24 @@
 </li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
 <li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
 <div class="community">
-<h2>Community</h2>
+<h2 data-toc-skip>Community</h2>
 <ul class="list-unstyled">
 <li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
 </ul>
 </div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Simon Couch <br><small class="roles"> Author, maintainer </small>  </li>
 <li>Max Kuhn <br><small class="roles"> Author </small>  </li>
@@ -203,15 +208,16 @@
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/tidymodels/stacks/actions"><img src="https://github.com/simonpcouch/stacks/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
-<li><a href="https://codecov.io/gh/tidymodels/stacks?branch=main"><img src="https://codecov.io/gh/tidymodels/stacks/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://CRAN.R-project.org/package=stacks"><img src="https://www.r-pkg.org/badges/version/stacks" alt="CRAN status"></a></li>
+<li><a href="https://github.com/tidymodels/stacks/actions" class="external-link"><img src="https://github.com/simonpcouch/stacks/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://codecov.io/gh/tidymodels/stacks?branch=main" class="external-link"><img src="https://codecov.io/gh/tidymodels/stacks/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://CRAN.R-project.org/package=stacks" class="external-link"><img src="https://www.r-pkg.org/badges/version/stacks" alt="CRAN status"></a></li>
 </ul>
 </div>
-</div>
+
+  </div>
 </div>
 
 
@@ -231,6 +237,8 @@
 
   
 
+
+  
 
   </body>
 </html>
