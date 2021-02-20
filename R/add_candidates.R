@@ -82,6 +82,22 @@
 #' @export
 add_candidates <- function(data_stack, candidates,
                            name = deparse(substitute(candidates)), ...) {
+  UseMethod("add_candidates", object = candidates)
+}
+
+# check that resamples have been fitted to the workflow_set and
+# then send each to add_candidates.tune_results
+#' @export
+add_candidates.workflow_set <- function(data_stack, candidates, 
+                                        name = deparse(substitute(candidates)), 
+                                        ...) {
+  return(TRUE)
+}
+
+#' @export
+add_candidates.tune_results <- function(data_stack, candidates, 
+                                        name = deparse(substitute(candidates)), 
+                                        ...) {
   check_add_data_stack(data_stack)
   check_candidates(candidates)
   check_name(name)
@@ -97,6 +113,15 @@ add_candidates <- function(data_stack, candidates,
     .set_data_candidates(candidates, name)
   
   if (data_stack_constr(stack)) {stack}
+}
+
+#' @export
+add_candidates.default <- function(data_stack, candidates, name, ...) {
+  glue_stop(
+    "The second argument to add_candidates() should inherit from one of ",
+    "`tune_results` or `workflow_set`, but its class ",
+    "is {list(class(candidates))}."
+  )
 }
 
 .set_outcome <- function(stack, candidates) {
