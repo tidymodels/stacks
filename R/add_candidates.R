@@ -117,6 +117,8 @@ add_candidates.tune_results <- function(data_stack, candidates,
 
 #' @export
 add_candidates.default <- function(data_stack, candidates, name, ...) {
+  check_add_data_stack(data_stack)
+  
   glue_stop(
     "The second argument to add_candidates() should inherit from one of ",
     "`tune_results` or `workflow_set`, but its class ",
@@ -358,9 +360,7 @@ stack_workflow <- function(x) {
 }
 
 check_add_data_stack <- function(data_stack) {
-  if (inherits(data_stack, "data_stack")) {
-    return(invisible(NULL))
-  } else if (rlang::inherits_any(
+  if (rlang::inherits_any(
     data_stack, 
     c("tune_results", "tune_bayes", "resample_results")
   )) {
