@@ -91,7 +91,18 @@ add_candidates <- function(data_stack, candidates,
 add_candidates.workflow_set <- function(data_stack, candidates, 
                                         name = deparse(substitute(candidates)), 
                                         ...) {
-  return(TRUE)
+  if (!"result" %in% colnames(candidates)) {
+    glue_stop(
+      "The supplied workflow_set must be fitted to resamples with ",
+      "workflows::workflow_map() before being added to a data stack."
+    )
+  }
+  
+  purrr::reduce2(
+    append(list(data_stack), candidates$result),
+    candidates$wflow_id,
+    add_candidates
+  )
 }
 
 #' @export
