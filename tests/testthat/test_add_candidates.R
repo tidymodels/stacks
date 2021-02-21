@@ -60,6 +60,26 @@ test_that("stack can add candidates (two-way classification)", {
   expect_true(data_stack_constr(st_log_2))
 })
 
+test_that("add_candidates can handle tune_results and workflow_sets", {
+  st_reg_test_1 <-
+    stacks() %>%
+    add_candidates(reg_wf_map)
+  
+  st_reg_test_2 <-
+    stacks() %>% 
+    add_candidates(reg_wf_map[1:2,]) %>% 
+    add_candidates(reg_res_sp)
+  
+  # 9 splines the second time around, but 8 at first?
+  # the map got several metrics, only 8 preprocessors
+  
+  expect_true(data_stack_constr(st_reg_test_1))
+  expect_true(data_stack_constr(st_reg_test_2))
+  
+  expect_equal(nrow(st_reg_test_1), nrow(st_reg_test_2))
+  expect_equal(ncol(st_reg_test_1), ncol(st_reg_test_2))
+})
+
 test_that("add_candidates errors informatively with bad arguments", {
   skip_on_cran()
   
@@ -70,7 +90,7 @@ test_that("add_candidates errors informatively with bad arguments", {
   
   expect_error(
     st_reg_2 %>% add_candidates("howdy"),
-    "has class `character`, but it should inherit"
+    "should inherit from one of"
   )
   
   expect_error(

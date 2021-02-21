@@ -61,6 +61,8 @@ NULL
 #' @rdname example_data
 "reg_folds"
 #' @rdname example_data
+"reg_wf_map"
+#' @rdname example_data
 "class_res_nn"
 #' @rdname example_data
 "class_res_rf"

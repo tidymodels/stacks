@@ -7,6 +7,7 @@
 \alias{reg_res_sp}
 \alias{reg_res_lr}
 \alias{reg_folds}
+\alias{reg_wf_map}
 \alias{class_res_nn}
 \alias{class_res_rf}
 \alias{class_folds}
@@ -23,6 +24,8 @@ An object of class \code{tune_results} (inherits from \code{tbl_df}, \code{tbl},
 An object of class \code{resample_results} (inherits from \code{tune_results}, \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 5 columns.
 
 An object of class \code{vfold_cv} (inherits from \code{rset}, \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 2 columns.
+
+An object of class \code{workflow_set} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 3 rows and 4 columns.
 
 An object of class \code{resample_results} (inherits from \code{tune_results}, \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 5 columns.
 
@@ -47,6 +50,8 @@ reg_res_sp
 reg_res_lr
 
 reg_folds
+
+reg_wf_map
 
 class_res_nn
 
@@ -110,6 +115,7 @@ library(parsnip)
 library(workflows)
 library(recipes)
 library(yardstick)
+library(workflowsets)
 
 set.seed(1)
 
@@ -324,6 +330,28 @@ log_res_nn <-
     object = log_wf_nn, 
     resamples = class_folds, 
     control = ctrl_res
+  )
+}\if{html}{\out{</div>}}\if{html}{\out{<div class="r">}}\preformatted{# making workflow_maps from the above objects
+reg_wf_map <- workflowsets::workflow_set(
+  preproc = list(
+    lr = tree_frogs_reg_rec,
+    svm = tree_frogs_reg_rec,
+    spline = spline_rec
+  ),
+  models = list(
+    lr = lin_reg_spec,
+    svm = svm_spec,
+    spline = lin_reg_spec
+  ),
+  cross = FALSE
+) \%>\%
+  workflowsets::options_add(
+    control = control_stack_grid(),
+    metrics = metric
+  ) \%>\%
+  workflowsets::workflow_map(
+    resamples = reg_folds,
+    fn = "tune_grid"
   )
 }\if{html}{\out{</div>}}
 }

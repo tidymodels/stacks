@@ -7,6 +7,7 @@ library(parsnip)
 library(workflows)
 library(recipes)
 library(yardstick)
+library(workflowsets)
 
 set.seed(1)
 
@@ -224,12 +225,38 @@ log_res_nn <-
   )
 ```
 
+```{r, eval = FALSE}
+# making workflow_maps from the above objects
+reg_wf_map <- workflowsets::workflow_set(
+  preproc = list(
+    lr = tree_frogs_reg_rec,
+    svm = tree_frogs_reg_rec,
+    spline = spline_rec
+  ),
+  models = list(
+    lr = lin_reg_spec,
+    svm = svm_spec,
+    spline = lin_reg_spec
+  ),
+  cross = FALSE
+) %>%
+  workflowsets::options_add(
+    control = control_stack_grid(),
+    metrics = metric
+  ) %>%
+  workflowsets::workflow_map(
+    resamples = reg_folds,
+    fn = "tune_grid"
+  )
+```
+
 ```{r, eval = FALSE, include = FALSE}
 # save resamples -------------------------------------
 usethis::use_data(reg_res_lr, overwrite = TRUE)
 usethis::use_data(reg_res_svm, overwrite = TRUE)
 usethis::use_data(reg_res_sp, overwrite = TRUE)
 usethis::use_data(reg_folds, overwrite = TRUE)
+usethis::use_data(reg_wf_map, overwrite = TRUE)
 usethis::use_data(class_res_rf, overwrite = TRUE)
 usethis::use_data(class_res_nn, overwrite = TRUE)
 usethis::use_data(class_folds, overwrite = TRUE)
