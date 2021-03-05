@@ -393,20 +393,20 @@
 <span class="co">#&gt; # Outcome: latency (numeric)</span></code></pre></div>
 <p>As mentioned before, under the hood, a <code>data_stack</code> object is really just a tibble with some extra attributes. Checking out the actual data:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">tree_frogs_data_st</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/tibble/man/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">tree_frogs_data_st</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 429 x 12</span>
 <span class="co">#&gt;    latency knn_res_1_1 knn_res_1_2 knn_res_1_3 knn_res_1_4 lin_reg_res_1_1</span>
 <span class="co">#&gt;      &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;           &lt;dbl&gt;</span>
-<span class="co">#&gt;  1     142      -0.496      -0.478      -0.492      -0.494           114. </span>
-<span class="co">#&gt;  2      79      -0.381      -0.446      -0.542      -0.553            78.6</span>
-<span class="co">#&gt;  3      50      -0.311      -0.352      -0.431      -0.438            81.5</span>
-<span class="co">#&gt;  4      68      -0.312      -0.368      -0.463      -0.473            78.6</span>
-<span class="co">#&gt;  5      64      -0.496      -0.478      -0.492      -0.494            36.5</span>
-<span class="co">#&gt;  6      52      -0.391      -0.412      -0.473      -0.482           124. </span>
-<span class="co">#&gt;  7      39      -0.523      -0.549      -0.581      -0.587            35.2</span>
-<span class="co">#&gt;  8      46      -0.523      -0.549      -0.581      -0.587            37.1</span>
-<span class="co">#&gt;  9     137      -0.287      -0.352      -0.447      -0.456            78.8</span>
-<span class="co">#&gt; 10      73      -0.523      -0.549      -0.581      -0.587            38.8</span>
+<span class="co">#&gt;  1     360      -0.343      -0.395      -0.469      -0.478           194. </span>
+<span class="co">#&gt;  2     106      -0.336      -0.390      -0.438      -0.444           123. </span>
+<span class="co">#&gt;  3     180      -0.343      -0.395      -0.469      -0.478           138. </span>
+<span class="co">#&gt;  4      60      -0.350      -0.363      -0.401      -0.407           122. </span>
+<span class="co">#&gt;  5      39      -0.251      -0.310      -0.427      -0.441            82.9</span>
+<span class="co">#&gt;  6     214      -0.420      -0.436      -0.505      -0.515           134. </span>
+<span class="co">#&gt;  7      50      -0.336      -0.390      -0.438      -0.444            37.2</span>
+<span class="co">#&gt;  8     224      -0.336      -0.390      -0.438      -0.444           125. </span>
+<span class="co">#&gt;  9      63      -0.420      -0.436      -0.505      -0.515            40.3</span>
+<span class="co">#&gt; 10      33      -0.336      -0.390      -0.438      -0.444            38.3</span>
 <span class="co">#&gt; # … with 419 more rows, and 6 more variables: svm_res_1_5 &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   svm_res_1_6 &lt;dbl&gt;, svm_res_1_1 &lt;dbl&gt;, svm_res_1_4 &lt;dbl&gt;, svm_res_1_3 &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   svm_res_1_2 &lt;dbl&gt;</span></code></pre></div>
@@ -450,12 +450,12 @@
 <span class="co">#&gt; # A tibble: 6 x 4</span>
 <span class="co">#&gt;   member         cost         sigma  coef</span>
 <span class="co">#&gt;   &lt;chr&gt;         &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 svm_res_1_1 0.153   0.0196         12.9</span>
-<span class="co">#&gt; 2 svm_res_1_2 5.76    0.00000856    513. </span>
-<span class="co">#&gt; 3 svm_res_1_3 1.72    0.0000239       0  </span>
-<span class="co">#&gt; 4 svm_res_1_4 0.192   0.0000000552    0  </span>
-<span class="co">#&gt; 5 svm_res_1_5 0.00315 0.00000000359   0  </span>
-<span class="co">#&gt; 6 svm_res_1_6 0.00733 0.0326         16.5</span></code></pre></div>
+<span class="co">#&gt; 1 svm_res_1_1 0.153   0.0196         257.</span>
+<span class="co">#&gt; 2 svm_res_1_2 5.76    0.00000856       0 </span>
+<span class="co">#&gt; 3 svm_res_1_3 1.72    0.0000239        0 </span>
+<span class="co">#&gt; 4 svm_res_1_4 0.192   0.0000000552     0 </span>
+<span class="co">#&gt; 5 svm_res_1_5 0.00315 0.00000000359    0 </span>
+<span class="co">#&gt; 6 svm_res_1_6 0.00733 0.0326         611.</span></code></pre></div>
 <p>This object is now ready to predict with new data!</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tree_frogs_test</span> <span class="op">&lt;-</span> 
@@ -479,16 +479,15 @@
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_dfr</a></span><span class="op">(</span><span class="va">member_preds</span>, <span class="va">rmse</span>, truth <span class="op">=</span> <span class="va">latency</span>, data <span class="op">=</span> <span class="va">member_preds</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>member <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">member_preds</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 7 x 4</span>
+<span class="co">#&gt; # A tibble: 6 x 4</span>
 <span class="co">#&gt;   .metric .estimator .estimate member         </span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;          </span>
 <span class="co">#&gt; 1 rmse    standard         0   latency        </span>
-<span class="co">#&gt; 2 rmse    standard        55.5 .pred          </span>
-<span class="co">#&gt; 3 rmse    standard       114.  knn_res_1_4    </span>
-<span class="co">#&gt; 4 rmse    standard        55.5 lin_reg_res_1_1</span>
-<span class="co">#&gt; 5 rmse    standard       114.  svm_res_1_6    </span>
-<span class="co">#&gt; 6 rmse    standard       114.  svm_res_1_1    </span>
-<span class="co">#&gt; 7 rmse    standard       114.  svm_res_1_2</span></code></pre></div>
+<span class="co">#&gt; 2 rmse    standard        47.8 .pred          </span>
+<span class="co">#&gt; 3 rmse    standard       104.  knn_res_1_1    </span>
+<span class="co">#&gt; 4 rmse    standard        44.7 lin_reg_res_1_1</span>
+<span class="co">#&gt; 5 rmse    standard       104.  svm_res_1_6    </span>
+<span class="co">#&gt; 6 rmse    standard       103.  svm_res_1_1</span></code></pre></div>
 <p>As we can see, the stacked ensemble outperforms each of the member models, though is closely followed by one of its members.</p>
 <p>Voila! You’ve now made use of the stacks package to predict red-eyed tree frog embryo hatching using a stacked ensemble! The full visual outline for these steps can be found <a href="https://github.com/tidymodels/stacks/blob/main/inst/figs/outline.png" class="external-link">here</a>.</p>
 </div>

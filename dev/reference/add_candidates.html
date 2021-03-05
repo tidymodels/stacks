@@ -169,7 +169,7 @@ evaluated using the blend_predictions() function." />
     <p><code>add_candidates()</code> collates the assessment set predictions
 and additional attributes from the supplied model definition
 (i.e. set of "candidates") to a data stack.</p>
-<p>Behind the scenes, data stack objects are just <a href='https://tibble.tidyverse.org/reference/tbl_df-class.html'>tibble::tbl_df</a>s,
+<p>Behind the scenes, data stack objects are just <a href='https://rdrr.io/pkg/tibble/man/tbl_df-class.html'>tibble::tbl_df</a>s,
 where the first column gives the true response values,
 and the remaining columns give the assessment set predictions
 for each candidate. In the regression setting, there's only
@@ -325,11 +325,11 @@ the source code that generated them.</p>
 </div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Out of 11 possible candidate members, the ensemble retained 2.</span>
 #&gt; <span class='message'>Lasso penalty: 0.01.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>The 2 highest weighted member classes are:</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 2 x 3</span><span>
+#&gt; <span class='message'>The 2 highest weighted member classes are:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 3</span><span>
 #&gt;   member                       type        weight
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> .pred_yes_neural_network_1_1 mlp           7.08
-#&gt; </span><span style='color: #555555;'>2</span><span> .pred_yes_random_forest_1_03 rand_forest   3.00</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> .pred_yes_neural_network_1_1 mlp           7.08
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> .pred_yes_random_forest_1_03 rand_forest   3.00</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Members have not yet been fitted with `fit_members()`.</span></div><div class='input'><span class='co'># }</span>
 
 </div></span></pre>
