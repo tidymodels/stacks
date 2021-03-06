@@ -14,9 +14,9 @@ if ((!on_cran()) || interactive()) {
 test_axe <- function(st, fxn) {
   st_axed <- fxn(st)
   
-  expect_true(object.size(st) > object.size(st_axed))
-  expect_true(object.size(st[["coefs"]]) > object.size(st_axed[["coefs"]]))
-  expect_true(object.size(st[["member_fits"]]) > object.size(st_axed[["member_fits"]]))
+  expect_true(object.size(st) >= object.size(st_axed))
+  expect_true(object.size(st[["coefs"]]) >= object.size(st_axed[["coefs"]]))
+  expect_true(object.size(st[["member_fits"]]) >= object.size(st_axed[["member_fits"]]))
 }
 
 test_that("model_stack + axe_call() works", {
