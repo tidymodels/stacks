@@ -179,13 +179,7 @@ process_component_models <- function(model_stack, fxn) {
 }
 
 process_member_fit <- function(member_fit, fxn) {
-  member_fit[["fit"]][["fit"]] <- fxn(member_fit[["fit"]][["fit"]])
-  member_fit[["pre"]][["actions"]][["recipe"]][["recipe"]] <- 
-    fxn(member_fit[["pre"]][["actions"]][["recipe"]][["recipe"]])
-  member_fit[["pre"]][["mold"]][["blueprint"]][["recipe"]] <- 
-    fxn(member_fit[["pre"]][["mold"]][["blueprint"]][["recipe"]])
-  
-  member_fit
+  fxn(member_fit)
 }
 
 # copied from tidymodels/butcher
