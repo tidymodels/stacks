@@ -30,9 +30,10 @@ Imports:
     tibble (>= 2.1.3),
     purrr (>= 0.3.2), 
     parsnip (>= 0.0.4),
-    workflows (>= 0.1.0),
+    workflows (>= 0.2.1.9000),
     recipes (>= 0.1.15),
     rsample (>= 0.0.9),
+    butcher (>= 0.1.3),
     yardstick,
     tidyr,
     dials,
@@ -40,7 +41,6 @@ Imports:
     ggplot2,
     glmnet,
     cli,
-    butcher,
     stats,
     foreach,
     generics
@@ -61,4 +61,5 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 Remotes:
-    tidymodels/tune
+    tidymodels/tune,
+    tidymodels/workflows
