@@ -258,7 +258,7 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
 # appends assessment set predictions to a data stack
 .set_data_candidates <- function(stack, candidates, name) {
   candidate_cols <-
-    tune::collect_predictions(candidates, summarize = TRUE) %>%
+    collate_predictions(candidates) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(
       .config = if (".config" %in% names(.)) .config else NA_character_
@@ -449,4 +449,25 @@ process_.config <- function(.config, df, name) {
     )
   
   .config_
+}
+
+# For racing, we only want to keep the candidates with complete resamples. 
+collate_predictions <- function(x) {
+  res <- tune::collect_predictions(x, summarize = TRUE)
+  if (inherits(x, "tune_race")) {
+    config_counts <- 
+      tune::collect_metrics(x, summarize = FALSE) %>% 
+      dplyr::group_by(.config) %>% 
+      dplyr::count() %>% 
+      dplyr::ungroup()
+    # At least one configuration will always be fully resampled. We can filter
+    # on configurations that have the maximum number of resamples. 
+    complete_count <- max(config_counts$n, na.rm = TRUE)
+    retain_configs <- 
+      config_counts %>% 
+      dplyr::filter(n == complete_count) %>% 
+      dplyr::select(.config)
+    res <- dplyr::inner_join(res, retain_configs, by = ".config")
+  }
+  res
 }

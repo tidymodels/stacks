@@ -345,7 +345,7 @@ reg_wf_map <- workflowsets::workflow_set(
   ),
   cross = FALSE
 ) \%>\%
-  workflowsets::options_add(
+  workflowsets::option_add(
     control = control_stack_grid(),
     metrics = metric
   ) \%>\%
