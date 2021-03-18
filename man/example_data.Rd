@@ -110,6 +110,7 @@ library(parsnip)
 library(workflows)
 library(recipes)
 library(yardstick)
+library(workflowsets)
 
 set.seed(1)
 

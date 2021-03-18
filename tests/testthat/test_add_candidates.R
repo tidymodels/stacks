@@ -70,7 +70,7 @@ test_that("add_candidates errors informatively with bad arguments", {
   
   expect_error(
     st_reg_2 %>% add_candidates("howdy"),
-    "has class `character`, but it should inherit"
+    "should inherit from one of"
   )
   
   expect_error(

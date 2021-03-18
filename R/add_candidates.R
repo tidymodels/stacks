@@ -82,6 +82,33 @@
 #' @export
 add_candidates <- function(data_stack, candidates,
                            name = deparse(substitute(candidates)), ...) {
+  UseMethod("add_candidates", object = candidates)
+}
+
+# check that resamples have been fitted to the workflow_set and
+# then send each to add_candidates.tune_results
+#' @export
+add_candidates.workflow_set <- function(data_stack, candidates, 
+                                        name = deparse(substitute(candidates)), 
+                                        ...) {
+  if (!"result" %in% colnames(candidates)) {
+    glue_stop(
+      "The supplied workflow_set must be fitted to resamples with ",
+      "workflows::workflow_map() before being added to a data stack."
+    )
+  }
+  
+  purrr::reduce2(
+    append(list(data_stack), candidates$result),
+    candidates$wflow_id,
+    add_candidates
+  )
+}
+
+#' @export
+add_candidates.tune_results <- function(data_stack, candidates, 
+                                        name = deparse(substitute(candidates)), 
+                                        ...) {
   check_add_data_stack(data_stack)
   check_candidates(candidates)
   check_name(name)
@@ -97,6 +124,17 @@ add_candidates <- function(data_stack, candidates,
     .set_data_candidates(candidates, name)
   
   if (data_stack_constr(stack)) {stack}
+}
+
+#' @export
+add_candidates.default <- function(data_stack, candidates, name, ...) {
+  check_add_data_stack(data_stack)
+  
+  glue_stop(
+    "The second argument to add_candidates() should inherit from one of ",
+    "`tune_results` or `workflow_set`, but its class ",
+    "is {list(class(candidates))}."
+  )
 }
 
 .set_outcome <- function(stack, candidates) {
@@ -220,7 +258,7 @@ add_candidates <- function(data_stack, candidates,
 # appends assessment set predictions to a data stack
 .set_data_candidates <- function(stack, candidates, name) {
   candidate_cols <-
-    tune::collect_predictions(candidates, summarize = TRUE) %>%
+    collate_predictions(candidates) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(
       .config = if (".config" %in% names(.)) .config else NA_character_
@@ -333,9 +371,7 @@ stack_workflow <- function(x) {
 }
 
 check_add_data_stack <- function(data_stack) {
-  if (inherits(data_stack, "data_stack")) {
-    return(invisible(NULL))
-  } else if (rlang::inherits_any(
+  if (rlang::inherits_any(
     data_stack, 
     c("tune_results", "tune_bayes", "resample_results")
   )) {
@@ -413,4 +449,25 @@ process_.config <- function(.config, df, name) {
     )
   
   .config_
+}
+
+# For racing, we only want to keep the candidates with complete resamples. 
+collate_predictions <- function(x) {
+  res <- tune::collect_predictions(x, summarize = TRUE)
+  if (inherits(x, "tune_race")) {
+    config_counts <- 
+      tune::collect_metrics(x, summarize = FALSE) %>% 
+      dplyr::group_by(.config) %>% 
+      dplyr::count() %>% 
+      dplyr::ungroup()
+    # At least one configuration will always be fully resampled. We can filter
+    # on configurations that have the maximum number of resamples. 
+    complete_count <- max(config_counts$n, na.rm = TRUE)
+    retain_configs <- 
+      config_counts %>% 
+      dplyr::filter(n == complete_count) %>% 
+      dplyr::select(.config)
+    res <- dplyr::inner_join(res, retain_configs, by = ".config")
+  }
+  res
 }
