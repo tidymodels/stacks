@@ -86,7 +86,7 @@ weights_plot <- function(x, penalty = x$penalty$penalty, n = Inf) {
     dat_order <- 
       dat %>% 
       dplyr::group_by(model, terms) %>% 
-      dplyr::summarize(mean = max(weight, na.rm = TRUE)) %>% 
+      dplyr::summarize(mean = max(abs(weight), na.rm = TRUE)) %>% 
       dplyr::ungroup() %>% 
       dplyr::arrange(mean) %>% 
       dplyr::mutate(member = dplyr::row_number()) %>% 
@@ -95,7 +95,7 @@ weights_plot <- function(x, penalty = x$penalty$penalty, n = Inf) {
   } else {
     dat <- 
       dat %>% 
-      dplyr::arrange(weight) %>% 
+      dplyr::arrange(dplyr::desc(abs(weight))) %>% 
       dplyr::mutate(member = dplyr::row_number())
   }
   p <- 

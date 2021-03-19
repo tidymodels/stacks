@@ -89,8 +89,8 @@ top_coefs <- function(x, penalty = x$penalty$penalty, n = 10) {
   res <- 
     dplyr::left_join(betas, sub_models, by = "terms") %>% 
     dplyr::left_join(model_types, by = "model_name") %>% 
-    dplyr::top_n(n, estimate) %>% 
-    dplyr::arrange(dplyr::desc(estimate)) 
+    dplyr::top_n(n, abs(estimate)) %>% 
+    dplyr::arrange(dplyr::desc(abs(estimate)))
   
   if (any(names(res) == "class")) {
     pred_levels <- 
