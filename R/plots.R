@@ -95,7 +95,7 @@ weights_plot <- function(x, penalty = x$penalty$penalty, n = Inf) {
   } else {
     dat <- 
       dat %>% 
-      dplyr::arrange(dplyr::desc(abs(weight))) %>% 
+      dplyr::arrange(abs(weight)) %>% 
       dplyr::mutate(member = dplyr::row_number())
   }
   p <- 
