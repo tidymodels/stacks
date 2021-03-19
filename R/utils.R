@@ -52,15 +52,33 @@ utils::globalVariables(c(
 # ------------------------------------------------------------------------
 # wrappers for prompting with glue with appropriate colors
 glue_stop <- function(..., .sep = "", .envir = parent.frame()) {
-  glue_prompt(..., .sep = .sep, .envir = .envir, "danger", rlang::abort)
+  glue_prompt(
+    ..., 
+    .sep = .sep, 
+    .envir = .envir, 
+    type = "danger", 
+    rlang_fn = rlang::abort
+  )
 }
 
 glue_warn <- function(..., .sep = "", .envir = parent.frame()) {
-  glue_prompt(..., .sep = .sep, .envir = .envir, "warning", rlang::warn)
+  glue_prompt(
+    ..., 
+    .sep = .sep, 
+    .envir = .envir, 
+    type = "warning", 
+    rlang_fn = rlang::warn
+  )
 }
 
 glue_message <- function(..., .sep = "", .envir = parent.frame()) {
-  glue_prompt(..., .sep = .sep, .envir = .envir, "info", rlang::inform)
+  glue_prompt(
+    ..., 
+    .sep = .sep, 
+    .envir = .envir, 
+    type = "info", 
+    rlang_fn = rlang::inform
+  )
 }
 
 # takes in a prompt and a prompt type and colors the
