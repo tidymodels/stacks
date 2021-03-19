@@ -363,8 +363,12 @@ stack_workflow <- function(x) {
   
   if (inherits(pre, "formula")) {
     res <- res %>% workflows::add_formula(pre)
-  } else {
+  } else if (inherits(pre, "recipe")) {
     res <- res %>% workflows::add_recipe(pre)
+  } else if (inherits(pre, "workflow_variables")) {
+    res <- res %>% workflows::add_variables(variables = pre)
+  } else {
+    rlang::abort(paste0("Can't add a preprocessor of class '", class(pre)[1], "'"))
   }
   
   res
