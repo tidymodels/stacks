@@ -14,6 +14,8 @@ Developmental version, to be released as v0.2.0.
   from the new {workflowsets} package!
 * Introduce support for adding candidates from objects tuned with
   racing methods.
+* Integrate with {tune} functionality for appropriately coloring errors, 
+  warnings, and messages.
 * Various bug fixes and improvements to documentation.
 
 ### v0.1.0
