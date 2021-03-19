@@ -324,8 +324,14 @@ rm_duplicate_cols <- function(df) {
   exclude <- c(exclude, names(df[duplicated(purrr::map(df, c))]))
   
   if (length(exclude) > 0) {
+    if (length(exclude) > 1) {
+      n_candidates <- paste(length(exclude), "candidates")
+    } else {
+      n_candidates <- "1 candidate"
+    }
+    
     glue_warn(
-      "Predictions from the candidates {list(exclude)} were identical to ",
+      "Predictions from {n_candidates} were identical to ",
       "those from existing candidates and were removed from the data stack."
     )
     
