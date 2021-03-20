@@ -430,7 +430,8 @@ check_name <- function(name) {
     if (make.names(name) != name) {
       glue_message(
         "The inputted `name` argument cannot prefix a valid column name. The ", 
-        'data stack will use "{make.names(name)}" rather than "{name}".'
+        'data stack will use "{make.names(name)}" rather than "{name}" in ',
+        "constructing candidate names."
       )
     }
   }
