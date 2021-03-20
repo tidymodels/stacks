@@ -244,4 +244,11 @@ test_that("model definition naming works as expected", {
       add_candidates(log_res_nn, "log_res_rf"),
     "has the same name"
   )
+  
+  expect_message(
+    st_reg_1 <- 
+      stacks() %>%
+      add_candidates(reg_res_svm, name = "beep bop"),
+    "cannot prefix a valid column name"
+  )
 })
