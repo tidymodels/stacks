@@ -16,6 +16,9 @@ Developmental version, to be released as v0.2.0.
   racing methods.
 * Integrate with {tune} functionality for appropriately coloring errors, 
   warnings, and messages.
+* Fixed bug arising from  model definition names that are not valid column 
+  names. The package will now message in the case that the provided names
+  are not valid column names and use `make.names` for associated candidate members.
 * Various bug fixes and improvements to documentation.
 
 ### v0.1.0

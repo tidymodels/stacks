@@ -90,7 +90,7 @@ fit_members <- function(model_stack, ...) {
   metrics_dict <- 
     tibble::enframe(model_stack[["model_metrics"]]) %>%
     tidyr::unnest(cols = value) %>%
-    dplyr::mutate(.config = process_.config(.config, ., name = name))
+    dplyr::mutate(.config = process_.config(.config, ., name = make.names(name)))
   
   if (model_stack[["mode"]] == "regression") {
     members_map <- 
