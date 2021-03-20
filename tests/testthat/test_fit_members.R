@@ -24,6 +24,20 @@ test_that("basic fit_members works", {
     st_log_1_ %>% fit_members()
   )
   
+  expect_message(
+    st_reg_bad_names <- stacks() %>% 
+      add_candidates(reg_res_svm, name = "name with spaces") %>%
+      blend_predictions() %>%
+      fit_members()
+  )
+  
+  expect_message(
+    st_class_bad_names <- stacks() %>% 
+      add_candidates(class_res_rf, name = "name with spaces") %>%
+      blend_predictions() %>%
+      fit_members()
+  )
+  
   # This is functionality that modeltime depends on.
   # Drop a note in #2 if this changes. :-)
   expect_false(!is.null(st_reg_1_[["member_fits"]]))
@@ -34,6 +48,9 @@ test_that("basic fit_members works", {
   
   expect_false(!is.null(st_log_1_[["member_fits"]]))
   expect_false( is.null(st_log_1__[["member_fits"]]))
+  
+  check_inherits(st_reg_bad_names, "linear_stack")
+  check_inherits(st_class_bad_names, "linear_stack")
 })
 
 test_that("fit_members leaves most model stack elements alone", {

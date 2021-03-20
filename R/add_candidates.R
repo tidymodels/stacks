@@ -120,7 +120,7 @@ add_candidates.tune_results <- function(data_stack, candidates,
     .set_outcome(candidates) %>%
     .set_mode_(candidates, name) %>%
     .set_training_data(candidates, name) %>%
-    .set_model_defs_candidates(candidates, col_name) %>%
+    .set_model_defs_candidates(candidates, name) %>%
     .set_data_candidates(candidates, name, col_name)
   
   if (data_stack_constr(stack)) {stack}
