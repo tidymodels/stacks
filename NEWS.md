@@ -20,6 +20,8 @@ Developmental version, to be released as v0.2.0.
   names. The package will now message in the case that the provided names
   are not valid column names and use `make.names` for associated candidate members.
 * Various bug fixes and improvements to documentation.
+* Improved faceting and axis scales to make `autoplot` with `type = "members"`
+  more informative.
 
 ### v0.1.0
 
