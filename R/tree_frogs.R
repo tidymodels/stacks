@@ -43,5 +43,5 @@
 #' a representative or unbiased subset of the complete dataset, and is only
 #' for demonstrative purposes.
 #' 
-#' @source \url{https://www.biorxiv.org/content/10.1101/2020.09.18.304295v1}
+#' @source \url{https://jeb.biologists.org/content/223/24/jeb236141}
 "tree_frogs"
