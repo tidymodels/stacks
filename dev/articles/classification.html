@@ -159,7 +159,7 @@
   <span class="fu"><a href="https://workflows.tidymodels.org//reference/add_recipe.html" class="external-link">add_recipe</a></span><span class="op">(</span><span class="va">tree_frogs_rec</span><span class="op">)</span></code></pre></div>
 <p>We also need to use the same control settings as in the numeric response setting:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ctrl_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/control_stack_grid.html">control_stack_grid</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">ctrl_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/control_stack.html">control_stack_grid</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>We’ll define two different model definitions to try to predict <code>reflex</code>—a random forest and a neural network.</p>
 <p>Starting out with a random forest:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
