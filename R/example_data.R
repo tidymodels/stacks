@@ -45,9 +45,9 @@
 #' @includeRmd man-roxygen/example_models.Rmd
 #' 
 #' @source 
-#' Julie Jung et al. (Forthcoming) Multimodal mechanosensing enables treefrog 
+#' Julie Jung et al. (2020) Multimodal mechanosensing enables treefrog 
 #' embryos to escape egg-predators.
-#' \url{https://doi.org/10.1101/2020.09.18.304295}
+#' \url{https://doi.org/10.1242/jeb.236141}
 #'
 #' @name example_data
 NULL
