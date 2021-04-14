@@ -37,9 +37,9 @@ library(tidyr)
 
 In this example, we'll make use of the `tree_frogs` data exported with `stacks`, giving experimental results on hatching behavior of red-eyed tree frog embryos! 
 
-Red-eyed tree frog (RETF) embryos can hatch earlier than their normal 7ish days if they detect potential predator threat. Researchers wanted to determine how, and when, these tree frog embryos were able to detect stimulus from their environment. To do so, they subjected the embryos at varying developmental stages to "predator stimulus" by jiggling the embryos with a blunt probe. Beforehand, though some of the embryos were treated with gentamicin, a compound that knocks out their lateral line (a sensory organ.) Researcher Julie Jung and her crew found that these factors inform whether an embryo hatches prematurely or not!
+Red-eyed tree frog (RETF) embryos can hatch earlier than their normal 7ish days if they detect potential predator threat. Researchers wanted to determine how, and when, these tree frog embryos were able to detect stimulus from their environment. To do so, they subjected the embryos at varying developmental stages to "predator stimulus" by jiggling the embryos with a blunt probe. Beforehand, though, some of the embryos were treated with gentamicin, a compound that knocks out their lateral line (a sensory organ). Researcher Julie Jung and her crew found that these factors inform whether an embryo hatches prematurely or not!
 
-In this article, we'll use most all of the variables in `tree_frogs` to predict `reflex`, a measure of ear function called the vestibulo-ocular reflex, categorized into bins. Ear function increases from factor levels "low", to "mid", to "full".
+In this article, we'll use most all of the variables in `tree_frogs` to predict `reflex`, a measure of ear function called the vestibulo-ocular reflex (VOR), categorized into bins. Ear function increases from factor levels "low", to "mid", to "full".
 
 ```{r, message = FALSE, warning = FALSE}
 data("tree_frogs")
@@ -236,4 +236,4 @@ map_dfr(
   pivot_longer(c(everything(), -reflex))
 ```
 
-Voila! You've now made use of the stacks package to predict tree frog embryo ear function using a stacked ensemble!  
+Voilà! You've now made use of the stacks package to predict tree frog embryo ear function using a stacked ensemble!  
