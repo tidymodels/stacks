@@ -267,13 +267,13 @@
 <span class="co">#&gt; # Tuning results</span>
 <span class="co">#&gt; # 5-fold cross-validation </span>
 <span class="co">#&gt; # A tibble: 5 x 5</span>
-<span class="co">#&gt;   splits           id    .metrics         .notes           .predictions      </span>
-<span class="co">#&gt;   &lt;list&gt;           &lt;chr&gt; &lt;list&gt;           &lt;list&gt;           &lt;list&gt;            </span>
-<span class="co">#&gt; 1 &lt;split [343/86]&gt; Fold1 &lt;tibble [4 × 5]&gt; &lt;tibble [0 × 1]&gt; &lt;tibble [344 × 5]&gt;</span>
-<span class="co">#&gt; 2 &lt;split [343/86]&gt; Fold2 &lt;tibble [4 × 5]&gt; &lt;tibble [0 × 1]&gt; &lt;tibble [344 × 5]&gt;</span>
-<span class="co">#&gt; 3 &lt;split [343/86]&gt; Fold3 &lt;tibble [4 × 5]&gt; &lt;tibble [0 × 1]&gt; &lt;tibble [344 × 5]&gt;</span>
-<span class="co">#&gt; 4 &lt;split [343/86]&gt; Fold4 &lt;tibble [4 × 5]&gt; &lt;tibble [0 × 1]&gt; &lt;tibble [344 × 5]&gt;</span>
-<span class="co">#&gt; 5 &lt;split [344/85]&gt; Fold5 &lt;tibble [4 × 5]&gt; &lt;tibble [0 × 1]&gt; &lt;tibble [340 × 5]&gt;</span></code></pre></div>
+<span class="co">#&gt;   splits          id    .metrics          .notes            .predictions        </span>
+<span class="co">#&gt;   &lt;list&gt;          &lt;chr&gt; &lt;list&gt;            &lt;list&gt;            &lt;list&gt;              </span>
+<span class="co">#&gt; 1 &lt;split [343/86… Fold1 &lt;tibble[,5] [4 ×… &lt;tibble[,1] [0 ×… &lt;tibble[,5] [344 × …</span>
+<span class="co">#&gt; 2 &lt;split [343/86… Fold2 &lt;tibble[,5] [4 ×… &lt;tibble[,1] [0 ×… &lt;tibble[,5] [344 × …</span>
+<span class="co">#&gt; 3 &lt;split [343/86… Fold3 &lt;tibble[,5] [4 ×… &lt;tibble[,1] [0 ×… &lt;tibble[,5] [344 × …</span>
+<span class="co">#&gt; 4 &lt;split [343/86… Fold4 &lt;tibble[,5] [4 ×… &lt;tibble[,1] [0 ×… &lt;tibble[,5] [344 × …</span>
+<span class="co">#&gt; 5 &lt;split [344/85… Fold5 &lt;tibble[,5] [4 ×… &lt;tibble[,1] [0 ×… &lt;tibble[,5] [340 × …</span></code></pre></div>
 <p>This <code>knn_res</code> object fully specifies the candidate members, and is ready to be included in a <code>stacks</code> workflow.</p>
 <p>Now, specifying the linear model, note that we are not optimizing over any hyperparameters. Thus, we use the <code><a href="https://tune.tidymodels.org/reference/fit_resamples.html" class="external-link">fit_resamples()</a></code> function rather than <code><a href="https://tune.tidymodels.org/reference/tune_grid.html" class="external-link">tune_grid()</a></code> or <code><a href="https://tune.tidymodels.org/reference/tune_bayes.html" class="external-link">tune_bayes()</a></code> when fitting to our resamples.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -308,13 +308,13 @@
 <span class="co">#&gt; # Resampling results</span>
 <span class="co">#&gt; # 5-fold cross-validation </span>
 <span class="co">#&gt; # A tibble: 5 x 5</span>
-<span class="co">#&gt;   splits           id    .metrics         .notes           .predictions     </span>
-<span class="co">#&gt;   &lt;list&gt;           &lt;chr&gt; &lt;list&gt;           &lt;list&gt;           &lt;list&gt;           </span>
-<span class="co">#&gt; 1 &lt;split [343/86]&gt; Fold1 &lt;tibble [1 × 4]&gt; &lt;tibble [0 × 1]&gt; &lt;tibble [86 × 4]&gt;</span>
-<span class="co">#&gt; 2 &lt;split [343/86]&gt; Fold2 &lt;tibble [1 × 4]&gt; &lt;tibble [0 × 1]&gt; &lt;tibble [86 × 4]&gt;</span>
-<span class="co">#&gt; 3 &lt;split [343/86]&gt; Fold3 &lt;tibble [1 × 4]&gt; &lt;tibble [0 × 1]&gt; &lt;tibble [86 × 4]&gt;</span>
-<span class="co">#&gt; 4 &lt;split [343/86]&gt; Fold4 &lt;tibble [1 × 4]&gt; &lt;tibble [0 × 1]&gt; &lt;tibble [86 × 4]&gt;</span>
-<span class="co">#&gt; 5 &lt;split [344/85]&gt; Fold5 &lt;tibble [1 × 4]&gt; &lt;tibble [0 × 1]&gt; &lt;tibble [85 × 4]&gt;</span></code></pre></div>
+<span class="co">#&gt;   splits          id    .metrics           .notes            .predictions       </span>
+<span class="co">#&gt;   &lt;list&gt;          &lt;chr&gt; &lt;list&gt;             &lt;list&gt;            &lt;list&gt;             </span>
+<span class="co">#&gt; 1 &lt;split [343/86… Fold1 &lt;tibble[,4] [1 × … &lt;tibble[,1] [0 ×… &lt;tibble[,4] [86 × …</span>
+<span class="co">#&gt; 2 &lt;split [343/86… Fold2 &lt;tibble[,4] [1 × … &lt;tibble[,1] [0 ×… &lt;tibble[,4] [86 × …</span>
+<span class="co">#&gt; 3 &lt;split [343/86… Fold3 &lt;tibble[,4] [1 × … &lt;tibble[,1] [0 ×… &lt;tibble[,4] [86 × …</span>
+<span class="co">#&gt; 4 &lt;split [343/86… Fold4 &lt;tibble[,4] [1 × … &lt;tibble[,1] [0 ×… &lt;tibble[,4] [86 × …</span>
+<span class="co">#&gt; 5 &lt;split [344/85… Fold5 &lt;tibble[,4] [1 × … &lt;tibble[,1] [0 ×… &lt;tibble[,4] [85 × …</span></code></pre></div>
 <p>Finally, putting together the model definition for the support vector machine:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create a model definition</span>
@@ -356,13 +356,13 @@
 <span class="co">#&gt; # Tuning results</span>
 <span class="co">#&gt; # 5-fold cross-validation </span>
 <span class="co">#&gt; # A tibble: 5 x 5</span>
-<span class="co">#&gt;   splits           id    .metrics         .notes           .predictions      </span>
-<span class="co">#&gt;   &lt;list&gt;           &lt;chr&gt; &lt;list&gt;           &lt;list&gt;           &lt;list&gt;            </span>
-<span class="co">#&gt; 1 &lt;split [343/86]&gt; Fold1 &lt;tibble [6 × 6]&gt; &lt;tibble [0 × 1]&gt; &lt;tibble [516 × 6]&gt;</span>
-<span class="co">#&gt; 2 &lt;split [343/86]&gt; Fold2 &lt;tibble [6 × 6]&gt; &lt;tibble [0 × 1]&gt; &lt;tibble [516 × 6]&gt;</span>
-<span class="co">#&gt; 3 &lt;split [343/86]&gt; Fold3 &lt;tibble [6 × 6]&gt; &lt;tibble [0 × 1]&gt; &lt;tibble [516 × 6]&gt;</span>
-<span class="co">#&gt; 4 &lt;split [343/86]&gt; Fold4 &lt;tibble [6 × 6]&gt; &lt;tibble [0 × 1]&gt; &lt;tibble [516 × 6]&gt;</span>
-<span class="co">#&gt; 5 &lt;split [344/85]&gt; Fold5 &lt;tibble [6 × 6]&gt; &lt;tibble [0 × 1]&gt; &lt;tibble [510 × 6]&gt;</span></code></pre></div>
+<span class="co">#&gt;   splits          id    .metrics          .notes            .predictions        </span>
+<span class="co">#&gt;   &lt;list&gt;          &lt;chr&gt; &lt;list&gt;            &lt;list&gt;            &lt;list&gt;              </span>
+<span class="co">#&gt; 1 &lt;split [343/86… Fold1 &lt;tibble[,6] [6 ×… &lt;tibble[,1] [0 ×… &lt;tibble[,6] [516 × …</span>
+<span class="co">#&gt; 2 &lt;split [343/86… Fold2 &lt;tibble[,6] [6 ×… &lt;tibble[,1] [0 ×… &lt;tibble[,6] [516 × …</span>
+<span class="co">#&gt; 3 &lt;split [343/86… Fold3 &lt;tibble[,6] [6 ×… &lt;tibble[,1] [0 ×… &lt;tibble[,6] [516 × …</span>
+<span class="co">#&gt; 4 &lt;split [343/86… Fold4 &lt;tibble[,6] [6 ×… &lt;tibble[,1] [0 ×… &lt;tibble[,6] [516 × …</span>
+<span class="co">#&gt; 5 &lt;split [344/85… Fold5 &lt;tibble[,6] [6 ×… &lt;tibble[,1] [0 ×… &lt;tibble[,6] [510 × …</span></code></pre></div>
 <p>Altogether, we’ve created three model definitions, where the K-nearest neighbors model definition specifies 4 model configurations, the linear regression specifies 1, and the support vector machine specifies 6.</p>
 <p><img src="https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/candidates.png"><!-- --></p>
 <p>With these three model definitions fully specified, we are ready to begin stacking these model configurations. (Note that, in most applied settings, one would likely specify many more than 11 candidate members.)</p>

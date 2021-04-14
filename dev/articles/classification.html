@@ -115,8 +115,8 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stacks.tidymodels.org/">stacks</a></span><span class="op">)</span></code></pre></div>
 <p>In this example, we’ll make use of the <code>tree_frogs</code> data exported with <code>stacks</code>, giving experimental results on hatching behavior of red-eyed tree frog embryos!</p>
-<p>Red-eyed tree frog (RETF) embryos can hatch earlier than their normal 7ish days if they detect potential predator threat. Researchers wanted to determine how, and when, these tree frog embryos were able to detect stimulus from their environment. To do so, they subjected the embryos at varying developmental stages to “predator stimulus” by jiggling the embryos with a blunt probe. Beforehand, though some of the embryos were treated with gentamicin, a compound that knocks out their lateral line (a sensory organ.) Researcher Julie Jung and her crew found that these factors inform whether an embryo hatches prematurely or not!</p>
-<p>In this article, we’ll use most all of the variables in <code>tree_frogs</code> to predict <code>reflex</code>, a measure of ear function called the vestibulo-ocular reflex, categorized into bins. Ear function increases from factor levels “low”, to “mid”, to “full”.</p>
+<p>Red-eyed tree frog (RETF) embryos can hatch earlier than their normal 7ish days if they detect potential predator threat. Researchers wanted to determine how, and when, these tree frog embryos were able to detect stimulus from their environment. To do so, they subjected the embryos at varying developmental stages to “predator stimulus” by jiggling the embryos with a blunt probe. Beforehand, though, some of the embryos were treated with gentamicin, a compound that knocks out their lateral line (a sensory organ). Researcher Julie Jung and her crew found that these factors inform whether an embryo hatches prematurely or not!</p>
+<p>In this article, we’ll use most all of the variables in <code>tree_frogs</code> to predict <code>reflex</code>, a measure of ear function called the vestibulo-ocular reflex (VOR), categorized into bins. Ear function increases from factor levels “low”, to “mid”, to “full”.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"tree_frogs"</span><span class="op">)</span>
 
@@ -341,7 +341,7 @@
 <span class="co">#&gt; 13      1 .pred_class_rand_forest_res_1_05 0.851</span>
 <span class="co">#&gt; 14      1 .pred_class_nnet_res_1_02        0.518</span>
 <span class="co">#&gt; 15      1 .pred_class_nnet_res_1_10        0.825</span></code></pre></div>
-<p>Voila! You’ve now made use of the stacks package to predict tree frog embryo ear function using a stacked ensemble!</p>
+<p>Voilà! You’ve now made use of the stacks package to predict tree frog embryo ear function using a stacked ensemble!</p>
 </div>
   </div>
 
