@@ -22,6 +22,7 @@ Developmental version, to be released as v0.2.0.
 * Various bug fixes and improvements to documentation.
 * Improved faceting and axis scales to make `autoplot` with `type = "members"`
   more informative.
+* Introduce support for elastic net models.
 
 ### v0.1.0
 
