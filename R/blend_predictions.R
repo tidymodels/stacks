@@ -24,10 +24,17 @@
 #' [h2o::h2o.stackedEnsemble()] and [SuperLearner::SuperLearner()].
 #' 
 #' @param data_stack A `data_stack` object
-#' @param penalty A numeric vector of proposed penalty values used in member
-#'   weighting. Higher penalties will generally result in fewer members 
-#'   being included in the resulting model stack, and vice versa. This argument
-#'   will be tuned on unless a single penalty value is given.
+#' @param penalty A numeric vector of proposed values for total amount of
+#'   regularization used in member weighting. Higher penalties will generally 
+#'   result in fewer members being included in the resulting model stack, and 
+#'   vice versa. The package will tune over a grid formed from the cross 
+#'   product of the `penalty` and `mixture` arguments.
+#' @param mixture A number between zero and one (inclusive) giving the 
+#'   proportion of L1 regularization (i.e. lasso) in the model. `mixture = 1`
+#'   indicates a pure lasso model, `mixture = 0` indicates ridge regression, and
+#'   values in `(0, 1)` indicate an elastic net. The package will tune over 
+#'   a grid formed from the cross product of the `penalty` and `mixture` 
+#'   arguments.
 #' @param non_negative A logical giving whether to restrict stacking 
 #'   coefficients to non-negative values. If `TRUE` (default), 0 is passed as 
 #'   the `lower.limits` argument to [glmnet::glmnet()] in fitting the
@@ -107,12 +114,17 @@
 #' 
 #' @family core verbs
 #' @export
-blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1), 
-                              non_negative = TRUE, metric = NULL,
-                              control = tune::control_grid(),  ...) {
+blend_predictions <- function(data_stack, 
+                              penalty = 10 ^ (-6:-1),
+                              mixture = 1,
+                              non_negative = TRUE, 
+                              metric = NULL,
+                              control = tune::control_grid(), 
+                              ...) {
   check_inherits(data_stack, "data_stack")
   check_blend_data_stack(data_stack)
-  check_penalty(penalty)
+  check_regularization(penalty, "penalty")
+  check_regularization(mixture, "mixture")
   check_inherits(non_negative, "logical")
   if (!is.null(metric)) {
     check_inherits(metric, "metric_set")
@@ -133,7 +145,7 @@ blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1),
   
   if (attr(data_stack, "mode") == "regression") {
     model_spec <- 
-      parsnip::linear_reg(penalty = tune::tune(), mixture = 1) %>%
+      parsnip::linear_reg(penalty = tune::tune(), mixture = tune::tune()) %>%
       parsnip::set_engine("glmnet", lower.limits = ll)
     
     preds_wf <-
@@ -147,13 +159,13 @@ blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1),
     dat <- dat %>% dplyr::select(-dplyr::starts_with(!!col_filter))
     if (length(lvls) == 2) {
       model_spec <-
-        parsnip::logistic_reg(penalty = tune::tune(), mixture = 1) %>% 
-        parsnip::set_engine("glmnet", lower.limits = ll) %>% 
+        parsnip::logistic_reg(penalty = tune::tune(), mixture = tune::tune()) %>% 
+        parsnip::set_engine("glmnet", lower.limits = ll, lambda.min.ratio = 0) %>% 
         parsnip::set_mode("classification")
     } else {
       model_spec <-
         parsnip::multinom_reg(penalty = tune::tune(), mixture = 1) %>% 
-        parsnip::set_engine("glmnet", lower.limits = ll) %>% 
+        parsnip::set_engine("glmnet", lower.limits = ll, lambda.min.ratio = 0) %>% 
         parsnip::set_mode("classification")
     }
     
@@ -180,7 +192,12 @@ blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1),
     preds_wf %>%
     tune::tune_grid(
       resamples = rsample::bootstraps(dat),
-      grid = tibble::tibble(penalty = penalty),
+      grid = purrr::cross_df(
+        list(
+          penalty = penalty,
+          mixture = mixture
+          )
+        ),
       metrics = metric,
       control = control
     )
@@ -196,7 +213,11 @@ blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1),
     structure(
       list(model_defs = attr(data_stack, "model_defs"),
            coefs = coefs,
-           penalty = list(penalty = best_param$penalty, metric = metric),
+           penalty = list(
+             penalty = best_param$penalty, 
+             mixture = best_param$mixture,
+             metric = metric
+            ),
            metrics = glmnet_metrics(candidates),
            equations = get_expressions(coefs),
            cols_map = attr(data_stack, "cols_map"),
@@ -212,20 +233,28 @@ blend_predictions <- function(data_stack, penalty = 10 ^ (-6:-1),
   if (model_stack_constr(model_stack)) {model_stack}
 }
 
-check_penalty <- function(x) {
+check_regularization <- function(x, arg) {
   if (!is.numeric(x)) {
     glue_stop(
-      "The argument to 'penalty' must be a numeric, but the supplied penalty's ",
+      "The argument to '{arg}' must be a numeric, but the supplied {arg}'s ",
       "class is `{list(class(x))}`"
     )
   }
   
   if (length(x) == 0) {
-    glue_stop("Please supply one or more penalty values.")
+    glue_stop("Please supply one or more {arg} values.")
   }
   
-  if (any(x < 0)) {
-    glue_stop("Please supply only nonnegative values to the penalty argument.")
+  if (arg == "penalty") {
+    if (any(x < 0)) {
+      glue_stop("Please supply only nonnegative values to the {arg} argument.")
+    }
+  }
+  
+  if (arg == "mixture") {
+    if (any(x < 0 || x > 1)) {
+      glue_stop("Please supply only values in [0, 1] to the {arg} argument.")
+    }
   }
 }
 
