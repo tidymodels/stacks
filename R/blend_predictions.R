@@ -146,7 +146,7 @@ blend_predictions <- function(data_stack,
   if (attr(data_stack, "mode") == "regression") {
     model_spec <- 
       parsnip::linear_reg(penalty = tune::tune(), mixture = tune::tune()) %>%
-      parsnip::set_engine("glmnet", lower.limits = ll)
+      parsnip::set_engine("glmnet", lower.limits = ll, lambda.min.ratio = 0)
     
     preds_wf <-
       workflows::workflow() %>%
@@ -164,7 +164,7 @@ blend_predictions <- function(data_stack,
         parsnip::set_mode("classification")
     } else {
       model_spec <-
-        parsnip::multinom_reg(penalty = tune::tune(), mixture = 1) %>% 
+        parsnip::multinom_reg(penalty = tune::tune(), mixture = tune::tune()) %>% 
         parsnip::set_engine("glmnet", lower.limits = ll, lambda.min.ratio = 0) %>% 
         parsnip::set_mode("classification")
     }
