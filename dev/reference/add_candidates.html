@@ -323,13 +323,16 @@ the source code that generated them.</p>
 <span class='co'># passed to blend_predictions():</span>
 <span class='va'>log_st2</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Out of 11 possible candidate members, the ensemble retained 2.</span>
-#&gt; <span class='message'>Lasso penalty: 0.01.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>The 2 highest weighted member classes are:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 3</span><span>
+#&gt; <span class='message'>Out of 11 possible candidate members, the ensemble retained 4.</span>
+#&gt; <span class='message'>Penalty: 0.001.</span>
+#&gt; <span class='message'>Mixture: 1.</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>The 4 highest weighted member classes are:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 3</span><span>
 #&gt;   member                       type        weight
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> .pred_yes_neural_network_1_1 mlp           7.08
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> .pred_yes_random_forest_1_03 rand_forest   3.00</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> .pred_yes_neural_network_1_1 mlp          6.09 
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> .pred_yes_random_forest_1_09 rand_forest  1.84 
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> .pred_yes_random_forest_1_05 rand_forest  1.45 
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> .pred_yes_random_forest_1_06 rand_forest  0.792</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Members have not yet been fitted with `fit_members()`.</span></div><div class='input'><span class='co'># }</span>
 
 </div></span></pre>

@@ -259,15 +259,17 @@ the source code that generated them.</p>
   <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>fit_members</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Out of 15 possible candidate members, the ensemble retained 4.</span>
-#&gt; <span class='message'>Lasso penalty: 0.1.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>The 4 highest weighted members are:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 3</span><span>
+#&gt; <span class='message'>Out of 15 possible candidate members, the ensemble retained 5.</span>
+#&gt; <span class='message'>Penalty: 0.1.</span>
+#&gt; <span class='message'>Mixture: 1.</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>The 5 highest weighted members are:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 3</span><span>
 #&gt;   member          type       weight
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> reg_res_svm_1_5 svm_rbf     2.64 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> reg_res_svm_1_3 svm_rbf     0.675
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> reg_res_svm_1_1 svm_rbf     0.302
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> reg_res_sp_2_1  linear_reg  0.236</div><div class='input'>  
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> reg_res_svm_1_1 svm_rbf    0.442 
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> reg_res_svm_1_3 svm_rbf    0.265 
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> reg_res_sp_4_1  linear_reg 0.261 
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> reg_res_sp_9_1  linear_reg 0.086</span><span style='text-decoration: underline;'>0</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> reg_res_sp_2_1  linear_reg 0.048</span><span style='text-decoration: underline;'>0</span><span></div><div class='input'>  
 <span class='va'>reg_st</span>
 </div><div class='output co'>#&gt; # A data stack with 3 model definitions and 15 candidate members:
 #&gt; #   reg_res_lr: 1 model configuration
@@ -281,20 +283,25 @@ the source code that generated them.</p>
   <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>class_res_rf</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>fit_members</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap03: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -87); ...</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap06: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -100);...</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap13: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -91); ...</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap14: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -94); ...</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap23: internal: No observations were detected in `truth` for level(s): 'full'</span>
-#&gt; <span class='message'>...</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap24: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -100);...</span><span></span></div><div class='input'>  
+</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap05: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -59); ...</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap19: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -86); ...</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap22: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -61); ...</span><span></span></div><div class='input'>  
 <span class='va'>class_st</span>
 </div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Out of 22 possible candidate members, the ensemble retained 5.</span>
-#&gt; <span class='message'>Lasso penalty: 0.1.</span></div><div class='output co'>#&gt; <span class='message'>Across the 3 classes, there are an average of 2.5 coefficients per class.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>The 5 highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 5 x 4</span><span>
-#&gt;   member                       type         weight class
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> .pred_full_class_res_nn_1_1  mlp         8.24    full 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> .pred_full_class_res_rf_1_03 rand_forest 1.29    full 
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> .pred_mid_class_res_rf_1_01  rand_forest 0.991   mid  
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> .pred_full_class_res_rf_1_05 rand_forest 0.041</span><span style='text-decoration: underline;'>5</span><span>  full 
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> .pred_full_class_res_rf_1_08 rand_forest 0.007</span><span style='text-decoration: underline;'>23</span><span> full </div><div class='input'>  
+#&gt; <span class='message'>Out of 22 possible candidate members, the ensemble retained 10.</span>
+#&gt; <span class='message'>Penalty: 0.001.</span>
+#&gt; <span class='message'>Mixture: 1.</span></div><div class='output co'>#&gt; <span class='message'>Across the 3 classes, there are an average of 3.33 coefficients per class.</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>The 10 highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 4</span><span>
+#&gt;    member                       type        weight class
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> .pred_full_class_res_nn_1_1  mlp         28.8   full 
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> .pred_mid_class_res_rf_1_01  rand_forest 10.9   mid  
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> .pred_mid_class_res_nn_1_1   mlp          7.82  mid  
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> .pred_mid_class_res_rf_1_04  rand_forest  5.76  low  
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> .pred_mid_class_res_rf_1_08  rand_forest  5.53  low  
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> .pred_mid_class_res_rf_1_07  rand_forest  4.48  low  
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> .pred_mid_class_res_rf_1_05  rand_forest  1.80  mid  
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> .pred_mid_class_res_rf_1_10  rand_forest  1.36  mid  
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> .pred_mid_class_res_rf_1_02  rand_forest  0.552 low  
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> .pred_full_class_res_rf_1_04 rand_forest  0.284 mid  </div><div class='input'>  
 <span class='co'># ...or binomial classification models</span>
 <span class='va'>log_st</span> <span class='op'>&lt;-</span>
   <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -305,14 +312,16 @@ the source code that generated them.</p>
   
 <span class='va'>log_st</span>
 </div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Out of 11 possible candidate members, the ensemble retained 3.</span>
-#&gt; <span class='message'>Lasso penalty: 1e-04.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>The 3 highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 3</span><span>
+#&gt; <span class='message'>Out of 11 possible candidate members, the ensemble retained 4.</span>
+#&gt; <span class='message'>Penalty: 1e-05.</span>
+#&gt; <span class='message'>Mixture: 1.</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>The 4 highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 4 x 3</span><span>
 #&gt;   member                    type        weight
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> .pred_yes_log_res_nn_1_1  mlp          7.38 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> .pred_yes_log_res_rf_1_03 rand_forest  3.28 
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> .pred_yes_log_res_rf_1_06 rand_forest  0.128</div><div class='input'><span class='co'># }</span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> .pred_yes_log_res_nn_1_1  mlp          6.09 
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> .pred_yes_log_res_rf_1_09 rand_forest  1.87 
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> .pred_yes_log_res_rf_1_05 rand_forest  1.45 
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> .pred_yes_log_res_rf_1_06 rand_forest  0.842</div><div class='input'><span class='co'># }</span>
 
 </div></span></pre>
   </div>
