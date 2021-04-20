@@ -139,7 +139,7 @@
 <li>Cross-validation scheme: Any resampling algorithm implemented in <a href="https://rsample.tidymodels.org/">rsample</a> or adjacent packages is fair game for resampling data for use in training a model stack.</li>
 <li>Error metric: Any metric function implemented in <a href="https://yardstick.tidymodels.org/">yardstick</a> or adjacent packages is fair game for evaluating model stacks and their members. That package provides some infrastructure for creating your own metric functions as well!</li>
 </ul>
-<p>stacks uses a regularized linear model to combine predictions from ensemble members, though this model type is only one of many possible learning algorithms that could be used to fit a stacked ensemble model. For implementations of additional ensemble learning algorithms, check out <a href="http://docs.h2o.ai/h2o/latest-stable/h2o-r/docs/reference/h2o.stackedEnsemble.html">h2o</a> and <a href="https://cran.r-project.org/web/packages/SuperLearner/SuperLearner.pdf">SuperLearner</a>.</p>
+<p>stacks uses a regularized linear model to combine predictions from ensemble members, though this model type is only one of many possible learning algorithms that could be used to fit a stacked ensemble model. For implementations of additional ensemble learning algorithms, check out <a href="http://docs.h2o.ai/h2o/latest-stable/h2o-r/docs/reference/h2o.stackedEnsemble.html">h2o</a> and <a href="https://CRAN.R-project.org/package=SuperLearner">SuperLearner</a>.</p>
 <p>Rather than diving right into the implementation, we’ll focus here on how the pieces fit together, conceptually, in building an ensemble with <code>stacks</code>. See the <code>basics</code> vignette for an example of the API in action!</p>
 </div>
 <div id="a-grammar" class="section level2">
