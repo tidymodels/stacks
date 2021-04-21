@@ -1,11 +1,8 @@
-# stacks 0.1.0
-
-This submission is a resubmission following a request to adjust a URL with
-200 status.
+# stacks 0.2.0
 
 ## Test environments
 
-* local macOS install, R 3.6.3
+* local macOS install, R 4.0.3
 * macOS (on github actions), release 
 * ubuntu 16.04 (on github actions), release, devel
 * windows (on github actions), R 3.6.3, release
@@ -13,15 +10,7 @@ This submission is a resubmission following a request to adjust a URL with
 
 ## R CMD check results
 
-There were 0 ERRORs, 0 WARNINGs, and 0 NOTEs on all systems except 
-the following NOTE on win-builder:
-
-```
-* checking CRAN incoming feasibility ... NOTE
-Maintainer: 'Simon Couch <simonpatrickcouch@gmail.com>'
-
-New submission
-```
+There were no ERRORs, WARNINGs, or  NOTEs.
 
 ## Reverse dependencies
 

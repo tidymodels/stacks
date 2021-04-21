@@ -1,8 +1,6 @@
 # stacks
 
-### v0.1.0.9000
-
-Developmental version, to be released as v0.2.0.
+### v0.2.0
 
 ### Breaking changes
 
