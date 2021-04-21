@@ -77,9 +77,15 @@ and vignettes derived from a study on 1212 red-eyed tree frog embryos!" />
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -96,7 +102,7 @@ and vignettes derived from a study on 1212 red-eyed tree frog embryos!" />
         <a class="navbar-brand" href="../index.html">stacks</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
         </div>
       </div>
     </div>
@@ -120,7 +126,15 @@ and vignettes derived from a study on 1212 red-eyed tree frog embryos!" />
     </li>
   </ul>
 </li>
-        
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
+        <li>
+  <a href="https://github.com/tidymodels/stacks/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -135,7 +149,7 @@ and vignettes derived from a study on 1212 red-eyed tree frog embryos!" />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Example Objects</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/stacks/blob/master/R/example_data.R'><code>R/example_data.R</code></a></small>
     <div class="hidden name"><code>example_data.Rd</code></div>
     </div>
 
@@ -176,9 +190,8 @@ and vignettes derived from a study on 1212 red-eyed tree frog embryos!</p>
 <p>An object of class <code>tune_results</code> (inherits from <code>tbl_df</code>, <code>tbl</code>, <code>data.frame</code>) with 5 rows and 5 columns.</p>
     <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
-    <p>Julie Jung et al. (Forthcoming) Multimodal mechanosensing enables treefrog
-embryos to escape egg-predators.
-<a href='https://doi.org/10.1101/2020.09.18.304295'>https://doi.org/10.1101/2020.09.18.304295</a></p>
+    <p>Julie Jung et al. (2020) Multimodal mechanosensing enables treefrog
+embryos to escape egg-predators. doi: <a href='https://doi.org/10.1242/jeb.236141'>10.1242/jeb.236141</a></p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Red-eyed tree frog (RETF) embryos can hatch earlier than their normal
@@ -214,13 +227,14 @@ fitting <code>hatched</code> (whether or not the embryos hatched in response
 to the stimulus) using most all of the other variables as predictors.</p>
 <p>The source code for generating these objects is given below.</p>
 <p><div class="r"></p><pre><span class='co'># setup: packages, data, resample, basic recipe ------------------------</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>stacks</span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://stacks.tidymodels.org/'>stacks</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/tidymodels/tune'>tune</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://rsample.tidymodels.org'>rsample</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://parsnip.tidymodels.org'>parsnip</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/tidymodels/workflows'>workflows</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/tidymodels/recipes'>recipes</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/tidymodels/yardstick'>yardstick</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/tidymodels/workflowsets'>workflowsets</a></span><span class='op'>)</span>
 
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
 
@@ -464,6 +478,8 @@ to the stimulus) using most all of the other variables as predictors.</p>
 
   
 
+
+  
 
   </body>
 </html>

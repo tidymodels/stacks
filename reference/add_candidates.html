@@ -89,9 +89,15 @@ evaluated using the blend_predictions() function." />
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -108,7 +114,7 @@ evaluated using the blend_predictions() function." />
         <a class="navbar-brand" href="../index.html">stacks</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
         </div>
       </div>
     </div>
@@ -132,7 +138,15 @@ evaluated using the blend_predictions() function." />
     </li>
   </ul>
 </li>
-        
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
+        <li>
+  <a href="https://github.com/tidymodels/stacks/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -147,7 +161,7 @@ evaluated using the blend_predictions() function." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Add model definitions to a data stack</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/stacks/blob/master/R/add_candidates.R'><code>R/add_candidates.R</code></a></small>
     <div class="hidden name"><code>add_candidates.Rd</code></div>
     </div>
 
@@ -188,8 +202,8 @@ evaluated using the <code><a href='blend_predictions.html'>blend_predictions()</
 or <code>resample_results</code> object outputted from
 <code><a href='https://tune.tidymodels.org/reference/tune_grid.html'>tune::tune_grid()</a></code>, <code><a href='https://tune.tidymodels.org/reference/tune_bayes.html'>tune::tune_bayes()</a></code>, or <code><a href='https://tune.tidymodels.org/reference/fit_resamples.html'>tune::fit_resamples()</a></code>.
 These results must have been fitted with the <code>control</code> settings
-<code>save_pred = TRUE, save_workflow = TRUE</code>—see the <code><a href='control_stack_grid.html'>control_stack_grid()</a></code>,
-<code><a href='control_stack_grid.html'>control_stack_bayes()</a></code>, and <code><a href='control_stack_grid.html'>control_stack_resamples()</a></code>
+<code>save_pred = TRUE, save_workflow = TRUE</code>—see the <code><a href='control_stack.html'>control_stack_grid()</a></code>,
+<code><a href='control_stack.html'>control_stack_bayes()</a></code>, and <code><a href='control_stack.html'>control_stack_resamples()</a></code>
 documentation for helper functions.</p></td>
     </tr>
     <tr>
@@ -308,41 +322,17 @@ the source code that generated them.</p>
 <span class='co'># these objects would likely then be</span>
 <span class='co'># passed to blend_predictions():</span>
 <span class='va'>log_st2</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Loading required package: dplyr</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘recipes’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    step</span></div><div class='output co'>#&gt; <span class='message'>For binary classification, the first factor level is assumed to be the event.</span>
-#&gt; <span class='message'>Use the argument `event_level = "second"` to alter this as needed.</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: scales</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘scales’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:purrr’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    discard</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘rlang’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:purrr’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    %@%, as_function, flatten, flatten_chr, flatten_dbl, flatten_int,</span>
-#&gt; <span class='message'>    flatten_lgl, flatten_raw, invoke, list_along, modify, prepend,</span>
-#&gt; <span class='message'>    splice</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘vctrs’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:tibble’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    data_frame</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:dplyr’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    data_frame</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: Matrix</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘Matrix’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:tidyr’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    expand, pack, unpack</span></div><div class='output co'>#&gt; <span class='message'>Loaded glmnet 4.0-2</span></div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
+</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Out of 11 possible candidate members, the ensemble retained 4.</span>
-#&gt; <span class='message'>Lasso penalty: 1e-04.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>The 4 highest weighted member classes are:</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 4 x 3</span><span>
+#&gt; <span class='message'>Penalty: 0.001.</span>
+#&gt; <span class='message'>Mixture: 1.</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>The 4 highest weighted member classes are:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 3</span><span>
 #&gt;   member                       type        weight
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> .pred_yes_neural_network_1_1 mlp           7.58
-#&gt; </span><span style='color: #555555;'>2</span><span> .pred_yes_random_forest_1_09 rand_forest   1.49
-#&gt; </span><span style='color: #555555;'>3</span><span> .pred_yes_random_forest_1_03 rand_forest   1.13
-#&gt; </span><span style='color: #555555;'>4</span><span> .pred_yes_random_forest_1_01 rand_forest   1.03</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> .pred_yes_neural_network_1_1 mlp          6.09 
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> .pred_yes_random_forest_1_09 rand_forest  1.84 
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> .pred_yes_random_forest_1_05 rand_forest  1.45 
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> .pred_yes_random_forest_1_06 rand_forest  0.792</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Members have not yet been fitted with `fit_members()`.</span></div><div class='input'><span class='co'># }</span>
 
 </div></span></pre>
@@ -372,6 +362,8 @@ the source code that generated them.</p>
 
   
 
+
+  
 
   </body>
 </html>
