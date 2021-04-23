@@ -71,7 +71,7 @@ For implementations of additional ensemble learning algorithms, check
 out
 [h2o](http://docs.h2o.ai/h2o/latest-stable/h2o-r/docs/reference/h2o.stackedEnsemble.html)
 and
-[SuperLearner](https://cran.r-project.org/web/packages/SuperLearner/SuperLearner.pdf).
+[SuperLearner](https://CRAN.R-project.org/package=SuperLearner).
 
 Rather than diving right into the implementation, we’ll focus here on
 how the pieces fit together, conceptually, in building an ensemble with

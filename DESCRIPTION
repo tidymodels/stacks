@@ -1,6 +1,6 @@
 Package: stacks
 Title: Tidy Model Stacking
-Version: 0.1.0.9000
+Version: 0.2.0
 Authors@R: c(
     person(given = "Simon",
            family = "Couch",
@@ -61,7 +61,3 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1.9001
 VignetteBuilder: knitr
-Remotes:
-    tidymodels/tune,
-    tidymodels/workflowsets,
-    tidymodels/workflows

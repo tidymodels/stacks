@@ -108,7 +108,7 @@ evaluated using the blend_predictions() function." />
         <a class="navbar-brand" href="../index.html">stacks</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
         </div>
       </div>
     </div>
@@ -116,7 +116,7 @@ evaluated using the blend_predictions() function." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -141,7 +141,12 @@ evaluated using the blend_predictions() function." />
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-        
+        <li>
+  <a href="https://github.com/tidymodels/stacks/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -156,7 +161,7 @@ evaluated using the blend_predictions() function." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Add model definitions to a data stack</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/stacks/blob/master/R/add_candidates.R'><code>R/add_candidates.R</code></a></small>
     <div class="hidden name"><code>add_candidates.Rd</code></div>
     </div>
 
@@ -177,12 +182,12 @@ using several calls to <code>add_candidates()</code>. Data stacks are
 evaluated using the <code><a href='blend_predictions.html'>blend_predictions()</a></code> function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>add_candidates</span>(
-  <span class='kw'>data_stack</span>,
-  <span class='kw'>candidates</span>,
-  name = <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span>(<span class='kw'>candidates</span>)),
-  <span class='kw'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>add_candidates</span><span class='op'>(</span>
+  <span class='va'>data_stack</span>,
+  <span class='va'>candidates</span>,
+  name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span><span class='op'>(</span><span class='va'>candidates</span><span class='op'>)</span><span class='op'>)</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -269,89 +274,65 @@ the source code that generated them.</p>
 
 <span class='co'># put together a data stack using</span>
 <span class='co'># tuning results for regression models</span>
-<span class='kw'>reg_st</span> <span class='op'>&lt;-</span> 
-  <span class='fu'><a href='stacks.html'>stacks</a></span>() <span class='op'>%&gt;%</span>
-  <span class='fu'>add_candidates</span>(<span class='kw'>reg_res_lr</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>add_candidates</span>(<span class='kw'>reg_res_svm</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>add_candidates</span>(<span class='kw'>reg_res_sp</span>)
+<span class='va'>reg_st</span> <span class='op'>&lt;-</span> 
+  <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>reg_res_lr</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>reg_res_svm</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>reg_res_sp</span><span class='op'>)</span>
   
-<span class='kw'>reg_st</span>
+<span class='va'>reg_st</span>
 </div><div class='output co'>#&gt; # A data stack with 3 model definitions and 15 candidate members:
 #&gt; #   reg_res_lr: 1 model configuration
 #&gt; #   reg_res_svm: 5 model configurations
 #&gt; #   reg_res_sp: 9 model configurations
 #&gt; # Outcome: latency (numeric)</div><div class='input'>  
 <span class='co'># do the same with multinomial classification models</span>
-<span class='kw'>class_st</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='stacks.html'>stacks</a></span>() <span class='op'>%&gt;%</span>
-  <span class='fu'>add_candidates</span>(<span class='kw'>class_res_nn</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>add_candidates</span>(<span class='kw'>class_res_rf</span>)
+<span class='va'>class_st</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>class_res_nn</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>class_res_rf</span><span class='op'>)</span>
   
-<span class='kw'>class_st</span>
+<span class='va'>class_st</span>
 </div><div class='output co'>#&gt; # A data stack with 2 model definitions and 11 candidate members:
 #&gt; #   class_res_nn: 1 model configuration
 #&gt; #   class_res_rf: 10 model configurations
 #&gt; # Outcome: reflex (factor)</div><div class='input'>  
 <span class='co'># ...or binomial classification models</span>
-<span class='kw'>log_st</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='stacks.html'>stacks</a></span>() <span class='op'>%&gt;%</span>
-  <span class='fu'>add_candidates</span>(<span class='kw'>log_res_nn</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>add_candidates</span>(<span class='kw'>log_res_rf</span>)
+<span class='va'>log_st</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>log_res_nn</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>log_res_rf</span><span class='op'>)</span>
   
-<span class='kw'>log_st</span>
+<span class='va'>log_st</span>
 </div><div class='output co'>#&gt; # A data stack with 2 model definitions and 11 candidate members:
 #&gt; #   log_res_nn: 1 model configuration
 #&gt; #   log_res_rf: 10 model configurations
 #&gt; # Outcome: hatched (factor)</div><div class='input'>  
 <span class='co'># use custom names for each model:</span>
-<span class='kw'>log_st2</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='stacks.html'>stacks</a></span>() <span class='op'>%&gt;%</span>
-  <span class='fu'>add_candidates</span>(<span class='kw'>log_res_nn</span>, name = <span class='st'>"neural_network"</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>add_candidates</span>(<span class='kw'>log_res_rf</span>, name = <span class='st'>"random_forest"</span>)
+<span class='va'>log_st2</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>log_res_nn</span>, name <span class='op'>=</span> <span class='st'>"neural_network"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>log_res_rf</span>, name <span class='op'>=</span> <span class='st'>"random_forest"</span><span class='op'>)</span>
   
-<span class='kw'>log_st2</span>
+<span class='va'>log_st2</span>
 </div><div class='output co'>#&gt; # A data stack with 2 model definitions and 11 candidate members:
 #&gt; #   neural_network: 1 model configuration
 #&gt; #   random_forest: 10 model configurations
 #&gt; # Outcome: hatched (factor)</div><div class='input'>  
 <span class='co'># these objects would likely then be</span>
 <span class='co'># passed to blend_predictions():</span>
-<span class='kw'>log_st2</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span>()
-</div><div class='output co'>#&gt; <span class='message'>Loading required package: dplyr</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘recipes’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    step</span></div><div class='output co'>#&gt; <span class='message'>For binary classification, the first factor level is assumed to be the event.</span>
-#&gt; <span class='message'>Use the argument `event_level = "second"` to alter this as needed.</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: scales</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘scales’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:purrr’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    discard</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘rlang’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:purrr’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    %@%, as_function, flatten, flatten_chr, flatten_dbl, flatten_int,</span>
-#&gt; <span class='message'>    flatten_lgl, flatten_raw, invoke, list_along, modify, prepend,</span>
-#&gt; <span class='message'>    splice</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘vctrs’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:tibble’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    data_frame</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:dplyr’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    data_frame</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: Matrix</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘Matrix’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:tidyr’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    expand, pack, unpack</span></div><div class='output co'>#&gt; <span class='message'>Loaded glmnet 4.0-2</span></div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
+<span class='va'>log_st2</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Out of 11 possible candidate members, the ensemble retained 4.</span>
-#&gt; <span class='message'>Lasso penalty: 1e-04.</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Penalty: 0.001.</span>
+#&gt; <span class='message'>Mixture: 1.</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>The 4 highest weighted member classes are:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 3</span><span>
 #&gt;   member                       type        weight
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> .pred_yes_neural_network_1_1 mlp           7.58
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> .pred_yes_random_forest_1_09 rand_forest   1.49
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> .pred_yes_random_forest_1_03 rand_forest   1.13
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> .pred_yes_random_forest_1_01 rand_forest   1.03</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> .pred_yes_neural_network_1_1 mlp          6.09 
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> .pred_yes_random_forest_1_09 rand_forest  1.84 
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> .pred_yes_random_forest_1_05 rand_forest  1.45 
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> .pred_yes_random_forest_1_06 rand_forest  0.792</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Members have not yet been fitted with `fit_members()`.</span></div><div class='input'><span class='co'># }</span>
 
 </div></span></pre>

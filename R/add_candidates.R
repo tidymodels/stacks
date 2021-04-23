@@ -111,7 +111,7 @@ add_candidates.tune_results <- function(data_stack, candidates,
                                         ...) {
   check_add_data_stack(data_stack)
   check_candidates(candidates)
-  check_name(name)
+  col_name <- check_name(name)
   
   stack <- 
     data_stack %>%
@@ -121,7 +121,7 @@ add_candidates.tune_results <- function(data_stack, candidates,
     .set_mode_(candidates, name) %>%
     .set_training_data(candidates, name) %>%
     .set_model_defs_candidates(candidates, name) %>%
-    .set_data_candidates(candidates, name)
+    .set_data_candidates(candidates, name, col_name)
   
   if (data_stack_constr(stack)) {stack}
 }
@@ -256,7 +256,7 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
 }
 
 # appends assessment set predictions to a data stack
-.set_data_candidates <- function(stack, candidates, name) {
+.set_data_candidates <- function(stack, candidates, name, col_name) {
   candidate_cols <-
     collate_predictions(candidates) %>%
     dplyr::ungroup() %>%
@@ -270,7 +270,7 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
       .config
     ) %>%
     dplyr::mutate(
-      .config = process_.config(.config, df = ., name = name)
+      .config = process_.config(.config, df = ., name = col_name)
     ) %>%
     tidyr::pivot_wider(
       id_cols = c(".row", !!tune::.get_tune_outcome_names(candidates)), 
@@ -324,8 +324,14 @@ rm_duplicate_cols <- function(df) {
   exclude <- c(exclude, names(df[duplicated(purrr::map(df, c))]))
   
   if (length(exclude) > 0) {
+    if (length(exclude) > 1) {
+      n_candidates <- paste(length(exclude), "candidates")
+    } else {
+      n_candidates <- "1 candidate"
+    }
+    
     glue_warn(
-      "Predictions from the candidates {list(exclude)} were identical to ",
+      "Predictions from {n_candidates} were identical to ",
       "those from existing candidates and were removed from the data stack."
     )
     
@@ -424,7 +430,17 @@ check_name <- function(name) {
     )
   } else {
     check_inherits(name, "character")
+    
+    if (make.names(name) != name) {
+      glue_message(
+        "The inputted `name` argument cannot prefix a valid column name. The ", 
+        'data stack will use "{make.names(name)}" rather than "{name}" in ',
+        "constructing candidate names."
+      )
+    }
   }
+  
+  make.names(name)
 }
 
 # takes in the name a .config column and outputs the

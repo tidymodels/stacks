@@ -43,5 +43,8 @@
 #' a representative or unbiased subset of the complete dataset, and is only
 #' for demonstrative purposes.
 #' 
-#' @source \url{https://www.biorxiv.org/content/10.1101/2020.09.18.304295v1}
+#' @source 
+#' 
+#' Julie Jung et al. (2020) Multimodal mechanosensing enables treefrog 
+#' embryos to escape egg-predators. \doi{10.1242/jeb.236141}
 "tree_frogs"

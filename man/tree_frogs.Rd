@@ -30,7 +30,8 @@ in seconds.)}
 }
 }
 \source{
-\url{https://www.biorxiv.org/content/10.1101/2020.09.18.304295v1}
+Julie Jung et al. (2020) Multimodal mechanosensing enables treefrog
+embryos to escape egg-predators. \doi{10.1242/jeb.236141}
 }
 \usage{
 tree_frogs

@@ -146,7 +146,8 @@ member_summary <- function(x, penalty = x$penalty$penalty) {
   
   msg <- paste0("\nOut of ", length(all_terms), " possible candidate members, the ",
                 "ensemble retained ", used_terms, ".",
-                "\nLasso penalty: ", x$penalty$penalty, ".")
+                "\nPenalty: ", x$penalty$penalty, ".",
+                "\nMixture: ", x$penalty$mixture, ".")
   rlang::inform(msg)
   if (any(names(betas) == "class")) {
     n_classes <- length(unique(betas$class))

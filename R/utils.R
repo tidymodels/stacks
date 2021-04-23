@@ -50,16 +50,54 @@ utils::globalVariables(c(
 
 # Checks and Prompts
 # ------------------------------------------------------------------------
+# wrappers for prompting with glue with appropriate colors
 glue_stop <- function(..., .sep = "", .envir = parent.frame()) {
-  rlang::abort(glue::glue(..., .sep = .sep, .envir = .envir))
+  glue_prompt(
+    ..., 
+    .sep = .sep, 
+    .envir = .envir, 
+    type = "danger", 
+    rlang_fn = rlang::abort
+  )
 }
 
 glue_warn <- function(..., .sep = "", .envir = parent.frame()) {
-  rlang::warn(glue::glue(..., .sep = .sep, .envir = .envir))
+  glue_prompt(
+    ..., 
+    .sep = .sep, 
+    .envir = .envir, 
+    type = "warning", 
+    rlang_fn = rlang::warn
+  )
 }
 
 glue_message <- function(..., .sep = "", .envir = parent.frame()) {
-  rlang::inform(glue::glue(..., .sep = .sep, .envir = .envir))
+  glue_prompt(
+    ..., 
+    .sep = .sep, 
+    .envir = .envir, 
+    type = "info", 
+    rlang_fn = rlang::inform
+  )
+}
+
+# takes in a prompt and a prompt type and colors the
+# prompt according to the prompt type
+color_prompt <- function(prompt, type) {
+  colors <- tune::get_tune_colors()
+  
+  prompt_fn <- colors[["message"]][[type]]
+  
+  prompt_fn(prompt)
+}
+
+# takes in a vector, parses it with glue, wraps to the console width, colors
+# it with the appropriate tune color, and raises it with the appropriate prompt
+glue_prompt <- function(..., .sep = "", .envir = parent.frame(), type, rlang_fn) {
+  glue::glue(..., .sep = .sep, .envir = .envir) %>%
+    strwrap() %>%
+    color_prompt(type) %>%
+    rlang_fn()
 }
 
 check_inherits <- function(x, what) {

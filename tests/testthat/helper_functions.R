@@ -25,7 +25,8 @@ check_inherits <- function(x, what) {
 # the `helper_data.Rda` contains data objects for use in unit testing.
 # due to its size, it's not included in the built package.
 # * when running locally, use the local helper_data. 
-# * when testing on github, download the hard-linked file from the relevant branch.
+# * when testing on a continuous integration platform, locate the helper_data 
+#   file in the appropriate reference environment
 # * when on cran, only run the tests in test_cran that don't require the data.
 
 get_current_branch <- function() {
@@ -45,3 +46,6 @@ on_github <- function() {
 on_cran <- function() {
   !identical(Sys.getenv("NOT_CRAN"), "true")
 }
+
+# robustly test for prompt outputs without line breaks
+options(width = 1000)

@@ -45,6 +45,7 @@ autoplot.linear_stack <- function(object, type = "performance", n = Inf, ...) {
 
 member_plot <- function(x) {
   dat <- x$metrics
+  
   plot_dat <- 
     dat %>% 
     dplyr::select(penalty, .config, mean, .metric) 
@@ -61,8 +62,13 @@ member_plot <- function(x) {
   p <- 
     ggplot2::ggplot(plot_dat, ggplot2::aes(x = num_members, y = mean)) +
     ggplot2::geom_point() + 
-    ggplot2::facet_wrap(~ .metric) + 
+    ggplot2::facet_wrap(
+      ~.metric, 
+      nrow = length(unique(other_metrics$.metric)), 
+      scales = "free_y"
+    ) + 
     ggplot2::xlab("Average number of members")
+  
   p
 }
 

@@ -35,9 +35,8 @@ An object of class \code{resample_results} (inherits from \code{tune_results}, \
 An object of class \code{tune_results} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5 rows and 5 columns.
 }
 \source{
-Julie Jung et al. (Forthcoming) Multimodal mechanosensing enables treefrog
-embryos to escape egg-predators.
-\url{https://doi.org/10.1101/2020.09.18.304295}
+Julie Jung et al. (2020) Multimodal mechanosensing enables treefrog
+embryos to escape egg-predators. \doi{10.1242/jeb.236141}
 }
 \usage{
 reg_res_svm
