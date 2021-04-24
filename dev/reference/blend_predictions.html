@@ -113,7 +113,7 @@ is typically used after a number of calls to add_candidates()." />
         <a class="navbar-brand" href="../index.html">stacks</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.0.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.0.9000</span>
         </div>
       </div>
     </div>
@@ -320,72 +320,68 @@ the source code that generated them.</p>
 <span class='va'>reg_st</span> <span class='op'>%&gt;%</span>
   <span class='fu'>blend_predictions</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Out of 15 possible candidate members, the ensemble retained 5.</span>
-#&gt; <span class='message'>Penalty: 1e-06.</span>
+#&gt; <span class='message'>Out of 15 possible candidate members, the ensemble retained 3.</span>
+#&gt; <span class='message'>Penalty: 0.1.</span>
 #&gt; <span class='message'>Mixture: 1.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>The 5 highest weighted members are:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 3</span><span>
+#&gt; <span class='message'>The 3 highest weighted members are:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 3</span><span>
 #&gt;   member          type       weight
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> reg_res_svm_1_1 svm_rbf    0.443 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> reg_res_sp_4_1  linear_reg 0.275 
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> reg_res_svm_1_3 svm_rbf    0.270 
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> reg_res_sp_9_1  linear_reg 0.077</span><span style='text-decoration: underline;'>9</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> reg_res_sp_2_1  linear_reg 0.041</span><span style='text-decoration: underline;'>0</span><span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> reg_res_svm_1_3 svm_rbf     0.559
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> reg_res_sp_2_1  linear_reg  0.464
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> reg_res_sp_5_1  linear_reg  0.115</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Members have not yet been fitted with `fit_members()`.</span></div><div class='input'>
 <span class='co'># include fewer models by proposing higher penalties</span>
 <span class='va'>reg_st</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>blend_predictions</span><span class='op'>(</span>penalty <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.5</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Out of 15 possible candidate members, the ensemble retained 5.</span>
-#&gt; <span class='message'>Penalty: 1.</span>
+#&gt; <span class='message'>Out of 15 possible candidate members, the ensemble retained 4.</span>
+#&gt; <span class='message'>Penalty: 0.5.</span>
 #&gt; <span class='message'>Mixture: 1.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>The 5 highest weighted members are:</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 5 x 3</span><span>
-#&gt;   member          type       weight
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> reg_res_svm_1_1 svm_rbf    0.435 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> reg_res_svm_1_3 svm_rbf    0.251 
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> reg_res_sp_4_1  linear_reg 0.243 
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> reg_res_sp_9_1  linear_reg 0.090</span><span style='text-decoration: underline;'>1</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> reg_res_sp_2_1  linear_reg 0.057</span><span style='text-decoration: underline;'>5</span><span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>The 4 highest weighted members are:</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 4 x 3</span><span>
+#&gt;   member          type        weight
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> reg_res_svm_1_3 svm_rbf    0.552  
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> reg_res_sp_2_1  linear_reg 0.458  
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> reg_res_sp_5_1  linear_reg 0.115  
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> reg_res_sp_8_1  linear_reg 0.002</span><span style='text-decoration: underline;'>06</span><span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Members have not yet been fitted with `fit_members()`.</span></div><div class='input'>
 <span class='co'># allow for negative stacking coefficients </span>
 <span class='co'># with the non_negative argument</span>
 <span class='va'>reg_st</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>blend_predictions</span><span class='op'>(</span>non_negative <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Out of 15 possible candidate members, the ensemble retained 10.</span>
+#&gt; <span class='message'>Out of 15 possible candidate members, the ensemble retained 12.</span>
 #&gt; <span class='message'>Penalty: 0.1.</span>
 #&gt; <span class='message'>Mixture: 1.</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>The 10 highest weighted members are:</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 3</span><span>
-#&gt;    member          type        weight
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> reg_res_sp_8_1  linear_reg  2.06  
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> reg_res_sp_4_1  linear_reg  0.473 
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> reg_res_svm_1_1 svm_rbf     0.468 
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> reg_res_sp_9_1  linear_reg  0.266 
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> reg_res_svm_1_3 svm_rbf     0.152 
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> reg_res_sp_7_1  linear_reg  0.108 
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> reg_res_svm_1_4 svm_rbf    -</span><span style='color: #BB0000;'>0.016</span><span style='color: #BB0000;text-decoration: underline;'>5</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> reg_res_sp_6_1  linear_reg -</span><span style='color: #BB0000;'>0.550</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> reg_res_sp_3_1  linear_reg -</span><span style='color: #BB0000;'>1.91</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> reg_res_svm_1_2 svm_rbf    -</span><span style='color: #BB0000;'>7.37</span><span>  </div><div class='output co'>#&gt; <span class='message'></span>
+#&gt;    member          type          weight
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> reg_res_sp_5_1  linear_reg  1.63    
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> reg_res_sp_2_1  linear_reg  0.683   
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> reg_res_svm_1_3 svm_rbf     0.617   
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> reg_res_sp_8_1  linear_reg  0.224   
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> reg_res_sp_4_1  linear_reg  0.143   
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> reg_res_svm_1_5 svm_rbf    -</span><span style='color: #BB0000;'>0.000</span><span style='color: #BB0000;text-decoration: underline;'>361</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> reg_res_svm_1_4 svm_rbf    -</span><span style='color: #BB0000;'>0.003</span><span style='color: #BB0000;text-decoration: underline;'>39</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> reg_res_svm_1_1 svm_rbf    -</span><span style='color: #BB0000;'>0.094</span><span style='color: #BB0000;text-decoration: underline;'>0</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> reg_res_lr_1_1  linear_reg -</span><span style='color: #BB0000;'>0.204</span><span>   
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> reg_res_sp_9_1  linear_reg -</span><span style='color: #BB0000;'>0.401</span><span>   </div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Members have not yet been fitted with `fit_members()`.</span></div><div class='input'>  
 <span class='co'># use a custom metric in tuning the lasso penalty</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/tidymodels/yardstick'>yardstick</a></span><span class='op'>)</span>
 <span class='va'>reg_st</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>blend_predictions</span><span class='op'>(</span>metric <span class='op'>=</span> <span class='fu'><a href='https://yardstick.tidymodels.org/reference/metric_set.html'>metric_set</a></span><span class='op'>(</span><span class='va'>rmse</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Out of 15 possible candidate members, the ensemble retained 5.</span>
-#&gt; <span class='message'>Penalty: 0.1.</span>
+#&gt; <span class='message'>Out of 15 possible candidate members, the ensemble retained 4.</span>
+#&gt; <span class='message'>Penalty: 1e-06.</span>
 #&gt; <span class='message'>Mixture: 1.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>The 5 highest weighted members are:</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 5 x 3</span><span>
-#&gt;   member          type       weight
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> reg_res_svm_1_1 svm_rbf    0.442 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> reg_res_svm_1_3 svm_rbf    0.265 
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> reg_res_sp_4_1  linear_reg 0.261 
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> reg_res_sp_9_1  linear_reg 0.086</span><span style='text-decoration: underline;'>0</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> reg_res_sp_2_1  linear_reg 0.048</span><span style='text-decoration: underline;'>0</span><span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>The 4 highest weighted members are:</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 4 x 3</span><span>
+#&gt;   member          type          weight
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> reg_res_svm_1_3 svm_rbf    0.561    
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> reg_res_sp_2_1  linear_reg 0.466    
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> reg_res_sp_5_1  linear_reg 0.114    
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> reg_res_sp_8_1  linear_reg 0.000</span><span style='text-decoration: underline;'>074</span><span>4</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Members have not yet been fitted with `fit_members()`.</span></div><div class='input'>  
 <span class='co'># pass control options for stack blending</span>
 <span class='va'>reg_st</span> <span class='op'>%&gt;%</span> 
@@ -393,17 +389,15 @@ the source code that generated them.</p>
     control <span class='op'>=</span> <span class='fu'>tune</span><span class='fu'>::</span><span class='fu'><a href='https://tune.tidymodels.org/reference/control_grid.html'>control_grid</a></span><span class='op'>(</span>allow_par <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
   <span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Out of 15 possible candidate members, the ensemble retained 5.</span>
-#&gt; <span class='message'>Penalty: 1e-06.</span>
+#&gt; <span class='message'>Out of 15 possible candidate members, the ensemble retained 3.</span>
+#&gt; <span class='message'>Penalty: 0.1.</span>
 #&gt; <span class='message'>Mixture: 1.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>The 5 highest weighted members are:</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 5 x 3</span><span>
+#&gt; <span class='message'>The 3 highest weighted members are:</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 3</span><span>
 #&gt;   member          type       weight
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> reg_res_svm_1_1 svm_rbf    0.443 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> reg_res_sp_4_1  linear_reg 0.275 
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> reg_res_svm_1_3 svm_rbf    0.270 
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> reg_res_sp_9_1  linear_reg 0.077</span><span style='text-decoration: underline;'>9</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> reg_res_sp_2_1  linear_reg 0.041</span><span style='text-decoration: underline;'>0</span><span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> reg_res_svm_1_3 svm_rbf     0.559
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> reg_res_sp_2_1  linear_reg  0.464
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> reg_res_sp_5_1  linear_reg  0.115</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Members have not yet been fitted with `fit_members()`.</span></div><div class='input'>  
 <span class='co'># the process looks the same with </span>
 <span class='co'># multinomial classification models</span>

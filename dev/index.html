@@ -57,7 +57,7 @@
         <a class="navbar-brand" href="index.html">stacks</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.0.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.0.9000</span>
         </div>
       </div>
     </div>
@@ -106,7 +106,7 @@
 
 <div id="stacks---tidy-model-stacking-" class="section level2">
 <h2 class="hasAnchor">
-<a href="#stacks---tidy-model-stacking-" class="anchor"></a>stacks - tidy model stacking <a href="https://stacks.tidymodels.org"><img src="reference/figures/logo.png" align="right" height="280"></a>
+<a href="#stacks---tidy-model-stacking-" class="anchor" aria-hidden="true"></a>stacks - tidy model stacking <a href="https://stacks.tidymodels.org"><img src="reference/figures/logo.png" align="right" height="280"></a>
 </h2>
 <p>stacks is an R package for model stacking that aligns with the tidymodels. Model stacking is an ensembling method that takes the outputs of many models and combines them to generate a new model—referred to as an <em>ensemble</em> in this package—that generates predictions informed by each of its <em>members</em>.</p>
 <p>The process goes something like this:</p>
@@ -136,12 +136,12 @@
 <li>Cross-validation scheme: Any resampling algorithm implemented in <a href="https://rsample.tidymodels.org/" class="external-link">rsample</a> or adjacent packages is fair game for resampling data for use in training a model stack.</li>
 <li>Error metric: Any metric function implemented in <a href="https://yardstick.tidymodels.org/" class="external-link">yardstick</a> or adjacent packages is fair game for evaluating model stacks and their members. That package provides some infrastructure for creating your own metric functions as well!</li>
 </ul>
-<p>stacks uses a regularized linear model to combine predictions from ensemble members, though this model type is only one of many possible learning algorithms that could be used to fit a stacked ensemble model. For implementations of additional ensemble learning algorithms, check out <a href="http://docs.h2o.ai/h2o/latest-stable/h2o-r/docs/reference/h2o.stackedEnsemble.html" class="external-link">h2o</a> and <a href="https://cran.r-project.org/web/packages/SuperLearner/SuperLearner.pdf" class="external-link">SuperLearner</a>.</p>
+<p>stacks uses a regularized linear model to combine predictions from ensemble members, though this model type is only one of many possible learning algorithms that could be used to fit a stacked ensemble model. For implementations of additional ensemble learning algorithms, check out <a href="http://docs.h2o.ai/h2o/latest-stable/h2o-r/docs/reference/h2o.stackedEnsemble.html" class="external-link">h2o</a> and <a href="https://CRAN.R-project.org/package=SuperLearner" class="external-link">SuperLearner</a>.</p>
 <p>Rather than diving right into the implementation, we’ll focus here on how the pieces fit together, conceptually, in building an ensemble with <code>stacks</code>. See the <code>basics</code> vignette for an example of the API in action!</p>
 </div>
 <div id="a-grammar" class="section level2">
 <h2 class="hasAnchor">
-<a href="#a-grammar" class="anchor"></a>a grammar</h2>
+<a href="#a-grammar" class="anchor" aria-hidden="true"></a>a grammar</h2>
 <p>At the highest level, ensembles are formed from <em>model definitions</em>. In this package, model definitions are an instance of a minimal <a href="https://workflows.tidymodels.org/" class="external-link">workflow</a>, containing a <em>model specification</em> (as defined in the <a href="https://parsnip.tidymodels.org/" class="external-link">parsnip</a> package) and, optionally, a <em>preprocessor</em> (as defined in the <a href="https://recipes.tidymodels.org/" class="external-link">recipes</a> package). Model definitions specify the form of candidate ensemble members.</p>
 <p><img src="reference/figures/model_defs.png"></p>
 <p>To be used in the same ensemble, each of these model definitions must share the same <em>resample</em>. This <a href="https://rsample.tidymodels.org/" class="external-link">rsample</a> <code>rset</code> object, when paired with the model definitions, can be used to generate the tuning/fitting results objects for the candidate <em>ensemble members</em> with tune.</p>
@@ -158,7 +158,7 @@
 </div>
 <div id="contributing" class="section level2">
 <h2 class="hasAnchor">
-<a href="#contributing" class="anchor"></a>contributing</h2>
+<a href="#contributing" class="anchor" aria-hidden="true"></a>contributing</h2>
 <p>This project is released with a <a href="https://github.com/tidymodels/stacks/blob/main/CODE_OF_CONDUCT.md" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 <ul>
 <li><p>For questions and discussions about tidymodels packages, modeling, and machine learning, please <a href="https://community.rstudio.com/new-topic?category_id=15&amp;tags=tidymodels,question" class="external-link">post on RStudio Community</a>.</p></li>

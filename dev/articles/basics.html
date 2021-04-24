@@ -53,7 +53,7 @@
         <a class="navbar-brand" href="../index.html">stacks</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://github.com/tidymodels" class="external-link">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.0.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.0.9000</span>
         </div>
       </div>
     </div>
@@ -149,7 +149,7 @@
 <p><img src="basics_files/figure-html/unnamed-chunk-3-1.png" width="768"> Let’s give this a go!</p>
 <div id="define-candidate-ensemble-members" class="section level1">
 <h1 class="hasAnchor">
-<a href="#define-candidate-ensemble-members" class="anchor"></a>Define candidate ensemble members</h1>
+<a href="#define-candidate-ensemble-members" class="anchor" aria-hidden="true"></a>Define candidate ensemble members</h1>
 <p>At the highest level, ensembles are formed from <em>model definitions</em>. In this package, model definitions are an instance of a minimal <a href="https://workflows.tidymodels.org/" class="external-link"><code>workflow</code></a>, containing a <em>model specification</em> (as defined in the <a href="https://parsnip.tidymodels.org/" class="external-link"><code>parsnip</code></a> package) and, optionally, a <em>preprocessor</em> (as defined in the <a href="https://recipes.tidymodels.org/" class="external-link"><code>recipes</code></a> package). Model definitions specify the form of candidate ensemble members.</p>
 <p><img src="https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/model_defs.png"><!-- --></p>
 <p>Defining the constituent model definitions is undoubtedly the longest part of building an ensemble with <code>stacks</code>. If you’re familiar with tidymodels “proper,” you’re probably fine to skip this section, keeping a few things in mind:</p>
@@ -203,8 +203,10 @@
   <span class="va">tree_frogs_rec</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_dummy.html" class="external-link">step_dummy</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_nominal</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_zv.html" class="external-link">step_zv</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_predictors</a></span><span class="op">(</span><span class="op">)</span>, skip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_meanimpute.html" class="external-link">step_meanimpute</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_numeric</a></span><span class="op">(</span><span class="op">)</span>, skip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_impute_mean.html" class="external-link">step_meanimpute</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_numeric</a></span><span class="op">(</span><span class="op">)</span>, skip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_normalize.html" class="external-link">step_normalize</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_numeric</a></span><span class="op">(</span><span class="op">)</span>, skip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; Warning: `step_meanimpute()` was deprecated in recipes 0.1.16.</span>
+<span class="co">#&gt; Please use `step_impute_mean()` instead.</span>
 
 <span class="va">knn_rec</span>
 <span class="co">#&gt; Data Recipe</span>
@@ -240,7 +242,7 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ● step_dummy()</span>
 <span class="co">#&gt; ● step_zv()</span>
-<span class="co">#&gt; ● step_meanimpute()</span>
+<span class="co">#&gt; ● step_impute_mean()</span>
 <span class="co">#&gt; ● step_normalize()</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ── Model ───────────────────────────────────────────────────────────────────────</span>
@@ -331,9 +333,11 @@
   <span class="va">tree_frogs_rec</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_dummy.html" class="external-link">step_dummy</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_nominal</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_zv.html" class="external-link">step_zv</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_predictors</a></span><span class="op">(</span><span class="op">)</span>, skip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_meanimpute.html" class="external-link">step_meanimpute</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_numeric</a></span><span class="op">(</span><span class="op">)</span>, skip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_impute_mean.html" class="external-link">step_meanimpute</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_numeric</a></span><span class="op">(</span><span class="op">)</span>, skip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_corr.html" class="external-link">step_corr</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_predictors</a></span><span class="op">(</span><span class="op">)</span>, skip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_normalize.html" class="external-link">step_normalize</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_numeric</a></span><span class="op">(</span><span class="op">)</span>, skip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; Warning: `step_meanimpute()` was deprecated in recipes 0.1.16.</span>
+<span class="co">#&gt; Please use `step_impute_mean()` instead.</span>
 
 <span class="co"># add both to a workflow</span>
 <span class="va">svm_wflow</span> <span class="op">&lt;-</span> 
@@ -369,7 +373,7 @@
 </div>
 <div id="putting-together-a-stack" class="section level1">
 <h1 class="hasAnchor">
-<a href="#putting-together-a-stack" class="anchor"></a>Putting together a stack</h1>
+<a href="#putting-together-a-stack" class="anchor" aria-hidden="true"></a>Putting together a stack</h1>
 <p>The first step to building an ensemble with stacks is to create a <code>data_stack</code> object—in this package, data stacks are tibbles (with some extra attributes) that contain the assessment set predictions for each candidate ensemble member.</p>
 <p><img src="https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/data_stack.png"><!-- --></p>
 <p>We can initialize a data stack using the <code><a href="../reference/stacks.html">stacks()</a></code> function.</p>
@@ -415,7 +419,7 @@
 </div>
 <div id="fit-the-stack" class="section level1">
 <h1 class="hasAnchor">
-<a href="#fit-the-stack" class="anchor"></a>Fit the stack</h1>
+<a href="#fit-the-stack" class="anchor" aria-hidden="true"></a>Fit the stack</h1>
 <p>The outputs from each of these candidate ensemble members are highly correlated, so the <code><a href="../reference/blend_predictions.html">blend_predictions()</a></code> function performs regularization to figure out how we can combine the outputs from the stack members to come up with a final prediction.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tree_frogs_model_st</span> <span class="op">&lt;-</span>

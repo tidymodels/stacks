@@ -53,7 +53,7 @@
         <a class="navbar-brand" href="../index.html">stacks</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://github.com/tidymodels" class="external-link">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.0.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.0.9000</span>
         </div>
       </div>
     </div>
@@ -137,7 +137,7 @@
 <p>It looks like the embryo age is pretty effective at picking out embryos with full VOR function, but the problem gets tougher for the less developed embryos! Let’s see how well the stacked ensemble can classify these tree frogs.</p>
 <div id="defining-candidate-ensemble-members" class="section level1">
 <h1 class="hasAnchor">
-<a href="#defining-candidate-ensemble-members" class="anchor"></a>Defining candidate ensemble members</h1>
+<a href="#defining-candidate-ensemble-members" class="anchor" aria-hidden="true"></a>Defining candidate ensemble members</h1>
 <p>As in the numeric prediction setting, defining the candidate ensemble members is undoubtedly the longest part of the ensembling process with stacks. First, splitting up the training data, generating resamples, and setting some options that will be used by each model definition.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># some setup: resampling and a basic recipe</span>
@@ -209,7 +209,7 @@
 </div>
 <div id="putting-together-a-stack" class="section level1">
 <h1 class="hasAnchor">
-<a href="#putting-together-a-stack" class="anchor"></a>Putting together a stack</h1>
+<a href="#putting-together-a-stack" class="anchor" aria-hidden="true"></a>Putting together a stack</h1>
 <p>Building the stacked ensemble, now, only takes a few lines:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tree_frogs_model_st</span> <span class="op">&lt;-</span> 

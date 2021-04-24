@@ -106,7 +106,7 @@ training set using fit_members()." />
         <a class="navbar-brand" href="../index.html">stacks</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.0.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.0.9000</span>
         </div>
       </div>
     </div>
@@ -259,17 +259,15 @@ the source code that generated them.</p>
   <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>fit_members</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Out of 15 possible candidate members, the ensemble retained 5.</span>
+#&gt; <span class='message'>Out of 15 possible candidate members, the ensemble retained 3.</span>
 #&gt; <span class='message'>Penalty: 0.1.</span>
 #&gt; <span class='message'>Mixture: 1.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>The 5 highest weighted members are:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 3</span><span>
+#&gt; <span class='message'>The 3 highest weighted members are:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 3</span><span>
 #&gt;   member          type       weight
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> reg_res_svm_1_1 svm_rbf    0.442 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> reg_res_svm_1_3 svm_rbf    0.265 
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> reg_res_sp_4_1  linear_reg 0.261 
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> reg_res_sp_9_1  linear_reg 0.086</span><span style='text-decoration: underline;'>0</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> reg_res_sp_2_1  linear_reg 0.048</span><span style='text-decoration: underline;'>0</span><span></div><div class='input'>  
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> reg_res_svm_1_3 svm_rbf     0.559
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> reg_res_sp_2_1  linear_reg  0.464
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> reg_res_sp_5_1  linear_reg  0.115</div><div class='input'>  
 <span class='va'>reg_st</span>
 </div><div class='output co'>#&gt; # A data stack with 3 model definitions and 15 candidate members:
 #&gt; #   reg_res_lr: 1 model configuration

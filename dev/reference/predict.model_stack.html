@@ -101,7 +101,7 @@
         <a class="navbar-brand" href="../index.html">stacks</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.0.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.0.9000</span>
         </div>
       </div>
     </div>
@@ -252,49 +252,48 @@ the source code that generated them.</p>
 
 <span class='va'>reg_st</span>
 </div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Out of 10 possible candidate members, the ensemble retained 5.</span>
+#&gt; <span class='message'>Out of 10 possible candidate members, the ensemble retained 4.</span>
 #&gt; <span class='message'>Penalty: 1e-06.</span>
 #&gt; <span class='message'>Mixture: 1.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>The 5 highest weighted members are:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 3</span><span>
+#&gt; <span class='message'>The 4 highest weighted members are:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 3</span><span>
 #&gt;   member         type       weight
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> reg_res_sp_2_1 linear_reg 0.346 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> reg_res_lr_1_1 linear_reg 0.238 
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> reg_res_sp_4_1 linear_reg 0.224 
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> reg_res_sp_8_1 linear_reg 0.101 
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> reg_res_sp_9_1 linear_reg 0.053</span><span style='text-decoration: underline;'>7</span><span></div><div class='input'>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> reg_res_sp_2_1 linear_reg  0.462
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> reg_res_sp_8_1 linear_reg  0.225
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> reg_res_sp_5_1 linear_reg  0.130
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> reg_res_lr_1_1 linear_reg  0.113</div><div class='input'>
 <span class='co'># predict on the tree frogs testing data</span>
 <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>reg_st</span>, <span class='va'>tree_frogs_reg_test</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 143 x 1</span><span>
 #&gt;    .pred
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 115. 
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>  31.7
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>  93.7
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 122. 
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 167. 
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>  95.2
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 125. 
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 222. 
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 167. 
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 156. 
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 119. 
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>  87.4
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>  99.1
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>  36.1
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 124. 
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>  47.0
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 118. 
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>  83.0
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>  47.0
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>  76.6
 #&gt; </span><span style='color: #949494;'># … with 133 more rows</span><span></div><div class='input'>
 <span class='co'># include the predictions from the members</span>
 <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>reg_st</span>, <span class='va'>tree_frogs_reg_test</span>, members <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 143 x 6</span><span>
-#&gt;    .pred reg_res_lr_1_1 reg_res_sp_8_1 reg_res_sp_9_1 reg_res_sp_4_1
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 143 x 5</span><span>
+#&gt;    .pred reg_res_lr_1_1 reg_res_sp_8_1 reg_res_sp_5_1 reg_res_sp_2_1
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 115.           117.           101.           116.           118. 
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>  31.7           34.2           26.7           27.8           27.5
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>  93.7          111.           107.            84.1           83.2
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 122.           106.           112.           135.           132. 
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 167.           147.           161.           185.           178. 
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>  95.2           85.7           98.5           98.8          102. 
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 125.           102.           115.           141.           135. 
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 222.           224.           210.           229.           231. 
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 167.           147.           160.           185.           179. 
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 156.           153.           156.           157.           161. 
-#&gt; </span><span style='color: #949494;'># … with 133 more rows, and 1 more variable: reg_res_sp_2_1 &lt;dbl&gt;</span><span></div><div class='input'>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 119.           138.           125.           121.           115. 
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>  87.4           82.4           84.8           81.8           89.8
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>  99.1          116.           111.           112.            85.9
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>  36.1           35.8           29.7           32.5           31.0
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 124.           111.           115.           115.           138. 
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>  47.0           38.8           37.4           36.2           49.0
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 118.           123.           103.           104.           131. 
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>  83.0           82.3           78.6           82.0           83.3
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>  47.0           38.7           37.3           36.2           49.2
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>  76.6           78.8           75.3           76.9           73.3
+#&gt; </span><span style='color: #949494;'># … with 133 more rows</span><span></div><div class='input'>
 <span class='co'># build and fit a classification model stack</span>
 <span class='va'>class_st</span> <span class='op'>&lt;-</span>
   <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
