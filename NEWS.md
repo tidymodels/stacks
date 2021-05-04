@@ -1,6 +1,12 @@
 # stacks
 
-### v0.2.0
+## v0.2.0.9000
+
+To be released as 0.2.1
+
+* Various bug fixes and improvements to documentation.
+
+## v0.2.0
 
 ### Breaking changes
 
