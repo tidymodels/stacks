@@ -267,6 +267,14 @@ st_class_1 <-
   stacks() %>%
   add_candidates(class_res_rf)
 
+st_class_1_non_neg <-
+  st_class_1 %>%
+  blend_predictions(non_negative = FALSE)
+
+st_class_1_mixed <-
+  st_class_1 %>%
+  blend_predictions(non_negative = FALSE, mixture = c(.25, .75))
+
 st_class_1_ <-
   st_class_1 %>%
   blend_predictions()
@@ -337,5 +345,5 @@ reg_res_svm_5 <-
   )
 
 # save the environment in an .Rda and load in unit tests
-save.image(file = "tests/testthat/helper_data.Rda", version = 2)
+save.image(file = "tests/testthat/helper_data.Rda", version = 2, compress = "xz")
 ```

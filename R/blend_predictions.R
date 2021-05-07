@@ -263,23 +263,33 @@ check_regularization <- function(x, arg) {
 glmnet_metrics <- function(x) {
   res <- tune::collect_metrics(x)
   pens <- sort(unique(res$penalty))
-  x$glmnet_fits <- purrr::map(x$.extracts, ~ .x$.extracts[[1]])
   num_mem <- 
-    purrr::map_dfr(x$glmnet_fits, num_members, pens) %>% 
-    dplyr::group_by(penalty) %>% 
+    dplyr::select(x, id, .extracts) %>% 
+    tidyr::unnest(.extracts) %>% 
+    dplyr::group_nest(id, penalty, mixture) %>% 
+    # There are redundant model objects over penalty values
+    dplyr::mutate(data = purrr::map(data, ~ .x$.extracts[[1]])) %>% 
+    dplyr::mutate(
+      members = purrr::map(data, ~ num_members(.x, pens))
+    ) %>% 
+    dplyr::select(mixture, members) %>% 
+    tidyr::unnest(cols = members) %>% 
+    dplyr::group_by(penalty, mixture) %>% 
     dplyr::summarize(
       .metric = "num_members",
       .estimator = "Poisson",
       mean = mean(members, na.rm = TRUE), 
       n = sum(!is.na(members)),
-      std_err = sqrt(mean/n)
+      std_err = sqrt(mean/n),
+      .groups = "drop"
     ) %>% 
-    dplyr::ungroup() %>% 
     dplyr::full_join(
-      res %>% dplyr::select(penalty, .config) %>% dplyr::distinct(),
-      by = "penalty"
+      res %>% dplyr::select(penalty, mixture, .config) %>% dplyr::distinct(),
+      by = c("penalty", "mixture")
     )
-  dplyr::bind_rows(res, num_mem)
+  
+  dplyr::bind_rows(res, num_mem) %>% 
+    dplyr::arrange(.config)
 }
 
 num_members <- function(x, penalties) {
