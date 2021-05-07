@@ -2,16 +2,17 @@
 Message: -- A stacked ensemble model -------------------------------------
 
 Message: 
-Out of 5 possible candidate members, the ensemble retained 2.
+Out of 5 possible candidate members, the ensemble retained 3.
 Penalty: 0.1.
-Mixture: .
+Mixture: 1.
 
 Message: 
-The 2 highest weighted members are:
+The 3 highest weighted members are:
 
-# A tibble: 2 x 3
+# A tibble: 3 x 3
   member          type    weight
   <chr>           <chr>    <dbl>
-1 reg_res_svm_1_3 svm_rbf  1.19 
-2 reg_res_svm_1_1 svm_rbf  0.159
+1 reg_res_svm_1_5 svm_rbf  2.88 
+2 reg_res_svm_1_3 svm_rbf  0.895
+3 reg_res_svm_1_1 svm_rbf  0.410
 

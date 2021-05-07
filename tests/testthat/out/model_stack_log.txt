@@ -2,20 +2,18 @@
 Message: -- A stacked ensemble model -------------------------------------
 
 Message: 
-Out of 10 possible candidate members, the ensemble retained 4.
-Penalty: 1e-06.
-Mixture: .
+Out of 10 possible candidate members, the ensemble retained 2.
+Penalty: 0.1.
+Mixture: 1.
 
 Message: 
-The 4 highest weighted member classes are:
+The 2 highest weighted member classes are:
 
-# A tibble: 4 x 3
+# A tibble: 2 x 3
   member                    type        weight
   <chr>                     <chr>        <dbl>
-1 .pred_yes_log_res_rf_1_09 rand_forest  4.64 
-2 .pred_yes_log_res_rf_1_03 rand_forest  1.25 
-3 .pred_yes_log_res_rf_1_06 rand_forest  0.687
-4 .pred_yes_log_res_rf_1_05 rand_forest  0.467
+1 .pred_yes_log_res_rf_1_03 rand_forest 3.54  
+2 .pred_yes_log_res_rf_1_06 rand_forest 0.0457
 
 Message: 
 Members have not yet been fitted with `fit_members()`.
