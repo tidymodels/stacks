@@ -268,74 +268,81 @@ the source code that generated them.</p>
 <code><a href='stacks.html'>stacks</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='co'># see the "Example Data" section above for</span>
-<span class='co'># clarification on the objects used in these examples!</span>
-
-<span class='co'># put together a data stack using</span>
-<span class='co'># tuning results for regression models</span>
-<span class='va'>reg_st</span> <span class='op'>&lt;-</span> 
-  <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>reg_res_lr</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>reg_res_svm</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>reg_res_sp</span><span class='op'>)</span>
-  
-<span class='va'>reg_st</span>
-</div><div class='output co'>#&gt; # A data stack with 3 model definitions and 15 candidate members:
-#&gt; #   reg_res_lr: 1 model configuration
-#&gt; #   reg_res_svm: 5 model configurations
-#&gt; #   reg_res_sp: 9 model configurations
-#&gt; # Outcome: latency (numeric)</div><div class='input'>  
-<span class='co'># do the same with multinomial classification models</span>
-<span class='va'>class_st</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>class_res_nn</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>class_res_rf</span><span class='op'>)</span>
-  
-<span class='va'>class_st</span>
-</div><div class='output co'>#&gt; # A data stack with 2 model definitions and 11 candidate members:
-#&gt; #   class_res_nn: 1 model configuration
-#&gt; #   class_res_rf: 10 model configurations
-#&gt; # Outcome: reflex (factor)</div><div class='input'>  
-<span class='co'># ...or binomial classification models</span>
-<span class='va'>log_st</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>log_res_nn</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>log_res_rf</span><span class='op'>)</span>
-  
-<span class='va'>log_st</span>
-</div><div class='output co'>#&gt; # A data stack with 2 model definitions and 11 candidate members:
-#&gt; #   log_res_nn: 1 model configuration
-#&gt; #   log_res_rf: 10 model configurations
-#&gt; # Outcome: hatched (factor)</div><div class='input'>  
-<span class='co'># use custom names for each model:</span>
-<span class='va'>log_st2</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>log_res_nn</span>, name <span class='op'>=</span> <span class='st'>"neural_network"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>log_res_rf</span>, name <span class='op'>=</span> <span class='st'>"random_forest"</span><span class='op'>)</span>
-  
-<span class='va'>log_st2</span>
-</div><div class='output co'>#&gt; # A data stack with 2 model definitions and 11 candidate members:
-#&gt; #   neural_network: 1 model configuration
-#&gt; #   random_forest: 10 model configurations
-#&gt; # Outcome: hatched (factor)</div><div class='input'>  
-<span class='co'># these objects would likely then be</span>
-<span class='co'># passed to blend_predictions():</span>
-<span class='va'>log_st2</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Out of 11 possible candidate members, the ensemble retained 4.</span>
-#&gt; <span class='message'>Penalty: 0.001.</span>
-#&gt; <span class='message'>Mixture: 1.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>The 4 highest weighted member classes are:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 3</span><span>
-#&gt;   member                       type        weight
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> .pred_yes_neural_network_1_1 mlp          6.09 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> .pred_yes_random_forest_1_09 rand_forest  1.84 
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> .pred_yes_random_forest_1_05 rand_forest  1.45 
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> .pred_yes_random_forest_1_06 rand_forest  0.792</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Members have not yet been fitted with `fit_members()`.</span></div><div class='input'><span class='co'># }</span>
-
-</div></span></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># \donttest{</span></span>
+<span class='r-in'><span class='co'># see the "Example Data" section above for</span></span>
+<span class='r-in'><span class='co'># clarification on the objects used in these examples!</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># put together a data stack using</span></span>
+<span class='r-in'><span class='co'># tuning results for regression models</span></span>
+<span class='r-in'><span class='va'>reg_st</span> <span class='op'>&lt;-</span> </span>
+<span class='r-in'>  <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>reg_res_lr</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>reg_res_svm</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>reg_res_sp</span><span class='op'>)</span></span>
+<span class='r-in'>  </span>
+<span class='r-in'><span class='va'>reg_st</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> # A data stack with 3 model definitions and 15 candidate members:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> #   reg_res_lr: 1 model configuration</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> #   reg_res_svm: 5 model configurations</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> #   reg_res_sp: 9 model configurations</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> # Outcome: latency (numeric)</span>
+<span class='r-in'>  </span>
+<span class='r-in'><span class='co'># do the same with multinomial classification models</span></span>
+<span class='r-in'><span class='va'>class_st</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>class_res_nn</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>class_res_rf</span><span class='op'>)</span></span>
+<span class='r-in'>  </span>
+<span class='r-in'><span class='va'>class_st</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> # A data stack with 2 model definitions and 11 candidate members:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> #   class_res_nn: 1 model configuration</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> #   class_res_rf: 10 model configurations</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> # Outcome: reflex (factor)</span>
+<span class='r-in'>  </span>
+<span class='r-in'><span class='co'># ...or binomial classification models</span></span>
+<span class='r-in'><span class='va'>log_st</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>log_res_nn</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>log_res_rf</span><span class='op'>)</span></span>
+<span class='r-in'>  </span>
+<span class='r-in'><span class='va'>log_st</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> # A data stack with 2 model definitions and 11 candidate members:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> #   log_res_nn: 1 model configuration</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> #   log_res_rf: 10 model configurations</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> # Outcome: hatched (factor)</span>
+<span class='r-in'>  </span>
+<span class='r-in'><span class='co'># use custom names for each model:</span></span>
+<span class='r-in'><span class='va'>log_st2</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>log_res_nn</span>, name <span class='op'>=</span> <span class='st'>"neural_network"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>log_res_rf</span>, name <span class='op'>=</span> <span class='st'>"random_forest"</span><span class='op'>)</span></span>
+<span class='r-in'>  </span>
+<span class='r-in'><span class='va'>log_st2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> # A data stack with 2 model definitions and 11 candidate members:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> #   neural_network: 1 model configuration</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> #   random_forest: 10 model configurations</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> # Outcome: hatched (factor)</span>
+<span class='r-in'>  </span>
+<span class='r-in'><span class='co'># these objects would likely then be</span></span>
+<span class='r-in'><span class='co'># passed to blend_predictions():</span></span>
+<span class='r-in'><span class='va'>log_st2</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> ── A stacked ensemble model ─────────────────────────────────────</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Out of 11 possible candidate members, the ensemble retained 2.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Penalty: 0.01.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Mixture: 1.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The 2 highest weighted member classes are:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 2 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   member                       type        weight</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> .pred_yes_neural_network_1_1 mlp           7.08</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> .pred_yes_random_forest_1_03 rand_forest   3.00</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Members have not yet been fitted with `fit_members()`.</span>
+<span class='r-in'><span class='co'># }</span></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
