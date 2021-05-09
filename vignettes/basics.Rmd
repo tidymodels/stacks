@@ -75,7 +75,7 @@ Let's give this a go!
 
 At the highest level, ensembles are formed from _model definitions_. In this package, model definitions are an instance of a minimal [`workflow`](https://workflows.tidymodels.org/), containing a _model specification_ (as defined in the [`parsnip`](https://parsnip.tidymodels.org/) package) and, optionally, a _preprocessor_ (as defined in the [`recipes`](https://recipes.tidymodels.org/) package). Model definitions specify the form of candidate ensemble members. 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.alt = "A diagram representing 'model definitions,' which specify the form of candidate ensemble members. Three colored boxes represent three different model types; a K-nearest neighbors model (in salmon), a linear regression model (in yellow), and a support vector machine model (in green)."}
 knitr::include_graphics("https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/model_defs.png")
 ```
 
@@ -252,7 +252,7 @@ svm_res
 
 Altogether, we've created three model definitions, where the K-nearest neighbors model definition specifies 4 model configurations, the linear regression specifies 1, and the support vector machine specifies 6.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.alt = "A diagram representing 'candidate members' generated from each model definition. Four salmon-colored boxes labeled "KNN" represent K-nearest neighbors models trained on the resamples with differing hyperparameters. Similarly, the linear regression model generates one candidate member, and the support vector machine model generates six."}
 knitr::include_graphics("https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/candidates.png")
 ```
 
@@ -262,7 +262,7 @@ With these three model definitions fully specified, we are ready to begin stacki
 
 The first step to building an ensemble with stacks is to create a `data_stack` object—in this package, data stacks are tibbles (with some extra attributes) that contain the assessment set predictions for each candidate ensemble member.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.alt = "A diagram representing a 'data stack,' a specific kind of data frame. Colored 'columns' depict, in white, the true value of the outcome variable in the validation set, followed by four columns (in salmon) representing the predictions from the K-nearest neighbors model, one column (in tan) representing the linear regression model, and six (in green) representing the support vector machine model."}
 knitr::include_graphics("https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/data_stack.png")
 ```
 
@@ -308,7 +308,7 @@ tree_frogs_model_st <-
 
 The `blend_predictions` function determines how member model output will ultimately be combined in the final prediction by fitting a LASSO model on the data stack, predicting the true assessment set outcome using the predictions from each of the candidate members. Candidates with nonzero stacking coefficients become members. 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.alt = "A diagram representing 'stacking coefficients,' the coefficients of the linear model combining each of the candidate member predictions to generate the ensemble's ultimate prediction. Boxes for each of the candidate members are placed besides each other, filled in with color if the coefficient for the associated candidate member is nonzero."}
 knitr::include_graphics("https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/coefs.png")
 ```
 
@@ -339,13 +339,13 @@ tree_frogs_model_st <-
   fit_members()
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.alt = "A diagram representing the ensemble members, where each are pentagons labeled and colored-in according to the candidate members they arose from."}
 knitr::include_graphics("https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/members.png")
 ```
 
 Model stacks can be thought of as a group of fitted member models and a set of instructions on how to combine their predictions.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.alt = "A diagram representing the 'model stack' class, which collates the stacking coefficients and members (candidate members with nonzero stacking coefficients that are trained on the full training set). The representation of the stacking coefficients and members is as before. Model stacks are a list subclass."}
 knitr::include_graphics("https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/class_model_stack.png")
 ```
 

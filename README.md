@@ -89,7 +89,7 @@ specify the form of candidate ensemble members.
 
 ![A diagram representing “model definitions,” which specify the form of
 candidate ensemble members. Three colored boxes represent three
-different model types—a K-nearest neighbors model (in salmon), a linear
+different model types; a K-nearest neighbors model (in salmon), a linear
 regression model (in yellow), and a support vector machine model (in
 green).](man/figures/model_defs.png)
 
