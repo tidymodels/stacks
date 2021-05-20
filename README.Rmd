@@ -51,25 +51,25 @@ Rather than diving right into the implementation, we'll focus here on how the pi
 
 At the highest level, ensembles are formed from _model definitions_. In this package, model definitions are an instance of a minimal [workflow](https://workflows.tidymodels.org/), containing a _model specification_ (as defined in the [parsnip](https://parsnip.tidymodels.org/) package) and, optionally, a _preprocessor_ (as defined in the [recipes](https://recipes.tidymodels.org/) package). Model definitions specify the form of candidate ensemble members.
 
-![](man/figures/model_defs.png)
+![A diagram representing "model definitions," which specify the form of candidate ensemble members. Three colored boxes represent three different model types; a K-nearest neighbors model (in salmon), a linear regression model (in yellow), and a support vector machine model (in green).](man/figures/model_defs.png)
 
 To be used in the same ensemble, each of these model definitions must share the same _resample_. This [rsample](https://rsample.tidymodels.org/) `rset` object, when paired with the model definitions, can be used to generate the tuning/fitting results objects for the candidate _ensemble members_ with tune.
 
-![](man/figures/candidates.png)
+![A diagram representing "candidate members" generated from each model definition. Four salmon-colored boxes labeled "KNN" represent K-nearest neighbors models trained on the resamples with differing hyperparameters. Similarly, the linear regression model generates one candidate member, and the support vector machine model generates six.](man/figures/candidates.png)
 
 Candidate members first come together in a `data_stack` object through the `add_candidates()` function. Principally, these objects are just [tibble](https://tibble.tidyverse.org/)s, where the first column gives the true outcome in the assessment set (the portion of the training set used for model validation), and the remaining columns give the predictions from each candidate ensemble member. (When the outcome is numeric, there's only one column per candidate ensemble member. Classification requires as many columns per candidate as there are levels in the outcome variable.) They also bring along a few extra attributes to keep track of model definitions.
 
-![](man/figures/data_stack.png)
+![A diagram representing a "data stack," a specific kind of data frame. Colored "columns" depict, in white, the true value of the outcome variable in the validation set, followed by four columns (in salmon) representing the predictions from the K-nearest neighbors model, one column (in tan) representing the linear regression model, and six (in green) representing the support vector machine model.](man/figures/data_stack.png)
 
 Then, the data stack can be evaluated using `blend_predictions()` to determine to how best to combine the outputs from each of the candidate members.  In the stacking literature, this process is commonly called _metalearning_.
 
 The outputs of each member are likely highly correlated. Thus, depending on the degree of regularization you choose, the coefficients for the inputs of (possibly) many of the members will zero out—their predictions will have no influence on the final output, and those terms will thus be thrown out.  
 
-![](man/figures/coefs.png)
+![A diagram representing "stacking coefficients," the coefficients of the linear model combining each of the candidate member predictions to generate the ensemble's ultimate prediction. Boxes for each of the candidate members are placed besides each other, filled in with color if the coefficient for the associated candidate member is nonzero.](man/figures/coefs.png)
 
 These stacking coefficients determine which candidate ensemble members will become ensemble members. Candidates with non-zero stacking coefficients are then fitted on the whole training set, altogether making up a `model_stack` object. 
 
-![](man/figures/class_model_stack.png)
+![A diagram representing the "model stack" class, which collates the stacking coefficients and members (candidate members with nonzero stacking coefficients that are trained on the full training set). The representation of the stacking coefficients is as before, where the members (shown next to their associated stacking coefficients) are colored-in pentagons. Model stacks are a list subclass.](man/figures/class_model_stack.png)
 
 This model stack object, outputted from `fit_members()`, is ready to predict on new data! The trained ensemble members are often referred to as _base models_ in the stacking literature.
 
