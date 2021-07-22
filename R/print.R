@@ -84,7 +84,7 @@ top_coefs <- function(x, penalty = x$penalty$penalty, n = 10) {
   sub_models <-
     purrr::map_dfr(x$cols_map, ~ tibble::tibble(terms = .x), .id = "model_name")
   model_types <- 
-    purrr::map(x$model_defs, workflows::pull_workflow_spec) %>% 
+    purrr::map(x$model_defs, workflows::extract_spec_parsnip) %>% 
     purrr::map_dfr(~ tibble::tibble(model_type = class(.x)[1]), .id = "model_name")
   res <- 
     dplyr::left_join(betas, sub_models, by = "terms") %>% 

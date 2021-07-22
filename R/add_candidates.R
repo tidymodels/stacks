@@ -184,7 +184,7 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
 .set_mode_ <- function(stack, candidates, name) {
   wf_spec <- 
     attr(candidates, "workflow") %>%
-    workflows::pull_workflow_spec()
+    workflows::extract_spec_parsnip()
   
   new_mode <- wf_spec$mode
   old_mode <- attr(stack, "mode")
@@ -363,7 +363,7 @@ update_stack_data <- function(stack, new_data) {
 stack_workflow <- function(x) {
   res <-
     workflows::workflow() %>%
-    workflows::add_model(workflows::pull_workflow_spec(x))
+    workflows::add_model(workflows::extract_spec_parsnip(x))
   
   pre <- workflows::pull_workflow_preprocessor(x)
   
