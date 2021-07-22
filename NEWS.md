@@ -1,19 +1,12 @@
 # stacks
 
-## v0.2.0.9000
-
-To be released as 0.2.1
-
-* Various bug fixes and improvements to documentation.
-
-### Bug fixes
+## v0.2.1
 
 * Updates for importing workflow sets that use the `add_variables()` 
   preprocessor. 
-  
 * Plot fixes for cases where coefficients are negative. 
-
 * Performance and member plots now show the effect of multiple mixture values. 
+* Package diagrams now have alt text.
 
 ## v0.2.0
 
@@ -55,6 +48,6 @@ be regenerated before predicting, plotting, printing, etc.
   more informative.
 * Various improvements to documentation.
 
-### v0.1.0
+## v0.1.0
 
 Initial release!

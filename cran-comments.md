@@ -1,4 +1,4 @@
-# stacks 0.2.0
+# stacks 0.2.1
 
 ## Test environments
 
