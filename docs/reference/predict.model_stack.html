@@ -76,9 +76,15 @@
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -95,19 +101,13 @@
         <a class="navbar-brand" href="../index.html">stacks</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
         </div>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -156,8 +156,8 @@
     <p>Apply a model stack to create different types of predictions.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for model_stack</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>new_data</span>, type <span class='op'>=</span> <span class='cn'>NULL</span>, members <span class='op'>=</span> <span class='cn'>FALSE</span>, opts <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='co'># S3 method for model_stack</span>
+<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>new_data</span>, type <span class='op'>=</span> <span class='cn'>NULL</span>, members <span class='op'>=</span> <span class='cn'>FALSE</span>, opts <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -234,158 +234,107 @@ to the stimulus) using most all of the other variables as predictors.</p>
 the source code that generated them.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='co'># see the "Example Data" section above for</span>
-<span class='co'># clarification on the data and tuning results</span>
-<span class='co'># objects used in these examples!</span>
-
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>tree_frogs_reg_test</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>tree_frogs_class_test</span><span class='op'>)</span>
-
-<span class='co'># build and fit a regression model stack</span>
-<span class='va'>reg_st</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>reg_res_lr</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>reg_res_sp</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='fit_members.html'>fit_members</a></span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='va'>reg_st</span>
-</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Out of 10 possible candidate members, the ensemble retained 5.</span>
-#&gt; <span class='message'>Penalty: 1e-06.</span>
-#&gt; <span class='message'>Mixture: 1.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>The 5 highest weighted members are:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 3</span><span>
-#&gt;   member         type       weight
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> reg_res_sp_2_1 linear_reg 0.346 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> reg_res_lr_1_1 linear_reg 0.238 
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> reg_res_sp_4_1 linear_reg 0.224 
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> reg_res_sp_8_1 linear_reg 0.101 
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> reg_res_sp_9_1 linear_reg 0.053</span><span style='text-decoration: underline;'>7</span><span></div><div class='input'>
-<span class='co'># predict on the tree frogs testing data</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>reg_st</span>, <span class='va'>tree_frogs_reg_test</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 143 x 1</span><span>
-#&gt;    .pred
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 115. 
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>  31.7
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>  93.7
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 122. 
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 167. 
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>  95.2
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 125. 
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 222. 
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 167. 
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 156. 
-#&gt; </span><span style='color: #949494;'># … with 133 more rows</span><span></div><div class='input'>
-<span class='co'># include the predictions from the members</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>reg_st</span>, <span class='va'>tree_frogs_reg_test</span>, members <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 143 x 6</span><span>
-#&gt;    .pred reg_res_lr_1_1 reg_res_sp_8_1 reg_res_sp_9_1 reg_res_sp_4_1
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 115.           117.           101.           116.           118. 
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>  31.7           34.2           26.7           27.8           27.5
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>  93.7          111.           107.            84.1           83.2
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 122.           106.           112.           135.           132. 
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 167.           147.           161.           185.           178. 
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>  95.2           85.7           98.5           98.8          102. 
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 125.           102.           115.           141.           135. 
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 222.           224.           210.           229.           231. 
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 167.           147.           160.           185.           179. 
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 156.           153.           156.           157.           161. 
-#&gt; </span><span style='color: #949494;'># … with 133 more rows, and 1 more variable: reg_res_sp_2_1 &lt;dbl&gt;</span><span></div><div class='input'>
-<span class='co'># build and fit a classification model stack</span>
-<span class='va'>class_st</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>class_res_nn</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>class_res_rf</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='fit_members.html'>fit_members</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap08: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -73); ...</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap14: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -76); ...</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap24: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -92); ...</span><span></span></div><div class='input'> 
-<span class='va'>class_st</span>
-</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Out of 22 possible candidate members, the ensemble retained 10.</span>
-#&gt; <span class='message'>Penalty: 0.001.</span>
-#&gt; <span class='message'>Mixture: 1.</span></div><div class='output co'>#&gt; <span class='message'>Across the 3 classes, there are an average of 3.33 coefficients per class.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>The 10 highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 4</span><span>
-#&gt;    member                       type        weight class
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> .pred_full_class_res_nn_1_1  mlp         28.8   full 
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> .pred_mid_class_res_rf_1_01  rand_forest 10.9   mid  
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> .pred_mid_class_res_nn_1_1   mlp          7.82  mid  
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> .pred_mid_class_res_rf_1_04  rand_forest  5.76  low  
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> .pred_mid_class_res_rf_1_08  rand_forest  5.53  low  
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> .pred_mid_class_res_rf_1_07  rand_forest  4.48  low  
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> .pred_mid_class_res_rf_1_05  rand_forest  1.80  mid  
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> .pred_mid_class_res_rf_1_10  rand_forest  1.36  mid  
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> .pred_mid_class_res_rf_1_02  rand_forest  0.552 low  
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> .pred_full_class_res_rf_1_04 rand_forest  0.284 mid  </div><div class='input'>
-<span class='co'># predict reflex, first as a class, then as</span>
-<span class='co'># class probabilities</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>class_st</span>, <span class='va'>tree_frogs_class_test</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 303 x 1</span><span>
-#&gt;    .pred_class
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>      
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> full       
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> low        
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> low        
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> full       
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> low        
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> mid        
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> low        
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> full       
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> full       
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> low        
-#&gt; </span><span style='color: #949494;'># … with 293 more rows</span><span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>class_st</span>, <span class='va'>tree_frogs_class_test</span>, type <span class='op'>=</span> <span class='st'>"prob"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 303 x 3</span><span>
-#&gt;      .pred_full .pred_low .pred_mid
-#&gt;           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 0.000</span><span style='text-decoration: underline;'>000</span><span>592   0.269     0.731   
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 0.999         0.000</span><span style='text-decoration: underline;'>733</span><span>  0.000</span><span style='text-decoration: underline;'>223</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 0.999         0.000</span><span style='text-decoration: underline;'>595</span><span>  0.000</span><span style='text-decoration: underline;'>227</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 0.000</span><span style='text-decoration: underline;'>001</span><span>56    0.256     0.744   
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 0.999         0.000</span><span style='text-decoration: underline;'>705</span><span>  0.000</span><span style='text-decoration: underline;'>223</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 0.000</span><span style='text-decoration: underline;'>308</span><span>      0.863     0.137   
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 0.999         0.000</span><span style='text-decoration: underline;'>595</span><span>  0.000</span><span style='text-decoration: underline;'>227</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 0.000</span><span style='text-decoration: underline;'>000</span><span>065</span><span style='text-decoration: underline;'>1</span><span>  0.143     0.857   
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 0.000</span><span style='text-decoration: underline;'>004</span><span>49    0.343     0.657   
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 0.999         0.000</span><span style='text-decoration: underline;'>595</span><span>  0.000</span><span style='text-decoration: underline;'>227</span><span>
-#&gt; </span><span style='color: #949494;'># … with 293 more rows</span><span></div><div class='input'>
-<span class='co'># returning the member predictions as well</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span>
-  <span class='va'>class_st</span>, 
-  <span class='va'>tree_frogs_class_test</span>, 
-  type <span class='op'>=</span> <span class='st'>"prob"</span>, 
-  members <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 303 x 27</span><span>
-#&gt;      .pred_full .pred_low .pred_mid .pred_low_class_res_r… .pred_low_class_res_…
-#&gt;           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>                  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>                 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 0.000</span><span style='text-decoration: underline;'>000</span><span>592   0.269     0.731                    0.468              0.313    
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 0.999         0.000</span><span style='text-decoration: underline;'>733</span><span>  0.000</span><span style='text-decoration: underline;'>223</span><span>                 0.102              0.000</span><span style='text-decoration: underline;'>619</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 0.999         0.000</span><span style='text-decoration: underline;'>595</span><span>  0.000</span><span style='text-decoration: underline;'>227</span><span>                 0.045</span><span style='text-decoration: underline;'>8</span><span>             0.000</span><span style='text-decoration: underline;'>035</span><span>5
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 0.000</span><span style='text-decoration: underline;'>001</span><span>56    0.256     0.744                    0.509              0.444    
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 0.999         0.000</span><span style='text-decoration: underline;'>705</span><span>  0.000</span><span style='text-decoration: underline;'>223</span><span>                 0.109              0        
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 0.000</span><span style='text-decoration: underline;'>308</span><span>      0.863     0.137                    0.519              0.603    
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 0.999         0.000</span><span style='text-decoration: underline;'>595</span><span>  0.000</span><span style='text-decoration: underline;'>227</span><span>                 0.045</span><span style='text-decoration: underline;'>8</span><span>             0.000</span><span style='text-decoration: underline;'>035</span><span>5
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 0.000</span><span style='text-decoration: underline;'>000</span><span>065</span><span style='text-decoration: underline;'>1</span><span>  0.143     0.857                    0.283              0.167    
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 0.000</span><span style='text-decoration: underline;'>004</span><span>49    0.343     0.657                    0.509              0.486    
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 0.999         0.000</span><span style='text-decoration: underline;'>595</span><span>  0.000</span><span style='text-decoration: underline;'>227</span><span>                 0.045</span><span style='text-decoration: underline;'>8</span><span>             0.000</span><span style='text-decoration: underline;'>035</span><span>5
-#&gt; </span><span style='color: #949494;'># … with 293 more rows, and 22 more variables:</span><span>
-#&gt; </span><span style='color: #949494;'>#   .pred_low_class_res_rf_1_08 &lt;dbl&gt;, .pred_low_class_res_rf_1_07 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   .pred_low_class_res_nn_1_1 &lt;dbl&gt;, .pred_low_class_res_rf_1_10 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   .pred_low_class_res_rf_1_05 &lt;dbl&gt;, .pred_low_class_res_rf_1_01 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   .pred_mid_class_res_rf_1_04 &lt;dbl&gt;, .pred_mid_class_res_rf_1_02 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   .pred_mid_class_res_rf_1_08 &lt;dbl&gt;, .pred_mid_class_res_rf_1_07 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   .pred_mid_class_res_nn_1_1 &lt;dbl&gt;, .pred_mid_class_res_rf_1_10 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   .pred_mid_class_res_rf_1_05 &lt;dbl&gt;, .pred_mid_class_res_rf_1_01 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   .pred_full_class_res_rf_1_04 &lt;dbl&gt;, .pred_full_class_res_rf_1_02 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   .pred_full_class_res_rf_1_08 &lt;dbl&gt;, .pred_full_class_res_rf_1_07 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   .pred_full_class_res_nn_1_1 &lt;dbl&gt;, .pred_full_class_res_rf_1_10 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   .pred_full_class_res_rf_1_05 &lt;dbl&gt;, .pred_full_class_res_rf_1_01 &lt;dbl&gt;</span><span></div><div class='input'><span class='co'># }</span>
-
-</div></span></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># \donttest{</span></span>
+<span class='r-in'><span class='co'># see the "Example Data" section above for</span></span>
+<span class='r-in'><span class='co'># clarification on the data and tuning results</span></span>
+<span class='r-in'><span class='co'># objects used in these examples!</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>tree_frogs_reg_test</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>tree_frogs_class_test</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># build and fit a regression model stack</span></span>
+<span class='r-in'><span class='va'>reg_st</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>reg_res_lr</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>reg_res_sp</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='fit_members.html'>fit_members</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>reg_st</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> ── A stacked ensemble model ─────────────────────────────────────</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Out of 10 possible candidate members, the ensemble retained 3.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Penalty: 0.1.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Mixture: 1.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The 3 highest weighted members are:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 3 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   member         type       weight</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> reg_res_lr_1_1 linear_reg  0.349</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> reg_res_sp_2_1 linear_reg  0.303</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span> reg_res_sp_8_1 linear_reg  0.267</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># predict on the tree frogs testing data</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>reg_st</span>, <span class='va'>tree_frogs_reg_test</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 143 x 1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    .pred</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>  40.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> 111. </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>  90.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>  33.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>  75.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>  90.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> 122. </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>  82.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>  37.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>  77.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 133 more rows</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># include the predictions from the members</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>reg_st</span>, <span class='va'>tree_frogs_reg_test</span>, members <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 143 x 4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    .pred reg_res_lr_1_1 reg_res_sp_8_1 reg_res_sp_2_1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>  40.4           38.0           34.3           36.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> 111.           124.           117.            98.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>  90.6           84.5           92.4           98.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>  33.8           35.3           28.0           23.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>  75.3           79.0           77.0           67.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>  90.0           83.7           92.2           97.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> 122.           118.           139.           123. </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>  82.4           80.0           79.2           88.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>  37.6           36.5           30.7           32.7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>  77.3           79.4           78.0           72.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 133 more rows</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># build and fit a classification model stack</span></span>
+<span class='r-in'><span class='va'>class_st</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>class_res_nn</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>class_res_rf</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='fit_members.html'>fit_members</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span> <span style='color: #BBBB00;'>Bootstrap05: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -61); ...</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span> <span style='color: #BBBB00;'>Bootstrap09: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -73); ...</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span> <span style='color: #BBBB00;'>Bootstrap11: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -65); ...</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span> <span style='color: #BBBB00;'>Bootstrap18: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -79); ...</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span> <span style='color: #BBBB00;'>Bootstrap19: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -77); ...</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span> <span style='color: #BBBB00;'>Bootstrap23: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -82); ...</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in {    asNamespace("stacks")$fit_member(name = mem, wflows = model_stack[["model_defs"]],         members_map = members_map, train_dat = dat)}</span> task 2 failed - "This engine requires some package installs: 'ranger'"</span>
+<span class='r-in'> </span>
+<span class='r-in'><span class='va'>class_st</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in eval(expr, envir, enclos)</span> object 'class_st' not found</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># predict reflex, first as a class, then as</span></span>
+<span class='r-in'><span class='co'># class probabilities</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>class_st</span>, <span class='va'>tree_frogs_class_test</span><span class='op'>)</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in predict(class_st, tree_frogs_class_test)</span> object 'class_st' not found</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>class_st</span>, <span class='va'>tree_frogs_class_test</span>, type <span class='op'>=</span> <span class='st'>"prob"</span><span class='op'>)</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in predict(class_st, tree_frogs_class_test, type = "prob")</span> object 'class_st' not found</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># returning the member predictions as well</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span></span>
+<span class='r-in'>  <span class='va'>class_st</span>, </span>
+<span class='r-in'>  <span class='va'>tree_frogs_class_test</span>, </span>
+<span class='r-in'>  type <span class='op'>=</span> <span class='st'>"prob"</span>, </span>
+<span class='r-in'>  members <span class='op'>=</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in predict(class_st, tree_frogs_class_test, type = "prob", members = TRUE)</span> object 'class_st' not found</span>
+<span class='r-in'><span class='co'># }</span></span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -412,6 +361,8 @@ the source code that generated them.</p>
 
   
 
+
+  
 
   </body>
 </html>
