@@ -104,7 +104,7 @@ to their stacking coefficients as well)." />
         <a class="navbar-brand" href="../index.html">stacks</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.0.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.1.9000</span>
         </div>
       </div>
     </div>
@@ -162,7 +162,7 @@ candidate/member names to their hyperparameters (and, if a model stack,
 to their stacking coefficients as well).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>collect_parameters</span><span class='op'>(</span><span class='va'>stack</span>, <span class='va'>candidates</span>, <span class='va'>...</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>collect_parameters</span><span class='op'>(</span><span class='va'>stack</span>, <span class='va'>candidates</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for default</span>
 <span class='fu'>collect_parameters</span><span class='op'>(</span><span class='va'>stack</span>, <span class='va'>candidates</span>, <span class='va'>...</span><span class='op'>)</span>
@@ -171,7 +171,7 @@ to their stacking coefficients as well).</p>
 <span class='fu'>collect_parameters</span><span class='op'>(</span><span class='va'>stack</span>, <span class='va'>candidates</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for model_stack</span>
-<span class='fu'>collect_parameters</span><span class='op'>(</span><span class='va'>stack</span>, <span class='va'>candidates</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>collect_parameters</span><span class='op'>(</span><span class='va'>stack</span>, <span class='va'>candidates</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -238,7 +238,7 @@ to the stimulus) using most all of the other variables as predictors.</p>
 the source code that generated them.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='co'># \donttest{</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># \donttest{</span></span>
 <span class='r-in'><span class='co'># see the "Example Data" section above for</span></span>
 <span class='r-in'><span class='co'># clarification on the objects used in these examples!</span></span>
 <span class='r-in'></span>
@@ -259,28 +259,28 @@ the source code that generated them.</p>
 <span class='r-in'>  </span>
 <span class='r-in'><span class='co'># check out the hyperparameters for some of the candidates</span></span>
 <span class='r-in'><span class='fu'>collect_parameters</span><span class='op'>(</span><span class='va'>reg_st</span>, <span class='st'>"reg_res_svm"</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 5 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 5 × 3</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   member              cost rbf_sigma</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> reg_res_svm_1_1 17.2      1.87</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 1</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> reg_res_svm_1_2  0.001</span><span style='text-decoration: underline;'>29</span><span>  1.28</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 7</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span><span> reg_res_svm_1_3  3.26     2.54</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 3</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span><span> reg_res_svm_1_4  0.111    5.19</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-10</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span><span> reg_res_svm_1_5  0.024</span><span style='text-decoration: underline;'>1</span><span>   4.02</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 5</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> reg_res_svm_1_1 17.2      1.87<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> reg_res_svm_1_2  0.001<span style='text-decoration: underline;'>29</span>  1.28<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 7</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span> reg_res_svm_1_3  3.26     2.54<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span> reg_res_svm_1_4  0.111    5.19<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-10</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span> reg_res_svm_1_5  0.024<span style='text-decoration: underline;'>1</span>   4.02<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 5</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='fu'>collect_parameters</span><span class='op'>(</span><span class='va'>reg_st</span>, <span class='st'>"spline"</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 9 x 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 9 × 2</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   member       age</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> spline_1_1     8</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> spline_2_1    14</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span><span> spline_3_1     5</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span><span> spline_4_1    13</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span><span> spline_5_1     3</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>6</span><span> spline_6_1     6</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>7</span><span> spline_7_1    10</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>8</span><span> spline_8_1     2</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>9</span><span> spline_9_1    12</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> spline_1_1     8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> spline_2_1    14</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span> spline_3_1     5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span> spline_4_1    13</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span> spline_5_1     3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>6</span> spline_6_1     6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>7</span> spline_7_1    10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>8</span> spline_8_1     2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>9</span> spline_9_1    12</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># blend the data stack to view the hyperparameters </span></span>
 <span class='r-in'><span class='co'># along with the stacking coefficients!</span></span>
@@ -288,20 +288,20 @@ the source code that generated them.</p>
 <span class='r-in'>  <span class='va'>reg_st</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span><span class='op'>(</span><span class='op'>)</span>, </span>
 <span class='r-in'>  <span class='st'>"spline"</span></span>
 <span class='r-in'><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 9 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 9 × 3</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   member       age  coef</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> spline_1_1     8 0    </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> spline_2_1    14 0.237</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span><span> spline_3_1     5 0    </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span><span> spline_4_1    13 0    </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span><span> spline_5_1     3 0    </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>6</span><span> spline_6_1     6 0    </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>7</span><span> spline_7_1    10 0    </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>8</span><span> spline_8_1     2 0    </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>9</span><span> spline_9_1    12 0    </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> spline_1_1     8 0    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> spline_2_1    14 0.237</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span> spline_3_1     5 0    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span> spline_4_1    13 0    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span> spline_5_1     3 0    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>6</span> spline_6_1     6 0    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>7</span> spline_7_1    10 0    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>8</span> spline_8_1     2 0    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>9</span> spline_9_1    12 0    </span>
 <span class='r-in'><span class='co'># }</span></span>
-</pre>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -102,7 +102,7 @@ and vignettes derived from a study on 1212 red-eyed tree frog embryos!" />
         <a class="navbar-brand" href="../index.html">stacks</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.0.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.1.9000</span>
         </div>
       </div>
     </div>
@@ -158,7 +158,7 @@ and vignettes derived from a study on 1212 red-eyed tree frog embryos!" />
 and vignettes derived from a study on 1212 red-eyed tree frog embryos!</p>
     </div>
 
-    <pre class="usage"><span class='va'>reg_res_svm</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='va'>reg_res_svm</span>
 
 <span class='va'>reg_res_sp</span>
 
@@ -174,7 +174,7 @@ and vignettes derived from a study on 1212 red-eyed tree frog embryos!</p>
 
 <span class='va'>log_res_nn</span>
 
-<span class='va'>log_res_rf</span></pre>
+<span class='va'>log_res_rf</span></code></pre></div>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
@@ -226,7 +226,7 @@ for a random forest and neural network classification model, respectively,
 fitting <code>hatched</code> (whether or not the embryos hatched in response
 to the stimulus) using most all of the other variables as predictors.</p>
 <p>The source code for generating these objects is given below.</p>
-<p><div class="r"></p><pre><span class='co'># setup: packages, data, resample, basic recipe ------------------------</span>
+<p><div class="r"></p><pre class='sourceCode r'><code><span class='co'># setup: packages, data, resample, basic recipe ------------------------</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://stacks.tidymodels.org/'>stacks</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/tidymodels/tune'>tune</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://rsample.tidymodels.org'>rsample</a></span><span class='op'>)</span>
@@ -450,7 +450,7 @@ to the stimulus) using most all of the other variables as predictors.</p>
     resamples <span class='op'>=</span> <span class='va'>class_folds</span>, 
     control <span class='op'>=</span> <span class='va'>ctrl_res</span>
   <span class='op'>)</span>
-</pre><p></div></p>
+</code></pre><p></div></p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

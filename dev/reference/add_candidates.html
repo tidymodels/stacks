@@ -114,7 +114,7 @@ evaluated using the blend_predictions() function." />
         <a class="navbar-brand" href="../index.html">stacks</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.0.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.1.9000</span>
         </div>
       </div>
     </div>
@@ -182,12 +182,12 @@ using several calls to <code>add_candidates()</code>. Data stacks are
 evaluated using the <code><a href='blend_predictions.html'>blend_predictions()</a></code> function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>add_candidates</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>add_candidates</span><span class='op'>(</span>
   <span class='va'>data_stack</span>,
   <span class='va'>candidates</span>,
   name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span><span class='op'>(</span><span class='va'>candidates</span><span class='op'>)</span><span class='op'>)</span>,
   <span class='va'>...</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -268,7 +268,7 @@ the source code that generated them.</p>
 <code><a href='stacks.html'>stacks</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='co'># \donttest{</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># \donttest{</span></span>
 <span class='r-in'><span class='co'># see the "Example Data" section above for</span></span>
 <span class='r-in'><span class='co'># clarification on the objects used in these examples!</span></span>
 <span class='r-in'></span>
@@ -279,6 +279,9 @@ the source code that generated them.</p>
 <span class='r-in'>  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>reg_res_lr</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
 <span class='r-in'>  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>reg_res_svm</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
 <span class='r-in'>  <span class='fu'>add_candidates</span><span class='op'>(</span><span class='va'>reg_res_sp</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Registered S3 method overwritten by 'tune':</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>   method                   from   </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>   required_pkgs.model_spec parsnip</span>
 <span class='r-in'>  </span>
 <span class='r-in'><span class='va'>reg_st</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> # A data stack with 3 model definitions and 15 candidate members:</span>
@@ -333,16 +336,16 @@ the source code that generated them.</p>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Mixture: 1.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> The 2 highest weighted member classes are:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 2 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 2 × 3</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   member                       type        weight</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> .pred_yes_neural_network_1_1 mlp           7.08</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> .pred_yes_random_forest_1_03 rand_forest   3.00</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                        <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> .pred_yes_neural_network_1_1 mlp           7.08</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> .pred_yes_random_forest_1_03 rand_forest   3.00</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Members have not yet been fitted with `fit_members()`.</span>
 <span class='r-in'><span class='co'># }</span></span>
 <span class='r-in'></span>
-</pre>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

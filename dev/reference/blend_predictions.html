@@ -113,7 +113,7 @@ is typically used after a number of calls to add_candidates()." />
         <a class="navbar-brand" href="../index.html">stacks</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.0.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.1.9000</span>
         </div>
       </div>
     </div>
@@ -180,7 +180,7 @@ than just the assessment set) with <code><a href='fit_members.html'>fit_members(
 is typically used after a number of calls to <code><a href='add_candidates.html'>add_candidates()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>blend_predictions</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>blend_predictions</span><span class='op'>(</span>
   <span class='va'>data_stack</span>,
   penalty <span class='op'>=</span> <span class='fl'>10</span><span class='op'>^</span><span class='op'>(</span><span class='op'>-</span><span class='fl'>6</span><span class='op'>:</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span>,
   mixture <span class='op'>=</span> <span class='fl'>1</span>,
@@ -188,7 +188,7 @@ is typically used after a number of calls to <code><a href='add_candidates.html'
   metric <span class='op'>=</span> <span class='cn'>NULL</span>,
   control <span class='op'>=</span> <span class='fu'>tune</span><span class='fu'>::</span><span class='fu'><a href='https://tune.tidymodels.org/reference/control_grid.html'>control_grid</a></span><span class='op'>(</span><span class='op'>)</span>,
   <span class='va'>...</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -299,7 +299,7 @@ the source code that generated them.</p>
 <code><a href='stacks.html'>stacks</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='co'># \donttest{</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># \donttest{</span></span>
 <span class='r-in'><span class='co'># see the "Example Data" section above for</span></span>
 <span class='r-in'><span class='co'># clarification on the objects used in these examples!</span></span>
 <span class='r-in'></span>
@@ -327,13 +327,13 @@ the source code that generated them.</p>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Mixture: 1.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> The 4 highest weighted members are:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 4 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 4 × 3</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   member          type       weight</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> reg_res_svm_1_5 svm_rbf     2.64 </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> reg_res_svm_1_3 svm_rbf     0.675</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span><span> reg_res_svm_1_1 svm_rbf     0.302</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span><span> reg_res_sp_2_1  linear_reg  0.236</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> reg_res_svm_1_5 svm_rbf     2.64 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> reg_res_svm_1_3 svm_rbf     0.675</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span> reg_res_svm_1_1 svm_rbf     0.302</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span> reg_res_sp_2_1  linear_reg  0.236</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Members have not yet been fitted with `fit_members()`.</span>
 <span class='r-in'></span>
@@ -347,13 +347,13 @@ the source code that generated them.</p>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Mixture: 1.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> The 4 highest weighted members are:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 4 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 4 × 3</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   member          type       weight</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> reg_res_svm_1_5 svm_rbf     1.15 </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> reg_res_svm_1_3 svm_rbf     0.673</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span><span> reg_res_svm_1_1 svm_rbf     0.289</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span><span> reg_res_sp_2_1  linear_reg  0.230</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> reg_res_svm_1_5 svm_rbf     1.15 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> reg_res_svm_1_3 svm_rbf     0.673</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span> reg_res_svm_1_1 svm_rbf     0.289</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span> reg_res_sp_2_1  linear_reg  0.230</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Members have not yet been fitted with `fit_members()`.</span>
 <span class='r-in'></span>
@@ -368,18 +368,18 @@ the source code that generated them.</p>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Mixture: 1.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> The 9 highest weighted members are:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 9 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 9 × 3</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   member          type       weight</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> reg_res_svm_1_5 svm_rbf     1.44 </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> reg_res_sp_2_1  linear_reg  1.11 </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span><span> reg_res_svm_1_3 svm_rbf     1.05 </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span><span> reg_res_sp_9_1  linear_reg -</span><span style='color: #BB0000;'>0.538</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span><span> reg_res_lr_1_1  linear_reg -</span><span style='color: #BB0000;'>0.489</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>6</span><span> reg_res_sp_8_1  linear_reg  0.467</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>7</span><span> reg_res_svm_1_1 svm_rbf     0.400</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>8</span><span> reg_res_sp_4_1  linear_reg -</span><span style='color: #BB0000;'>0.367</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>9</span><span> reg_res_sp_1_1  linear_reg -</span><span style='color: #BB0000;'>0.288</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> reg_res_svm_1_5 svm_rbf     1.44 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> reg_res_sp_2_1  linear_reg  1.11 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span> reg_res_svm_1_3 svm_rbf     1.05 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span> reg_res_sp_9_1  linear_reg -<span style='color: #BB0000;'>0.538</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span> reg_res_lr_1_1  linear_reg -<span style='color: #BB0000;'>0.489</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>6</span> reg_res_sp_8_1  linear_reg  0.467</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>7</span> reg_res_svm_1_1 svm_rbf     0.400</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>8</span> reg_res_sp_4_1  linear_reg -<span style='color: #BB0000;'>0.367</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>9</span> reg_res_sp_1_1  linear_reg -<span style='color: #BB0000;'>0.288</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Members have not yet been fitted with `fit_members()`.</span>
 <span class='r-in'>  </span>
@@ -394,13 +394,13 @@ the source code that generated them.</p>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Mixture: 1.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> The 4 highest weighted members are:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 4 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 4 × 3</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   member          type       weight</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> reg_res_svm_1_5 svm_rbf     2.64 </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> reg_res_svm_1_3 svm_rbf     0.675</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span><span> reg_res_svm_1_1 svm_rbf     0.302</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span><span> reg_res_sp_2_1  linear_reg  0.236</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> reg_res_svm_1_5 svm_rbf     2.64 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> reg_res_svm_1_3 svm_rbf     0.675</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span> reg_res_svm_1_1 svm_rbf     0.302</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span> reg_res_sp_2_1  linear_reg  0.236</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Members have not yet been fitted with `fit_members()`.</span>
 <span class='r-in'>  </span>
@@ -412,17 +412,17 @@ the source code that generated them.</p>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> ── A stacked ensemble model ─────────────────────────────────────</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Out of 15 possible candidate members, the ensemble retained 4.</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Penalty: 0.1.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Penalty: 1e-06.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Mixture: 1.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> The 4 highest weighted members are:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 4 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 4 × 3</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   member          type       weight</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> reg_res_svm_1_5 svm_rbf     2.64 </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> reg_res_svm_1_3 svm_rbf     0.675</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span><span> reg_res_svm_1_1 svm_rbf     0.302</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span><span> reg_res_sp_2_1  linear_reg  0.236</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> reg_res_svm_1_5 svm_rbf     2.80 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> reg_res_svm_1_3 svm_rbf     0.674</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span> reg_res_svm_1_1 svm_rbf     0.304</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span> reg_res_sp_2_1  linear_reg  0.237</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Members have not yet been fitted with `fit_members()`.</span>
 <span class='r-in'>  </span>
@@ -433,36 +433,30 @@ the source code that generated them.</p>
 <span class='r-in'>  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>class_res_nn</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
 <span class='r-in'>  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>class_res_rf</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
 <span class='r-in'>  <span class='fu'>blend_predictions</span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap01: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -64); ...</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap02: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -78); ...</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap03: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -55); ...</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap06: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -74); ...</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap10: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -71); ...</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap13: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -54); ...</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap21: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -61); ...</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span> <span style='color: #BBBB00;'>Bootstrap01: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -61); ...</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span> <span style='color: #BBBB00;'>Bootstrap05: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -76); ...</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span> <span style='color: #BBBB00;'>Bootstrap10: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -76); ...</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span> <span style='color: #BBBB00;'>Bootstrap12: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -82); ...</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span> <span style='color: #BBBB00;'>Bootstrap14: internal: No observations were detected in `truth` for level(s): 'low', ...</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span> <span style='color: #BBBB00;'>Bootstrap19: internal: No observations were detected in `truth` for level(s): 'low', ...</span></span>
 <span class='r-in'>  </span>
 <span class='r-in'><span class='va'>class_st</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> ── A stacked ensemble model ─────────────────────────────────────</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Out of 22 possible candidate members, the ensemble retained 16.</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Penalty: 1e-04.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Out of 22 possible candidate members, the ensemble retained 5.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Penalty: 0.1.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Mixture: 1.</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Across the 3 classes, there are an average of 5.33 coefficients per class.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Across the 3 classes, there are an average of 2.5 coefficients per class.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> The 10 highest weighted member classes are:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 10 x 4</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    member                       type        weight class</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span><span> .pred_full_class_res_nn_1_1  mlp          42.9  full </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span><span> .pred_mid_class_res_rf_1_04  rand_forest  30.4  low  </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span><span> .pred_mid_class_res_rf_1_06  rand_forest  22.5  mid  </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span><span> .pred_mid_class_res_rf_1_09  rand_forest  14.6  mid  </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span><span> .pred_mid_class_res_rf_1_01  rand_forest  12.0  mid  </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span><span> .pred_mid_class_res_rf_1_02  rand_forest  10.7  low  </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span><span> .pred_full_class_res_rf_1_04 rand_forest   9.96 low  </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span><span> .pred_mid_class_res_rf_1_07  rand_forest   6.88 low  </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span> .pred_mid_class_res_rf_1_03  rand_forest   6.85 low  </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span> .pred_full_class_res_rf_1_09 rand_forest   6.53 mid  </span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The 5 highest weighted member classes are:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 5 × 4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   member                       type         weight class</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                        <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> .pred_full_class_res_nn_1_1  mlp         8.26    full </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> .pred_full_class_res_rf_1_03 rand_forest 1.30    full </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span> .pred_mid_class_res_rf_1_01  rand_forest 0.993   mid  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span> .pred_full_class_res_rf_1_05 rand_forest 0.026<span style='text-decoration: underline;'>7</span>  full </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span> .pred_full_class_res_rf_1_08 rand_forest 0.007<span style='text-decoration: underline;'>47</span> full </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Members have not yet been fitted with `fit_members()`.</span>
 <span class='r-in'></span>
@@ -477,21 +471,21 @@ the source code that generated them.</p>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> ── A stacked ensemble model ─────────────────────────────────────</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Out of 11 possible candidate members, the ensemble retained 3.</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Penalty: 1e-04.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Penalty: 1e-06.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Mixture: 1.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> The 3 highest weighted member classes are:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 3 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 3 × 3</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   member                    type        weight</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> .pred_yes_log_res_nn_1_1  mlp          7.39 </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> .pred_yes_log_res_rf_1_03 rand_forest  3.28 </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span><span> .pred_yes_log_res_rf_1_06 rand_forest  0.127</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> .pred_yes_log_res_nn_1_1  mlp          7.37 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> .pred_yes_log_res_rf_1_03 rand_forest  3.29 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span> .pred_yes_log_res_rf_1_06 rand_forest  0.124</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Members have not yet been fitted with `fit_members()`.</span>
 <span class='r-in'><span class='co'># }</span></span>
 <span class='r-in'></span>
-</pre>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
