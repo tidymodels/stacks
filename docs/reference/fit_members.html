@@ -81,9 +81,15 @@ training set using fit_members()." />
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -100,19 +106,13 @@ training set using fit_members()." />
         <a class="navbar-brand" href="../index.html">stacks</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
         </div>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -166,7 +166,7 @@ stack's predictions, members should be trained on the full
 training set using <code>fit_members()</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>fit_members</span><span class='op'>(</span><span class='va'>model_stack</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>fit_members</span><span class='op'>(</span><span class='va'>model_stack</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -237,93 +237,80 @@ the source code that generated them.</p>
 <code><a href='stacks.html'>stacks</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='co'># see the "Example Data" section above for</span>
-<span class='co'># clarification on the objects used in these examples!</span>
-
-<span class='co'># put together a data stack</span>
-<span class='va'>reg_st</span> <span class='op'>&lt;-</span> 
-  <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>reg_res_lr</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>reg_res_svm</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>reg_res_sp</span><span class='op'>)</span>
-  
-<span class='va'>reg_st</span>
-</div><div class='output co'>#&gt; # A data stack with 3 model definitions and 15 candidate members:
-#&gt; #   reg_res_lr: 1 model configuration
-#&gt; #   reg_res_svm: 5 model configurations
-#&gt; #   reg_res_sp: 9 model configurations
-#&gt; # Outcome: latency (numeric)</div><div class='input'>
-<span class='co'># evaluate the data stack and fit the member models</span>
-<span class='va'>reg_st</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>fit_members</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Out of 15 possible candidate members, the ensemble retained 5.</span>
-#&gt; <span class='message'>Penalty: 0.1.</span>
-#&gt; <span class='message'>Mixture: 1.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>The 5 highest weighted members are:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 3</span><span>
-#&gt;   member          type       weight
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> reg_res_svm_1_1 svm_rbf    0.442 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> reg_res_svm_1_3 svm_rbf    0.265 
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> reg_res_sp_4_1  linear_reg 0.261 
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> reg_res_sp_9_1  linear_reg 0.086</span><span style='text-decoration: underline;'>0</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> reg_res_sp_2_1  linear_reg 0.048</span><span style='text-decoration: underline;'>0</span><span></div><div class='input'>  
-<span class='va'>reg_st</span>
-</div><div class='output co'>#&gt; # A data stack with 3 model definitions and 15 candidate members:
-#&gt; #   reg_res_lr: 1 model configuration
-#&gt; #   reg_res_svm: 5 model configurations
-#&gt; #   reg_res_sp: 9 model configurations
-#&gt; # Outcome: latency (numeric)</div><div class='input'>  
-<span class='co'># do the same with multinomial classification models</span>
-<span class='va'>class_st</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>class_res_nn</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>class_res_rf</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>fit_members</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap05: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -59); ...</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap19: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -86); ...</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BBBB00;'>!</span><span> </span><span style='color: #BBBB00;'>Bootstrap22: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -61); ...</span><span></span></div><div class='input'>  
-<span class='va'>class_st</span>
-</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Out of 22 possible candidate members, the ensemble retained 10.</span>
-#&gt; <span class='message'>Penalty: 0.001.</span>
-#&gt; <span class='message'>Mixture: 1.</span></div><div class='output co'>#&gt; <span class='message'>Across the 3 classes, there are an average of 3.33 coefficients per class.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>The 10 highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 4</span><span>
-#&gt;    member                       type        weight class
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> .pred_full_class_res_nn_1_1  mlp         28.8   full 
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> .pred_mid_class_res_rf_1_01  rand_forest 10.9   mid  
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> .pred_mid_class_res_nn_1_1   mlp          7.82  mid  
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> .pred_mid_class_res_rf_1_04  rand_forest  5.76  low  
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> .pred_mid_class_res_rf_1_08  rand_forest  5.53  low  
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> .pred_mid_class_res_rf_1_07  rand_forest  4.48  low  
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> .pred_mid_class_res_rf_1_05  rand_forest  1.80  mid  
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> .pred_mid_class_res_rf_1_10  rand_forest  1.36  mid  
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> .pred_mid_class_res_rf_1_02  rand_forest  0.552 low  
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> .pred_full_class_res_rf_1_04 rand_forest  0.284 mid  </div><div class='input'>  
-<span class='co'># ...or binomial classification models</span>
-<span class='va'>log_st</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>log_res_nn</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>log_res_rf</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>fit_members</span><span class='op'>(</span><span class='op'>)</span>
-  
-<span class='va'>log_st</span>
-</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Out of 11 possible candidate members, the ensemble retained 4.</span>
-#&gt; <span class='message'>Penalty: 1e-05.</span>
-#&gt; <span class='message'>Mixture: 1.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>The 4 highest weighted member classes are:</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 4 x 3</span><span>
-#&gt;   member                    type        weight
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> .pred_yes_log_res_nn_1_1  mlp          6.09 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> .pred_yes_log_res_rf_1_09 rand_forest  1.87 
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> .pred_yes_log_res_rf_1_05 rand_forest  1.45 
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> .pred_yes_log_res_rf_1_06 rand_forest  0.842</div><div class='input'><span class='co'># }</span>
-
-</div></span></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># \donttest{</span></span>
+<span class='r-in'><span class='co'># see the "Example Data" section above for</span></span>
+<span class='r-in'><span class='co'># clarification on the objects used in these examples!</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># put together a data stack</span></span>
+<span class='r-in'><span class='va'>reg_st</span> <span class='op'>&lt;-</span> </span>
+<span class='r-in'>  <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>reg_res_lr</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>reg_res_svm</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>reg_res_sp</span><span class='op'>)</span></span>
+<span class='r-in'>  </span>
+<span class='r-in'><span class='va'>reg_st</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> # A data stack with 3 model definitions and 15 candidate members:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> #   reg_res_lr: 1 model configuration</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> #   reg_res_svm: 5 model configurations</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> #   reg_res_sp: 9 model configurations</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> # Outcome: latency (numeric)</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># evaluate the data stack and fit the member models</span></span>
+<span class='r-in'><span class='va'>reg_st</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>fit_members</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> ── A stacked ensemble model ─────────────────────────────────────</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Out of 15 possible candidate members, the ensemble retained 4.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Penalty: 0.1.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Mixture: 1.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The 4 highest weighted members are:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 4 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   member          type       weight</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> reg_res_svm_1_5 svm_rbf     2.64 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> reg_res_svm_1_3 svm_rbf     0.675</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span> reg_res_svm_1_1 svm_rbf     0.302</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span> reg_res_sp_2_1  linear_reg  0.236</span>
+<span class='r-in'>  </span>
+<span class='r-in'><span class='va'>reg_st</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> # A data stack with 3 model definitions and 15 candidate members:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> #   reg_res_lr: 1 model configuration</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> #   reg_res_svm: 5 model configurations</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> #   reg_res_sp: 9 model configurations</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> # Outcome: latency (numeric)</span>
+<span class='r-in'>  </span>
+<span class='r-in'><span class='co'># do the same with multinomial classification models</span></span>
+<span class='r-in'><span class='va'>class_st</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>class_res_nn</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>class_res_rf</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>fit_members</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span> <span style='color: #BBBB00;'>Bootstrap05: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -89); ...</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span> <span style='color: #BBBB00;'>Bootstrap18: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -63); ...</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span> <span style='color: #BBBB00;'>Bootstrap23: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -58); ...</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span> <span style='color: #BBBB00;'>Bootstrap24: preprocessor 1/1, model 1/1: from glmnet Fortran code (error code -79); ...</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in {    asNamespace("stacks")$fit_member(name = mem, wflows = model_stack[["model_defs"]],         members_map = members_map, train_dat = dat)}</span> task 2 failed - "This engine requires some package installs: 'ranger'"</span>
+<span class='r-in'>  </span>
+<span class='r-in'><span class='va'>class_st</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in eval(expr, envir, enclos)</span> object 'class_st' not found</span>
+<span class='r-in'>  </span>
+<span class='r-in'><span class='co'># ...or binomial classification models</span></span>
+<span class='r-in'><span class='va'>log_st</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>log_res_nn</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>log_res_rf</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>fit_members</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in {    asNamespace("stacks")$fit_member(name = mem, wflows = model_stack[["model_defs"]],         members_map = members_map, train_dat = dat)}</span> task 2 failed - "This engine requires some package installs: 'ranger'"</span>
+<span class='r-in'>  </span>
+<span class='r-in'><span class='va'>log_st</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in eval(expr, envir, enclos)</span> object 'log_st' not found</span>
+<span class='r-in'><span class='co'># }</span></span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -350,6 +337,8 @@ the source code that generated them.</p>
 
   
 
+
+  
 
   </body>
 </html>

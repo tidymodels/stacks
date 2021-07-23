@@ -1,29 +1,20 @@
-# stacks
-
-## v0.2.0.9000
-
-To be released as 0.2.1
-
-* Various bug fixes and improvements to documentation.
-
-### Bug fixes
+# v0.2.1
 
 * Updates for importing workflow sets that use the `add_variables()` 
   preprocessor. 
-  
 * Plot fixes for cases where coefficients are negative. 
-
 * Performance and member plots now show the effect of multiple mixture values. 
+* Package diagrams now have alt text.
 
-## v0.2.0
+# v0.2.0
 
-### Breaking changes
+## Breaking changes
 
 This release of the package changes some elements of the internal structure
 of model stacks. As such, model stacks stored as saved objects will need to
 be regenerated before predicting, plotting, printing, etc.
 
-### New features
+## New features
 
 * The package now supports elastic net models as a meta-learner via 
   the `mixture` argument to `blend_predictions`.
@@ -34,7 +25,7 @@ be regenerated before predicting, plotting, printing, etc.
 * Objects tuned with racing methods from the {finetune} package can now be
   added as candidate members.
 
-### Bug fixes
+## Bug fixes
 
 * Fixed bug in determining member hyperparameters during member
   fitting when using non-RMSE/ROC AUC metrics.
@@ -43,7 +34,7 @@ be regenerated before predicting, plotting, printing, etc.
   are not valid column names and use `make.names` for associated candidate
   members.  
 
-### Miscellaneous improvements
+## Miscellaneous improvements
 
 * Drop {digest} dependency in favor of {tune}/{rsample} "fingerprinting"
   to check consistency of resamples.
@@ -55,6 +46,6 @@ be regenerated before predicting, plotting, printing, etc.
   more informative.
 * Various improvements to documentation.
 
-### v0.1.0
+# v0.1.0
 
 Initial release!

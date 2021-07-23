@@ -81,9 +81,15 @@ Remove fitted values." />
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -100,19 +106,13 @@ Remove fitted values." />
         <a class="navbar-brand" href="../index.html">stacks</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
         </div>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -166,7 +166,7 @@ Remove fitted values." />
 <p>Remove fitted values.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for model_stack</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='co'># S3 method for model_stack</span>
 <span class='fu'><a href='https://butcher.tidymodels.org/reference/axe_call.html'>axe_call</a></span><span class='op'>(</span><span class='va'>x</span>, verbose <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for model_stack</span>
@@ -179,7 +179,7 @@ Remove fitted values." />
 <span class='fu'><a href='https://butcher.tidymodels.org/reference/axe_env.html'>axe_env</a></span><span class='op'>(</span><span class='va'>x</span>, verbose <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for model_stack</span>
-<span class='fu'><a href='https://butcher.tidymodels.org/reference/axe_fitted.html'>axe_fitted</a></span><span class='op'>(</span><span class='va'>x</span>, verbose <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'><a href='https://butcher.tidymodels.org/reference/axe_fitted.html'>axe_fitted</a></span><span class='op'>(</span><span class='va'>x</span>, verbose <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -205,35 +205,49 @@ Default is <code>FALSE</code>.</p></td>
     <p>Axed model_stack object.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='co'># build a regression model stack</span>
-<span class='va'>st</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>reg_res_lr</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>reg_res_sp</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='fit_members.html'>fit_members</a></span><span class='op'>(</span><span class='op'>)</span>
-  
-<span class='co'># remove any of the "butcherable"</span>
-<span class='co'># elements individually</span>
-<span class='fu'><a href='https://butcher.tidymodels.org/reference/axe_call.html'>axe_call</a></span><span class='op'>(</span><span class='va'>st</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Print methods for butchered model stacks are disabled.</span></div><div class='input'><span class='fu'><a href='https://butcher.tidymodels.org/reference/axe_ctrl.html'>axe_ctrl</a></span><span class='op'>(</span><span class='va'>st</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Print methods for butchered model stacks are disabled.</span></div><div class='input'><span class='fu'><a href='https://butcher.tidymodels.org/reference/axe_data.html'>axe_data</a></span><span class='op'>(</span><span class='va'>st</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Print methods for butchered model stacks are disabled.</span></div><div class='input'><span class='fu'><a href='https://butcher.tidymodels.org/reference/axe_fitted.html'>axe_fitted</a></span><span class='op'>(</span><span class='va'>st</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Print methods for butchered model stacks are disabled.</span></div><div class='input'><span class='fu'><a href='https://butcher.tidymodels.org/reference/axe_env.html'>axe_env</a></span><span class='op'>(</span><span class='va'>st</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>── A stacked ensemble model ─────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Print methods for butchered model stacks are disabled.</span></div><div class='input'>
-<span class='co'># or do it all at once!</span>
-<span class='va'>butchered_st</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://butcher.tidymodels.org/reference/butcher.html'>butcher</a></span><span class='op'>(</span><span class='va'>st</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span><span> Memory released: </span><span style='color: #0000BB;'>'254,144 B'</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> Disabled: </span><span style='color: #555555;'>`print()`</span><span>, </span><span style='color: #555555;'>`summary()`</span><span></span></div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>st</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "12970664 bytes"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>butchered_st</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "7193880 bytes"</div><div class='input'><span class='co'># }</span>
-</div></span></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># \donttest{</span></span>
+<span class='r-in'><span class='co'># build a regression model stack</span></span>
+<span class='r-in'><span class='va'>st</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'><a href='stacks.html'>stacks</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>reg_res_lr</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='add_candidates.html'>add_candidates</a></span><span class='op'>(</span><span class='va'>reg_res_sp</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='blend_predictions.html'>blend_predictions</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='fit_members.html'>fit_members</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'>  </span>
+<span class='r-in'><span class='co'># remove any of the "butcherable"</span></span>
+<span class='r-in'><span class='co'># elements individually</span></span>
+<span class='r-in'><span class='fu'><a href='https://butcher.tidymodels.org/reference/axe_call.html'>axe_call</a></span><span class='op'>(</span><span class='va'>st</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> ── A stacked ensemble model ─────────────────────────────────────</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Print methods for butchered model stacks are disabled.</span>
+<span class='r-in'><span class='fu'><a href='https://butcher.tidymodels.org/reference/axe_ctrl.html'>axe_ctrl</a></span><span class='op'>(</span><span class='va'>st</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> ── A stacked ensemble model ─────────────────────────────────────</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Print methods for butchered model stacks are disabled.</span>
+<span class='r-in'><span class='fu'><a href='https://butcher.tidymodels.org/reference/axe_data.html'>axe_data</a></span><span class='op'>(</span><span class='va'>st</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> ── A stacked ensemble model ─────────────────────────────────────</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Print methods for butchered model stacks are disabled.</span>
+<span class='r-in'><span class='fu'><a href='https://butcher.tidymodels.org/reference/axe_fitted.html'>axe_fitted</a></span><span class='op'>(</span><span class='va'>st</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> ── A stacked ensemble model ─────────────────────────────────────</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Print methods for butchered model stacks are disabled.</span>
+<span class='r-in'><span class='fu'><a href='https://butcher.tidymodels.org/reference/axe_env.html'>axe_env</a></span><span class='op'>(</span><span class='va'>st</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> ── A stacked ensemble model ─────────────────────────────────────</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Print methods for butchered model stacks are disabled.</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># or do it all at once!</span></span>
+<span class='r-in'><span class='va'>butchered_st</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://butcher.tidymodels.org/reference/butcher.html'>butcher</a></span><span class='op'>(</span><span class='va'>st</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> Memory released: <span style='color: #0000BB;'>'122,712 B'</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BB0000;'>✖</span> Disabled: <span style='color: #555555;'>`print()`</span>, <span style='color: #555555;'>`summary()`</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>st</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "9124400 bytes"</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>butchered_st</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "4292936 bytes"</span>
+<span class='r-in'><span class='co'># }</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -260,6 +274,8 @@ Default is <code>FALSE</code>.</p></td>
 
   
 
+
+  
 
   </body>
 </html>

@@ -69,7 +69,7 @@ ensemble members, though this model type is only one of many possible
 learning algorithms that could be used to fit a stacked ensemble model.
 For implementations of additional ensemble learning algorithms, check
 out
-[h2o](http://docs.h2o.ai/h2o/latest-stable/h2o-r/docs/reference/h2o.stackedEnsemble.html)
+[h2o](https://docs.h2o.ai/h2o/latest-stable/h2o-r/docs/reference/h2o.stackedEnsemble.html)
 and [SuperLearner](https://CRAN.R-project.org/package=SuperLearner).
 
 Rather than diving right into the implementation, we’ll focus here on
