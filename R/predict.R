@@ -93,7 +93,8 @@ predict.model_stack <- function(object, new_data, type = NULL, members = FALSE,
       opts = opts,
       type = member_type
     ) %>%
-    rlang::eval_tidy()
+    rlang::eval_tidy() %>%
+    setNames(., make.names(names(.)))
   
   res <- stack_predict(object$equations[[type]], member_preds)
   
