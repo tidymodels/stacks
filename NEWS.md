@@ -2,6 +2,9 @@
 
 To released as v0.2.2.
 
+* Fixed bug arising from outcome levels that are not valid column 
+  names in the multinomial classification setting. 
+
 # v0.2.1
 
 * Updates for importing workflow sets that use the `add_variables()` 

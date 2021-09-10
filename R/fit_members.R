@@ -181,7 +181,8 @@ sanitize_classification_names <- function(model_stack, member_names) {
     as.character() %>%
     unique()
   
-  pred_strings <- paste0(".pred_", outcome_levels, "_")
+  pred_strings <- paste0(".pred_", outcome_levels, "_") %>% 
+    make.names()
   
   new_member_names <-
     gsub(

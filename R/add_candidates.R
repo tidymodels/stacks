@@ -281,7 +281,8 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
   
   pred_class_idx <- grepl(pattern = ".pred_class", x = colnames(candidate_cols))
   
-  candidate_cols <- candidate_cols[,!pred_class_idx]
+  candidate_cols <- candidate_cols[,!pred_class_idx] %>% 
+    setNames(., make.names(names(.)))
   
   if (nrow(stack) == 0) {
     stack <- 
@@ -473,7 +474,9 @@ process_.config <- function(.config, df, name) {
 
 # For racing, we only want to keep the candidates with complete resamples. 
 collate_predictions <- function(x) {
-  res <- tune::collect_predictions(x, summarize = TRUE)
+  res <- tune::collect_predictions(x, summarize = TRUE) %>%
+    dplyr::rename_with(make.names, .cols = dplyr::starts_with(".pred"))
+    
   if (inherits(x, "tune_race")) {
     config_counts <- 
       tune::collect_metrics(x, summarize = FALSE) %>% 
