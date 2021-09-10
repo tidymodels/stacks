@@ -314,10 +314,7 @@
 <span class="co">#&gt; #   .pred_class_nnet_res_1_08 &lt;fct&gt;, .pred_class_nnet_res_1_07 &lt;fct&gt;,</span>
 <span class="co">#&gt; #   .pred_class_nnet_res_1_09 &lt;fct&gt;, .pred_class_rand_forest_res_1_10 &lt;fct&gt;,</span>
 <span class="co">#&gt; #   .pred_class_rand_forest_res_1_02 &lt;fct&gt;,</span>
-<span class="co">#&gt; #   .pred_class_rand_forest_res_1_09 &lt;fct&gt;,</span>
-<span class="co">#&gt; #   .pred_class_rand_forest_res_1_06 &lt;fct&gt;,</span>
-<span class="co">#&gt; #   .pred_class_rand_forest_res_1_08 &lt;fct&gt;</span>
-
+<span class="co">#&gt; #   .pred_class_rand_forest_res_1_09 &lt;fct&gt;, …</span>
 <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_dfr</a></span><span class="op">(</span>
   <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span><span class="op">)</span><span class="op">)</span>,
   <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span><span class="op">$</span><span class="va">reflex</span> <span class="op">==</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span>, <span class="va">.x</span><span class="op">)</span><span class="op">)</span>
