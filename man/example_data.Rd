@@ -101,7 +101,7 @@ to the stimulus) using most all of the other variables as predictors.
 
 The source code for generating these objects is given below.
 
-\if{html}{\out{<div class="r">}}\preformatted{# setup: packages, data, resample, basic recipe ------------------------
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{# setup: packages, data, resample, basic recipe ------------------------
 library(stacks)
 library(tune)
 library(rsample)
