@@ -166,20 +166,37 @@ the source code that generated them.</p>
 <span class="r-in">  <span class="fu"><a href="add_candidates.html">add_candidates</a></span><span class="op">(</span><span class="va">reg_res_sp</span>, <span class="st">"spline"</span><span class="op">)</span></span>
 <span class="r-in">  </span>
 <span class="r-in"><span class="va">reg_st</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # A data stack with 3 model definitions and 15 candidate members:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # A data stack with 3 model definitions and 16 candidate members:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> #   reg_res_lr: 1 model configuration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> #   reg_res_svm: 5 model configurations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> #   spline: 9 model configurations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> #   spline: 10 model configurations</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> # Outcome: latency (numeric)</span>
 <span class="r-in">  </span>
 <span class="r-in"><span class="co"># check out the hyperparameters for some of the candidates</span></span>
 <span class="r-in"><span class="fu">collect_parameters</span><span class="op">(</span><span class="va">reg_st</span>, <span class="st">"reg_res_svm"</span><span class="op">)</span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `fit`.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in UseMethod("predict"):</span> no applicable method for 'predict' applied to an object of class "NULL"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   member             cost     rbf_sigma</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> reg_res_svm_1_1 3.09    0.000<span style="text-decoration: underline;">000</span>465  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> reg_res_svm_1_2 9.56    0.003<span style="text-decoration: underline;">46</span>      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> reg_res_svm_1_3 0.321   0.025<span style="text-decoration: underline;">6</span>       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> reg_res_svm_1_4 0.004<span style="text-decoration: underline;">86</span> 0.000<span style="text-decoration: underline;">002</span>51   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> reg_res_svm_1_5 0.014<span style="text-decoration: underline;">6</span>  0.000<span style="text-decoration: underline;">000</span>009<span style="text-decoration: underline;">59</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">collect_parameters</span><span class="op">(</span><span class="va">reg_st</span>, <span class="st">"spline"</span><span class="op">)</span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `fit`.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in UseMethod("predict"):</span> no applicable method for 'predict' applied to an object of class "NULL"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 10 × 2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    member        age</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> spline_01_1    12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> spline_02_1     6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> spline_03_1    15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> spline_04_1     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> spline_05_1     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> spline_06_1    13</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> spline_07_1     9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> spline_08_1    10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> spline_09_1     7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> spline_10_1     2</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># blend the data stack to view the hyperparameters </span></span>
 <span class="r-in"><span class="co"># along with the stacking coefficients!</span></span>
@@ -187,18 +204,19 @@ the source code that generated them.</p>
 <span class="r-in">  <span class="va">reg_st</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="blend_predictions.html">blend_predictions</a></span><span class="op">(</span><span class="op">)</span>, </span>
 <span class="r-in">  <span class="st">"spline"</span></span>
 <span class="r-in"><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   member       age  coef</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> spline_1_1     8 0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> spline_2_1    14 0.236</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> spline_3_1     5 0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> spline_4_1    13 0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> spline_5_1     3 0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> spline_6_1     6 0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> spline_7_1    10 0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> spline_8_1     2 0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> spline_9_1    12 0    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 10 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    member        age     coef</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> spline_01_1    12 0       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> spline_02_1     6 0       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> spline_03_1    15 0.478   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> spline_04_1     5 0       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> spline_05_1     3 0       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> spline_06_1    13 0       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> spline_07_1     9 0       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> spline_08_1    10 0       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> spline_09_1     7 0       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> spline_10_1     2 0.000<span style="text-decoration: underline;">716</span></span>
 <span class="r-in"><span class="co"># }</span></span>
 </code></pre></div>
     </div>
