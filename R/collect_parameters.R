@@ -66,7 +66,7 @@ collect_parameters.data_stack <- function(stack, candidates, ...) {
     attributes(stack)$model_metrics,
     candidates,
     attributes(stack)$model_defs,
-    stack
+    stack = stack
   )
 }
 
@@ -79,7 +79,7 @@ collect_parameters.model_stack <- function(stack, candidates, ...) {
     candidates,
     stack$model_defs,
     stack$coefs,
-    stack
+    stack = stack
   )
 }
 
