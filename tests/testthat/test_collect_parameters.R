@@ -55,7 +55,7 @@ test_that("collect_parameters on a data stack works (regression)", {
   expect_equal(nrow(res), 5)
   
   expect_equal(ncol(res2), 2)
-  expect_equal(nrow(res2), 9)
+  expect_equal(nrow(res2), 10)
   
   expect_equal(ncol(res3), 1)
   expect_equal(nrow(res3), 1)
@@ -73,7 +73,7 @@ test_that("collect_parameters on a model stack works (regression)", {
   expect_equal(nrow(res), 5)
   
   expect_equal(ncol(res2), 3)
-  expect_equal(nrow(res2), 9)
+  expect_equal(nrow(res2), 10)
   
   expect_true(
     all(
@@ -100,5 +100,5 @@ test_that("collect_parameters works (classification)", {
   expect_equal(nrow(res), 10)
   
   expect_equal(ncol(res2), 6)
-  expect_equal(nrow(res2), 60)
+  expect_equal(nrow(res2), 57)
 })

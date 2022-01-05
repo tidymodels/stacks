@@ -1,5 +1,5 @@
 > st_class_1
-# A data stack with 1 model definition and 10 candidate members:
-#   class_res_rf: 10 model configurations
+# A data stack with 1 model definition and 9.66666666666667 candidate members:
+#   class_res_rf: 9.66666666666667 model configurations
 # Outcome: reflex (factor)
 
