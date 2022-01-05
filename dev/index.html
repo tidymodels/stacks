@@ -56,7 +56,7 @@
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="index.html">stacks</a>
         <div class="info hidden-xs hidden-sm">
-          <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
+          <span class="partof">part of <a href="https://github.com/tidymodels" class="external-link">tidymodels</a></span>
           <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.1.9000</span>
         </div>
       </div>
@@ -85,7 +85,7 @@
   <a href="news/index.html">Changelog</a>
 </li>
         <li>
-  <a href="https://github.com/tidymodels/stacks/">
+  <a href="https://github.com/tidymodels/stacks/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -104,9 +104,9 @@
   <div class="contents col-md-9">
 
 
-<div id="stacks---tidy-model-stacking-" class="section level2">
-<h2 class="hasAnchor">
-<a href="#stacks---tidy-model-stacking-" class="anchor" aria-hidden="true"></a>stacks - tidy model stacking <a href="https://stacks.tidymodels.org"><img src="reference/figures/logo.png" align="right" height="280"></a>
+<div class="section level2">
+<h2 id="stacks---tidy-model-stacking-">stacks - tidy model stacking <a href="https://stacks.tidymodels.org"><img src="reference/figures/logo.png" align="right" height="280"></a>
+<a class="anchor" aria-label="anchor" href="#stacks---tidy-model-stacking-"></a>
 </h2>
 <p>stacks is an R package for model stacking that aligns with the tidymodels. Model stacking is an ensembling method that takes the outputs of many models and combines them to generate a new model—referred to as an <em>ensemble</em> in this package—that generates predictions informed by each of its <em>members</em>.</p>
 <p>The process goes something like this:</p>
@@ -139,9 +139,9 @@
 <p>stacks uses a regularized linear model to combine predictions from ensemble members, though this model type is only one of many possible learning algorithms that could be used to fit a stacked ensemble model. For implementations of additional ensemble learning algorithms, check out <a href="https://docs.h2o.ai/h2o/latest-stable/h2o-r/docs/reference/h2o.stackedEnsemble.html" class="external-link">h2o</a> and <a href="https://CRAN.R-project.org/package=SuperLearner" class="external-link">SuperLearner</a>.</p>
 <p>Rather than diving right into the implementation, we’ll focus here on how the pieces fit together, conceptually, in building an ensemble with <code>stacks</code>. See the <code>basics</code> vignette for an example of the API in action!</p>
 </div>
-<div id="a-grammar" class="section level2">
-<h2 class="hasAnchor">
-<a href="#a-grammar" class="anchor" aria-hidden="true"></a>a grammar</h2>
+<div class="section level2">
+<h2 id="a-grammar">a grammar<a class="anchor" aria-label="anchor" href="#a-grammar"></a>
+</h2>
 <p>At the highest level, ensembles are formed from <em>model definitions</em>. In this package, model definitions are an instance of a minimal <a href="https://workflows.tidymodels.org/" class="external-link">workflow</a>, containing a <em>model specification</em> (as defined in the <a href="https://parsnip.tidymodels.org/" class="external-link">parsnip</a> package) and, optionally, a <em>preprocessor</em> (as defined in the <a href="https://recipes.tidymodels.org/" class="external-link">recipes</a> package). Model definitions specify the form of candidate ensemble members.</p>
 <div class="figure">
 <img src="reference/figures/model_defs.png" alt=""><p class="caption">A diagram representing “model definitions,” which specify the form of candidate ensemble members. Three colored boxes represent three different model types; a K-nearest neighbors model (in salmon), a linear regression model (in yellow), and a support vector machine model (in green).</p>
@@ -166,9 +166,9 @@
 <p>This model stack object, outputted from <code><a href="reference/fit_members.html">fit_members()</a></code>, is ready to predict on new data! The trained ensemble members are often referred to as <em>base models</em> in the stacking literature.</p>
 <p>The full visual outline for these steps can be found <a href="https://github.com/tidymodels/stacks/blob/main/inst/figs/outline.png" class="external-link">here</a>. The API for the package closely mirrors these ideas. See the <code>basics</code> vignette for an example of how this grammar is implemented!</p>
 </div>
-<div id="contributing" class="section level2">
-<h2 class="hasAnchor">
-<a href="#contributing" class="anchor" aria-hidden="true"></a>contributing</h2>
+<div class="section level2">
+<h2 id="contributing">contributing<a class="anchor" aria-label="anchor" href="#contributing"></a>
+</h2>
 <p>This project is released with a <a href="https://github.com/tidymodels/stacks/blob/main/CODE_OF_CONDUCT.md" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 <ul>
 <li><p>For questions and discussions about tidymodels packages, modeling, and machine learning, please <a href="https://community.rstudio.com/new-topic?category_id=15&amp;tags=tidymodels,question" class="external-link">post on RStudio Community</a>.</p></li>
@@ -185,12 +185,9 @@
     <div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=stacks">https://​cloud.r-project.org/​package=stacks</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/tidymodels/stacks/">https://​github.com/​tidymodels/​stacks/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/tidymodels/stacks/issues">https://​github.com/​tidymodels/​stacks/​issues</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=stacks" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/tidymodels/stacks/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/tidymodels/stacks/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -198,7 +195,7 @@
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
 
@@ -209,12 +206,19 @@
 </ul>
 </div>
 
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing stacks</a></li>
+</ul>
+</div>
+
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Simon Couch <br><small class="roles"> Author, maintainer </small>  </li>
 <li>Max Kuhn <br><small class="roles"> Author </small>  </li>
-<li><a href="authors.html">More on authors...</a></li>
+<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
 
@@ -237,8 +241,8 @@
 
 <div class="author">
   <p>
-    Developed by Simon Couch, Max Kuhn.
-    Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
+    Developed by .
+    Site built by <a href="https://pkgdown.r-lib.org" class="external-link">pkgdown</a>.
   </p>
 </div>
 
