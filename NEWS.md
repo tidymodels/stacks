@@ -4,6 +4,8 @@ To released as v0.2.2.
 
 * Fixed bug arising from outcome levels that are not valid column 
   names in the multinomial classification setting. 
+* Fixed bug where `collect_parameters` wouldn't return stacking coefficients
+  in the two-class classification setting.
 
 # v0.2.1
 

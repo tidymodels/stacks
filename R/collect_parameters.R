@@ -66,6 +66,7 @@ collect_parameters.data_stack <- function(stack, candidates, ...) {
     attributes(stack)$model_metrics,
     candidates,
     attributes(stack)$model_defs,
+    stack
   )
 }
 
@@ -77,11 +78,12 @@ collect_parameters.model_stack <- function(stack, candidates, ...) {
     stack$model_metrics,
     candidates,
     stack$model_defs,
-    stack$coefs
+    stack$coefs,
+    stack
   )
 }
 
-collect_params <- function(cols_map, model_metrics, candidates, workflows, blend = NULL) {
+collect_params <- function(cols_map, model_metrics, candidates, workflows, blend = NULL, stack) {
   check_for_candidates(model_metrics, candidates)
   
   params <-
@@ -112,9 +114,18 @@ collect_params <- function(cols_map, model_metrics, candidates, workflows, blend
       dplyr::select(-penalty) %>%
       dplyr::rename(coef = estimate)
 
-    if ("class" %in% colnames(stacking_coefs)) {
-      pred_strings <-
-        paste(".pred_", unique(stacking_coefs$class), "_", sep = "", collapse = "|")
+    if (grepl(".pred", stacking_coefs$terms[2], fixed = TRUE)) {
+      # classification context
+      if ("class" %in% colnames(stacking_coefs)) {
+        pred_strings <-
+          paste(".pred_", unique(stacking_coefs$class), "_", sep = "", collapse = "|")
+      } else {
+        lvls <- levels(stack[["data_stack"]][[stack[["outcome"]]]])
+        
+        pred_strings <- 
+          paste(".pred_", lvls, "_", sep = "", collapse = "|")
+      }
+      
       
       stacking_coefs <-
         stacking_coefs %>%
@@ -128,8 +139,10 @@ collect_params <- function(cols_map, model_metrics, candidates, workflows, blend
         dplyr::filter(member %in% res$member)
       
       res <-
-        dplyr::full_join(res, stacking_coefs, by = "member")
+        dplyr::full_join(res, stacking_coefs, by = "member") %>%
+        dplyr::filter(!is.na(terms))
     } else {
+      # regression context
       res <- 
         dplyr::left_join(res, stacking_coefs, by = c("member" = "terms"))
     }
