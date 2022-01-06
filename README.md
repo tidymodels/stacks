@@ -4,7 +4,7 @@
 [![R build
 status](https://github.com/simonpcouch/stacks/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/stacks/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/tidymodels/stacks/branch/main/graph/badge.svg)](https://codecov.io/gh/tidymodels/stacks?branch=main)
+coverage](https://codecov.io/gh/tidymodels/stacks/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tidymodels/stacks?branch=main)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/stacks)](https://CRAN.R-project.org/package=stacks)
 <!-- badges: end -->

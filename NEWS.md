@@ -1,11 +1,12 @@
-# v0.2.1.9000 (development version)
+# v0.2.2
 
-To released as v0.2.2.
-
-* Fixed bug arising from outcome levels that are not valid column 
+* Fixed errors arising from outcome levels that are not valid column 
   names in the multinomial classification setting. 
-* Fixed bug where `collect_parameters` wouldn't return stacking coefficients
+* Fixed `collect_parameters` failing to return stacking coefficients
   in the two-class classification setting.
+* Regenerated example objects with updated {rsample} fingerprinting--saved 
+  model objects may need to be regenerated in order to build stacks combining
+  models generated before and after this update.
 
 # v0.2.1
 

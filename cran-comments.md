@@ -1,11 +1,11 @@
-# stacks 0.2.1
+# stacks 0.2.2
 
 ## Test environments
 
-* local macOS install, R 4.0.3
+* local macOS install, R 4.1.0
 * macOS (on github actions), release 
-* ubuntu 16.04 (on github actions), release, devel
-* windows (on github actions), R 3.6.3, release
+* ubuntu 18.04 (on github actions), release, devel
+* windows (on github actions), R oldrel, release
 * windows (on win-builder), devel
 
 ## R CMD check results
