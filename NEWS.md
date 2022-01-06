@@ -1,3 +1,7 @@
+# v0.2.2.9000 (development version)
+
+To be released as v0.2.3.
+
 # v0.2.2
 
 * Fixed errors arising from outcome levels that are not valid column 
