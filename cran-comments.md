@@ -5,7 +5,7 @@
 * local macOS install, R 4.1.0
 * macOS (on github actions), release 
 * ubuntu 18.04 (on github actions), release, devel
-* windows (on github actions), R 3.6.3, release
+* windows (on github actions), R oldrel, release
 * windows (on win-builder), devel
 
 ## R CMD check results
