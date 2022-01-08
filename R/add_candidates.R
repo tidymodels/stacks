@@ -366,7 +366,7 @@ stack_workflow <- function(x) {
     workflows::workflow() %>%
     workflows::add_model(workflows::extract_spec_parsnip(x))
   
-  pre <- workflows::pull_workflow_preprocessor(x)
+  pre <- workflows::extract_preprocessor(x)
   
   if (inherits(pre, "formula")) {
     res <- res %>% workflows::add_formula(pre)

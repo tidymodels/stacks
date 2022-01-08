@@ -1,6 +1,6 @@
 Package: stacks
 Title: Tidy Model Stacking
-Version: 0.2.2.9000
+Version: 0.2.2.9001
 Authors@R: c(
     person(given = "Simon",
            family = "Couch",
@@ -30,7 +30,7 @@ Imports:
     tibble (>= 2.1.3),
     purrr (>= 0.3.2), 
     parsnip (>= 0.0.4),
-    workflows (>= 0.2.2),
+    workflows (>= 0.2.3),
     recipes (>= 0.1.15),
     rsample (>= 0.1.1),
     workflowsets (>= 0.1.0),

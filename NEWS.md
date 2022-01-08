@@ -1,6 +1,8 @@
-# v0.2.2.9000 (development version)
+# v0.2.2.9001 (development version)
 
 To be released as v0.2.3.
+
+* Addressed deprecation warning in `add_candidates` (#99).
 
 # v0.2.2
 
