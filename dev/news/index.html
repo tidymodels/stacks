@@ -69,6 +69,55 @@
       <small>Source: <a href="https://github.com/tidymodels/stacks/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.2.2.9001" id="stacks-0229001-development-version">stacks 0.2.2.9001 (development version)<a class="anchor" aria-label="anchor" href="#stacks-0229001-development-version"></a></h2>
+<p>To be released as v0.2.3.</p>
+<ul><li>Addressed deprecation warning in <code>add_candidates</code> (<a href="https://github.com/tidymodels/stacks/issues/99" class="external-link">#99</a>).</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.2.2" id="stacks-022">stacks 0.2.2<small>2022-01-06</small><a class="anchor" aria-label="anchor" href="#stacks-022"></a></h2>
+<ul><li>Fixed errors arising from outcome levels that are not valid column names in the multinomial classification setting.</li>
+<li>Fixed <code>collect_parameters</code> failing to return stacking coefficients in the two-class classification setting.</li>
+<li>Regenerated example objects with updated {rsample} fingerprinting–saved model objects may need to be regenerated in order to build stacks combining models generated before and after this update.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.2.1" id="stacks-021">stacks 0.2.1<small>2021-07-23</small><a class="anchor" aria-label="anchor" href="#stacks-021"></a></h2>
+<ul><li>Updates for importing workflow sets that use the <code><a href="https://workflows.tidymodels.org//reference/add_variables.html" class="external-link">add_variables()</a></code> preprocessor.</li>
+<li>Plot fixes for cases where coefficients are negative.</li>
+<li>Performance and member plots now show the effect of multiple mixture values.</li>
+<li>Package diagrams now have alt text.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.2.0" id="stacks-020">stacks 0.2.0<small>2021-04-20</small><a class="anchor" aria-label="anchor" href="#stacks-020"></a></h2>
+<div class="section level3">
+<h3 id="breaking-changes-0-2-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-2-0"></a></h3>
+<p>This release of the package changes some elements of the internal structure of model stacks. As such, model stacks stored as saved objects will need to be regenerated before predicting, plotting, printing, etc.</p>
+</div>
+<div class="section level3">
+<h3 id="new-features-0-2-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-2-0"></a></h3>
+<ul><li>The package now supports elastic net models as a meta-learner via the <code>mixture</code> argument to <code>blend_predictions</code>.</li>
+<li>The package can now add candidates from <code>workflow_map</code> objects from the new {workflowsets} package. The interface to <code>add_candidates</code> for doing so is the same as with <code>tune_results</code> objects, and <code>add_candidates</code> is now a generic function.</li>
+<li>Objects tuned with racing methods from the {finetune} package can now be added as candidate members.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-2-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-2-0"></a></h3>
+<ul><li>Fixed bug in determining member hyperparameters during member fitting when using non-RMSE/ROC AUC metrics.</li>
+<li>Fixed bug arising from model definition names that are not valid column names. The package will now message in the case that the provided names are not valid column names and use <code>make.names</code> for associated candidate members.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="miscellaneous-improvements-0-2-0">Miscellaneous improvements<a class="anchor" aria-label="anchor" href="#miscellaneous-improvements-0-2-0"></a></h3>
+<ul><li>Drop {digest} dependency in favor of {tune}/{rsample} “fingerprinting” to check consistency of resamples.</li>
+<li>
+<code><a href="../reference/fit_members.html">fit_members()</a></code> will now warn when supplied a model stack whose members have already been fitted.</li>
+<li>Integrate with {tune} functionality for appropriately coloring errors, warnings, and messages.</li>
+<li>Improved faceting and axis scales to make <code>autoplot</code> with <code>type = "members"</code> more informative.</li>
+<li>Various improvements to documentation.</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.1.0" id="stacks-010">stacks 0.1.0<small>2020-11-23</small><a class="anchor" aria-label="anchor" href="#stacks-010"></a></h2>
+<p>Initial release!</p>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

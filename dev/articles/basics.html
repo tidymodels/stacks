@@ -147,9 +147,9 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Embryo Age (s)"</span>, y <span class="op">=</span> <span class="st">"Time to Hatch (s)"</span>, col <span class="op">=</span> <span class="st">"Treatment"</span><span class="op">)</span></code></pre></div>
 <p><img src="basics_files/figure-html/unnamed-chunk-3-1.png" width="768"> Let’s give this a go!</p>
-<div class="section level1">
-<h1 id="define-candidate-ensemble-members">Define candidate ensemble members<a class="anchor" aria-label="anchor" href="#define-candidate-ensemble-members"></a>
-</h1>
+<div class="section level2">
+<h2 id="define-candidate-ensemble-members">Define candidate ensemble members<a class="anchor" aria-label="anchor" href="#define-candidate-ensemble-members"></a>
+</h2>
 <p>At the highest level, ensembles are formed from <em>model definitions</em>. In this package, model definitions are an instance of a minimal <a href="https://workflows.tidymodels.org/" class="external-link"><code>workflow</code></a>, containing a <em>model specification</em> (as defined in the <a href="https://parsnip.tidymodels.org/" class="external-link"><code>parsnip</code></a> package) and, optionally, a <em>preprocessor</em> (as defined in the <a href="https://recipes.tidymodels.org/" class="external-link"><code>recipes</code></a> package). Model definitions specify the form of candidate ensemble members.</p>
 <p><img src="https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/model_defs.png" title="A diagram representing 'model definitions,' which specify the form of candidate ensemble members. Three colored boxes represent three different model types; a K-nearest neighbors model (in salmon), a linear regression model (in yellow), and a support vector machine model (in green)." alt="A diagram representing 'model definitions,' which specify the form of candidate ensemble members. Three colored boxes represent three different model types; a K-nearest neighbors model (in salmon), a linear regression model (in yellow), and a support vector machine model (in green)."></p>
 <p>Defining the constituent model definitions is undoubtedly the longest part of building an ensemble with <code>stacks</code>. If you’re familiar with tidymodels “proper,” you’re probably fine to skip this section, keeping a few things in mind:</p>
@@ -371,9 +371,9 @@
 <p><img src="https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/candidates.png" title="A diagram representing 'candidate members' generated from each model definition. Four salmon-colored boxes labeled 'KNN' represent K-nearest neighbors models trained on the resamples with differing hyperparameters. Similarly, the linear regression (LM) model generates one candidate member, and the support vector machine (SVM) model generates six." alt="A diagram representing 'candidate members' generated from each model definition. Four salmon-colored boxes labeled 'KNN' represent K-nearest neighbors models trained on the resamples with differing hyperparameters. Similarly, the linear regression (LM) model generates one candidate member, and the support vector machine (SVM) model generates six."></p>
 <p>With these three model definitions fully specified, we are ready to begin stacking these model configurations. (Note that, in most applied settings, one would likely specify many more than 11 candidate members.)</p>
 </div>
-<div class="section level1">
-<h1 id="putting-together-a-stack">Putting together a stack<a class="anchor" aria-label="anchor" href="#putting-together-a-stack"></a>
-</h1>
+<div class="section level2">
+<h2 id="putting-together-a-stack">Putting together a stack<a class="anchor" aria-label="anchor" href="#putting-together-a-stack"></a>
+</h2>
 <p>The first step to building an ensemble with stacks is to create a <code>data_stack</code> object—in this package, data stacks are tibbles (with some extra attributes) that contain the assessment set predictions for each candidate ensemble member.</p>
 <p><img src="https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/data_stack.png" title="A diagram representing a 'data stack,' a specific kind of data frame. Colored 'columns' depict, in white, the true value of the outcome variable in the validation set, followed by four columns (in salmon) representing the predictions from the K-nearest neighbors model, one column (in tan) representing the linear regression model, and six (in green) representing the support vector machine model." alt="A diagram representing a 'data stack,' a specific kind of data frame. Colored 'columns' depict, in white, the true value of the outcome variable in the validation set, followed by four columns (in salmon) representing the predictions from the K-nearest neighbors model, one column (in tan) representing the linear regression model, and six (in green) representing the support vector machine model."></p>
 <p>We can initialize a data stack using the <code><a href="../reference/stacks.html">stacks()</a></code> function.</p>
@@ -417,9 +417,9 @@
 <p>The first column gives the first response value, and the remaining columns give the assessment set predictions for each ensemble member. Since we’re in the regression case, there’s only one column per ensemble member. In classification settings, there are as many columns as there are levels of the outcome variable per candidate ensemble member.</p>
 <p>That’s it! We’re now ready to evaluate how it is that we need to combine predictions from each candidate ensemble member.</p>
 </div>
-<div class="section level1">
-<h1 id="fit-the-stack">Fit the stack<a class="anchor" aria-label="anchor" href="#fit-the-stack"></a>
-</h1>
+<div class="section level2">
+<h2 id="fit-the-stack">Fit the stack<a class="anchor" aria-label="anchor" href="#fit-the-stack"></a>
+</h2>
 <p>The outputs from each of these candidate ensemble members are highly correlated, so the <code><a href="../reference/blend_predictions.html">blend_predictions()</a></code> function performs regularization to figure out how we can combine the outputs from the stack members to come up with a final prediction.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tree_frogs_model_st</span> <span class="op">&lt;-</span>

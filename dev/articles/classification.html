@@ -135,9 +135,9 @@
        color <span class="op">=</span> <span class="st">"Response"</span><span class="op">)</span></code></pre></div>
 <p><img src="classification_files/figure-html/unnamed-chunk-3-1.png" width="768"></p>
 <p>It looks like the embryo age is pretty effective at picking out embryos with full VOR function, but the problem gets tougher for the less developed embryos! Let’s see how well the stacked ensemble can classify these tree frogs.</p>
-<div class="section level1">
-<h1 id="defining-candidate-ensemble-members">Defining candidate ensemble members<a class="anchor" aria-label="anchor" href="#defining-candidate-ensemble-members"></a>
-</h1>
+<div class="section level2">
+<h2 id="defining-candidate-ensemble-members">Defining candidate ensemble members<a class="anchor" aria-label="anchor" href="#defining-candidate-ensemble-members"></a>
+</h2>
 <p>As in the numeric prediction setting, defining the candidate ensemble members is undoubtedly the longest part of the ensembling process with stacks. First, splitting up the training data, generating resamples, and setting some options that will be used by each model definition.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># some setup: resampling and a basic recipe</span>
@@ -207,9 +207,9 @@
   <span class="op">)</span></code></pre></div>
 <p>With these model definitions fully specified, we’re ready to start putting together an ensemble!</p>
 </div>
-<div class="section level1">
-<h1 id="putting-together-a-stack">Putting together a stack<a class="anchor" aria-label="anchor" href="#putting-together-a-stack"></a>
-</h1>
+<div class="section level2">
+<h2 id="putting-together-a-stack">Putting together a stack<a class="anchor" aria-label="anchor" href="#putting-together-a-stack"></a>
+</h2>
 <p>Building the stacked ensemble, now, only takes a few lines:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tree_frogs_model_st</span> <span class="op">&lt;-</span> 
