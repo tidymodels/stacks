@@ -1,3 +1,9 @@
+# stacks 0.2.2.9001 (development version)
+
+To be released as v0.2.3.
+
+* Addressed deprecation warning in `add_candidates` (#99).
+
 # stacks 0.2.2
 
 * Fixed errors arising from outcome levels that are not valid column 
