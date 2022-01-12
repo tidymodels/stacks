@@ -1,10 +1,10 @@
-# v0.2.2.9001 (development version)
+# stacks 0.2.2.9001 (development version)
 
 To be released as v0.2.3.
 
 * Addressed deprecation warning in `add_candidates` (#99).
 
-# v0.2.2
+# stacks 0.2.2
 
 * Fixed errors arising from outcome levels that are not valid column 
   names in the multinomial classification setting. 
@@ -14,7 +14,7 @@ To be released as v0.2.3.
   model objects may need to be regenerated in order to build stacks combining
   models generated before and after this update.
 
-# v0.2.1
+# stacks 0.2.1
 
 * Updates for importing workflow sets that use the `add_variables()` 
   preprocessor. 
@@ -22,7 +22,7 @@ To be released as v0.2.3.
 * Performance and member plots now show the effect of multiple mixture values. 
 * Package diagrams now have alt text.
 
-# v0.2.0
+# stacks 0.2.0
 
 ## Breaking changes
 
@@ -62,6 +62,6 @@ be regenerated before predicting, plotting, printing, etc.
   more informative.
 * Various improvements to documentation.
 
-# v0.1.0
+# stacks 0.1.0
 
 Initial release!

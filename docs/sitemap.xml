@@ -1,10 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://stacks.tidymodels.org/404.html</loc>
+  </url>
+  <url>
+    <loc>https://stacks.tidymodels.org/CODE_OF_CONDUCT.html</loc>
+  </url>
+  <url>
+    <loc>https://stacks.tidymodels.org/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://stacks.tidymodels.org/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://stacks.tidymodels.org/articles/basics.html</loc>
+  </url>
+  <url>
+    <loc>https://stacks.tidymodels.org/articles/classification.html</loc>
+  </url>
+  <url>
+    <loc>https://stacks.tidymodels.org/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://stacks.tidymodels.org/authors.html</loc>
+  </url>
+  <url>
     <loc>https://stacks.tidymodels.org/index.html</loc>
   </url>
   <url>
+    <loc>https://stacks.tidymodels.org/news/index.html</loc>
+  </url>
+  <url>
     <loc>https://stacks.tidymodels.org/reference/add_candidates.html</loc>
+  </url>
+  <url>
+    <loc>https://stacks.tidymodels.org/reference/augment.model_stack.html</loc>
   </url>
   <url>
     <loc>https://stacks.tidymodels.org/reference/autoplot.linear_stack.html</loc>
@@ -34,6 +64,12 @@
     <loc>https://stacks.tidymodels.org/reference/get_expressions.html</loc>
   </url>
   <url>
+    <loc>https://stacks.tidymodels.org/reference/glance.model_stack.html</loc>
+  </url>
+  <url>
+    <loc>https://stacks.tidymodels.org/reference/index.html</loc>
+  </url>
+  <url>
     <loc>https://stacks.tidymodels.org/reference/predict.data_stack.html</loc>
   </url>
   <url>
@@ -55,12 +91,9 @@
     <loc>https://stacks.tidymodels.org/reference/stacks_description.html</loc>
   </url>
   <url>
+    <loc>https://stacks.tidymodels.org/reference/tidy.model_stack.html</loc>
+  </url>
+  <url>
     <loc>https://stacks.tidymodels.org/reference/tree_frogs.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/articles/basics.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/articles/classification.html</loc>
   </url>
 </urlset>
