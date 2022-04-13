@@ -44,7 +44,9 @@ Imports:
     cli,
     stats,
     foreach,
-    generics
+    generics,
+    kknn,
+    ranger
 Suggests: 
     testthat,
     covr,
@@ -52,9 +54,7 @@ Suggests:
     knitr,
     modeldata,
     rmarkdown,
-    ranger,
     nnet,
-    kknn,
     h2o,
     SuperLearner
 Encoding: UTF-8
