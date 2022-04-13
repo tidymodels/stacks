@@ -191,7 +191,7 @@ test_that("add_candidates errors informatively with bad arguments", {
       rsample::vfold_cv(dat, v = 4),
       grid = 4,
       control = control_stack_grid(),
-      metrics = yardstick::metric_set(accuracy)
+      metrics = yardstick::metric_set(yardstick::accuracy)
     )
   
   expect_error(
