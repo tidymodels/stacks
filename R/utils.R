@@ -150,3 +150,8 @@ check_inherits <- function(x, what) {
   }
   x
 }
+
+# quiet R-CMD-check NOTEs that workflowsets and yardstick are unused
+# (see example data .Rmds for usage)
+wfs_note <- workflowsets::option_list()
+ys_note <- yardstick:::is_metric(1L)

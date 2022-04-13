@@ -178,7 +178,7 @@ test_that("add_candidates errors informatively with bad arguments", {
   
   # use a metric that only relies on hard class prediction
   log_res <- 
-    tune_grid(
+    tune::tune_grid(
       workflows::workflow() %>%
         workflows::add_formula(z ~ x + y) %>%
         workflows::add_model(

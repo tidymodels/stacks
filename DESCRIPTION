@@ -54,7 +54,9 @@ Suggests:
     rmarkdown,
     ranger,
     nnet,
-    kknn
+    kknn,
+    h2o,
+    SuperLearner
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
