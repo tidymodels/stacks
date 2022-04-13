@@ -1,7 +1,8 @@
 on:
   push:
+    branches: [main]
   pull_request:
-    types: [opened, synchronize, reopened]
+    branches: [main]
 
 name: R-CMD-check-hard
 
