@@ -8,6 +8,15 @@ if ((!on_cran()) || interactive()) {
   }
 }
 
+skip_if_not_installed("modeldata")
+library(modeldata)
+
+skip_if_not_installed("ranger")
+library(ranger)
+
+skip_if_not_installed("nnet")
+library(nnet)
+
 # Unit testing for the component members would duplicate unit testing
 # from the butcher package. Since the desired functionality to test
 # is actually just whether the components to axe are in the right places:

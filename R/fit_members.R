@@ -21,7 +21,13 @@
 #' @template note_example_data
 #' 
 #' @examples 
+#' # feel free to ignore the following lines—they allow {stacks} to supply 
+#' # examples without requiring the model-supplying package to be installed.
+#' if (requireNamespace("ranger", quietly = TRUE)) {
+#'   if (requireNamespace("kernlab", quietly = TRUE)) {
+#' 
 #' \donttest{
+#' 
 #' # see the "Example Data" section above for
 #' # clarification on the objects used in these examples!
 #' 
@@ -60,6 +66,8 @@
 #'   fit_members()
 #'   
 #' log_st
+#'     }
+#'   }
 #' }
 #' 
 #' @family core verbs

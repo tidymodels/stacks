@@ -4,6 +4,15 @@ context("Prediction equations")
 
 library(parsnip)
 
+skip_if_not_installed("modeldata")
+library(modeldata)
+
+skip_if_not_installed("ranger")
+library(ranger)
+
+skip_if_not_installed("nnet")
+library(nnet)
+
 ## -----------------------------------------------------------------------------
 
 data("penguins", package = "modeldata")

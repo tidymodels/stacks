@@ -4,6 +4,15 @@ context("on cran")
 # skip most all of them on cran in favor of a minimal test that will at least
 # flag breakages, even if uninformatively.
 
+skip_if_not_installed("modeldata")
+library(modeldata)
+
+skip_if_not_installed("ranger")
+library(ranger)
+
+skip_if_not_installed("nnet")
+library(nnet)
+
 test_that("basic stacks pipeline works", {
   skip_if_not_installed("tibble")
   skip_if_not_installed("dplyr")

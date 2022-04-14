@@ -2,12 +2,14 @@ url: https://stacks.tidymodels.org
 
 template:
   package: tidytemplate
-  params:
-    theme: tidymodels
-    part_of: <a href="https://github.com/tidymodels">tidymodels</a>
-    footer: stacks is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.
+  bootstrap: 5
+  bslib:
+    danger: "#CA225E"
+    primary: "#CA225E"
 
-# https://github.com/tidyverse/tidytemplate for css
+  includes:
+      in_header: |
+        <script defer data-domain="stacks.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script>
 
 development:
   mode: auto

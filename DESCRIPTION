@@ -11,7 +11,7 @@ Authors@R: c(
            email = "max@rstudio.com", 
            role = "aut"),
     person("RStudio", 
-           role = "cph")
+           role = c("cph", "fnd"))
     )
 Description: Model stacking is an ensemble technique
     that involves training a model to combine the outputs of many 
@@ -44,17 +44,19 @@ Imports:
     cli,
     stats,
     foreach,
-    generics
+    generics,
+    kernlab
 Suggests: 
     testthat,
     covr,
-    kernlab,
+    kknn,
+    ranger,
     knitr,
     modeldata,
     rmarkdown,
-    ranger,
     nnet,
-    kknn
+    h2o,
+    SuperLearner
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

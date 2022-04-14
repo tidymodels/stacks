@@ -8,6 +8,15 @@ if ((!on_cran()) || interactive()) {
   }
 }
 
+skip_if_not_installed("modeldata")
+library(modeldata)
+
+skip_if_not_installed("ranger")
+library(ranger)
+
+skip_if_not_installed("nnet")
+library(nnet)
+
 test_that("stack can add candidates (regression)", {
   skip("still some inconsistencies with stored objects")
   
@@ -178,7 +187,7 @@ test_that("add_candidates errors informatively with bad arguments", {
   
   # use a metric that only relies on hard class prediction
   log_res <- 
-    tune_grid(
+    tune::tune_grid(
       workflows::workflow() %>%
         workflows::add_formula(z ~ x + y) %>%
         workflows::add_model(
@@ -191,7 +200,7 @@ test_that("add_candidates errors informatively with bad arguments", {
       rsample::vfold_cv(dat, v = 4),
       grid = 4,
       control = control_stack_grid(),
-      metrics = yardstick::metric_set(accuracy)
+      metrics = yardstick::metric_set(yardstick::accuracy)
     )
   
   expect_error(
