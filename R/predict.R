@@ -16,7 +16,12 @@
 #' @template note_example_data
 #'
 #' @examples 
+#' # feel free to ignore the following line—it allows {stacks} to supply 
+#' # examples without requiring the model-supplying package to be installed.
+#' if (requireNamespace("ranger", quietly = TRUE)) {
+#' 
 #' \donttest{
+#' 
 #' # see the "Example Data" section above for
 #' # clarification on the data and tuning results
 #' # objects used in these examples!
@@ -62,6 +67,7 @@
 #'   type = "prob", 
 #'   members = TRUE
 #' )
+#' }
 #' }
 #'
 #' @importFrom stats predict
