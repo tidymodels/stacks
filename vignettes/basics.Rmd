@@ -44,6 +44,20 @@ library(dplyr)
 library(purrr)
 ```
 
+```{r, include = FALSE}
+if (rlang::is_installed("ranger") && 
+    rlang::is_installed("nnet") &&
+    rlang::is_installed("kernlab")) {
+  run <- TRUE
+} else {
+  run <- FALSE
+}
+
+knitr::opts_chunk$set(
+  eval = run
+)
+```
+
 In this example, we'll make use of the `tree_frogs` data exported with `stacks`, giving experimental results on hatching behavior of red-eyed tree frog embryos! 
 
 Red-eyed tree frog (RETF) embryos can hatch earlier than their normal 7ish days if they detect potential predator threat. Researchers wanted to determine how, and when, these tree frog embryos were able to detect stimulus from their environment. To do so, they subjected the embryos at varying developmental stages to "predator stimulus" by jiggling the embryos with a blunt probe. Beforehand, though some of the embryos were treated with gentamicin, a compound that knocks out their lateral line (a sensory organ.) Researcher Julie Jung and her crew found that these factors inform whether an embryo hatches prematurely or not!
