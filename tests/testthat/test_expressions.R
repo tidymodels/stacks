@@ -4,6 +4,9 @@ context("Prediction equations")
 
 library(parsnip)
 
+skip_if_not_installed("modeldata")
+library(modeldata)
+
 ## -----------------------------------------------------------------------------
 
 data("penguins", package = "modeldata")

@@ -8,6 +8,12 @@ if ((!on_cran()) || interactive()) {
   }
 }
 
+skip_if_not_installed("modeldata")
+library(modeldata)
+
+skip_if_not_installed("ranger")
+library(ranger)
+
 
 test_that("basic fit_members works", {
   skip_on_cran()

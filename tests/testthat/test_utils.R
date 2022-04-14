@@ -8,6 +8,8 @@ if ((!on_cran()) || interactive()) {
   }
 }
 
+skip_if_not_installed("modeldata")
+library(modeldata)
 
 test_that("object types relate as expected", {
   skip_on_cran()

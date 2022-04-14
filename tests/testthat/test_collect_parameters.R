@@ -8,6 +8,9 @@ if ((!on_cran()) || interactive()) {
   }
 }
 
+skip_if_not_installed("modeldata")
+library(modeldata)
+
 test_that("collect_parameters dispatch works", {
   skip_on_cran()
   

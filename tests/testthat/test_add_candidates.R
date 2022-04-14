@@ -8,6 +8,9 @@ if ((!on_cran()) || interactive()) {
   }
 }
 
+skip_if_not_installed("modeldata")
+library(modeldata)
+
 test_that("stack can add candidates (regression)", {
   skip("still some inconsistencies with stored objects")
   
