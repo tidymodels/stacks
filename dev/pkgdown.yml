@@ -1,10 +1,10 @@
-pandoc: 2.7.3
-pkgdown: 2.0.1.9000
-pkgdown_sha: 3fdbaf3f40ee7c092e22aa75aeea8261107ba001
+pandoc: 2.14.2
+pkgdown: 2.0.2
+pkgdown_sha: ~
 articles:
   basics: basics.html
   classification: classification.html
-last_built: 2022-01-12T16:41Z
+last_built: 2022-04-14T14:09Z
 urls:
   reference: https://stacks.tidymodels.org/reference
   article: https://stacks.tidymodels.org/articles
