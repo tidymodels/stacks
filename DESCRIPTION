@@ -57,6 +57,8 @@ Suggests:
     nnet,
     h2o,
     SuperLearner
+Config/Needs/website: 
+    tidyverse/tidytemplate 
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
