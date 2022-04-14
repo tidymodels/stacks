@@ -44,11 +44,11 @@ Imports:
     cli,
     stats,
     foreach,
-    generics
+    generics,
+    kernlab
 Suggests: 
     testthat,
     covr,
-    kernlab,
     kknn,
     ranger,
     knitr,
