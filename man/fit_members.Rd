@@ -75,9 +75,10 @@ the source code that generated them.
 }
 
 \examples{
-# feel free to ignore the following line—it allows {stacks} to supply 
+# feel free to ignore the following lines—they allow {stacks} to supply 
 # examples without requiring the model-supplying package to be installed.
 if (requireNamespace("ranger", quietly = TRUE)) {
+  if (requireNamespace("kernlab", quietly = TRUE)) {
 
 \donttest{
 
@@ -119,6 +120,7 @@ log_st <-
   fit_members()
   
 log_st
+    }
   }
 }
 
