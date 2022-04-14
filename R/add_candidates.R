@@ -110,7 +110,7 @@ add_candidates.tune_results <- function(data_stack, candidates,
                                         name = deparse(substitute(candidates)), 
                                         ...) {
   check_add_data_stack(data_stack)
-  check_candidates(candidates)
+  check_candidates(candidates, name)
   col_name <- check_name(name)
   
   stack <- 
@@ -398,7 +398,7 @@ check_add_data_stack <- function(data_stack) {
   }
 }
 
-check_candidates <- function(candidates) {
+check_candidates <- function(candidates, name) {
   if (!rlang::inherits_any(
     candidates, 
     c("tune_results", "tune_bayes", "resample_results")
@@ -407,6 +407,14 @@ check_candidates <- function(candidates) {
       "The inputted `candidates` argument has class `{list(class(candidates))}`",
       ", but it should inherit from one of 'tune_results', 'tune_bayes', ",
       "or 'resample_results'."
+    )
+  }
+  
+  if (nrow(collect_notes(candidates)) != 0) {
+    glue_warn(
+      "The inputted `candidates` argument `{name}` generated notes during ",
+      "tuning/resampling. Model stacking may fail due to these ",
+      "issues; see `?collect_notes` if so."
     )
   }
   
