@@ -88,7 +88,7 @@ collect_params <- function(cols_map, model_metrics, candidates, workflows, blend
   
   params <-
     workflows[[candidates]] %>%
-    dials::parameters() %>%
+    parsnip::extract_parameter_set_dials() %>%
     dplyr::pull(id)
   
   res <-
