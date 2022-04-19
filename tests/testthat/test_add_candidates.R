@@ -203,15 +203,15 @@ test_that("add_candidates errors informatively with bad arguments", {
   
   # warn when stacking may fail due to tuning failure
   set.seed(7898)
-  data_folds <- vfold_cv(mtcars, v = 2)
+  data_folds <- rsample::vfold_cv(mtcars, v = 2)
   
-  rec <- recipe(mpg ~ ., data = mtcars) %>%
-    step_bs(disp, deg_free = tune())
+  rec <- recipes::recipe(mpg ~ ., data = mtcars) %>%
+    recipes::step_bs(disp, deg_free = tune())
   
-  model <- linear_reg(mode = "regression", penalty = tune()) %>%
-    set_engine("glmnet")
+  model <- parsnip::linear_reg(mode = "regression", penalty = tune::tune()) %>%
+    parsnip::set_engine("glmnet")
   
-  cars_grid_1 <- tibble(deg_free = 10L, penalty = -1)
+  cars_grid_1 <- tibble::tibble(deg_free = 10L, penalty = -1)
   
   res_w_notes <- tune_grid(
     preprocessor = rec, 
