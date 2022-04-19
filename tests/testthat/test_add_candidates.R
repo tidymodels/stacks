@@ -222,7 +222,7 @@ test_that("add_candidates errors informatively with bad arguments", {
   
   cars_grid_1 <- tibble::tibble(deg_free = 10L, penalty = -1)
   
-  res_w_notes <- tune_grid(
+  res_w_notes <- tune::tune_grid(
     preprocessor = rec, 
     object = model,
     resamples = data_folds, 
