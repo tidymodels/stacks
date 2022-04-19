@@ -1,7 +1,3 @@
-context("Prediction equations")
-
-## -----------------------------------------------------------------------------
-
 library(parsnip)
 
 skip_if_not_installed("modeldata")
