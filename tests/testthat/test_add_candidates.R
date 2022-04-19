@@ -227,7 +227,7 @@ test_that("add_candidates errors informatively with bad arguments", {
     object = model,
     resamples = data_folds, 
     grid = cars_grid_1, 
-    control = control_grid(extract = function(x) {1}, save_pred = TRUE, save_workflow = TRUE)
+    control = tune::control_grid(extract = function(x) {1}, save_pred = TRUE, save_workflow = TRUE)
   )
   
   expect_error(
