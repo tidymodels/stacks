@@ -227,3 +227,35 @@ check_model_stack <- function(model_stack) {
     check_inherits(model_stack, "model_stack")
   }
 }
+
+# given a model stack, find the packages required to fit members and predict 
+# on new values, and error if any of them are not loaded
+check_for_required_packages <- function(x) {
+  # for dispatch to required_pkgs.workflow when model
+  # is loaded in a fresh environment
+  requireNamespace("workflows", quietly = TRUE)
+  
+  pkgs <-
+    purrr::map(
+      x$model_defs,
+      parsnip::required_pkgs
+    ) %>%
+    unlist() %>%
+    unique()
+
+  # redundant with the `map()` call that follows, but
+  # prompts more informatively than `require`
+  purrr::map(
+    pkgs,
+    rlang::is_installed
+  )
+
+  purrr::map(
+    pkgs,
+    require,
+    character.only = TRUE,
+    quietly = TRUE
+  )
+  
+  invisible(TRUE)
+}

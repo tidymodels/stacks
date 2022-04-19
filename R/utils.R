@@ -114,31 +114,6 @@ check_inherits <- function(x, what) {
   invisible(TRUE)
 }
 
-# given a model stack, find the packages required to
-# fit members and predict on new values, and error if
-# any of them are not loaded
-check_for_required_packages <- function(x) {
-  pkgs <- 
-    purrr::map(
-      x$model_defs,
-      parsnip::required_pkgs
-    ) %>%
-    unlist() %>%
-    unique()
-  
-  purrr::map(
-    pkgs,
-    rlang::is_installed
-  )
-  
-  purrr::map(
-    pkgs,
-    library
-  )
-  
-  invisible(TRUE)
-}
-
 
 # Getters
 # -----------------------------------------------------------------------
