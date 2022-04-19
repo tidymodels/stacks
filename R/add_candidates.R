@@ -410,7 +410,7 @@ check_candidates <- function(candidates, name) {
     )
   }
   
-  if (nrow(collect_notes(candidates)) != 0) {
+  if (nrow(tune::collect_notes(candidates)) != 0) {
     glue_warn(
       "The inputted `candidates` argument `{name}` generated notes during ",
       "tuning/resampling. Model stacking may fail due to these ",
