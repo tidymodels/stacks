@@ -182,7 +182,7 @@ blend_predictions <- function(data_stack,
   
   get_models <- function(x) {
     x %>% 
-      workflows::pull_workflow_fit() %>% 
+      workflows::extract_fit_parsnip() %>% 
       purrr::pluck("fit")
   }
   
