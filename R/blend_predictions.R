@@ -207,7 +207,7 @@ blend_predictions <- function(data_stack,
   coefs <-
     model_spec %>%
     tune::finalize_model(best_param) %>%
-    generics::fit(formula = preds_formula, data = dat)
+    parsnip::fit(formula = preds_formula, data = dat)
 
   model_stack <- 
     structure(

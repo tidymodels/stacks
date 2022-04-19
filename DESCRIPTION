@@ -44,7 +44,6 @@ Imports:
     cli,
     stats,
     foreach,
-    generics,
     kernlab
 Suggests: 
     testthat,
