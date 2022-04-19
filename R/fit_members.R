@@ -74,6 +74,7 @@
 #' @export
 fit_members <- function(model_stack, ...) {
   check_model_stack(model_stack)
+  check_for_required_packages(model_stack)
   
   dat <- model_stack[["train"]]
   

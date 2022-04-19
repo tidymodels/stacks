@@ -83,6 +83,8 @@ predict.model_stack <- function(object, new_data, type = NULL, members = FALSE,
   check_inherits(members, "logical")
   check_inherits(opts, "list")
   
+  check_for_required_packages(object)
+  
   coefs <- 
     .get_glmn_coefs(object[["coefs"]][["fit"]]) %>%
     dplyr::select(terms, estimate)
