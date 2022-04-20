@@ -153,6 +153,7 @@ test_that("add_candidates errors informatively with bad arguments", {
     "not generated with the appropriate control settings"
   )
   
+  suppressWarnings(
   reg_res_lr_bad2 <- 
     tune::fit_resamples(
       object = reg_wf_lr,
@@ -163,6 +164,7 @@ test_that("add_candidates errors informatively with bad arguments", {
         save_workflow = TRUE
       )
     )
+  )
   
   expect_error(
     stacks() %>% add_candidates(reg_res_lr_bad2),
@@ -204,6 +206,34 @@ test_that("add_candidates errors informatively with bad arguments", {
   expect_error(
     stacks() %>% add_candidates(log_res),
     "only metrics that rely on hard class predictions"
+  )
+  
+  # warn when stacking may fail due to tuning failure
+  set.seed(7898)
+  data_folds <- rsample::vfold_cv(mtcars, v = 2)
+  
+  rec <- recipes::recipe(mpg ~ ., data = mtcars) %>%
+    recipes::step_bs(disp, deg_free = tune())
+  
+  model <- parsnip::linear_reg(mode = "regression", penalty = tune::tune()) %>%
+    parsnip::set_engine("glmnet")
+  
+  cars_grid_1 <- tibble::tibble(deg_free = 10L, penalty = -1)
+  
+  res_w_notes <- tune::tune_grid(
+    preprocessor = rec, 
+    object = model,
+    resamples = data_folds, 
+    grid = cars_grid_1, 
+    control = tune::control_grid(extract = function(x) {1}, save_pred = TRUE, save_workflow = TRUE)
+  )
+  
+  expect_error(
+    expect_warning(
+      stacks() %>%
+        add_candidates(res_2),
+      "argument \\`res_2\\` generated notes"
+    )
   )
 })
 

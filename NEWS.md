@@ -3,6 +3,8 @@
 To be released as v0.2.3.
 
 * Addressed deprecation warning in `add_candidates` (#99).
+* Improved clarity of warnings/errors related to failed hyperparameter 
+tuning and resample fitting (#110).
 
 # stacks 0.2.2
 
