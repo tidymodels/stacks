@@ -1,5 +1,3 @@
-context("add_candidates")
-
 if ((!on_cran()) || interactive()) {
   if (on_github()) {
     load(paste0(Sys.getenv("GITHUB_WORKSPACE"), "/tests/testthat/helper_data.Rda"))
@@ -18,8 +16,6 @@ skip_if_not_installed("nnet")
 library(nnet)
 
 test_that("stack can add candidates (regression)", {
-  skip("still some inconsistencies with stored objects")
-  
   expect_equal(
     st_0 %>% add_candidates(reg_res_svm),
     st_reg_1
@@ -36,8 +32,6 @@ test_that("stack can add candidates (regression)", {
 })
 
 test_that("stack can add candidates (multinomial classification)", {
-  skip("still some inconsistencies with stored objects")
-  
   expect_equal(
     st_0 %>% add_candidates(class_res_rf),
     st_class_1
@@ -53,8 +47,6 @@ test_that("stack can add candidates (multinomial classification)", {
 })
 
 test_that("stack can add candidates (two-way classification)", {
-  skip("still some inconsistencies with stored objects")
-  
   expect_equal(
     st_0 %>% add_candidates(log_res_rf),
     st_log_1

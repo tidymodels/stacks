@@ -98,7 +98,7 @@ color_prompt <- function(prompt, type) {
 # it with the appropriate tune color, and raises it with the appropriate prompt
 glue_prompt <- function(..., .sep = "", .envir = parent.frame(), type, rlang_fn) {
   glue::glue(..., .sep = .sep, .envir = .envir) %>%
-    strwrap() %>%
+    glue::glue_collapse() %>%
     color_prompt(type) %>%
     rlang_fn()
 }

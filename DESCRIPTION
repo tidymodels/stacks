@@ -46,7 +46,7 @@ Imports:
     foreach,
     kernlab
 Suggests: 
-    testthat,
+    testthat (>= 3.0.0),
     covr,
     kknn,
     ranger,
@@ -63,3 +63,4 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 VignetteBuilder: knitr
+Config/testthat/edition: 3

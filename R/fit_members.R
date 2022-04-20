@@ -148,7 +148,7 @@ fit_member <- function(name, wflows, members_map, train_dat) {
   
   member_params <- 
     wflows[[member_row$name.x[1]]] %>%
-    dials::parameters() %>%
+    parsnip::extract_parameter_set_dials() %>%
     dplyr::pull(id)
   
   needs_finalizing <- length(member_params) != 0
