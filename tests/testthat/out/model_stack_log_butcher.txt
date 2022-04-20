@@ -1,6 +1,0 @@
-> butcher(st_log_1__)
-Message: -- A stacked ensemble model -------------------------------------
-
-Message: 
-Print methods for butchered model stacks are disabled.
-

@@ -105,18 +105,7 @@ test_that("model_stack + butcher() works", {
 test_that("butchered model stack printing works", {
   skip_on_cran()
   
-  verify_output(
-    test_path("out/model_stack_reg_butcher.txt"),
-    {butcher(st_reg_1__)}
-  )
-  
-  verify_output(
-    test_path("out/model_stack_class_butcher.txt"),
-    {butcher(st_class_1__)}
-  )
-  
-  verify_output(
-    test_path("out/model_stack_log_butcher.txt"),
-    {butcher(st_log_1__)}
-  )
+  expect_snapshot(butcher(st_reg_1__))
+  expect_snapshot(butcher(st_class_1__))
+  expect_snapshot(butcher(st_log_1__))
 })
