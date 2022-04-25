@@ -49,17 +49,17 @@ remotes::install_github("tidymodels/stacks", ref = "main")
 stacks is generalized with respect to:
 
 -   Model type: Any model type implemented in
-    [parsnip](https://parsnip.tidymodels.org/) or adjacent packages is
+    [parsnip](https://parsnip.tidymodels.org/) or extension packages is
     fair game to add to a stacks model stack.
     [Here](https://www.tidymodels.org/find/parsnip/)’s a table of many
     of the implemented model types in the tidymodels core, with a link
     there to an article about implementing your own model classes as
     well.
 -   Cross-validation scheme: Any resampling algorithm implemented in
-    [rsample](https://rsample.tidymodels.org/) or adjacent packages is
+    [rsample](https://rsample.tidymodels.org/) or extension packages is
     fair game for resampling data for use in training a model stack.
 -   Error metric: Any metric function implemented in
-    [yardstick](https://yardstick.tidymodels.org/) or adjacent packages
+    [yardstick](https://yardstick.tidymodels.org/) or extension packages
     is fair game for evaluating model stacks and their members. That
     package provides some infrastructure for creating your own metric
     functions as well!
