@@ -181,3 +181,15 @@ test_that("process_data_stack works", {
     "All rows in the data stack"
   )
 })
+
+test_that("coef environments are small (#116)", {
+  expect_equal(
+    st_reg_1_$coefs$spec$eng_arg$lower.limits,
+    rlang::new_quosure(0, env = rlang::empty_env())
+  )
+  
+  expect_equal(
+    attr(st_reg_1_$coefs$preproc$terms, ".Environment"), 
+    rlang::base_env()
+  )
+})
