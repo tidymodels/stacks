@@ -132,10 +132,9 @@ blend_predictions <- function(data_stack,
   check_inherits(control, "control_grid")
   
   outcome <- attr(data_stack, "outcome")
-  
-  preds_formula <- 
-    paste0(outcome, " ~ .") %>%
-    as.formula()
+
+  preds_formula <-
+    rlang::new_formula(as.name(outcome), as.name("."), env = rlang::base_env())
   
   lvls <- levels(data_stack[[outcome]])
   
@@ -143,10 +142,12 @@ blend_predictions <- function(data_stack,
   
   ll <- if (non_negative) {0} else {-Inf}
   
+  tune_quo <- rlang::new_quosure(tune::tune(), env = rlang::empty_env())
+  
   if (attr(data_stack, "mode") == "regression") {
     model_spec <- 
-      parsnip::linear_reg(penalty = tune::tune(), mixture = tune::tune()) %>%
-      parsnip::set_engine("glmnet", lower.limits = ll, lambda.min.ratio = 0)
+      parsnip::linear_reg(penalty = !!tune_quo, mixture = !!tune_quo) %>%
+      parsnip::set_engine("glmnet", lower.limits = !!ll, lambda.min.ratio = 0)
     
     preds_wf <-
       workflows::workflow() %>%
@@ -159,13 +160,13 @@ blend_predictions <- function(data_stack,
     dat <- dat %>% dplyr::select(-dplyr::starts_with(!!col_filter))
     if (length(lvls) == 2) {
       model_spec <-
-        parsnip::logistic_reg(penalty = tune::tune(), mixture = tune::tune()) %>% 
-        parsnip::set_engine("glmnet", lower.limits = ll, lambda.min.ratio = 0) %>% 
+        parsnip::logistic_reg(penalty = !!tune_quo, mixture = !!tune_quo) %>% 
+        parsnip::set_engine("glmnet", lower.limits = !!ll, lambda.min.ratio = 0) %>% 
         parsnip::set_mode("classification")
     } else {
       model_spec <-
-        parsnip::multinom_reg(penalty = tune::tune(), mixture = tune::tune()) %>% 
-        parsnip::set_engine("glmnet", lower.limits = ll, lambda.min.ratio = 0) %>% 
+        parsnip::multinom_reg(penalty = !!tune_quo, mixture = !!tune_quo) %>% 
+        parsnip::set_engine("glmnet", lower.limits = !!ll, lambda.min.ratio = 0) %>% 
         parsnip::set_mode("classification")
     }
     
