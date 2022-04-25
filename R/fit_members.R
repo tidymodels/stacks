@@ -149,7 +149,7 @@ fit_member <- function(name, wflows, members_map, train_dat) {
   
   member_params <- 
     wflows[[member_row$name.x[1]]] %>%
-    dials::parameters() %>%
+    parsnip::extract_parameter_set_dials() %>%
     dplyr::pull(id)
   
   needs_finalizing <- length(member_params) != 0
@@ -165,7 +165,7 @@ fit_member <- function(name, wflows, members_map, train_dat) {
     
     new_member <- 
       tune::finalize_workflow(member_wf, member_metrics[,member_params]) %>%
-      generics::fit(data = train_dat)
+      parsnip::fit(data = train_dat)
   } else {
     member_model <-
       members_map %>%
@@ -174,7 +174,7 @@ fit_member <- function(name, wflows, members_map, train_dat) {
       dplyr::pull()
     
     new_member <-
-      generics::fit(wflows[[member_model[1]]], data = train_dat)
+      parsnip::fit(wflows[[member_model[1]]], data = train_dat)
   }
   
   new_member

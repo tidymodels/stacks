@@ -1,5 +1,3 @@
-context("blend_predictions")
-
 if ((!on_cran()) || interactive()) {
   if (on_github()) {
     load(paste0(Sys.getenv("GITHUB_WORKSPACE"), "/tests/testthat/helper_data.Rda"))
@@ -181,5 +179,17 @@ test_that("process_data_stack works", {
   expect_error(
     process_data_stack(data.frame(a = rep(NA, 5))),
     "All rows in the data stack"
+  )
+})
+
+test_that("coef environments are small (#116)", {
+  expect_equal(
+    st_reg_1_$coefs$spec$eng_arg$lower.limits,
+    rlang::new_quosure(0, env = rlang::empty_env())
+  )
+  
+  expect_equal(
+    attr(st_reg_1_$coefs$preproc$terms, ".Environment"), 
+    rlang::base_env()
   )
 })

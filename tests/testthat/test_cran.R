@@ -1,5 +1,3 @@
-context("on cran")
-
 # many of the tests for core verbs take a significant amount of time to run.
 # skip most all of them on cran in favor of a minimal test that will at least
 # flag breakages, even if uninformatively.

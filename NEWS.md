@@ -3,6 +3,10 @@
 To be released as v0.2.3.
 
 * Addressed deprecation warning in `add_candidates` (#99).
+* Improved clarity of warnings/errors related to failed hyperparameter 
+tuning and resample fitting (#110).
+* Reduce model stack object size and fixed bug where object size of model stack 
+inflated drastically after saving to file (#116).
 
 # stacks 0.2.2
 
