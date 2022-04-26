@@ -153,6 +153,6 @@ check_inherits <- function(x, what) {
 
 # quiet R-CMD-check NOTEs that workflowsets and yardstick are unused
 # (see example data .Rmds for usage)
-#' @importFrom yardstick is_metric
+#' @importFrom yardstick metric_set
 #' @importFrom workflowsets workflow_set
 NULL
