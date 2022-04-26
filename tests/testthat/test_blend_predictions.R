@@ -163,6 +163,14 @@ test_that("blend_predictions is sensitive to the metric argument", {
   )
 })
 
+test_that("blend_predictions is sensitive to the times argument", {
+  skip_on_cran()
+  
+  times_5 <- st_reg_1 %>% blend_predictions(times = 5)
+  
+  expect_equal(length(times_5[["splits"]][["splits"]]), 5)
+})
+
 test_that("process_data_stack works", {
   skip_on_cran()
   
