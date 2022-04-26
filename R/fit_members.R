@@ -228,7 +228,7 @@ check_model_stack <- function(model_stack) {
 check_for_required_packages <- function(x) {
   # for dispatch to required_pkgs.workflow when model
   # is loaded in a fresh environment
-  requireNamespace("workflows", quietly = TRUE)
+  suppressPackageStartupMessages(requireNamespace("workflows"))
   
   pkgs <-
     purrr::map(
@@ -238,19 +238,43 @@ check_for_required_packages <- function(x) {
     unlist() %>%
     unique()
 
-  # redundant with the `map()` call that follows, but
-  # prompts more informatively than `require`
-  purrr::map(
+  installed <- purrr::map_lgl(
     pkgs,
-    rlang::is_installed
+    is_installed_
   )
+  
+  if (any(!installed)) {
+    error_needs_install(pkgs, installed)
+  }
 
   purrr::map(
     pkgs,
-    require,
-    character.only = TRUE,
-    quietly = TRUE
+    ~suppressPackageStartupMessages(requireNamespace(.x, quietly = TRUE))
   )
   
   invisible(TRUE)
+}
+
+# takes in a vector of package names and a logical vector giving
+# whether or not each is installed
+error_needs_install <- function(pkgs, installed) {
+  plural <- sum(!installed) != 1
+  
+  last_sep <- if (sum(!installed) == 2) {"` and `"} else {"`, and `"}
+  
+  need_install <- paste0(
+    "`",
+    glue::glue_collapse(pkgs[!installed], sep = "`, `", last = last_sep),
+    "`"
+  )
+  
+  glue_stop(
+    "The following package{if (plural) 's' else ''} ",
+    "need{if (plural) '' else 's'} to be installed before ",
+    "fitting members: {need_install}"
+  )
+}
+
+is_installed_ <- function(pkg) {
+  rlang::is_installed(pkg)
 }
