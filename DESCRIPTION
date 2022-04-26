@@ -53,6 +53,7 @@ Suggests:
     rmarkdown,
     nnet,
     kernlab,
+    mockr,
     h2o,
     SuperLearner
 Config/Needs/website: 
