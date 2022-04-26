@@ -8,6 +8,9 @@ library(modeldata)
 skip_if_not_installed("ranger")
 library(ranger)
 
+skip_if_not_installed("kernlab")
+library(kernlab)
+
 skip_if_not_installed("nnet")
 library(nnet)
 

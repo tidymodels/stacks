@@ -12,12 +12,7 @@ butcher::butcher
 #'
 #' @return Axed model_stack object.
 #'
-#'
-#' @examples
-#' # feel free to ignore the following lines—they allow {stacks} to supply 
-#' # examples without requiring the model-supplying package to be installed.
-#' if (requireNamespace("ranger", quietly = TRUE)) {
-#'   if (requireNamespace("kernlab", quietly = TRUE)) {
+#' @examplesIf rlang::is_installed("ranger") & rlang::is_installed("kernlab")
 #' 
 #' \donttest{
 #' 
@@ -43,8 +38,6 @@ butcher::butcher
 #' format(object.size(st))
 #' format(object.size(butchered_st))
 #' 
-#'     }
-#'   }
 #' }
 #' @name axe_model_stack
 NULL

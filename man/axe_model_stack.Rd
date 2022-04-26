@@ -45,10 +45,7 @@ Remove environments.
 Remove fitted values.
 }
 \examples{
-# feel free to ignore the following lines—they allow {stacks} to supply 
-# examples without requiring the model-supplying package to be installed.
-if (requireNamespace("ranger", quietly = TRUE)) {
-  if (requireNamespace("kernlab", quietly = TRUE)) {
+\dontshow{if (rlang::is_installed("ranger") & rlang::is_installed("kernlab")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 \donttest{
 
@@ -74,7 +71,6 @@ butchered_st <- butcher(st, verbose = TRUE)
 format(object.size(st))
 format(object.size(butchered_st))
 
-    }
-  }
 }
+\dontshow{\}) # examplesIf}
 }
