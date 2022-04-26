@@ -46,6 +46,9 @@
 #'   the model determining stacking coefficients. See [tune::control_grid()]
 #'   documentation for details on possible values. Note that any `extract`
 #'   entry will be overwritten internally.
+#' @param times Number of bootstrap samples tuned over by the model that
+#'   determines stacking coefficients. See [rsample::bootstraps()] to
+#'   learn more.
 #' @inheritParams add_candidates
 #' 
 #' @return A `model_stack` object—while `model_stack`s largely contain the
@@ -91,6 +94,11 @@
 #'   blend_predictions(
 #'     control = tune::control_grid(allow_par = TRUE)
 #'   )
+#'  
+#' # to speed up the stacking process for preliminary
+#' # results, bump down the `times` argument:
+#' reg_st %>% 
+#'   blend_predictions(times = 5)
 #'   
 #' # the process looks the same with 
 #' # multinomial classification models
@@ -120,6 +128,7 @@ blend_predictions <- function(data_stack,
                               non_negative = TRUE, 
                               metric = NULL,
                               control = tune::control_grid(), 
+                              times = 25,
                               ...) {
   check_inherits(data_stack, "data_stack")
   check_blend_data_stack(data_stack)
@@ -130,6 +139,7 @@ blend_predictions <- function(data_stack,
     check_inherits(metric, "metric_set")
   }
   check_inherits(control, "control_grid")
+  check_inherits(times, "numeric")
   
   outcome <- attr(data_stack, "outcome")
 
@@ -192,7 +202,7 @@ blend_predictions <- function(data_stack,
   candidates <- 
     preds_wf %>%
     tune::tune_grid(
-      resamples = rsample::bootstraps(dat),
+      resamples = rsample::bootstraps(dat, times = times),
       grid = purrr::cross_df(
         list(
           penalty = penalty,
