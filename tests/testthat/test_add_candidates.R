@@ -286,3 +286,29 @@ test_that("model definition naming works as expected", {
     "cannot prefix a valid column name"
   )
 })
+
+test_that("stacks can handle columns and levels named 'class'", {
+  # waiting on https://github.com/tidymodels/tune/issues/487
+  # to be able to test with entry "class"
+  x <- tibble::tibble(
+    class = sample(c("class_1", "class_2"), 100, replace = TRUE),
+    a = rnorm(100),
+    b = rnorm(100)
+  )
+  
+  res <- tune_grid(
+    logistic_reg(engine = 'glmnet', penalty = tune(), mixture = 1),
+    preprocessor = recipe(class ~ ., x),
+    resamples = vfold_cv(x, 2),
+    grid = 2,
+    control = control_stack_grid()
+  )
+  
+  expect_s3_class(
+    suppressWarnings(
+      stacks() %>% 
+        add_candidates(res)
+    ),
+    "data_stack"
+  )
+})
