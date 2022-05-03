@@ -279,7 +279,9 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
     ) %>%
     dplyr::select(-.row) 
   
-  candidate_cols <- remove_class_preds(candidate_cols)
+  if (attr(stack, "mode") == "classification") {
+    candidate_cols <- remove_class_preds(candidate_cols)
+  }
   
   if (nrow(stack) == 0) {
     stack <- 
