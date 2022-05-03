@@ -296,10 +296,10 @@ test_that("stacks can handle columns and levels named 'class'", {
     b = rnorm(100)
   )
   
-  res <- tune_grid(
-    logistic_reg(engine = 'glmnet', penalty = tune(), mixture = 1),
-    preprocessor = recipe(class ~ ., x),
-    resamples = vfold_cv(x, 2),
+  res <- tune::tune_grid(
+    parsnip::logistic_reg(engine = 'glmnet', penalty = tune::tune(), mixture = 1),
+    preprocessor = recipes::recipe(class ~ ., x),
+    resamples = rsample::vfold_cv(x, 2),
     grid = 2,
     control = control_stack_grid()
   )
