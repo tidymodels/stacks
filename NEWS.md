@@ -9,6 +9,8 @@ tuning and resample fitting (#110).
 inflated drastically after saving to file (#116).
 * The package will now load packages necessary for model fitting at 
 `fit_members()`, if available, and fail informatively if not (#118).
+* Fixed bug where meta-learner tuning would fail with outcome names and levels
+including the string `"class"` (#125).
 
 # stacks 0.2.2
 
