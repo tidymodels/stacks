@@ -58,6 +58,7 @@
 <li>Improved clarity of warnings/errors related to failed hyperparameter tuning and resample fitting (<a href="https://github.com/tidymodels/stacks/issues/110" class="external-link">#110</a>).</li>
 <li>Reduce model stack object size and fixed bug where object size of model stack inflated drastically after saving to file (<a href="https://github.com/tidymodels/stacks/issues/116" class="external-link">#116</a>).</li>
 <li>The package will now load packages necessary for model fitting at <code><a href="../reference/fit_members.html">fit_members()</a></code>, if available, and fail informatively if not (<a href="https://github.com/tidymodels/stacks/issues/118" class="external-link">#118</a>).</li>
+<li>Fixed bug where meta-learner tuning would fail with outcome names and levels including the string <code>"class"</code> (<a href="https://github.com/tidymodels/stacks/issues/125" class="external-link">#125</a>).</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.2" id="stacks-022">stacks 0.2.2<a class="anchor" aria-label="anchor" href="#stacks-022"></a></h2><p class="text-muted">CRAN release: 2022-01-06</p>
