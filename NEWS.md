@@ -7,6 +7,8 @@ To be released as v0.2.3.
 tuning and resample fitting (#110).
 * Reduce model stack object size and fixed bug where object size of model stack 
 inflated drastically after saving to file (#116).
+* The package will now load packages necessary for model fitting at 
+`fit_members()`, if available, and fail informatively if not (#118).
 
 # stacks 0.2.2
 
