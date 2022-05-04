@@ -18,7 +18,6 @@ library(kernlab)
 skip_if_not_installed("nnet")
 library(nnet)
 
-
 test_that("basic fit_members works", {
   skip_on_cran()
   
@@ -119,5 +118,38 @@ test_that("fit_members errors informatively with a bad model_stack arg", {
   expect_warning(
     st_reg_1__ %>% fit_members(),
     "`model_stack` have already been fitted and need not"
+  )
+})
+
+test_that("fit_members checks for required packages", {
+  skip_on_cran()
+  
+  skip_if_not_installed("mockr")
+  
+  library(mockr)
+  
+  # check pluralization of error
+  expect_snapshot_error(error_needs_install(letters[1], rep(FALSE, 1)))
+  expect_snapshot_error(error_needs_install(letters[1:2], rep(FALSE, 2)))
+  expect_snapshot_error(error_needs_install(letters[1:3], rep(FALSE, 3)))
+  
+  # loads dependency when it's installed but not loaded
+  unloadNamespace("kernlab")
+  
+  expect_s3_class(
+    st_reg_1_ %>%
+      fit_members(),
+    "model_stack"
+  )
+  
+  expect_true(isNamespaceLoaded("kernlab"))
+  
+  # errors informatively when it's not installed
+  mockr::with_mock(
+    is_installed_ = function(x) {FALSE},
+    {expect_snapshot_error(
+        st_reg_1_ %>%
+          fit_members()
+    )}
   )
 })
