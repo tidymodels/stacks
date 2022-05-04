@@ -82,6 +82,8 @@
 #' @export
 add_candidates <- function(data_stack, candidates,
                            name = deparse(substitute(candidates)), ...) {
+  check_empty_ellipses(...)
+  
   UseMethod("add_candidates", object = candidates)
 }
 

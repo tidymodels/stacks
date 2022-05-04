@@ -130,6 +130,7 @@ blend_predictions <- function(data_stack,
     check_inherits(metric, "metric_set")
   }
   check_inherits(control, "control_grid")
+  check_empty_ellipses(...)
   
   outcome <- attr(data_stack, "outcome")
 
