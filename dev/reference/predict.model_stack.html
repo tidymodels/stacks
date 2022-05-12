@@ -146,17 +146,17 @@ the source code that generated them.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── A stacked ensemble model ─────────────────────────────────────</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Out of 11 possible candidate members, the ensemble retained 4.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Penalty: 0.1.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Penalty: 1e-06.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Mixture: 1.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The 4 highest weighted members are:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   member          type       weight</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> reg_res_sp_03_1 linear_reg 0.483 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> reg_res_sp_10_1 linear_reg 0.249 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> reg_res_lr_1_1  linear_reg 0.126 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> reg_res_sp_05_1 linear_reg 0.067<span style="text-decoration: underline;">3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> reg_res_sp_03_1 linear_reg 0.485 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> reg_res_sp_10_1 linear_reg 0.247 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> reg_res_lr_1_1  linear_reg 0.129 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> reg_res_sp_05_1 linear_reg 0.066<span style="text-decoration: underline;">6</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># predict on the tree frogs testing data</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">reg_st</span>, <span class="va">tree_frogs_reg_test</span><span class="op">)</span></span>
@@ -164,14 +164,14 @@ the source code that generated them.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    .pred</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 119. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>  81.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>  81.4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 102. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>  35.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>  35.5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 119. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>  50.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>  50.5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 122. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>  82.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>  50.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>  50.2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>  75.7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 133 more rows</span></span>
 <span class="r-in"></span>
@@ -181,14 +181,14 @@ the source code that generated them.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    .pred reg_res_lr_1_1 reg_res_sp_10_1 reg_res_sp_05_1 reg_res_sp_03_1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 119.           138.            125.            121.            114. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>  81.5           82.4            84.8            81.8            77.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>  81.4           82.4            84.8            81.8            77.1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 102.           116.            111.            112.             93.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>  35.6           35.8            29.7            32.5            29.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>  35.5           35.8            29.7            32.5            29.6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 119.           111.            115.            115.            127. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>  50.6           38.8            37.4            36.2            55.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>  50.5           38.8            37.4            36.2            55.3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 122.           123.            103.            104.            137. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>  82.7           82.3            78.6            82.0            82.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>  50.3           38.7            37.3            36.2            54.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>  50.2           38.7            37.3            36.2            54.8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>  75.7           78.8            75.3            76.9            71.8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 133 more rows</span></span>
 <span class="r-in"></span>
@@ -200,6 +200,7 @@ the source code that generated them.</p>
 <span class="r-in">  <span class="fu"><a href="blend_predictions.html">blend_predictions</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span class="r-in">  <span class="fu"><a href="fit_members.html">fit_members</a></span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span><span style="color: #BBBB00;">Predictions from 1 candidate were identical to those from existing candidates and were removed from the data stack.</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> <span style="color: #BBBB00;">Bootstrap08: preprocessor 1/1, model 1/1: from glmnet C++ code (error code -62)...</span></span>
 <span class="r-in"> </span>
 <span class="r-in"><span class="va">class_st</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── A stacked ensemble model ─────────────────────────────────────</span>
@@ -245,16 +246,16 @@ the source code that generated them.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 303 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    .pred_full .pred_low .pred_mid</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 0.999       0.000<span style="text-decoration: underline;">558</span>  0.000<span style="text-decoration: underline;">257</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 0.000<span style="text-decoration: underline;">103</span>    0.458     0.542   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 0.000<span style="text-decoration: underline;">006</span>70  0.165     0.835   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 0.000<span style="text-decoration: underline;">139</span>    0.362     0.638   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 0.998       0.001<span style="text-decoration: underline;">34</span>   0.000<span style="text-decoration: underline;">323</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 0.999       0.000<span style="text-decoration: underline;">634</span>  0.000<span style="text-decoration: underline;">257</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 0.999       0.000<span style="text-decoration: underline;">500</span>  0.000<span style="text-decoration: underline;">255</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 0.999       0.000<span style="text-decoration: underline;">634</span>  0.000<span style="text-decoration: underline;">257</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 0.999       0.000<span style="text-decoration: underline;">558</span>  0.000<span style="text-decoration: underline;">257</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 0.999       0.000<span style="text-decoration: underline;">558</span>  0.000<span style="text-decoration: underline;">257</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 0.999       0.000<span style="text-decoration: underline;">554</span>  0.000<span style="text-decoration: underline;">257</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 0.000<span style="text-decoration: underline;">116</span>    0.474     0.526   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 0.000<span style="text-decoration: underline;">006</span>97  0.158     0.842   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 0.000<span style="text-decoration: underline;">141</span>    0.427     0.573   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 0.998       0.001<span style="text-decoration: underline;">55</span>   0.000<span style="text-decoration: underline;">319</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 0.999       0.000<span style="text-decoration: underline;">686</span>  0.000<span style="text-decoration: underline;">258</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 0.999       0.000<span style="text-decoration: underline;">526</span>  0.000<span style="text-decoration: underline;">255</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 0.999       0.000<span style="text-decoration: underline;">686</span>  0.000<span style="text-decoration: underline;">258</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 0.999       0.000<span style="text-decoration: underline;">554</span>  0.000<span style="text-decoration: underline;">257</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 0.999       0.000<span style="text-decoration: underline;">554</span>  0.000<span style="text-decoration: underline;">257</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 293 more rows</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># returning the member predictions as well</span></span>
@@ -267,16 +268,16 @@ the source code that generated them.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 303 × 27</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    .pred_full .pred_low .pred_mid .pred_low_class_res_rf… .pred_low_class…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 0.999       0.000<span style="text-decoration: underline;">558</span>  0.000<span style="text-decoration: underline;">257</span>                  0.036<span style="text-decoration: underline;">9</span>            0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 0.000<span style="text-decoration: underline;">103</span>    0.458     0.542                     0.531             0.399</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 0.000<span style="text-decoration: underline;">006</span>70  0.165     0.835                     0.322             0.198</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 0.000<span style="text-decoration: underline;">139</span>    0.362     0.638                     0.542             0.472</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 0.998       0.001<span style="text-decoration: underline;">34</span>   0.000<span style="text-decoration: underline;">323</span>                  0.203             0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 0.999       0.000<span style="text-decoration: underline;">634</span>  0.000<span style="text-decoration: underline;">257</span>                  0.106             0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 0.999       0.000<span style="text-decoration: underline;">500</span>  0.000<span style="text-decoration: underline;">255</span>                  0.041<span style="text-decoration: underline;">5</span>            0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 0.999       0.000<span style="text-decoration: underline;">634</span>  0.000<span style="text-decoration: underline;">257</span>                  0.106             0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 0.999       0.000<span style="text-decoration: underline;">558</span>  0.000<span style="text-decoration: underline;">257</span>                  0.036<span style="text-decoration: underline;">9</span>            0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 0.999       0.000<span style="text-decoration: underline;">558</span>  0.000<span style="text-decoration: underline;">257</span>                  0.036<span style="text-decoration: underline;">9</span>            0    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 0.999       0.000<span style="text-decoration: underline;">554</span>  0.000<span style="text-decoration: underline;">257</span>                  0.037<span style="text-decoration: underline;">4</span>            0    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 0.000<span style="text-decoration: underline;">116</span>    0.474     0.526                     0.520             0.401</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 0.000<span style="text-decoration: underline;">006</span>97  0.158     0.842                     0.328             0.184</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 0.000<span style="text-decoration: underline;">141</span>    0.427     0.573                     0.527             0.441</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 0.998       0.001<span style="text-decoration: underline;">55</span>   0.000<span style="text-decoration: underline;">319</span>                  0.237             0    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 0.999       0.000<span style="text-decoration: underline;">686</span>  0.000<span style="text-decoration: underline;">258</span>                  0.117             0    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 0.999       0.000<span style="text-decoration: underline;">526</span>  0.000<span style="text-decoration: underline;">255</span>                  0.048<span style="text-decoration: underline;">8</span>            0    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 0.999       0.000<span style="text-decoration: underline;">686</span>  0.000<span style="text-decoration: underline;">258</span>                  0.117             0    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 0.999       0.000<span style="text-decoration: underline;">554</span>  0.000<span style="text-decoration: underline;">257</span>                  0.037<span style="text-decoration: underline;">4</span>            0    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 0.999       0.000<span style="text-decoration: underline;">554</span>  0.000<span style="text-decoration: underline;">257</span>                  0.037<span style="text-decoration: underline;">4</span>            0    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 293 more rows, and 22 more variables:</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   .pred_low_class_res_nn_1_1 &lt;dbl&gt;, .pred_low_class_res_rf_1_01 &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   .pred_low_class_res_rf_1_06 &lt;dbl&gt;, .pred_low_class_res_rf_1_10 &lt;dbl&gt;,</span></span>
