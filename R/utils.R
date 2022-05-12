@@ -48,7 +48,8 @@ utils::globalVariables(c(
   "type",
   "value",
   "weight",
-  "weighted_est"
+  "weighted_est",
+  "where"
 ))
 
 # Checks and Prompts
