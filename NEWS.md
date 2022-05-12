@@ -5,8 +5,14 @@ To be released as v0.2.3.
 * Addressed deprecation warning in `add_candidates` (#99).
 * Improved clarity of warnings/errors related to failed hyperparameter 
 tuning and resample fitting (#110).
-* Reduce model stack object size and fixed bug where object size of model stack 
-inflated drastically after saving to file (#116).
+* Reduced model stack object size and fixed bug where object size of model stack 
+inflated drastically after saving to file (#116). Also, regenerated example objects 
+with this change--saved model objects may need to be regenerated in order to 
+interface with newer versions of the package.
+* Introduced a `times` argument to `blend_predictions` that is passed on to
+`rsample::bootstraps` when fitting stacking coefficients. Reducing this
+argument from its default (`25`) greatly reduces the run time of 
+`blend_predictions` (#94).
 * The package will now load packages necessary for model fitting at 
 `fit_members()`, if available, and fail informatively if not (#118).
 * Fixed bug where meta-learner tuning would fail with outcome names and levels

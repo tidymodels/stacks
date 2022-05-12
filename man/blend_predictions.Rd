@@ -11,6 +11,7 @@ blend_predictions(
   non_negative = TRUE,
   metric = NULL,
   control = tune::control_grid(),
+  times = 25,
   ...
 )
 }
@@ -43,6 +44,10 @@ determined by \code{\link[tune:tune_grid]{tune::tune_grid()}} from the outcome c
 the model determining stacking coefficients. See \code{\link[tune:control_grid]{tune::control_grid()}}
 documentation for details on possible values. Note that any \code{extract}
 entry will be overwritten internally.}
+
+\item{times}{Number of bootstrap samples tuned over by the model that
+determines stacking coefficients. See \code{\link[rsample:bootstraps]{rsample::bootstraps()}} to
+learn more.}
 
 \item{...}{Additional arguments. Currently ignored.}
 }
@@ -159,6 +164,11 @@ reg_st \%>\%
   blend_predictions(
     control = tune::control_grid(allow_par = TRUE)
   )
+ 
+# to speed up the stacking process for preliminary
+# results, bump down the `times` argument:
+reg_st \%>\% 
+  blend_predictions(times = 5)
   
 # the process looks the same with 
 # multinomial classification models
