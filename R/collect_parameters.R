@@ -17,7 +17,7 @@
 #' 
 #' @template note_example_data
 #' 
-#' @examples 
+#' @examplesIf rlang::is_installed("kernlab")
 #' \donttest{
 #' # see the "Example Data" section above for
 #' # clarification on the objects used in these examples!

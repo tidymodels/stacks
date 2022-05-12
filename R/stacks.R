@@ -23,6 +23,8 @@
 #' 
 #' @export
 stacks <- function(...) {
+  check_empty_ellipses(...)
+  
   stack <- tibble::tibble()
   
   attr(stack, "rs_hash") <- "init_"

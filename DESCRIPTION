@@ -37,14 +37,12 @@ Imports:
     butcher (>= 0.1.3),
     yardstick,
     tidyr,
-    dials,
     glue,
     ggplot2,
     glmnet,
     cli,
     stats,
-    foreach,
-    kernlab
+    foreach
 Suggests: 
     testthat (>= 3.0.0),
     covr,
@@ -54,6 +52,8 @@ Suggests:
     modeldata,
     rmarkdown,
     nnet,
+    kernlab,
+    mockr,
     h2o,
     SuperLearner
 Config/Needs/website: 

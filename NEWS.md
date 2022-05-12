@@ -13,6 +13,10 @@ interface with newer versions of the package.
 `rsample::bootstraps` when fitting stacking coefficients. Reducing this
 argument from its default (`25`) greatly reduces the run time of 
 `blend_predictions` (#94).
+* The package will now load packages necessary for model fitting at 
+`fit_members()`, if available, and fail informatively if not (#118).
+* Fixed bug where meta-learner tuning would fail with outcome names and levels
+including the string `"class"` (#125).
 
 # stacks 0.2.2
 

@@ -12,6 +12,9 @@ library(modeldata)
 skip_if_not_installed("ranger")
 library(ranger)
 
+skip_if_not_installed("kernlab")
+library(kernlab)
+
 skip_if_not_installed("nnet")
 library(nnet)
 
@@ -203,32 +206,7 @@ test_that("add_candidates errors informatively with bad arguments", {
   )
   
   # warn when stacking may fail due to tuning failure
-  set.seed(7898)
-  data_folds <- rsample::vfold_cv(mtcars, v = 2)
-  
-  rec <- recipes::recipe(mpg ~ ., data = mtcars) %>%
-    recipes::step_bs(disp, deg_free = tune())
-  
-  model <- parsnip::linear_reg(mode = "regression", penalty = tune::tune()) %>%
-    parsnip::set_engine("glmnet")
-  
-  cars_grid_1 <- tibble::tibble(deg_free = 10L, penalty = -1)
-  
-  res_w_notes <- tune::tune_grid(
-    preprocessor = rec, 
-    object = model,
-    resamples = data_folds, 
-    grid = cars_grid_1, 
-    control = tune::control_grid(extract = function(x) {1}, save_pred = TRUE, save_workflow = TRUE)
-  )
-  
-  expect_error(
-    expect_warning(
-      stacks() %>%
-        add_candidates(res_2),
-      "argument \\`res_2\\` generated notes"
-    )
-  )
+  # TODO: re-implement tests--devel tune now errors on previous failure
 })
 
 test_that("model definition naming works as expected", {
@@ -281,5 +259,31 @@ test_that("model definition naming works as expected", {
       stacks() %>%
       add_candidates(reg_res_svm, name = "beep bop"),
     "cannot prefix a valid column name"
+  )
+})
+
+test_that("stacks can handle columns and levels named 'class'", {
+  # waiting on https://github.com/tidymodels/tune/issues/487
+  # to be able to test with entry "class"
+  x <- tibble::tibble(
+    class = sample(c("class_1", "class_2"), 100, replace = TRUE),
+    a = rnorm(100),
+    b = rnorm(100)
+  )
+  
+  res <- tune::tune_grid(
+    parsnip::logistic_reg(engine = 'glmnet', penalty = tune::tune(), mixture = 1),
+    preprocessor = recipes::recipe(class ~ ., x),
+    resamples = rsample::vfold_cv(x, 2),
+    grid = 2,
+    control = control_stack_grid()
+  )
+  
+  expect_s3_class(
+    suppressWarnings(
+      stacks() %>% 
+        add_candidates(res)
+    ),
+    "data_stack"
   )
 })

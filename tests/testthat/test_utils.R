@@ -12,6 +12,9 @@ library(modeldata)
 skip_if_not_installed("ranger")
 library(ranger)
 
+skip_if_not_installed("kernlab")
+library(kernlab)
+
 skip_if_not_installed("nnet")
 library(nnet)
 
@@ -63,4 +66,16 @@ test_that("misc. utilities work", {
   expect_error(glue_stop("howdy {yall}"), "howdy y'all")
   expect_warning(glue_warn("howdy {yall}"), "howdy y'all")
   expect_message(glue_message("howdy {yall}"), "howdy y'all")
+  
+  expect_warning(
+    check_empty_ellipses(yall),
+    "were passed: 'yall'"
+  )
+  
+  going <- "on"
+  
+  expect_warning(
+    check_empty_ellipses(hey = yall, what = "is", going),
+    "were passed: 'hey', 'what', 'going'"
+  )
 })
