@@ -1,3 +1,7 @@
+# stacks 0.2.3.9000 (development version)
+
+To be released as stacks 0.2.4.
+
 # stacks 0.2.3
 
 * Addressed deprecation warning in `add_candidates` (#99).
