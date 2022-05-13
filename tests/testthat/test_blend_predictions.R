@@ -194,6 +194,8 @@ test_that("process_data_stack works", {
 })
 
 test_that("coef environments are small (#116)", {
+  skip_on_cran()
+  
   expect_equal(
     st_reg_1_$coefs$spec$eng_arg$lower.limits,
     rlang::new_quosure(0, env = rlang::empty_env())
