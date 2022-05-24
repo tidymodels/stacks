@@ -2,6 +2,9 @@
 
 To be released as stacks 0.2.4.
 
+* Addressed re-introduction of bug arising from outcome levels that are not 
+  valid column names in the multinomial classification setting (#133). 
+
 # stacks 0.2.3
 
 * Addressed deprecation warning in `add_candidates` (#99).
