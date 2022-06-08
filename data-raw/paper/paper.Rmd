@@ -32,7 +32,7 @@ journal: JOSS
 
 # Summary
 
-Model stacking is an ensemble modeling technique that involves training a model to combine the outputs of many constituent statistical models. {stacks} is a free and open-source R software package for stacked ensemble modeling that aligns with tidy data principles. The package’s functionality is closely aligned with the {tidymodels}, a collection of packages providing a unified interface to diverse statistical modeling techniques. Beyond simply providing a mathematically robust interface to build stacked ensemble models, {stacks} adheres to a consistent grammar to interface with two object classes that promote an intuitive understanding of the underlying implementation.
+Model stacking is an ensemble modeling technique that involves training a model to combine the outputs of many constituent statistical models. {stacks} is a free and open-source R software package for stacked ensemble modeling that is consistent with tidy data principles. The package’s functionality is closely aligned with the {tidymodels}, a collection of packages providing a unified interface to a diverse set of statistical modeling techniques. Beyond simply providing a mathematically robust interface to build stacked ensemble models, {stacks} adheres to a consistent grammar in order to interface with two object classes that promote an intuitive understanding of the underlying implementation.
 
 # Statement of Need
 
