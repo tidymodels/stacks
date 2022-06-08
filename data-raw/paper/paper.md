@@ -57,7 +57,7 @@ In addition to the aforementioned core verbs, the package supplies several helpe
 
 # Comparison to Other Packages
 
-A number of software packages on the Comprehensive R Archive Network share functionality with {stacks} [@CRAN]. Notably, of course, the package integrates tightly with other packages in the {tidymodels} ecosystem, such as {tune}, {parsnip}, {rsample}, and {recipes}.
+A number of software packages on the Comprehensive R Archive Network share functionality with {stacks} [@CRAN]. Notably, of course, the package integrates tightly with other packages in the {tidymodels} ecosystem, such as {tune}, {parsnip}, {rsample}, and {recipes} [@kuhn2022tidymodels].
 
 There are also other packages providing implementations of model ensembling in R. The {h2o} R package ports functionality from the H2O modeling ecosystem to R via a REST API, including an implementation of ensembling that supports meta-learners beyond the generalized linear model supported by {stacks} [@h2o]. The {SuperLearner} package also provides an implementation of model ensembling, providing its own wrappers for member model types and also supplying a number of different options for meta-learners [@SuperLearner]. Each of these packages differ in the number of model types, error metrics, and cross-validation schemes supported, as well as the modeling behaviors encouraged in their interfaces.
 
