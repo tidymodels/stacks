@@ -1,5 +1,5 @@
 ---
-title: 'Stacked Ensemble Modeling with Tidy Data Principles'
+title: 'stacks: Stacked Ensemble Modeling with Tidy Data Principles'
 tags:
   - data science
   - tidyverse
@@ -10,20 +10,17 @@ authors:
 - name: Simon P. Couch
   orcid: 0000-0001-5676-5107
   affiliation: 1
+  corresponding: true
 - name: Max Kuhn
   affiliation: 1
 affiliations:
  - name: RStudio PBC
    index: 1
 citation_author: Couch et. al.
-date: 10 September 2021
-year: 2021
+date: 8 June 2022
+year: 2022
 bibliography: paper.bib
-output: 
-  rticles::joss_article:
-    keep_tex: true
-    includes:
-      in_header: columns.tex
+output: rticles::joss_article
 csl: apa.csl
 journal: JOSS
 ---
@@ -38,7 +35,7 @@ Model stacking is an ensemble modeling technique that involves training a model 
 
 Packages implementing methods for predictive and inferential modeling in R are highly variable in their interfaces. The structure of inputted data, argument names, expected argument types, argument orders, output types, and spelling cases varies widely both within and among packages. This diversity in approaches obscures the intuition shared among common modeling procedures, makes details of usage difficult to remember, and prevents an expressive and idiomatic coding style. In contrast, {stacks} utilizes the consistent and unified interface of the {tidymodels} packages to implement a generalized and concise grammar for model stacking. The package supports ensembling using any member model type, cross-validation scheme, and error metric implemented in---or in alignment with---the {tidymodels}.
 
-The principled and generalized approach of the package lends itself to diverse applications of predictive modeling. This capability, for one, was recognized with the receipt of the American Statistical Association's 2021 John M. Chambers Award, awarded "for the development and implementation of computational tools for the statistical profession by a graduate or undergraduate student" [@chambers]. The package's functionality has also been shared in venues such as R/Pharma 2020, rstudio::global(2021), and the 2021 Joint Statistical Meetings. To date, the package has been downloaded more than 10,000 times, evidencing its key contribution to a software ecosystem utilized in diverse research contexts.
+The principled and generalized approach of the package lends itself to diverse applications of predictive modeling. This capability, for one, was recognized with the receipt of the American Statistical Association's 2021 John M. Chambers Award, awarded "for the development and implementation of computational tools for the statistical profession by a graduate or undergraduate student" [@chambers]. The package's functionality has also been shared in venues such as R/Pharma 2020, rstudio::global(2021), and the 2021 Joint Statistical Meetings. To date, the package has been downloaded more than 20,000 times, evidencing its key contribution to a software ecosystem utilized in diverse research contexts.
 
 # Underlying Principles
 
