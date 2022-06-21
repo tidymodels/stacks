@@ -55,11 +55,13 @@ After all candidates are collated to the data stack, the user can fit the meta-l
 
 In addition to the aforementioned core verbs, the package supplies several helper functions to interface more effectively with model stacks. Notably, `collect_parameters()` juxtaposes model parameters with their stacking coefficients, and an `autoplot()` S3 method provides model diagnostic visualizations using {ggplot2}.
 
-# Comparison to Other Packages
+# Comparison to Other Software
 
 A number of software packages on the Comprehensive R Archive Network share functionality with {stacks} [@CRAN]. Notably, of course, the package integrates tightly with other packages in the {tidymodels} ecosystem, such as {tune}, {parsnip}, {rsample}, and {recipes} [@kuhn2022tidymodels].
 
-There are also other packages providing implementations of model ensembling in R. The {h2o} R package ports functionality from the H2O modeling ecosystem to R via a REST API, including an implementation of ensembling that supports meta-learners beyond the generalized linear model supported by {stacks} [@h2o]. The {SuperLearner} package also provides an implementation of model ensembling, providing its own wrappers for member model types and also supplying a number of different options for meta-learners [@SuperLearner]. Each of these packages differ in the number of model types, error metrics, and cross-validation schemes supported, as well as the modeling behaviors encouraged in their interfaces.
+There are also other packages providing implementations of model ensembling in R. The {h2o} R package ports functionality from the H2O modeling ecosystem to R via a REST API, including an implementation of ensembling [@h2o]. Similarly, the {mlr3pipelines} package implements an interface for ensembling models defined in the {mlr3} modeling ecosystem [@mlr3ens]. The {SuperLearner} package also provides an implementation of model ensembling, providing its own wrappers for member model types and also supplying a number of different options for meta-learners [@SuperLearner]. Each of these packages differ in the number of model types, error metrics, cross-validation schemes, and meta-learners supported, as well as the modeling behaviors encouraged in their interfaces.
+
+Beyond the R language, a number of modeling ecosystems implement interfaces to ensembling. In Python, notably, the Keras and Scikit-learn libraries supply methods for model ensembling [@chollet2015keras; @jain2011scikit]. Many modeling ecosystems utilized in multi-language ports include model ensembling in implementations of automated machine learning---notable examples include the Azure Machine Learning platform and (previously mentioned) H2O AutoML [@barnes2015azure; @h2o]. Model ensembling, generally, is an actively researched topic with diverse applications and implementations---see Dong et al. for a review of contemporary ensembling research and references to software implementations [@dong2020survey]. Again, each of these ecosystems vary greatly in the modeling behaviors that their interfaces encourage and accommodate.
 
 # Acknowledgements
 

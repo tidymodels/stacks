@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2022.6.8)  8 JUN 2022 11:47
+This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2022.6.8)  21 JUN 2022 14:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -952,9 +952,19 @@ Package fancyhdr Warning: \headheight is too small (62.59596pt):
 (fancyhdr)                You might also make \topmargin smaller to compensate:
 (fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
 
-[3] (./paper.aux)
+[3]
+File: /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rticles/rmarkdown/templates/joss/resources/JOSS-logo.png Graphic file (type bmp)
+</Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/rticles/rmarkdown/templates/joss/resources/JOSS-logo.png>
+
+Package fancyhdr Warning: \headheight is too small (62.59596pt): 
+(fancyhdr)                Make it at least 63.55022pt, for example:
+(fancyhdr)                \setlength{\headheight}{63.55022pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
+
+[4] (./paper.aux)
 Package rerunfilecheck Info: File `paper.out' has not changed.
-(rerunfilecheck)             Checksum: 37FE36B6DAE627D4184EC221DDF1FD24;777.
+(rerunfilecheck)             Checksum: F09C089AC4BF550110FB535B00C77D05;777.
 Package logreq Info: Writing requests to 'paper.run.xml'.
 \openout1 = `paper.run.xml'.
 
@@ -968,4 +978,4 @@ Here is how much of TeX's memory you used:
  14 hyphenation exceptions out of 8191
  84i,12n,81p,738b,846s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on paper.pdf (3 pages).
+Output written on paper.pdf (4 pages).

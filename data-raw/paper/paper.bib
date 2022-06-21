@@ -18,7 +18,7 @@
 }
 
 @Manual{CRAN,
-  title        = {R: A Language and Environment for Statistical
+  title        = {{R}: A Language and Environment for Statistical
                   Computing},
   author       = {{R Core Team}},
   organization = {R Foundation for Statistical Computing},
@@ -27,21 +27,26 @@
   url = {https://www.R-project.org/}
 }
 
-@Manual{h2o,
-  title = {h2o: R Interface for the `H2O' Scalable Machine Learning Platform},
-  author = {Erin LeDell and Navdeep Gill and Spencer Aiello and Anqi Fu and Arno Candel and Cliff Click and Tom Kraljevic and Tomas Nykodym and Patrick Aboyoun and Michal Kurka and Michal Malohlava},
-  year = {2022},
-  note = {R package version 3.36.0.1},
-  url = {https://CRAN.R-project.org/package=h2o},
+@inproceedings{h2o,
+  title={{h2o} {AutoML}: {Scalable} automatic machine learning},
+  author={LeDell, Erin and Poirier, Sebastien},
+  booktitle={Proceedings of the AutoML Workshop at ICML},
+  volume={2020},
+  year={2020}
 }
 
-@Manual{SuperLearner,
-  title = {SuperLearner: Super {Learner} {Prediction}},
-  author = {Eric Polley and Erin LeDell and Chris Kennedy and Mark {van der Laan}},
-  year = {2022},
-  note = {R package version 2.0-28},
-  url = {https://CRAN.R-project.org/package=SuperLearner},
+@article{SuperLearner,
+author = {Mark J. van der Laan and Eric C Polley and Alan E. Hubbard},
+doi = "10.2202/1544-6115.1309",
+url = {https://doi.org/10.2202/1544-6115.1309},
+title = {Super {Learner}},
+journal = {Statistical Applications in Genetics and Molecular Biology},
+number = {1},
+volume = {6},
+year = {2007},
+lastchecked = {2022-06-21}
 }
+
 
 @Manual{chambers,
   title = {{John} {M.} {Chambers} {Statistical} {Software} {Award}},
@@ -57,4 +62,50 @@
   volume={143},
   pages={143},
   year={2015}
+}
+
+@Article{mlr3ens,
+  title = {{mlr3pipelines} - Flexible Machine Learning Pipelines in {R}},
+  author = {Martin Binder and Florian Pfisterer and Michel Lang and Lennart Schneider and Lars Kotthoff and Bernd Bischl},
+  journal = {Journal of Machine Learning Research},
+  year = {2021},
+  volume = {22},
+  number = {184},
+  pages = {1-7},
+  url = {https://jmlr.org/papers/v22/21-0281.html},
+}
+
+@article{jain2011scikit,
+  title={Scikit-learn: Machine learning in {Python}},
+  author={Jain, Arpan and others},
+  journal={J. Mach. Learn. Res},
+  volume={12},
+  pages={2825--2830},
+  year={2011}
+}
+
+@article{dong2020survey,
+  title={A survey on ensemble learning},
+  author={Dong, Xibin and others},
+  journal={Frontiers of Computer Science},
+  volume={14},
+  number={2},
+  pages={241--258},
+  year={2020},
+  publisher={Springer}
+}
+
+@incollection{barnes2015azure,
+  title={Azure machine learning},
+  author={Barnes, Jeff},
+  booktitle={Microsoft Azure Essentials},
+  year={2015},
+  publisher={Microsoft}
+}
+
+@misc{chollet2015keras,
+  title={Keras},
+  author={Chollet, Fran\c{c}ois and others},
+  year={2015},
+  howpublished={\url{https://keras.io}},
 }
