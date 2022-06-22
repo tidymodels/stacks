@@ -185,7 +185,7 @@ stack_predict.multnet_class <- function(x, data, ...) {
   res <- 
     multi_net_engine(x, data) %>% 
     dplyr::mutate(
-      .pred_class = lvls[idx],
+      .pred_class = gsub(".pred_", "", colnames(.)[idx]),
       .pred_class = factor(.pred_class, levels = lvls)
     ) %>% 
     dplyr::select(.pred_class)

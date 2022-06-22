@@ -62,6 +62,34 @@ test_that("predict method works (classification)", {
   # )))
 })
 
+test_that("class probability summarization works", {
+  skip_on_cran()
+  
+  pred_p <- predict(st_class_1__, tree_frogs_class_test, type = "prob")
+  
+  hard_class_preds <- 
+    pred_p %>%
+    dplyr::select(where(is.numeric)) %>%
+    dplyr::mutate(row = dplyr::row_number()) %>%
+    tidyr::pivot_longer(
+      dplyr::starts_with(".pred_"), 
+      names_to = "level", 
+      values_to = "prob"
+    ) %>%
+    dplyr::mutate(
+      level = gsub(".pred_", "", level)
+    ) %>%
+    dplyr::group_by(
+      row
+    ) %>%
+    dplyr::summarize(
+      max = max(prob),
+      level = level[prob == max]
+    )
+
+  expect_true(all(hard_class_preds$level == pred_p$.pred_class))  
+})
+
 test_that("predict method errors informatively", {
   skip_on_cran()
   

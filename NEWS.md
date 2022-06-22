@@ -4,6 +4,9 @@ To be released as stacks 0.2.4.
 
 * Addressed re-introduction of bug arising from outcome levels that are not 
   valid column names in the multinomial classification setting (#133). 
+* Fixes bug where stacks will return incorrect predictions if an elastic net
+  meta-learner is used, the `type` argument to `predict` is set to `"class"`, 
+  and the outcome levels differ from alphabetical order.
 
 # stacks 0.2.3
 
