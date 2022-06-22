@@ -54,7 +54,9 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.3.9000" id="stacks-0239000-development-version">stacks 0.2.3.9000 (development version)<a class="anchor" aria-label="anchor" href="#stacks-0239000-development-version"></a></h2>
 <p>To be released as stacks 0.2.4.</p>
-<ul><li>Addressed re-introduction of bug arising from outcome levels that are not valid column names in the multinomial classification setting (<a href="https://github.com/tidymodels/stacks/issues/133" class="external-link">#133</a>).</li></ul></div>
+<ul><li>Addressed re-introduction of bug arising from outcome levels that are not valid column names in the multinomial classification setting (<a href="https://github.com/tidymodels/stacks/issues/133" class="external-link">#133</a>).</li>
+<li>Fixes bug where stacks will return incorrect predictions if an elastic net meta-learner is used, the <code>type</code> argument to <code>predict</code> is set to <code>"class"</code>, and the outcome levels differ from alphabetical order.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.3" id="stacks-023">stacks 0.2.3<a class="anchor" aria-label="anchor" href="#stacks-023"></a></h2><p class="text-muted">CRAN release: 2022-05-12</p>
 <ul><li>Addressed deprecation warning in <code>add_candidates</code> (<a href="https://github.com/tidymodels/stacks/issues/99" class="external-link">#99</a>).</li>
