@@ -31,7 +31,7 @@ Imports:
     purrr (>= 0.3.2), 
     parsnip (>= 0.0.4),
     workflows (>= 0.2.3),
-    recipes (>= 0.1.15),
+    recipes (>= 0.2.0),
     rsample (>= 0.1.1),
     workflowsets (>= 0.1.0),
     butcher (>= 0.1.3),
