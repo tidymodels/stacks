@@ -58,6 +58,7 @@ Suggests:
     SuperLearner
 Config/Needs/website: 
     tidyverse/tidytemplate 
+    tidymodels/tidymodels
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
