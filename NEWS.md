@@ -1,12 +1,19 @@
-# stacks 0.2.3.9000 (development version)
+# stacks (development version)
 
-To be released as stacks 0.2.4.
+To be released as stacks 1.0.0.
 
 * Addressed re-introduction of bug arising from outcome levels that are not 
   valid column names in the multinomial classification setting (#133). 
 * Fixes bug where stacks will return incorrect predictions if an elastic net
   meta-learner is used, the `type` argument to `predict` is set to `"class"`, 
   and the outcome levels differ from alphabetical order.
+* Transitions package internals from functions deprecated from the recipes package.
+
+# stacks 0.2.4 (GitHub only)
+
+This is a GitHub-only release and does not change package source code. This 
+update includes a `data-raw/paper` subdirectory containing source for a 
+contributed paper to the Journal of Open Source Software.
 
 # stacks 0.2.3
 
