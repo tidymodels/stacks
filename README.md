@@ -1,6 +1,8 @@
 
 <!-- badges: start -->
 
+[![DOI
+badge](https://joss.theoj.org/papers/10.21105/joss.04471/status.svg)](https://doi.org/10.21105/joss.04471)
 [![R build
 status](https://github.com/simonpcouch/stacks/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/stacks/actions)
 [![Codecov test
