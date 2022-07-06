@@ -1,3 +1,7 @@
+# stacks 1.0.0.9000 (developmental version)
+
+To be released as stacks 1.0.1.
+
 # stacks 1.0.0
 
 stacks 1.0.0 is the first production release of the package. While this release
