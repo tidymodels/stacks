@@ -506,7 +506,8 @@ collate_predictions <- function(x) {
 
 # given a set of candidate columns, removes those with hard class predictions
 remove_class_preds <- function(x) {
-  lvls <- make.names(levels(factor(x[[1]])))
+  lvls <- make.names(paste0(".prefix.", levels(factor(x[[1]]))))
+  lvls <- gsub(".prefix.", "", lvls, fixed = TRUE)
 
   # gather indices for the columns with class probability predictions
   prob_preds_idx <- purrr::map(paste0(".pred_", lvls), grepl, x = colnames(x)) %>%

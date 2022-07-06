@@ -1,8 +1,13 @@
-# stacks (development version)
+# stacks 1.0.0
 
-To be released as stacks 1.0.0.
+stacks 1.0.0 is the first production release of the package. While this release
+includes only a few minor bug fixes, it's accompanied by a white paper
+recently published in the Journal of Open Source software. You can read
+that paper [here](https://doi.org/10.21105/joss.04471)!
 
-* Addressed re-introduction of bug arising from outcome levels that are not 
+This release:
+
+* Addresses re-introduction of a bug arising from outcome levels that are not 
   valid column names in the multinomial classification setting (#133). 
 * Fixes bug where stacks will return incorrect predictions if an elastic net
   meta-learner is used, the `type` argument to `predict` is set to `"class"`, 

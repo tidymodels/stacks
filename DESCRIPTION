@@ -1,6 +1,6 @@
 Package: stacks
 Title: Tidy Model Stacking
-Version: 0.2.4.9000
+Version: 1.0.0
 Authors@R: c(
     person(given = "Simon",
            family = "Couch",
