@@ -1,0 +1,73 @@
+---
+title: "How stacks spends your data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{How stacks spends your data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette pairs closely with the ["Spending our data" chapter](https://www.tmwr.org/splitting.html) in the book _Tidy Modeling With R_. If you're unfamiliar with the concept of "splitting" or creating a "data budget," you may want to give that chapter a glance before reading further.
+
+A principle that guides our design of tidymodels packages is the encouragement and accommodation of good data splitting practice. stacks is no exception, in this regard---the data structures inputted to the package's functions, the data structures of objects outputted by the package, and the delineation of different ensembling steps into separate functions aims to emphasize how we've spent our data.
+
+In building a model stack, there are a good few different instances of data splitting and resampling that are worth drawing attention to. As we walk through a stacking workflow, we'll call out when a split or resample is in play, and what it means for the modeling process.
+
+## Getting situated
+
+To get started, let's load the core tidymodels packages and stacks:
+
+```{r setup, eval = FALSE}
+library(tidymodels)
+library(stacks)
+```
+
+```{r setup, message = FALSE, warning = FALSE, include = FALSE}
+# show loading the tidymodels packages altogether, but load them
+# one-by-one for dependency-friendliness :)
+library(rsample)
+library(parsnip)
+library(tune)
+library(modeldata)
+library(purrr)
+library(dplyr)
+library(ggplot2)
+
+library(stacks)
+```
+
+In this example, we'll make use of the `tree_frogs` data exported with `stacks`, giving experimental results on hatching behavior of red-eyed tree frog embryos! 
+
+Red-eyed tree frog (RETF) embryos can hatch earlier than their normal 7ish days if they detect potential predator threat. Researchers wanted to determine how, and when, these tree frog embryos were able to detect stimulus from their environment. To do so, they subjected the embryos at varying developmental stages to "predator stimulus" by jiggling the embryos with a blunt probe. Beforehand, though some of the embryos were treated with gentamicin, a compound that knocks out their lateral line (a sensory organ.) Researcher Dr. Julie Jung and her crew found that these factors inform whether an embryo hatches prematurely or not!
+
+We'll start out with predicting `latency` (i.e. time to hatch) based on other attributes. We'll need to filter out NAs (i.e. cases where the embryo did not hatch) first:
+
+```{r, message = FALSE, warning = FALSE}
+data("tree_frogs")
+
+# subset the data
+tree_frogs <- tree_frogs %>%
+  filter(!is.na(latency)) %>%
+  select(-c(clutch, hatched))
+```
+
+Even making use of only two explanatory variables, we can get a pretty good sense of time to hatch:
+
+```{r, message = FALSE, warning = FALSE}
+ggplot(tree_frogs) +
+  aes(x = age, y = latency, color = treatment) +
+  geom_point() +
+  labs(x = "Embryo Age (s)", y = "Time to Hatch (s)", col = "Treatment")
+```
+
+* The train/test split
+* The analysis/assessment split
+* Resampling the data stack
+* Fitting members
