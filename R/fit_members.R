@@ -101,16 +101,16 @@ fit_members <- function(model_stack, ...) {
     members_map <- 
       tibble::enframe(model_stack[["cols_map"]]) %>%
       tidyr::unnest(cols = value) %>%
-      dplyr::full_join(metrics_dict, by = c("value" = ".config"))
+      dplyr::full_join(metrics_dict, by = c("value" = ".config"), multiple = "all")
   } else {
     members_map <- 
       tibble::enframe(model_stack[["cols_map"]]) %>%
       tidyr::unnest(cols = value) %>%
-      dplyr::full_join(member_dict, by = c("value" = "old")) %>%
+      dplyr::full_join(member_dict, by = c("value" = "old"), multiple = "all") %>%
       dplyr::filter(!is.na(new)) %>%
       dplyr::select(name, value = new) %>%
       dplyr::filter(!duplicated(.$value)) %>%
-      dplyr::full_join(metrics_dict, by = c("value" = ".config"))
+      dplyr::full_join(metrics_dict, by = c("value" = ".config"), multiple = "all")
   }
   
   if (foreach::getDoParWorkers() > 1) {
