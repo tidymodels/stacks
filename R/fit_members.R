@@ -100,17 +100,38 @@ fit_members <- function(model_stack, ...) {
   if (model_stack[["mode"]] == "regression") {
     members_map <- 
       tibble::enframe(model_stack[["cols_map"]]) %>%
-      tidyr::unnest(cols = value) %>%
-      dplyr::full_join(metrics_dict, by = c("value" = ".config"), multiple = "all")
+      tidyr::unnest(cols = value)
+    if (utils::packageVersion("dplyr") >= "1.0.99.9000") {
+      members_map <- members_map %>%
+        dplyr::full_join(metrics_dict, by = c("value" = ".config"), multiple = "all")
+    } else {
+      members_map <- members_map %>%
+        dplyr::full_join(metrics_dict, by = c("value" = ".config"))
+    }
   } else {
     members_map <- 
       tibble::enframe(model_stack[["cols_map"]]) %>%
-      tidyr::unnest(cols = value) %>%
-      dplyr::full_join(member_dict, by = c("value" = "old"), multiple = "all") %>%
+      tidyr::unnest(cols = value)
+    if (utils::packageVersion("dplyr") >= "1.0.99.9000") {
+      members_map <- members_map %>%
+        dplyr::full_join(member_dict, by = c("value" = "old"), multiple = "all")
+    } else {
+      members_map <- members_map %>%
+        dplyr::full_join(member_dict, by = c("value" = "old"))
+    }
+    
+    members_map <- members_map %>%
       dplyr::filter(!is.na(new)) %>%
       dplyr::select(name, value = new) %>%
-      dplyr::filter(!duplicated(.$value)) %>%
-      dplyr::full_join(metrics_dict, by = c("value" = ".config"), multiple = "all")
+      dplyr::filter(!duplicated(.$value))
+    
+    if (utils::packageVersion("dplyr") >= "1.0.99.9000") {
+      members_map <- members_map %>%
+        dplyr::full_join(metrics_dict, by = c("value" = ".config"), multiple = "all")
+    } else {
+      members_map <- members_map %>%
+        dplyr::full_join(metrics_dict, by = c("value" = ".config"))
+    }
   }
   
   if (foreach::getDoParWorkers() > 1) {
