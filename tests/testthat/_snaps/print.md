@@ -49,7 +49,7 @@
         member          type    weight
         <chr>           <chr>    <dbl>
       1 reg_res_svm_1_3 svm_rbf  1.26 
-      2 reg_res_svm_1_2 svm_rbf  0.136
+      2 reg_res_svm_1_2 svm_rbf  0.135
     Message
       
       Members have not yet been fitted with `fit_members()`.
@@ -98,8 +98,8 @@
         member                    type        weight
         <chr>                     <chr>        <dbl>
       1 .pred_yes_log_res_rf_1_05 rand_forest  3.56 
-      2 .pred_yes_log_res_rf_1_02 rand_forest  3.22 
-      3 .pred_yes_log_res_rf_1_09 rand_forest  0.226
+      2 .pred_yes_log_res_rf_1_02 rand_forest  3.23 
+      3 .pred_yes_log_res_rf_1_09 rand_forest  0.215
     Message
       
       Members have not yet been fitted with `fit_members()`.
@@ -121,7 +121,7 @@
         member          type    weight
         <chr>           <chr>    <dbl>
       1 reg_res_svm_1_3 svm_rbf  1.26 
-      2 reg_res_svm_1_2 svm_rbf  0.136
+      2 reg_res_svm_1_2 svm_rbf  0.135
 
 ---
 
@@ -164,6 +164,6 @@
         member                    type        weight
         <chr>                     <chr>        <dbl>
       1 .pred_yes_log_res_rf_1_05 rand_forest  3.56 
-      2 .pred_yes_log_res_rf_1_02 rand_forest  3.22 
-      3 .pred_yes_log_res_rf_1_09 rand_forest  0.226
+      2 .pred_yes_log_res_rf_1_02 rand_forest  3.23 
+      3 .pred_yes_log_res_rf_1_09 rand_forest  0.215
 

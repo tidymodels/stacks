@@ -201,8 +201,8 @@ test_that("coef environments are small (#116)", {
     rlang::new_quosure(0, env = rlang::empty_env())
   )
   
-  expect_equal(
-    attr(st_reg_1_$coefs$preproc$terms, ".Environment"), 
-    rlang::base_env()
-  )
+  expect_true(all(
+    names(attr(st_reg_1_$coefs$preproc$terms, ".Environment")) %in% 
+    c("data", "weights")
+  ))
 })
