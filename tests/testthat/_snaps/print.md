@@ -61,26 +61,22 @@
     Message
       -- A stacked ensemble model -------------------------------------
       
-      Out of 19 possible candidate members, the ensemble retained 11.
-      Penalty: 0.001.
+      Out of 19 possible candidate members, the ensemble retained 6.
+      Penalty: 0.1.
       Mixture: 1.
-      Across the 3 classes, there are an average of 3.67 coefficients per class.
+      Across the 3 classes, there are an average of 3 coefficients per class.
       
-      The 10 highest weighted member classes are:
+      The 6 highest weighted member classes are:
     Output
-      # A tibble: 10 x 4
-         member                       type        weight class
-         <chr>                        <chr>        <dbl> <chr>
-       1 .pred_mid_class_res_rf_1_01  rand_forest  7.71  mid  
-       2 .pred_full_class_res_rf_1_05 rand_forest  7.03  full 
-       3 .pred_mid_class_res_rf_1_07  rand_forest  5.66  low  
-       4 .pred_mid_class_res_rf_1_08  rand_forest  5.56  low  
-       5 .pred_mid_class_res_rf_1_06  rand_forest  3.96  mid  
-       6 .pred_full_class_res_rf_1_07 rand_forest  2.09  full 
-       7 .pred_full_class_res_rf_1_01 rand_forest  0.919 full 
-       8 .pred_full_class_res_rf_1_09 rand_forest  0.386 full 
-       9 .pred_mid_class_res_rf_1_10  rand_forest  0.164 mid  
-      10 .pred_full_class_res_rf_1_06 rand_forest  0.129 full 
+      # A tibble: 6 x 4
+        member                       type        weight class
+        <chr>                        <chr>        <dbl> <chr>
+      1 .pred_full_class_res_rf_1_05 rand_forest 3.75   full 
+      2 .pred_mid_class_res_rf_1_06  rand_forest 0.674  mid  
+      3 .pred_full_class_res_rf_1_07 rand_forest 0.411  full 
+      4 .pred_full_class_res_rf_1_01 rand_forest 0.0957 full 
+      5 .pred_full_class_res_rf_1_06 rand_forest 0.0193 full 
+      6 .pred_full_class_res_rf_1_04 rand_forest 0.0110 full 
     Message
       
       Members have not yet been fitted with `fit_members()`.
@@ -93,7 +89,7 @@
       -- A stacked ensemble model -------------------------------------
       
       Out of 10 possible candidate members, the ensemble retained 3.
-      Penalty: 1e-06.
+      Penalty: 1e-05.
       Mixture: 1.
       
       The 3 highest weighted member classes are:
@@ -101,9 +97,9 @@
       # A tibble: 3 x 3
         member                    type        weight
         <chr>                     <chr>        <dbl>
-      1 .pred_yes_log_res_rf_1_05 rand_forest  3.54 
-      2 .pred_yes_log_res_rf_1_02 rand_forest  3.26 
-      3 .pred_yes_log_res_rf_1_09 rand_forest  0.203
+      1 .pred_yes_log_res_rf_1_05 rand_forest  3.56 
+      2 .pred_yes_log_res_rf_1_02 rand_forest  3.23 
+      3 .pred_yes_log_res_rf_1_09 rand_forest  0.215
     Message
       
       Members have not yet been fitted with `fit_members()`.
@@ -134,26 +130,22 @@
     Message
       -- A stacked ensemble model -------------------------------------
       
-      Out of 19 possible candidate members, the ensemble retained 11.
-      Penalty: 0.001.
+      Out of 19 possible candidate members, the ensemble retained 6.
+      Penalty: 0.1.
       Mixture: 1.
-      Across the 3 classes, there are an average of 3.67 coefficients per class.
+      Across the 3 classes, there are an average of 3 coefficients per class.
       
-      The 10 highest weighted member classes are:
+      The 6 highest weighted member classes are:
     Output
-      # A tibble: 10 x 4
-         member                       type        weight class
-         <chr>                        <chr>        <dbl> <chr>
-       1 .pred_mid_class_res_rf_1_01  rand_forest  7.71  mid  
-       2 .pred_full_class_res_rf_1_05 rand_forest  7.03  full 
-       3 .pred_mid_class_res_rf_1_07  rand_forest  5.66  low  
-       4 .pred_mid_class_res_rf_1_08  rand_forest  5.56  low  
-       5 .pred_mid_class_res_rf_1_06  rand_forest  3.96  mid  
-       6 .pred_full_class_res_rf_1_07 rand_forest  2.09  full 
-       7 .pred_full_class_res_rf_1_01 rand_forest  0.919 full 
-       8 .pred_full_class_res_rf_1_09 rand_forest  0.386 full 
-       9 .pred_mid_class_res_rf_1_10  rand_forest  0.164 mid  
-      10 .pred_full_class_res_rf_1_06 rand_forest  0.129 full 
+      # A tibble: 6 x 4
+        member                       type        weight class
+        <chr>                        <chr>        <dbl> <chr>
+      1 .pred_full_class_res_rf_1_05 rand_forest 3.75   full 
+      2 .pred_mid_class_res_rf_1_06  rand_forest 0.674  mid  
+      3 .pred_full_class_res_rf_1_07 rand_forest 0.411  full 
+      4 .pred_full_class_res_rf_1_01 rand_forest 0.0957 full 
+      5 .pred_full_class_res_rf_1_06 rand_forest 0.0193 full 
+      6 .pred_full_class_res_rf_1_04 rand_forest 0.0110 full 
 
 ---
 
@@ -163,7 +155,7 @@
       -- A stacked ensemble model -------------------------------------
       
       Out of 10 possible candidate members, the ensemble retained 3.
-      Penalty: 1e-06.
+      Penalty: 1e-05.
       Mixture: 1.
       
       The 3 highest weighted member classes are:
@@ -171,7 +163,7 @@
       # A tibble: 3 x 3
         member                    type        weight
         <chr>                     <chr>        <dbl>
-      1 .pred_yes_log_res_rf_1_05 rand_forest  3.54 
-      2 .pred_yes_log_res_rf_1_02 rand_forest  3.26 
-      3 .pred_yes_log_res_rf_1_09 rand_forest  0.203
+      1 .pred_yes_log_res_rf_1_05 rand_forest  3.56 
+      2 .pred_yes_log_res_rf_1_02 rand_forest  3.23 
+      3 .pred_yes_log_res_rf_1_09 rand_forest  0.215
 
