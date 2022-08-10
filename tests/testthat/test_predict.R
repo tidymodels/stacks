@@ -66,6 +66,7 @@ test_that("class probability summarization works", {
   skip_on_cran()
   
   pred_p <- predict(st_class_1__, tree_frogs_class_test, type = "prob")
+  pred_c <- predict(st_class_1__, tree_frogs_class_test, type = "class")
   
   hard_class_preds <- 
     pred_p %>%
@@ -87,7 +88,7 @@ test_that("class probability summarization works", {
       level = level[prob == max]
     )
 
-  expect_true(all(hard_class_preds$level == pred_p$.pred_class))  
+  expect_true(all(hard_class_preds$level == pred_c$.pred_class))  
 })
 
 test_that("predict method errors informatively", {
