@@ -337,7 +337,7 @@ rm_duplicate_cols <- function(df) {
       "those from existing candidates and were removed from the data stack."
     )
     
-    df <- df %>% dplyr::select(-exclude)
+    df <- df %>% dplyr::select(-any_of(exclude))
   }
   
   df
