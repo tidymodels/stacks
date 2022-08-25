@@ -249,8 +249,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> rand_forest_res_1_02     2    33 low   .pred_full_rand_forest_…  0     </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> rand_forest_res_1_02     2    33 mid   .pred_mid_rand_forest_r…  3.54  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> rand_forest_res_1_02     2    33 mid   .pred_full_rand_forest_…  0     </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 50 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 50 more rows</span></span></span></code></pre></div>
 <p>This object is now ready to predict with new data!</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tree_frogs_pred</span> <span class="op">&lt;-</span></span>
@@ -298,7 +297,6 @@
 <span><span class="co">#&gt; <span style="color: #949494;">#   .pred_class_rand_forest_res_1_10 &lt;fct&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   .pred_class_rand_forest_res_1_02 &lt;fct&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   .pred_class_rand_forest_res_1_09 &lt;fct&gt;, …</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span>
 <span></span>
 <span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_dfr</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span><span class="op">)</span><span class="op">)</span>,</span>
