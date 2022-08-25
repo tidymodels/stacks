@@ -50,4 +50,7 @@ tree_frogs <-
   ) %>%
   slice_sample(n = nrow(.))
 
+# wipe `problems` attribute
+attributes(tree_frogs)$problems <- NULL
+
 usethis::use_data(tree_frogs, internal = FALSE, overwrite = TRUE)

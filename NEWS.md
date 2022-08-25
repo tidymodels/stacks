@@ -2,6 +2,9 @@
 
 To be released as stacks 1.0.1.
 
+* Removes an unneeded data import attribute from the `tree_frogs` example data 
+  and its associated objects.
+
 # stacks 1.0.0
 
 stacks 1.0.0 is the first production release of the package. While this release
