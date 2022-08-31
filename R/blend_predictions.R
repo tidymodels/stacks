@@ -129,69 +129,43 @@ blend_predictions <- function(data_stack,
                               metric = NULL,
                               control = tune::control_grid(), 
                               times = 25,
+                              meta_learner = NULL,
                               ...) {
+  # argument checking ----------------------------------------------------------
   check_inherits(data_stack, "data_stack")
   check_blend_data_stack(data_stack)
-  check_regularization(penalty, "penalty")
-  check_regularization(mixture, "mixture")
-  check_inherits(non_negative, "logical")
   if (!is.null(metric)) {
     check_inherits(metric, "metric_set")
   }
   check_inherits(control, "control_grid")
   check_inherits(times, "numeric")
-  check_empty_ellipses(...)
   
-  outcome <- attr(data_stack, "outcome")
-
   preds_formula <-
-    rlang::new_formula(as.name(outcome), as.name("."), env = rlang::base_env())
-  
-  lvls <- levels(data_stack[[outcome]])
-  
+    rlang::new_formula(
+      as.name(attr(data_stack, "outcome")), 
+      as.name("."), 
+      env = rlang::base_env()
+    )
+
   dat <- process_data_stack(data_stack)
   
-  ll <- if (non_negative) {0} else {-Inf}
-  
-  tune_quo <- rlang::new_quosure(tune::tune(), env = rlang::empty_env())
-  
-  if (attr(data_stack, "mode") == "regression") {
-    model_spec <- 
-      parsnip::linear_reg(penalty = !!tune_quo, mixture = !!tune_quo) %>%
-      parsnip::set_engine("glmnet", lower.limits = !!ll, lambda.min.ratio = 0)
-    
-    preds_wf <-
-      workflows::workflow() %>%
-      workflows::add_model(model_spec) %>%
-      workflows::add_formula(preds_formula)
-  } else {
-    # The class probabilities add up to one so we remove the probability columns
-    # associated with the first level of the outcome. 
-    col_filter <- paste0(".pred_", lvls[1])
-    dat <- dat %>% dplyr::select(-dplyr::starts_with(!!col_filter))
-    if (length(lvls) == 2) {
-      model_spec <-
-        parsnip::logistic_reg(penalty = !!tune_quo, mixture = !!tune_quo) %>% 
-        parsnip::set_engine("glmnet", lower.limits = !!ll, lambda.min.ratio = 0) %>% 
-        parsnip::set_mode("classification")
-    } else {
-      model_spec <-
-        parsnip::multinom_reg(penalty = !!tune_quo, mixture = !!tune_quo) %>% 
-        parsnip::set_engine("glmnet", lower.limits = !!ll, lambda.min.ratio = 0) %>% 
-        parsnip::set_mode("classification")
-    }
-    
-    preds_wf <- 
-      workflows::workflow() %>%
-      workflows::add_recipe(
-        recipes::recipe(
-          preds_formula, 
-          data = dat
-          )
-      ) %>%
-      workflows::add_model(model_spec)
+  # defining the meta-learner spec ---------------------------------------------
+  if (is.null(meta_learner)) {
+    meta_learner <-
+      process_meta_learner(
+        data_stack = data_stack, 
+        penalty = penalty, 
+        mixture = mixture,
+        non_negative = non_negative
+      )
   }
   
+  preds_wf <-
+    workflows::workflow() %>%
+    workflows::add_recipe(recipes::recipe(preds_formula, data = data_stack)) %>%
+    workflows::add_model(meta_learner)
+  
+  # processing tuning arguments and tuning -------------------------------------
   get_models <- function(x) {
     x %>% 
       workflows::extract_fit_parsnip() %>% 
@@ -199,25 +173,21 @@ blend_predictions <- function(data_stack,
   }
   
   control$extract <- get_models
-
+  
   candidates <- 
     preds_wf %>%
     tune::tune_grid(
       resamples = rsample::bootstraps(dat, times = times),
-      grid = purrr::cross_df(
-        list(
-          penalty = penalty,
-          mixture = mixture
-          )
-        ),
+      grid = purrr::cross_df(list(penalty = penalty, mixture = mixture)),
       metrics = metric,
       control = control
     )
   
+  # finalizing and constructing the model stack --------------------------------
   metric <- tune::.get_tune_metric_names(candidates)[1]
   best_param <- tune::select_best(candidates, metric = metric)
   coefs <-
-    model_spec %>%
+    meta_learner %>%
     tune::finalize_model(best_param) %>%
     parsnip::fit(formula = preds_formula, data = dat)
 
@@ -245,6 +215,7 @@ blend_predictions <- function(data_stack,
   if (model_stack_constr(model_stack)) {model_stack}
 }
 
+# blending utilities -----------------------------------------------------------
 check_regularization <- function(x, arg) {
   if (!is.numeric(x)) {
     glue_stop(
@@ -369,6 +340,51 @@ process_data_stack <- function(data_stack) {
       "data stack have missing values, and will be omitted in the blending process."
     )
   }
+  
+  if (attr(data_stack, "mode") != "regression") {
+    # The class probabilities add up to one so we remove the probability columns
+    # associated with the first level of the outcome. 
+    lvls <- levels(data_stack[[attr(data_stack, "outcome")]])
+    col_filter <- paste0(".pred_", lvls[1])
+    dat <- dat %>% dplyr::select(-dplyr::starts_with(!!col_filter))
+  }
 
   dat
+}
+
+process_meta_learner <- function(data_stack = data_stack, 
+                                         penalty = penalty, 
+                                         mixture = mixture,
+                                         non_negative = non_negative) {
+  check_regularization(penalty, "penalty")
+  check_regularization(mixture, "mixture")
+  check_inherits(non_negative, "logical")
+  
+  dat <- process_data_stack(data_stack)
+  
+  lvls <- levels(data_stack[[attr(data_stack, "outcome")]])
+  
+  ll <- if (non_negative) {0} else {-Inf}
+  
+  tune_quo <- rlang::new_quosure(tune::tune(), env = rlang::empty_env())
+  
+  if (attr(data_stack, "mode") == "regression") {
+    model_spec <- 
+      parsnip::linear_reg(penalty = !!tune_quo, mixture = !!tune_quo) %>%
+      parsnip::set_engine("glmnet", lower.limits = !!ll, lambda.min.ratio = 0)
+  } else {
+    if (length(lvls) == 2) {
+      model_spec <-
+        parsnip::logistic_reg(penalty = !!tune_quo, mixture = !!tune_quo) %>% 
+        parsnip::set_engine("glmnet", lower.limits = !!ll, lambda.min.ratio = 0) %>% 
+        parsnip::set_mode("classification")
+    } else {
+      model_spec <-
+        parsnip::multinom_reg(penalty = !!tune_quo, mixture = !!tune_quo) %>% 
+        parsnip::set_engine("glmnet", lower.limits = !!ll, lambda.min.ratio = 0) %>% 
+        parsnip::set_mode("classification")
+    }
+  }
+    
+  model_spec
 }
