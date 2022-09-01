@@ -125,7 +125,7 @@
 blend_predictions <- function(data_stack, 
                               penalty = 10 ^ (-6:-1),
                               mixture = 1,
-                              non_negative = TRUE, 
+                              non_negative = TRUE,
                               metric = NULL,
                               control = tune::control_grid(), 
                               times = 25,
@@ -166,6 +166,12 @@ blend_predictions <- function(data_stack,
     workflows::add_model(meta_learner)
   
   # processing tuning arguments and tuning -------------------------------------
+  if (is.null(meta_learner)) {
+    grid <- purrr::cross_df(list(penalty = penalty, mixture = mixture))
+  } else {
+    grid <- 10
+  }
+  
   get_models <- function(x) {
     x %>% 
       workflows::extract_fit_parsnip() %>% 
@@ -178,7 +184,7 @@ blend_predictions <- function(data_stack,
     preds_wf %>%
     tune::tune_grid(
       resamples = rsample::bootstraps(dat, times = times),
-      grid = purrr::cross_df(list(penalty = penalty, mixture = mixture)),
+      grid = grid,
       metrics = metric,
       control = control
     )
@@ -186,21 +192,33 @@ blend_predictions <- function(data_stack,
   # finalizing and constructing the model stack --------------------------------
   metric <- tune::.get_tune_metric_names(candidates)[1]
   best_param <- tune::select_best(candidates, metric = metric)
+  
   coefs <-
     meta_learner %>%
     tune::finalize_model(best_param) %>%
     parsnip::fit(formula = preds_formula, data = dat)
+  
+  # TODO: make the penalty object structure general
+  if (inherits(coefs, c("_elnet", "_multnet", "_lognet"))) {
+    metrics <- glmnet_metrics(candidates)
+    penalty <- list(
+      penalty = best_param$penalty, 
+      mixture = best_param$mixture,
+      metric = metric
+    )
+    primary_class <- "linear_stack"
+  } else {
+    metrics <- best_param
+    penalty <- list()
+    primary_class <- "general_stack"
+  }
 
   model_stack <- 
     structure(
       list(model_defs = attr(data_stack, "model_defs"),
            coefs = coefs,
-           penalty = list(
-             penalty = best_param$penalty, 
-             mixture = best_param$mixture,
-             metric = metric
-            ),
-           metrics = glmnet_metrics(candidates),
+           penalty = penalty,
+           metrics = metrics,
            equations = get_expressions(coefs),
            cols_map = attr(data_stack, "cols_map"),
            model_metrics = attr(data_stack, "model_metrics"),
@@ -209,7 +227,7 @@ blend_predictions <- function(data_stack,
            outcome = attr(data_stack, "outcome"),
            data_stack = dat,
            splits = attr(data_stack, "splits")),
-      class = c("linear_stack", "model_stack", "list")
+      class = c(primary_class, "model_stack", "list")
     )
   
   if (model_stack_constr(model_stack)) {model_stack}
@@ -388,3 +406,8 @@ process_meta_learner <- function(data_stack = data_stack,
     
   model_spec
 }
+
+
+
+
+

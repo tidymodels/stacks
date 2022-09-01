@@ -12,6 +12,7 @@ blend_predictions(
   metric = NULL,
   control = tune::control_grid(),
   times = 25,
+  meta_learner = NULL,
   ...
 )
 }

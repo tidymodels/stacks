@@ -212,6 +212,11 @@ get_expressions <- function(x, ...) {
 }
 
 #' @export
+get_expressions.default <- function(x, ...) {
+  list()
+}
+
+#' @export
 #' @rdname get_expressions
 get_expressions._multnet <- function(x, ...) {
   list(
