@@ -75,13 +75,21 @@ fit_members <- function(model_stack, ...) {
   dat <- model_stack[["train"]]
   
   # pick out which submodels have nonzero coefs
-  member_names <- 
-    .get_glmn_coefs(
-      model_stack[["coefs"]][["fit"]], 
-      model_stack[["coefs"]][["spec"]][["args"]][["penalty"]]
-    ) %>%
-    dplyr::filter(estimate != 0 & terms != "(Intercept)") %>%
-    dplyr::pull(terms)
+  if (inherits(model_stack, "linear_stack")) {
+    member_names <- 
+      .get_glmn_coefs(
+        model_stack[["coefs"]][["fit"]], 
+        model_stack[["coefs"]][["spec"]][["args"]][["penalty"]]
+      ) %>%
+      dplyr::filter(estimate != 0 & terms != "(Intercept)") %>%
+      dplyr::pull(terms)
+  } else {
+    member_names <- 
+      model_stack[["cols_map"]] %>%
+      purrr::flatten_chr() %>%
+      unique()
+  }
+
   
   if (model_stack[["mode"]] == "classification") {
     member_dict <- 
