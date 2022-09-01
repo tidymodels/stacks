@@ -141,6 +141,10 @@ stack_predict <- function(x, ...) {
   UseMethod("stack_predict")
 }
 
+stack_predict.default <- function(x, data, fit, type, ...) {
+  predict(fit, data, type)
+}
+
 #' @export
 #' @rdname stack_predict
 stack_predict.elnet_numeric <- function(x, data, ...) {

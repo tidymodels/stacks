@@ -77,10 +77,6 @@ predict.model_stack <- function(object, new_data, type = NULL, members = FALSE,
   check_inherits(members, "logical")
   check_inherits(opts, "list")
   
-  coefs <- 
-    .get_glmn_coefs(object[["coefs"]][["fit"]]) %>%
-    dplyr::select(terms, estimate)
-  
   member_type <- 
     switch(type,
            class =, prob = "prob",
@@ -90,7 +86,6 @@ predict.model_stack <- function(object, new_data, type = NULL, members = FALSE,
     rlang::call2(
       paste0("predict_members_", object[["mode"]]),
       model_stack = object,
-      coefs = coefs,
       new_data = new_data,
       opts = opts,
       type = member_type
@@ -98,7 +93,8 @@ predict.model_stack <- function(object, new_data, type = NULL, members = FALSE,
     rlang::eval_tidy() %>%
     setNames(., make.names(names(.)))
   
-  res <- stack_predict(object$equations[[type]], member_preds)
+  res <- stack_predict(object$equations[[type]], member_preds, 
+                       fit = object[["coefs"]], type = type)
   
   if (members) {
     if (type == "class") {
@@ -149,7 +145,7 @@ check_pred_type <- function(object, type) {
   type
 }
 
-predict_members_regression <- function(model_stack, coefs, new_data, opts, type) {
+predict_members_regression <- function(model_stack, new_data, opts, type) {
   predictions <- 
     purrr::map(
       model_stack[["member_fits"]],
@@ -164,7 +160,7 @@ predict_members_regression <- function(model_stack, coefs, new_data, opts, type)
   predictions
 }
 
-predict_members_classification <- function(model_stack, coefs, new_data, opts, type) {
+predict_members_classification <- function(model_stack, new_data, opts, type) {
   levels <- attr(new_data[[model_stack[["outcome"]]]], "levels")
   
   member_preds <- 

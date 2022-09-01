@@ -162,7 +162,7 @@ blend_predictions <- function(data_stack,
   
   preds_wf <-
     workflows::workflow() %>%
-    workflows::add_recipe(recipes::recipe(preds_formula, data = data_stack)) %>%
+    workflows::add_recipe(recipes::recipe(preds_formula, data = dat)) %>%
     workflows::add_model(meta_learner)
   
   # processing tuning arguments and tuning -------------------------------------
