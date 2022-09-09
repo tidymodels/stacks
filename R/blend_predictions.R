@@ -140,15 +140,15 @@ blend_predictions <- function(data_stack,
   check_inherits(control, "control_grid")
   check_inherits(times, "numeric")
   
+  dat <- tibble::as_tibble(data_stack)
+  
   preds_formula <-
     rlang::new_formula(
       as.name(attr(data_stack, "outcome")), 
       as.name("."), 
       env = rlang::base_env()
     )
-
-  dat <- process_data_stack(data_stack)
-  
+ 
   # defining the meta-learner spec ---------------------------------------------
   if (is.null(meta_learner)) {
     meta_learner <-
@@ -342,34 +342,6 @@ check_blend_data_stack <- function(data_stack) {
   invisible(NULL)
 }
 
-process_data_stack <- function(data_stack) {
-  dat <- tibble::as_tibble(data_stack) %>% na.omit()
-  
-  if (nrow(dat) == 0) {
-    glue_stop(
-      "All rows in the data stack have at least one missing value. ",
-      "Please ensure that all candidates supply predictions."
-    )
-  }
-  
-  if (nrow(dat) < nrow(data_stack)) {
-    glue_message(
-      "{nrow(data_stack) - nrow(dat)} of the {nrow(data_stack)} rows in the ", 
-      "data stack have missing values, and will be omitted in the blending process."
-    )
-  }
-  
-  if (attr(data_stack, "mode") != "regression") {
-    # The class probabilities add up to one so we remove the probability columns
-    # associated with the first level of the outcome. 
-    lvls <- levels(data_stack[[attr(data_stack, "outcome")]])
-    col_filter <- paste0(".pred_", lvls[1])
-    dat <- dat %>% dplyr::select(-dplyr::starts_with(!!col_filter))
-  }
-
-  dat
-}
-
 process_meta_learner <- function(data_stack = data_stack, 
                                          penalty = penalty, 
                                          mixture = mixture,
@@ -377,9 +349,7 @@ process_meta_learner <- function(data_stack = data_stack,
   check_regularization(penalty, "penalty")
   check_regularization(mixture, "mixture")
   check_inherits(non_negative, "logical")
-  
-  dat <- process_data_stack(data_stack)
-  
+
   lvls <- levels(data_stack[[attr(data_stack, "outcome")]])
   
   ll <- if (non_negative) {0} else {-Inf}
