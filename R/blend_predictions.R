@@ -141,13 +141,6 @@ blend_predictions <- function(data_stack,
   check_inherits(times, "numeric")
   
   dat <- tibble::as_tibble(data_stack)
-  
-  preds_formula <-
-    rlang::new_formula(
-      as.name(attr(data_stack, "outcome")), 
-      as.name("."), 
-      env = rlang::base_env()
-    )
  
   # defining the meta-learner spec ---------------------------------------------
   if (is.null(meta_learner)) {
@@ -160,16 +153,25 @@ blend_predictions <- function(data_stack,
       )
   }
   
-  preds_wf <-
-    workflows::workflow() %>%
-    workflows::add_recipe(recipes::recipe(preds_formula, data = dat)) %>%
-    workflows::add_model(meta_learner)
+  preds_formula <-
+    rlang::new_formula(
+      as.name(attr(data_stack, "outcome")), 
+      as.name("."), 
+      env = rlang::base_env()
+    )
+  
+  if (inherits(meta_learner, "model_spec")) {
+    meta_learner <-
+      workflows::workflow() %>%
+      workflows::add_recipe(recipes::recipe(preds_formula, data = dat)) %>%
+      workflows::add_model(meta_learner)
+  }
   
   # processing tuning arguments and tuning -------------------------------------
-  if (is.null(meta_learner)) {
+  if (missing(meta_learner) || is.null(meta_learner)) {
     grid <- purrr::cross_df(list(penalty = penalty, mixture = mixture))
   } else {
-    grid <- 10
+    grid <- 6
   }
   
   get_models <- function(x) {
@@ -181,7 +183,7 @@ blend_predictions <- function(data_stack,
   control$extract <- get_models
   
   candidates <- 
-    preds_wf %>%
+    meta_learner %>%
     tune::tune_grid(
       resamples = rsample::bootstraps(dat, times = times),
       grid = grid,
@@ -195,6 +197,7 @@ blend_predictions <- function(data_stack,
   
   coefs <-
     meta_learner %>%
+    parsnip::extract_spec_parsnip() %>%
     tune::finalize_model(best_param) %>%
     parsnip::fit(formula = preds_formula, data = dat)
   
