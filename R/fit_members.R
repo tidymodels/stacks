@@ -227,18 +227,19 @@ sanitize_classification_names <- function(model_stack, member_names) {
 check_model_stack <- function(model_stack) {
   if (inherits(model_stack, "model_stack")) {
     if (!is.null(model_stack[["member_fits"]])) {
-      glue_warn(
-        "The members in the supplied `model_stack` have already been fitted ",
-        "and need not be fitted again."
+      cli_warn(
+        "The members in the supplied `model_stack` have already been fitted 
+         and need not be fitted again."
       )
     }
     
     return(invisible(TRUE))
   } else if (inherits(model_stack, "data_stack")) {
-    glue_stop(
-      "The supplied `model_stack` argument is a data stack rather than ",
-      "a model stack. Did you forget to first evaluate the ensemble's ",
-      "stacking coefficients with `blend_predictions()`?"
+    cli_abort(
+      "The supplied `model_stack` argument is a data stack rather than 
+       a model stack. Did you forget to first evaluate the ensemble's 
+       stacking coefficients with `blend_predictions()`?",
+      call = caller_env()
     )
   } else {
     check_inherits(model_stack, "model_stack")
@@ -266,7 +267,7 @@ check_for_required_packages <- function(x) {
   )
   
   if (any(!installed)) {
-    error_needs_install(pkgs, installed)
+    error_needs_install(pkgs, installed, call = caller_env())
   }
 
   purrr::map(
@@ -279,7 +280,7 @@ check_for_required_packages <- function(x) {
 
 # takes in a vector of package names and a logical vector giving
 # whether or not each is installed
-error_needs_install <- function(pkgs, installed) {
+error_needs_install <- function(pkgs, installed, call) {
   plural <- sum(!installed) != 1
   
   last_sep <- if (sum(!installed) == 2) {"` and `"} else {"`, and `"}
@@ -290,10 +291,11 @@ error_needs_install <- function(pkgs, installed) {
     "`"
   )
   
-  glue_stop(
-    "The following package{if (plural) 's' else ''} ",
-    "need{if (plural) '' else 's'} to be installed before ",
-    "fitting members: {need_install}"
+  cli_abort(
+    "The following package{if (plural) 's' else ''} 
+     need{if (plural) '' else 's'} to be installed before 
+     fitting members: {need_install}",
+    call = call
   )
 }
 

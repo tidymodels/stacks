@@ -94,9 +94,10 @@ add_candidates.workflow_set <- function(data_stack, candidates,
                                         name = deparse(substitute(candidates)), 
                                         ...) {
   if (!"result" %in% colnames(candidates)) {
-    glue_stop(
-      "The supplied workflow_set must be fitted to resamples with ",
-      "workflows::workflow_map() before being added to a data stack."
+    cli_abort(
+      "The supplied workflow_set must be fitted to resamples with 
+       workflows::workflow_map() before being added to a data stack.",
+      call = caller_env(0)
     )
   }
   
@@ -132,18 +133,22 @@ add_candidates.tune_results <- function(data_stack, candidates,
 add_candidates.default <- function(data_stack, candidates, name, ...) {
   check_add_data_stack(data_stack)
   
-  glue_stop(
-    "The second argument to add_candidates() should inherit from one of ",
-    "`tune_results` or `workflow_set`, but its class ",
-    "is {list(class(candidates))}."
+  cli_abort(
+    "The second argument to add_candidates() should inherit from one of 
+     `tune_results` or `workflow_set`, but its class 
+     is {list(class(candidates))}.",
+    call = caller_env(0)
   )
 }
 
 .set_outcome <- function(stack, candidates) {
   if (!.get_outcome(stack) %in% c("init_", tune::.get_tune_outcome_names(candidates))) {
-    glue_stop("The model definition you've tried to add to the stack has ",
-              "outcome variable {list(tune::.get_tune_outcome_names(candidates))}, ",
-              "while the stack's outcome variable is {.get_outcome(stack)}.")
+    cli_abort(
+      "The model definition you've tried to add to the stack has 
+       outcome variable {list(tune::.get_tune_outcome_names(candidates))}, 
+       while the stack's outcome variable is {.get_outcome(stack)}.",
+      call = caller_env(1)
+    )
   }
   
   attr(stack, "outcome") <- tune::.get_tune_outcome_names(candidates)
@@ -159,9 +164,10 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
   hash_matches <- .get_rs_hash(stack) %in% c("init_", new_hash)
   
   if (!hash_matches) {
-    glue_stop(
-      "It seems like the new candidate member '{name}' doesn't make use ",
-      "of the same resampling object as the existing candidates."
+    cli_abort(
+      "It seems like the new candidate member '{name}' doesn't make use 
+       of the same resampling object as the existing candidates.",
+      call = caller_env()
     )
   }
   
@@ -201,9 +207,10 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
 # and then appends the model definition, hash, and metrics
 .set_model_defs_candidates <- function(stack, candidates, name) {
   if (name %in% .get_model_def_names(stack)) {
-    glue_stop(
-      "The new model definition has the ",
-      "same name '{name}' as an existing model definition."
+    cli_abort(
+      "The new model definition has the 
+       same name '{name}' as an existing model definition.",
+      call = caller_env(1)
     )
   }
   
@@ -219,10 +226,11 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
       unname()
     
     if (!"prob_metric" %in% metric_types) {
-      glue_stop(
-        "The supplied candidates were tuned/fitted using only metrics that ",
-        "rely on hard class predictions. Please tune/fit with at least one ",
-        "class probability-based metric, such as `yardstick::roc_auc()`."        
+      cli_abort(
+        "The supplied candidates were tuned/fitted using only metrics that 
+         rely on hard class predictions. Please tune/fit with at least one 
+         class probability-based metric, such as `yardstick::roc_auc()`.",
+        call = caller_env(1)
       )
     }
   }
@@ -230,7 +238,9 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
   model_defs <- attr(stack, "model_defs")
   model_metrics <- attr(stack, "model_metrics")
   
-  model_defs[[name]] <- attr(candidates, "workflow") %>% stack_workflow()
+  model_defs[[name]] <- 
+    attr(candidates, "workflow") %>% 
+    stack_workflow(call = caller_env())
   model_metrics[[name]] <- tune::collect_metrics(candidates)
   
   attr(stack, "model_defs") <- model_defs
@@ -248,8 +258,11 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
   
   if ((!identical(training_data, tibble::tibble())) &&
       (!identical(training_data, new_data))) {
-    glue_stop("The newly added candidate member, `{name}`, ",
-              "uses different training data than the existing candidates.")
+    cli_abort(
+      "The newly added candidate member, `{name}`, 
+       uses different training data than the existing candidates.",
+      call = caller_env(1)
+    )
   }
   
   attr(stack, "train") <- new_data
@@ -332,9 +345,9 @@ rm_duplicate_cols <- function(df) {
       n_candidates <- "1 candidate"
     }
     
-    glue_warn(
-      "Predictions from {n_candidates} were identical to ",
-      "those from existing candidates and were removed from the data stack."
+    cli_warn(
+      "Predictions from {n_candidates} were identical to 
+       those from existing candidates and were removed from the data stack."
     )
     
     df <- df %>% dplyr::select(-any_of(exclude))
@@ -362,7 +375,7 @@ update_stack_data <- function(stack, new_data) {
 
 # takes in a workflow and returns a minimal workflow for
 # use in the stack
-stack_workflow <- function(x) {
+stack_workflow <- function(x, call) {
   res <-
     workflows::workflow() %>%
     workflows::add_model(workflows::extract_spec_parsnip(x))
@@ -376,7 +389,10 @@ stack_workflow <- function(x) {
   } else if (inherits(pre, "workflow_variables")) {
     res <- res %>% workflows::add_variables(variables = pre)
   } else {
-    rlang::abort(paste0("Can't add a preprocessor of class '", class(pre)[1], "'"))
+    cli_abort(
+      "Can't add a preprocessor of class '{class(pre)[1]}'",
+      call = call
+    )
   }
   
   res
@@ -387,12 +403,13 @@ check_add_data_stack <- function(data_stack) {
     data_stack, 
     c("tune_results", "tune_bayes", "resample_results")
   )) {
-    glue_stop(
-      "It looks like the first argument inherits from {list(class(data_stack))} ",
-      "rather than `data_stack`. ",
-      "Did you accidentally supply the candidate members as the first argument? ",
-      "If so, please supply the output of `stacks()` or another `add_candidates()` as ",
-      "the argument to `data_stack`."
+    cli_abort(
+      "It looks like the first argument inherits from {list(class(data_stack))} 
+       rather than `data_stack`. 
+       Did you accidentally supply the candidate members as the first argument? 
+       If so, please supply the output of `stacks()` or another `add_candidates()` as 
+       the argument to `data_stack`.",
+      call = caller_env()
     )
   } else {
     check_inherits(data_stack, "data_stack")
@@ -404,26 +421,28 @@ check_candidates <- function(candidates, name) {
     candidates, 
     c("tune_results", "tune_bayes", "resample_results")
   )) {
-    glue_stop(
-      "The inputted `candidates` argument has class `{list(class(candidates))}`",
-      ", but it should inherit from one of 'tune_results', 'tune_bayes', ",
-      "or 'resample_results'."
+    cli_abort(
+      "The inputted `candidates` argument has class `{list(class(candidates))}`, 
+       but it should inherit from one of 'tune_results', 'tune_bayes', 
+       or 'resample_results'.",
+      call = caller_env()
     )
   }
   
   if (nrow(tune::collect_notes(candidates)) != 0) {
-    glue_warn(
-      "The inputted `candidates` argument `{name}` generated notes during ",
-      "tuning/resampling. Model stacking may fail due to these ",
-      "issues; see `?collect_notes` if so."
+    cli_warn(
+      "The inputted `candidates` argument `{name}` generated notes during 
+       tuning/resampling. Model stacking may fail due to these 
+       issues; see `?collect_notes` if so."
     )
   }
   
   if ((!".predictions" %in% colnames(candidates)) | 
       is.null(attributes(candidates)$workflow)) {
-    glue_stop(
-      "The inputted `candidates` argument was not generated with the ",
-      "appropriate control settings. Please see ?control_stack."
+    cli_abort(
+      "The inputted `candidates` argument was not generated with the 
+       appropriate control settings. Please see ?control_stack.",
+      call = caller_env()
     )
   }
 }
@@ -433,19 +452,20 @@ check_name <- function(name) {
     name, 
     c("tune_results", "tune_bayes", "resample_results")
   )) {
-    glue_stop(
-      "The inputted `name` argument looks like a tuning/fitting results object ",
-      "that might be supplied as a `candidates` argument. Did you try to add ",
-      "more than one set of candidates in one `add_candidates()` call?"
+    cli_abort(
+      "The inputted `name` argument looks like a tuning/fitting results object 
+       that might be supplied as a `candidates` argument. Did you try to add 
+       more than one set of candidates in one `add_candidates()` call?",
+      call = caller_env()
     )
   } else {
     check_inherits(name, "character")
     
     if (make.names(name) != name) {
-      glue_message(
-        "The inputted `name` argument cannot prefix a valid column name. The ", 
-        'data stack will use "{make.names(name)}" rather than "{name}" in ',
-        "constructing candidate names."
+      cli_inform(
+        "The inputted `name` argument cannot prefix a valid column name. The  
+         data stack will use '{make.names(name)}' rather than '{name}' in 
+         constructing candidate names."
       )
     }
   }
