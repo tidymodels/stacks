@@ -13,12 +13,16 @@ check_inherits <- function(x, what) {
   cl <- match.call()
   
   if (!inherits(x, what)) {
-    glue_stop("Element `{list(cl$x)}` needs to inherit from `{what}`, but its ",
-              "class is `{list(class(x))}`.")
+    cli_abort(
+      "Element `{list(cl$x)}` needs to inherit from `{what}`, but its 
+       class is `{list(class(x))}`.", 
+      call = NULL
+    )
   }
   
   invisible(TRUE)
 }
+
 
 # Helper Data 
 # -----------------------------------------------------------------------

@@ -52,9 +52,10 @@ collect_parameters <- function(stack, candidates, ...) {
 #' @export
 #' @rdname collect_parameters
 collect_parameters.default <- function(stack, candidates, ...) {
-  glue_stop(
-    "There is no `collect_parameters()` method currently implemented ",
-    "for {list(class(stack))} objects."
+  cli_abort(
+    "There is no `collect_parameters()` method currently implemented  
+     for {list(class(stack))} objects.",
+    call = caller_env(0)
   )
 }
 
@@ -154,9 +155,10 @@ collect_params <- function(cols_map, model_metrics, candidates, workflows, blend
 check_for_candidates <- function(model_metrics, candidates) {
   if ((!inherits(candidates, "character")) | 
       (!candidates %in% names(model_metrics))) {
-    glue_stop(
-      "The `candidates` argument to `collect_parameters()` must be the name ",
-      "given to a set of candidates added with `add_candidates()`."
+    cli_abort(
+      "The `candidates` argument to `collect_parameters()` must be the name 
+       given to a set of candidates added with `add_candidates()`.",
+      call = caller_env()
     )
   }
 }

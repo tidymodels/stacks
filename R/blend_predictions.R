@@ -247,25 +247,29 @@ blend_predictions <- function(data_stack,
 
 check_regularization <- function(x, arg) {
   if (!is.numeric(x)) {
-    glue_stop(
-      "The argument to '{arg}' must be a numeric, but the supplied {arg}'s ",
-      "class is `{list(class(x))}`"
+    cli_abort(
+      "The argument to '{arg}' must be a numeric, but the supplied {arg}'s 
+       class is `{list(class(x))}`",
+      call = caller_env()
     )
   }
   
   if (length(x) == 0) {
-    glue_stop("Please supply one or more {arg} values.")
+    cli_abort("Please supply one or more {arg} values.",
+                   call = caller_env())
   }
   
   if (arg == "penalty") {
     if (any(x < 0)) {
-      glue_stop("Please supply only nonnegative values to the {arg} argument.")
+      cli_abort("Please supply only nonnegative values to the {arg} argument.",
+                     call = caller_env())
     }
   }
   
   if (arg == "mixture") {
     if (any(x < 0 || x > 1)) {
-      glue_stop("Please supply only values in [0, 1] to the {arg} argument.")
+      cli_abort("Please supply only values in [0, 1] to the {arg} argument.",
+                     call = caller_env())
     }
   }
 }
@@ -337,16 +341,18 @@ check_blend_data_stack <- function(data_stack) {
   if (!inherits(data_stack, "data_stack")) {
     check_inherits(data_stack, "data_stack")
   } else if (ncol(data_stack) == 0) {
-      glue_stop(
-        "The data stack supplied as the argument to `data_stack` has no ",
-        "candidate members. Please first add candidates with ",
-        "the `add_candidates()` function."
+      cli_abort(
+        "The data stack supplied as the argument to `data_stack` has no 
+         candidate members. Please first add candidates with 
+         the `add_candidates()` function.",
+        call = caller_env()
       )
   } else if ((ncol(data_stack) == 2 && attr(data_stack, "mode") == "regression") || 
              ncol(data_stack) == length(levels(data_stack[[1]])) + 1) {
-    glue_stop(
-      "The supplied data stack only contains one candidate member. Please ",
-      "add more candidate members using `add_candidates()` before blending."
+    cli_abort(
+      "The supplied data stack only contains one candidate member. Please 
+       add more candidate members using `add_candidates()` before blending.",
+      call = caller_env()
     )
   }
   
@@ -357,16 +363,17 @@ process_data_stack <- function(data_stack) {
   dat <- tibble::as_tibble(data_stack) %>% na.omit()
   
   if (nrow(dat) == 0) {
-    glue_stop(
-      "All rows in the data stack have at least one missing value. ",
-      "Please ensure that all candidates supply predictions."
+    cli_abort(
+      "All rows in the data stack have at least one missing value. 
+       Please ensure that all candidates supply predictions.",
+      call = caller_env()
     )
   }
   
   if (nrow(dat) < nrow(data_stack)) {
-    glue_message(
-      "{nrow(data_stack) - nrow(dat)} of the {nrow(data_stack)} rows in the ", 
-      "data stack have missing values, and will be omitted in the blending process."
+    cli_inform(
+      "{nrow(data_stack) - nrow(dat)} of the {nrow(data_stack)} rows in the  
+       data stack have missing values, and will be omitted in the blending process."
     )
   }
 
