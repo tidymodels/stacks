@@ -56,6 +56,7 @@
 <p>To be released as stacks 1.0.1.</p>
 <ul><li><p>Removes an unneeded data import attribute from the <code>tree_frogs</code> example data and its associated objects.</p></li>
 <li><p><code><a href="../reference/blend_predictions.html">blend_predictions()</a></code> doesn’t error anymore if <code>control</code> argument isn’t a <code><a href="https://tune.tidymodels.org/reference/control_grid.html" class="external-link">control_grid()</a></code> object. Will work as long as the object passed to <code>control</code> includes the same elements as <code><a href="https://tune.tidymodels.org/reference/control_grid.html" class="external-link">control_grid()</a></code>.</p></li>
+<li><p>Re-implemented package errors, warnings, and messages to make use of infrastructure from the cli package; error headers now refer to the function called directly by the user rather than the internal function that raised the error.</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.0" id="stacks-100">stacks 1.0.0<a class="anchor" aria-label="anchor" href="#stacks-100"></a></h2><p class="text-muted">CRAN release: 2022-07-06</p>

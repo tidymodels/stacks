@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   basics: basics.html
   classification: classification.html
-last_built: 2022-09-23T17:42Z
+last_built: 2022-09-23T19:03Z
 urls:
   reference: https://stacks.tidymodels.org/reference
   article: https://stacks.tidymodels.org/articles
