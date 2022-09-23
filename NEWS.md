@@ -4,6 +4,10 @@ To be released as stacks 1.0.1.
 
 * Removes an unneeded data import attribute from the `tree_frogs` example data 
   and its associated objects.
+  
+* `blend_predictions()` doesn't error anymore if `control` argument isn't a 
+  `control_grid()` object. Will work as long as the object passed to `control` 
+  includes the same elements as `control_grid()`.
 
 # stacks 1.0.0
 

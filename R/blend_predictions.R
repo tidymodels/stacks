@@ -138,7 +138,7 @@ blend_predictions <- function(data_stack,
   if (!is.null(metric)) {
     check_inherits(metric, "metric_set")
   }
-  check_inherits(control, "control_grid")
+  control <- parsnip::condense_control(control, tune::control_grid())
   check_inherits(times, "numeric")
   check_empty_ellipses(...)
   
