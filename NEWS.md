@@ -9,6 +9,11 @@ To be released as stacks 1.0.1.
   `control_grid()` object. Will work as long as the object passed to `control` 
   includes the same elements as `control_grid()`.
 
+* Re-implemented package errors, warnings, and messages to make use of
+  infrastructure from the cli package; error headers now refer to the function
+  called directly by the user rather than the internal function that raised the
+  error.
+
 # stacks 1.0.0
 
 stacks 1.0.0 is the first production release of the package. While this release
