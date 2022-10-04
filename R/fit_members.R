@@ -20,9 +20,7 @@
 #' 
 #' @template note_example_data
 #' 
-#' @examplesIf rlang::is_installed("ranger") & rlang::is_installed("kernlab")
-#' 
-#' \donttest{
+#' @examplesIf (stacks:::should_run_examples(suggests = c("ranger", "kernlab")))
 #' 
 #' # see the "Example Data" section above for
 #' # clarification on the objects used in these examples!
@@ -62,8 +60,6 @@
 #'   fit_members()
 #'   
 #' log_st
-#' 
-#' }
 #' 
 #' @family core verbs
 #' @export

@@ -12,9 +12,7 @@ butcher::butcher
 #'
 #' @return Axed model_stack object.
 #'
-#' @examplesIf rlang::is_installed("ranger") & rlang::is_installed("kernlab")
-#' 
-#' \donttest{
+#' @examplesIf (stacks:::should_run_examples(suggests = c("ranger", "kernlab")))
 #' 
 #' # build a regression model stack
 #' st <-
@@ -37,8 +35,6 @@ butcher::butcher
 #' 
 #' format(object.size(st))
 #' format(object.size(butchered_st))
-#' 
-#' }
 #' @name axe_model_stack
 NULL
 
