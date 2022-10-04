@@ -14,16 +14,25 @@ add_candidates(
 \arguments{
 \item{data_stack}{A \code{data_stack} object.}
 
-\item{candidates}{A model definition: either a \code{tune_results}
-or \code{resample_results} object outputted from
-\code{\link[tune:tune_grid]{tune::tune_grid()}}, \code{\link[tune:tune_bayes]{tune::tune_bayes()}}, or \code{\link[tune:fit_resamples]{tune::fit_resamples()}}.
-These results must have been fitted with the \code{control} settings
+\item{candidates}{A (set of) model definition(s) defining candidate model
+stack members. Should inherit from \code{tune_results} or \code{workflow_set}.
+\itemize{
+\item \code{tune_results}: An object outputted from \code{\link[tune:tune_grid]{tune::tune_grid()}},
+\code{\link[tune:tune_bayes]{tune::tune_bayes()}}, or \code{\link[tune:fit_resamples]{tune::fit_resamples()}}.
+\item \code{workflow_set}: An object outputted from \code{\link[workflowsets:workflow_map]{workflowsets::workflow_map()}}.
+This approach allows for supplying multiple sets of candidate members
+with only one call to \code{add_candidates}. See the vignette at
+\code{vignette("wfsets-candidates", package = "stacks")} for example code!
+}
+
+Regardless, these results must have been fitted with the \code{control} settings
 \verb{save_pred = TRUE, save_workflow = TRUE}—see the \code{\link[=control_stack_grid]{control_stack_grid()}},
 \code{\link[=control_stack_bayes]{control_stack_bayes()}}, and \code{\link[=control_stack_resamples]{control_stack_resamples()}}
 documentation for helper functions.}
 
 \item{name}{The label for the model definition---defaults to the name
-of the \code{candidates} object.}
+of the \code{candidates} object. Ignored if \code{candidates} inherits from
+\code{workflow_set}.}
 
 \item{...}{Additional arguments. Currently ignored.}
 }
