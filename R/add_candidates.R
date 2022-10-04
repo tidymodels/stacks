@@ -417,18 +417,6 @@ check_add_data_stack <- function(data_stack) {
 }
 
 check_candidates <- function(candidates, name) {
-  if (!rlang::inherits_any(
-    candidates, 
-    c("tune_results", "tune_bayes", "resample_results")
-  )) {
-    cli_abort(
-      "The inputted `candidates` argument has class `{list(class(candidates))}`, 
-       but it should inherit from one of 'tune_results', 'tune_bayes', 
-       or 'resample_results'.",
-      call = caller_env()
-    )
-  }
-  
   if (nrow(tune::collect_notes(candidates)) != 0) {
     cli_warn(
       "The inputted `candidates` argument `{name}` generated notes during 
