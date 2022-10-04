@@ -2,7 +2,7 @@
 print.data_stack <- function(x, ...) {
   mode <- attr(x, "mode")
   
-  if (mode == "regression") {
+  if (mode %in% c("regression", "censored regression")) {
     n_cands <- ncol(x) - 1
     n_model_defs <- length(attr(x, "model_defs"))
     outcome_name <- colnames(x)[1]
@@ -129,7 +129,7 @@ print_top_coefs <- function(x, penalty = x$penalty$penalty, n = 10, digits = 3) 
   res <- top_coefs(x, penalty = penalty, n = n)
   
   msg <- paste0("\nThe ", nrow(res), " highest weighted member",
-               if (x$mode == "regression") {"s"} else {" classes"},
+               if (!x$mode == "classification") {"s"} else {" classes"},
                " are:")
   rlang::inform(msg)
   print(res)

@@ -97,7 +97,7 @@ fit_members <- function(model_stack, ...) {
     tidyr::unnest(cols = value) %>%
     dplyr::mutate(.config = process_.config(.config, ., name = make.names(name)))
   
-  if (model_stack[["mode"]] == "regression") {
+  if (model_stack[["mode"]] %in% c("regression", "censored regression")) {
     members_map <- 
       tibble::enframe(model_stack[["cols_map"]]) %>%
       tidyr::unnest(cols = value)

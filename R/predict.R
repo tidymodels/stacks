@@ -86,9 +86,17 @@ predict.model_stack <- function(object, new_data, type = NULL, members = FALSE,
            class =, prob = "prob",
            numeric = "numeric")
   
+  mode_suffix <- 
+    switch(
+      mode,
+      classification = "classification",
+      `censored regression` = ,
+      regression = "regression"
+    )
+  
   member_preds <- 
     rlang::call2(
-      paste0("predict_members_", object[["mode"]]),
+      paste0("predict_members_", mode_suffix),
       model_stack = object,
       coefs = coefs,
       new_data = new_data,
@@ -140,7 +148,7 @@ predict.data_stack <- function(object, ...) {
 
 check_pred_type <- function(object, type) {
   if (is.null(type)) {
-    if (object[["mode"]] == "regression") {
+    if (object[["mode"]] %in% c("regression", "censored regression")) {
       type <- "numeric"
     } else {
       type <- "class"

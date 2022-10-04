@@ -155,10 +155,11 @@ blend_predictions <- function(data_stack,
   
   tune_quo <- rlang::new_quosure(tune::tune(), env = rlang::empty_env())
   
-  if (attr(data_stack, "mode") == "regression") {
+  if (attr(data_stack, "mode") %in% c("regression", "censored regression")) {
     model_spec <- 
       parsnip::linear_reg(penalty = !!tune_quo, mixture = !!tune_quo) %>%
-      parsnip::set_engine("glmnet", lower.limits = !!ll, lambda.min.ratio = 0)
+      parsnip::set_engine("glmnet", lower.limits = !!ll, lambda.min.ratio = 0) %>%
+      parsnip::set_mode(rlang::quo(!!attr(data_stack, "mode")))
     
     preds_wf <-
       workflows::workflow() %>%
@@ -347,7 +348,8 @@ check_blend_data_stack <- function(data_stack) {
          the `add_candidates()` function.",
         call = caller_env()
       )
-  } else if ((ncol(data_stack) == 2 && attr(data_stack, "mode") == "regression") || 
+  } else if ((ncol(data_stack) == 2 && 
+              attr(data_stack, "mode") %in% c("regression", "censored regression")) || 
              ncol(data_stack) == length(levels(data_stack[[1]])) + 1) {
     cli_abort(
       "The supplied data stack only contains one candidate member. Please 

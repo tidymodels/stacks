@@ -188,7 +188,7 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
   stack
 }
 
-# note whether classification or regression
+# note whether classification, regression, or censored regression
 .set_mode_ <- function(stack, candidates, name) {
   wf_spec <- 
     attr(candidates, "workflow") %>%
