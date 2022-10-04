@@ -34,8 +34,7 @@
 #' 
 #' @template note_example_data
 #' 
-#' @examplesIf rlang::is_installed("kernlab")
-#' \donttest{
+#' @examplesIf (stacks:::should_run_examples(suggests = "kernlab"))
 #' # see the "Example Data" section above for
 #' # clarification on the objects used in these examples!
 #' 
@@ -76,7 +75,6 @@
 #' # these objects would likely then be
 #' # passed to blend_predictions():
 #' log_st2 %>% blend_predictions()
-#' }
 #' 
 #' @family core verbs
 #' @export

@@ -15,8 +15,7 @@
 #'
 #' @template note_example_data
 #'
-#' @examplesIf rlang::is_installed("ranger") & rlang::is_installed("kernlab")
-#' \donttest{
+#' @examplesIf (stacks:::should_run_examples(suggests = c("ranger", "kernlab")))
 #' 
 #' # see the "Example Data" section above for
 #' # clarification on the data and tuning results
@@ -63,8 +62,6 @@
 #'   type = "prob", 
 #'   members = TRUE
 #' )
-#' 
-#' }
 #'
 #' @importFrom stats predict
 #' @method predict model_stack

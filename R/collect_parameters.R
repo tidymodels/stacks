@@ -17,8 +17,7 @@
 #' 
 #' @template note_example_data
 #' 
-#' @examplesIf rlang::is_installed("kernlab")
-#' \donttest{
+#' @examplesIf (stacks:::should_run_examples(suggests = "kernlab"))
 #' # see the "Example Data" section above for
 #' # clarification on the objects used in these examples!
 #' 
@@ -43,7 +42,6 @@
 #'   reg_st %>% blend_predictions(), 
 #'   "spline"
 #' )
-#' }
 #' @export
 collect_parameters <- function(stack, candidates, ...) {
   UseMethod("collect_parameters", stack)
