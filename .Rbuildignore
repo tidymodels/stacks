@@ -17,3 +17,4 @@ pkgdown/
 tests/testthat/helper_data\.Rda$
 cran-comments.md
 ^CRAN-RELEASE$
+^vignettes/articles$
