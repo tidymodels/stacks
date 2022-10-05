@@ -9,11 +9,33 @@ knitr::opts_chunk$set(
 )
 ```
 
-stacks provides a shorthand interface for supplying multiple
+The stacks package provides a shorthand interface for supplying multiple
 sets of candidate members in one call to `add_candidates()` via the 
-[workflowsets](https://workflowsets.tidymodels.org/) package.
+[workflowsets](https://workflowsets.tidymodels.org/) package. Instead of iteratively calling `add_candidates()` for each tuning result:
 
-This example will parallel that shown in  [The "Getting Started" vignette](https://stacks.tidymodels.org/articles/basics.html),
+```{r, eval = FALSE}
+stacks() %>%
+  add_candidates(tuning_result_1) %>%
+  add_candidates(tuning_result_2) %>%
+  add_candidates(tuning_result_3) %>%
+  blend_predictions() %>%
+  fit_members()
+```
+
+...we can add candidate members "in batch:"
+
+```{r, eval = FALSE}
+stacks() %>%
+  add_candidates(wf_set) %>%
+  blend_predictions() %>%
+  fit_members()
+```
+
+This approach is especially helpful with a large number of candidate members, which is exactly the setting that model stacking excels in.
+
+# Setup
+
+This example will parallel [the "Getting Started" vignette](https://stacks.tidymodels.org/articles/basics.html),
 except that we will use workflowsets to bundle the model workflows that
 define the candidate members into one workflow set. We will then train each of
 them using [workflowsets::workflow_map()](https://workflowsets.tidymodels.org/reference/workflow_map.html) and add the results to a model stack using `add_candidates()`. If you're not familiar with the stacks package, refer to that vignette for the big picture!
@@ -36,6 +58,7 @@ library(yardstick)
 library(stacks)
 library(dplyr)
 library(purrr)
+library(ggplot2)
 ```
 
 In this example, we'll again make use of the `tree_frogs` data exported with `stacks`, giving experimental results on hatching behavior of red-eyed tree frog embryos! 
@@ -55,8 +78,8 @@ tree_frogs <- tree_frogs %>%
 
 Taking a quick look at the data, it seems like the hatch time is pretty closely related to some of our predictors!
 
-```{r, message = FALSE, warning = FALSE}
-library(ggplot2)
+```{r, message = FALSE, warning = FALSE, fig.alt = "A ggplot scatterplot with embryo age in seconds on the x axis, time to hatch on the y axis, and points colored by treatment. The ages range from 350,000 to 500,000 seconds, while the times to hatch range from 0 to 450 seconds. There are two treatments—control and gentamicin—and the time to hatch is generally larger for the gentamicin group. The embryo ages are generally distributed in three clouds, where the older embryos tend to hatch more quickly after stimulus than the younger ones."}
+theme_set(theme_bw())
 
 ggplot(tree_frogs) +
   aes(x = age, y = latency, color = treatment) +
@@ -126,7 +149,7 @@ knn_rec <-
 knn_rec
 ```
 
-Starting with the basic recipe, we convert categorical variables to dummy variables, remove columns with only one observation, impute missing values in numeric variables using the mean, and normalize numeric predictors. Pre-processing instructions for the remaining models are defined similarly.
+Starting with the basic recipe, we convert categorical predictors to dummy variables, remove predictors with only one observation, impute missing values in numeric predictors using the mean, and normalize numeric predictors. Pre-processing instructions for the remaining models are defined similarly.
 
 Now, specifying the linear model, note that we are not optimizing over any hyperparameters.
 
@@ -211,7 +234,7 @@ wf_set_trained <-
 wf_set_trained
 ```
 
-The results section now contains three sets of tuning results. Note that the results corresponding to the linear regression have the subclass `resample_results()` rather than `tune_results`---this is expected, as there were no hyperparameters to tune for that model specification. `workflow_map()` knows to fall back to `fit_resamples()` rather than `tune_grid()`, in this case!
+The results section now contains three sets of tuning results. Note that the results corresponding to the linear regression have the subclass `resample_results` rather than `tune_results`---this is expected, as there were no hyperparameters to tune for that model specification. `workflow_map()` knows to fall back to `fit_resamples()` rather than `tune_grid()`, in this case!
 
 We can extract tuning results with the `extract_workflow_set_result()` helper to explore our tuning results:
 
@@ -244,20 +267,13 @@ The results obtained from building a model stack with workflow sets are identica
 
 To make sure that we have the right trade-off between minimizing the number of members and optimizing performance, we can use: 
 
-```{r penalty-plot}
-theme_set(theme_bw())
+```{r penalty-plot, fig.alt = "A ggplot line plot. The x axis shows the degree of penalization, ranging from 1e-06 to 1e-01, and the y axis displays the mean of three different metrics. The plots are faceted by metric type, with three facets: number of members, root mean squared error, and R squared. The plots generally show that, as penalization increases, the error decreases. There are very few proposed members in this example, so penalization doesn't drive down the number of members much at all. In this case, then, a larger penalty is acceptable."}
 autoplot(tree_frogs_model_st)
-```
-
-To show the relationship more directly: 
-
-```{r members-plot}
-autoplot(tree_frogs_model_st, type = "members")
 ```
 
 If these results were not good enough, `blend_predictions()` could be called again with different values of `penalty`. As it is, `blend_predictions()` picks the penalty parameter with the numerically optimal results. To see the top results: 
 
-```{r weight-plot}
+```{r weight-plot, fit.alt = "A ggplot bar plot, giving the stacking coefficient on the x axis and member on the y axis. There are three members in this ensemble, where a nearest neighbor is weighted most heavily, followed by a linear regression with a stacking coefficient about half as large, followed by a support vector machine with a very small contribution."}
 autoplot(tree_frogs_model_st, type = "weights")
 ```
 
@@ -277,7 +293,7 @@ tree_frogs_test <-
 
 Juxtaposing the predictions with the true data:
 
-```{r}
+```{r, fig.alt = "A ggplot scatterplot showing observed versus predicted latency values. While there is indeed a positive and roughly linear relationship, there is certainly patterned structure in the residuals."}
 ggplot(tree_frogs_test) +
   aes(x = latency, 
       y = .pred) +
@@ -285,7 +301,7 @@ ggplot(tree_frogs_test) +
   coord_obs_pred()
 ```
 
-Looks like our predictions were pretty strong! How do the stacks predictions perform, though, as compared to the members' predictions? We can use the `type = "members"` argument to generate predictions from each of the ensemble members.
+Looks like our predictions were decent! How do the stacks predictions perform, though, as compared to the members' predictions? We can use the `type = "members"` argument to generate predictions from each of the ensemble members.
 
 ```{r}
 member_preds <- 
