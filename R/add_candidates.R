@@ -99,12 +99,30 @@ add_candidates <- function(data_stack, candidates,
 add_candidates.workflow_set <- function(data_stack, candidates, 
                                         name = deparse(substitute(candidates)), 
                                         ...) {
-  if (!"result" %in% colnames(candidates)) {
-    cli_abort(
-      "The supplied workflow_set must be fitted to resamples with 
-       workflows::workflow_map() before being added to a data stack.",
-      call = caller_env(0)
-    )
+  fitted <- purrr::map_lgl(candidates$result, inherits, "tune_results")
+  
+  if (!all(fitted)) {
+    if (any(fitted)) {
+      not_fitted <- candidates$wflow_id[!fitted]
+      
+      cli_warn(c(
+        "!" = "Some elements of the supplied workflow set failed to evaluate 
+               with resamples.",
+        "i" = "{cli::qty(sum(fitted))}The workflow{?s/} with ID 
+               {.var {not_fitted}} will be excluded from the data stack."
+        ),
+        class = "wf_set_partial_fit"
+      )
+      
+      candidates <- candidates[fitted, ]
+    } else {
+      cli_abort(
+        "The supplied workflow set must be fitted to resamples with 
+         `workflows::workflow_map()` before being added to a data stack.",
+        call = caller_env(0),
+        class = "wf_set_unfitted"
+      )
+    }
   }
   
   purrr::reduce2(

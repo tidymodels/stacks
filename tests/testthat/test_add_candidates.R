@@ -299,8 +299,8 @@ test_that("stacks can add candidates via workflow sets", {
   
   wf_set <-
     workflowsets::workflow_set(
-      preproc = list(tree_frogs_reg_rec, tree_frogs_reg_rec, spline_rec),
-      models = list(lin_reg_spec, svm_spec, lin_reg_spec),
+      preproc = list(reg = tree_frogs_reg_rec, reg2 = tree_frogs_reg_rec, sp = spline_rec),
+      models = list(lr = lin_reg_spec, svm = svm_spec, lr2 = lin_reg_spec),
       cross = FALSE
     )
   
@@ -325,6 +325,48 @@ test_that("stacks can add candidates via workflow sets", {
   wf_stack <- 
     stacks() %>%
     add_candidates(wf_set_trained$result[[1]], name = wf_set_trained$wflow_id[[1]]) %>%
+    add_candidates(wf_set_trained$result[[2]], name = wf_set_trained$wflow_id[[2]]) %>%
+    add_candidates(wf_set_trained$result[[3]], name = wf_set_trained$wflow_id[[3]]) %>%
+    blend_predictions() %>%
+    fit_members()
+  
+  expect_equal(
+    predict(wf_set_stack, tree_frogs),
+    predict(wf_stack, tree_frogs)
+  )
+  
+  wf_set_trained_error <- wf_set_trained
+  wf_set_trained_error$result[[1]] <- "boop"
+  
+  # check that warning is supplied and looks as it ought to
+  expect_warning(
+    wf_set_stack_2 <- stacks() %>% add_candidates(wf_set_trained_error),
+    class = "wf_set_partial_fit"
+  )
+  
+  expect_snapshot_warning(
+    stacks() %>% add_candidates(wf_set_trained_error),
+    class = "wf_set_partial_fit"
+  )
+  
+  wf_set_trained_error$result[[2]] <- "boop"
+  
+  expect_snapshot_warning(
+    stacks() %>% add_candidates(wf_set_trained_error),
+    class = "wf_set_partial_fit"
+  )
+  
+  # now, will all resampled fits failing, should error
+  wf_set_trained_error$result[[3]] <- "boop"
+  
+  expect_snapshot_error(
+    stacks() %>% add_candidates(wf_set_trained_error),
+    class = "wf_set_unfitted"
+  )
+  
+  # check that add_candidate adds the candidates it said it would
+  wf_stack_2 <-
+    stacks() %>%
     add_candidates(wf_set_trained$result[[2]], name = wf_set_trained$wflow_id[[2]]) %>%
     add_candidates(wf_set_trained$result[[3]], name = wf_set_trained$wflow_id[[3]]) %>%
     blend_predictions() %>%
