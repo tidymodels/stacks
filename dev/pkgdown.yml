@@ -2,10 +2,10 @@ pandoc: 2.14.2
 pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
-  wfsets-candidates: wfsets-candidates.html
+  workflowsets: workflowsets.html
   basics: basics.html
   classification: classification.html
-last_built: 2022-10-05T18:09Z
+last_built: 2022-10-05T19:16Z
 urls:
   reference: https://stacks.tidymodels.org/reference
   article: https://stacks.tidymodels.org/articles
