@@ -51,6 +51,7 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/wfsets-candidates.html">Stacking With Workflow Sets</a>
     <a class="dropdown-item" href="../articles/basics.html">Getting Started With stacks</a>
     <a class="dropdown-item" href="../articles/classification.html">Classification Models With stacks</a>
   </div>
@@ -94,7 +95,6 @@
 <p>In this vignette, we’ll tackle a multiclass classification problem using the stacks package. This vignette assumes that you’re familiar with tidymodels “proper,” as well as the basic grammar of the package, and have seen it implemented on numeric data; if this is not the case, check out the “Getting Started With stacks” vignette!</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org" class="external-link">tidymodels</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stacks.tidymodels.org/">stacks</a></span><span class="op">)</span></span></code></pre></div>
 <p>In this example, we’ll make use of the <code>tree_frogs</code> data exported with <code>stacks</code>, giving experimental results on hatching behavior of red-eyed tree frog embryos!</p>
 <p>Red-eyed tree frog (RETF) embryos can hatch earlier than their normal 7ish days if they detect potential predator threat. Researchers wanted to determine how, and when, these tree frog embryos were able to detect stimulus from their environment. To do so, they subjected the embryos at varying developmental stages to “predator stimulus” by jiggling the embryos with a blunt probe. Beforehand, though, some of the embryos were treated with gentamicin, a compound that knocks out their lateral line (a sensory organ). Researcher Julie Jung and her crew found that these factors inform whether an embryo hatches prematurely or not!</p>
@@ -107,15 +107,15 @@
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">clutch</span>, <span class="va">latency</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Let’s plot the data to get a sense for how separable these groups are.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">theme_set</span><span class="op">(</span><span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">tree_frogs</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">treatment</span>, y <span class="op">=</span> <span class="va">age</span>, color <span class="op">=</span> <span class="va">reflex</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html" class="external-link">geom_jitter</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Embryo Age (s)"</span>, </span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">tree_frogs</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">treatment</span>, y <span class="op">=</span> <span class="va">age</span>, color <span class="op">=</span> <span class="va">reflex</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_jitter</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Embryo Age (s)"</span>, </span>
 <span>       x <span class="op">=</span> <span class="st">"treatment"</span>,</span>
 <span>       color <span class="op">=</span> <span class="st">"Response"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="classification_files/figure-html/unnamed-chunk-4-1.png" width="768"></p>
+<p><img src="classification_files/figure-html/unnamed-chunk-4-1.png" alt="A ggplot scatterplot with categorical variable treatment, embryo age in seconds on the y axis, and points colored by response. The ages range from 350,000 to 500,000 seconds, and the two treatments are control and gentamicin. There are three responses: low, mid, and full. All of the embryos beyond a certain age have a full response, while the low and mid responses are well-intermixed regardless of age or treatment." width="768"></p>
 <p>It looks like the embryo age is pretty effective at picking out embryos with full VOR function, but the problem gets tougher for the less developed embryos! Let’s see how well the stacked ensemble can classify these tree frogs.</p>
 <div class="section level2">
 <h2 id="defining-candidate-ensemble-members">Defining candidate ensemble members<a class="anchor" aria-label="anchor" href="#defining-candidate-ensemble-members"></a>
@@ -133,7 +133,7 @@
 <span></span>
 <span><span class="va">tree_frogs_rec</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/recipe.html" class="external-link">recipe</a></span><span class="op">(</span><span class="va">reflex</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">tree_frogs_train</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_dummy.html" class="external-link">step_dummy</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_nominal</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">-</span><span class="va">reflex</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_dummy.html" class="external-link">step_dummy</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_nominal_predictors</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">-</span><span class="va">reflex</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_zv.html" class="external-link">step_zv</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">tree_frogs_wflow</span> <span class="op">&lt;-</span> </span>
@@ -221,17 +221,16 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> .pred_full_rand_forest_res_1_10 rand_forest   25.2 mid</span></span></code></pre></div>
 <p>To make sure that we have the right trade-off between minimizing the number of members and optimizing performance, we can use the <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot()</a></code> method:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html" class="external-link">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span><span class="op">)</span></span></code></pre></div>
-<p><img src="classification_files/figure-html/penalty-plot-1.png" width="768"></p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span><span class="op">)</span></span></code></pre></div>
+<p><img src="classification_files/figure-html/penalty-plot-1.png" alt="A ggplot line plot. The x axis shows the degree of penalization, ranging from 1e-06 to 1e-01, and the y axis displays the mean of three different metrics. The plots are faceted by metric type, with three facets: accuracy, number of members, and ROC AUC. The plots generally show that, as penalization increases, the error increases, though fewer members are included in the model. A dashed line at a penalty of 1e-05 indicates that the stack has chosen a smaller degree of penalization." width="768"></p>
 <p>To show the relationship more directly:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span>, type <span class="op">=</span> <span class="st">"members"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="classification_files/figure-html/members-plot-1.png" width="768"></p>
+<p><img src="classification_files/figure-html/members-plot-1.png" alt="A similarly formatted ggplot line plot, showing that greater numbers of members result in higher accuracy." width="768"></p>
 <p>If these results were not good enough, <code><a href="../reference/blend_predictions.html">blend_predictions()</a></code> could be called again with different values of <code>penalty</code>. As it is, <code><a href="../reference/blend_predictions.html">blend_predictions()</a></code> picks the penalty parameter with the numerically optimal results. To see the top results:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span>, type <span class="op">=</span> <span class="st">"weights"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="classification_files/figure-html/weight-plot-1.png" width="768"></p>
+<p><img src="classification_files/figure-html/weight-plot-1.png" alt="A ggplot bar plot, giving the stacking coefficient on the x axis and member on the y axis. Bars corresponding to neural networks are shown in red, while random forest bars are shown in blue. Generally, the neural network tends to accentuate features of the 'low' response, while the random forest does so for the 'mid' response." width="768"></p>
 <p>There are multiple facets since the ensemble members can have different effects on different classes.</p>
 <p>To identify which model configurations were assigned what stacking coefficients, we can make use of the <code><a href="../reference/collect_parameters.html">collect_parameters()</a></code> function:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
@@ -298,7 +297,7 @@
 <span><span class="co">#&gt; <span style="color: #949494;">#   .pred_class_rand_forest_res_1_02 &lt;fct&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   .pred_class_rand_forest_res_1_09 &lt;fct&gt;, …</span></span></span>
 <span></span>
-<span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_dfr</a></span><span class="op">(</span></span>
+<span><span class="fu">map_dfr</span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span><span class="op">$</span><span class="va">reflex</span> <span class="op">==</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span>, <span class="va">.x</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>

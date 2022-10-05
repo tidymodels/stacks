@@ -50,6 +50,7 @@ evaluated using the blend_predictions() function."><meta property="og:image" con
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/wfsets-candidates.html">Stacking With Workflow Sets</a>
     <a class="dropdown-item" href="../articles/basics.html">Getting Started With stacks</a>
     <a class="dropdown-item" href="../articles/classification.html">Classification Models With stacks</a>
   </div>
@@ -112,10 +113,14 @@ evaluated using the <code><a href="blend_predictions.html">blend_predictions()</
 
 
 <dt>candidates</dt>
-<dd><p>A model definition: either a <code>tune_results</code>
-or <code>resample_results</code> object outputted from
-<code><a href="https://tune.tidymodels.org/reference/tune_grid.html" class="external-link">tune::tune_grid()</a></code>, <code><a href="https://tune.tidymodels.org/reference/tune_bayes.html" class="external-link">tune::tune_bayes()</a></code>, or <code><a href="https://tune.tidymodels.org/reference/fit_resamples.html" class="external-link">tune::fit_resamples()</a></code>.
-These results must have been fitted with the <code>control</code> settings
+<dd><p>A (set of) model definition(s) defining candidate model
+stack members. Should inherit from <code>tune_results</code> or <code>workflow_set</code>.</p><ul><li><p><code>tune_results</code>: An object outputted from <code><a href="https://tune.tidymodels.org/reference/tune_grid.html" class="external-link">tune::tune_grid()</a></code>,
+<code><a href="https://tune.tidymodels.org/reference/tune_bayes.html" class="external-link">tune::tune_bayes()</a></code>, or <code><a href="https://tune.tidymodels.org/reference/fit_resamples.html" class="external-link">tune::fit_resamples()</a></code>.</p></li>
+<li><p><code>workflow_set</code>: An object outputted from <code><a href="https://workflowsets.tidymodels.org/reference/workflow_map.html" class="external-link">workflowsets::workflow_map()</a></code>.
+This approach allows for supplying multiple sets of candidate members
+with only one call to <code>add_candidates</code>. See the "Stacking With Workflow Sets"
+article on the <a href="https://stacks.tidymodels.org/">package website</a> for example code!</p></li>
+</ul><p>Regardless, these results must have been fitted with the <code>control</code> settings
 <code>save_pred = TRUE, save_workflow = TRUE</code>—see the <code><a href="control_stack.html">control_stack_grid()</a></code>,
 <code><a href="control_stack.html">control_stack_bayes()</a></code>, and <code><a href="control_stack.html">control_stack_resamples()</a></code>
 documentation for helper functions.</p></dd>
@@ -123,7 +128,8 @@ documentation for helper functions.</p></dd>
 
 <dt>name</dt>
 <dd><p>The label for the model definition---defaults to the name
-of the <code>candidates</code> object.</p></dd>
+of the <code>candidates</code> object. Ignored if <code>candidates</code> inherits from
+<code>workflow_set</code>.</p></dd>
 
 
 <dt>...</dt>
@@ -248,17 +254,16 @@ the source code that generated them.</p>
 <span class="r-in"><span><span class="va">log_st2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="blend_predictions.html">blend_predictions</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── A stacked ensemble model ─────────────────────────────────────</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Out of 11 possible candidate members, the ensemble retained 3.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Penalty: 1e-04.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Out of 11 possible candidate members, the ensemble retained 2.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Penalty: 0.1.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Mixture: 1.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The 3 highest weighted member classes are:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The 2 highest weighted member classes are:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   member                       type        weight</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> .pred_yes_neural_network_1_1 mlp          7.45 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> .pred_yes_random_forest_1_05 rand_forest  3.33 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> .pred_yes_random_forest_1_09 rand_forest  0.147</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> .pred_yes_neural_network_1_1 mlp           5.19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> .pred_yes_random_forest_1_05 rand_forest   1.25</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Members have not yet been fitted with `fit_members()`.</span>
 </code></pre></div>
