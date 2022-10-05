@@ -21,8 +21,8 @@ stack members. Should inherit from \code{tune_results} or \code{workflow_set}.
 \code{\link[tune:tune_bayes]{tune::tune_bayes()}}, or \code{\link[tune:fit_resamples]{tune::fit_resamples()}}.
 \item \code{workflow_set}: An object outputted from \code{\link[workflowsets:workflow_map]{workflowsets::workflow_map()}}.
 This approach allows for supplying multiple sets of candidate members
-with only one call to \code{add_candidates}. See the vignette at
-\code{vignette("wfsets-candidates", package = "stacks")} for example code!
+with only one call to \code{add_candidates}. See the "Stacking With Workflow Sets"
+article on the \href{https://stacks.tidymodels.org/}{package website} for example code!
 }
 
 Regardless, these results must have been fitted with the \code{control} settings

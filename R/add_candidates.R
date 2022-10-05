@@ -26,8 +26,8 @@
 #' [tune::tune_bayes()], or [tune::fit_resamples()].
 #' - `workflow_set`: An object outputted from [workflowsets::workflow_map()].
 #' This approach allows for supplying multiple sets of candidate members 
-#' with only one call to `add_candidates`. See the vignette at
-#' `vignette("wfsets-candidates", package = "stacks")` for example code!
+#' with only one call to `add_candidates`. See the "Stacking With Workflow Sets"
+#' article on the [package website](https://stacks.tidymodels.org/) for example code!
 #' 
 #' Regardless, these results must have been fitted with the `control` settings
 #' `save_pred = TRUE, save_workflow = TRUE`—see the [control_stack_grid()],
