@@ -19,6 +19,7 @@ utils::globalVariables(c(
   ".metric",
   ".pred",
   ".pred_class",
+  "any_of",
   "as.formula",
   "assess_object",
   "coef",
