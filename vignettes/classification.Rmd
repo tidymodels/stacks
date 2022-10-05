@@ -18,7 +18,6 @@ In this vignette, we'll tackle a multiclass classification problem using the sta
 
 ```{r setup, eval = FALSE}
 library(tidymodels)
-library(tidyverse)
 library(stacks)
 ```
 
@@ -33,6 +32,7 @@ library(stacks)
 library(purrr)
 library(dplyr)
 library(tidyr)
+library(ggplot2)
 ```
 
 ```{r, include = FALSE}
@@ -66,8 +66,8 @@ tree_frogs <- tree_frogs %>%
 
 Let's plot the data to get a sense for how separable these groups are.
 
-```{r, message = FALSE, warning = FALSE}
-library(ggplot2)
+```{r, message = FALSE, warning = FALSE, fig.alt = "A ggplot scatterplot with categorical variable treatment, embryo age in seconds on the y axis, and points colored by response. The ages range from 350,000 to 500,000 seconds, and the two treatments are control and gentamicin. There are three responses: low, mid, and full. All of the embryos beyond a certain age have a full response, while the low and mid responses are well-intermixed regardless of age or treatment."}
+theme_set(theme_bw())
 
 ggplot(tree_frogs) +
   aes(x = treatment, y = age, color = reflex) +
@@ -95,7 +95,7 @@ folds <- rsample::vfold_cv(tree_frogs_train, v = 5)
 
 tree_frogs_rec <- 
   recipe(reflex ~ ., data = tree_frogs_train) %>%
-  step_dummy(all_nominal(), -reflex) %>%
+  step_dummy(all_nominal_predictors(), -reflex) %>%
   step_zv(all_predictors())
 
 tree_frogs_wflow <- 
@@ -184,20 +184,19 @@ tree_frogs_model_st
 
 To make sure that we have the right trade-off between minimizing the number of members and optimizing performance, we can use the `autoplot()` method: 
 
-```{r penalty-plot}
-theme_set(theme_bw())
+```{r penalty-plot, fig.alt = "A ggplot line plot. The x axis shows the degree of penalization, ranging from 1e-06 to 1e-01, and the y axis displays the mean of three different metrics. The plots are faceted by metric type, with three facets: accuracy, number of members, and ROC AUC. The plots generally show that, as penalization increases, the error increases, though fewer members are included in the model. A dashed line at a penalty of 1e-05 indicates that the stack has chosen a smaller degree of penalization."}
 autoplot(tree_frogs_model_st)
 ```
 
 To show the relationship more directly: 
 
-```{r members-plot}
+```{r members-plot, fig.alt = "A similarly formatted ggplot line plot, showing that greater numbers of members result in higher accuracy."}
 autoplot(tree_frogs_model_st, type = "members")
 ```
 
 If these results were not good enough, `blend_predictions()` could be called again with different values of `penalty`. As it is, `blend_predictions()` picks the penalty parameter with the numerically optimal results. To see the top results: 
 
-```{r weight-plot}
+```{r weight-plot, fig.alt = "A ggplot bar plot, giving the stacking coefficient on the x axis and member on the y axis. Bars corresponding to neural networks are shown in red, while random forest bars are shown in blue. Generally, the neural network tends to accentuate features of the 'low' response, while the random forest does so for the 'mid' response."}
 autoplot(tree_frogs_model_st, type = "weights")
 ```
 
