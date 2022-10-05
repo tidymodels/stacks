@@ -293,3 +293,45 @@ test_that("stacks can handle columns and levels named 'class'", {
     "data_stack"
   )
 })
+
+test_that("stacks can add candidates via workflow sets", {
+  skip_on_cran()
+  
+  wf_set <-
+    workflowsets::workflow_set(
+      preproc = list(tree_frogs_reg_rec, tree_frogs_reg_rec, spline_rec),
+      models = list(lin_reg_spec, svm_spec, lin_reg_spec),
+      cross = FALSE
+    )
+  
+  wf_set_trained <-
+    workflowsets::workflow_map(
+      wf_set,
+      fn = "tune_grid",
+      seed = 1,
+      resamples = reg_folds,
+      metrics = yardstick::metric_set(yardstick::rmse),
+      control = control_stack_grid()
+    )
+  
+  set.seed(1)
+  wf_set_stack <- 
+    stacks() %>%
+    add_candidates(wf_set_trained) %>%
+    blend_predictions() %>%
+    fit_members()
+
+  set.seed(1)
+  wf_stack <- 
+    stacks() %>%
+    add_candidates(wf_set_trained$result[[1]], name = wf_set_trained$wflow_id[[1]]) %>%
+    add_candidates(wf_set_trained$result[[2]], name = wf_set_trained$wflow_id[[2]]) %>%
+    add_candidates(wf_set_trained$result[[3]], name = wf_set_trained$wflow_id[[3]]) %>%
+    blend_predictions() %>%
+    fit_members()
+  
+  expect_equal(
+    predict(wf_set_stack, tree_frogs_test),
+    predict(wf_stack, tree_frogs_test)
+  )
+})
