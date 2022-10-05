@@ -331,7 +331,7 @@ test_that("stacks can add candidates via workflow sets", {
     fit_members()
   
   expect_equal(
-    predict(wf_set_stack, tree_frogs_test),
-    predict(wf_stack, tree_frogs_test)
+    predict(wf_set_stack, tree_frogs),
+    predict(wf_stack, tree_frogs)
   )
 })
