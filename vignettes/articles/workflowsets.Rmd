@@ -18,6 +18,7 @@ stacks() %>%
   add_candidates(tuning_result_1) %>%
   add_candidates(tuning_result_2) %>%
   add_candidates(tuning_result_3) %>%
+  add_candidates(tuning_result_4) %>%
   blend_predictions() %>%
   fit_members()
 ```
@@ -31,7 +32,7 @@ stacks() %>%
   fit_members()
 ```
 
-This approach is especially helpful with a large number of candidate members, which is exactly the setting that model stacking excels in.
+This interface is especially helpful with a large number of candidate members, which is exactly the setting that model stacking excels in.
 
 # Setup
 
@@ -142,9 +143,9 @@ From here, we extend the basic recipe defined earlier to fully specify the form 
 knn_rec <-
   tree_frogs_rec %>%
   step_dummy(all_nominal_predictors()) %>%
-  step_zv(all_predictors(), skip = TRUE) %>%
-  step_impute_mean(all_numeric_predictors(), skip = TRUE) %>%
-  step_normalize(all_numeric_predictors(), skip = TRUE)
+  step_zv(all_predictors()) %>%
+  step_impute_mean(all_numeric_predictors()) %>%
+  step_normalize(all_numeric_predictors())
 
 knn_rec
 ```
@@ -163,7 +164,7 @@ lin_reg_spec <-
 lin_reg_rec <-
   tree_frogs_rec %>%
   step_dummy(all_nominal_predictors()) %>%
-  step_zv(all_predictors(), skip = TRUE)
+  step_zv(all_predictors())
 ```
 
 Finally, putting together the model specification and recipe for the support vector machine:
@@ -182,10 +183,10 @@ svm_spec <-
 svm_rec <-
   tree_frogs_rec %>%
   step_dummy(all_nominal_predictors()) %>%
-  step_zv(all_predictors(), skip = TRUE) %>%
-  step_impute_mean(all_numeric_predictors(), skip = TRUE) %>%
-  step_corr(all_predictors(), skip = TRUE) %>%
-  step_normalize(all_numeric_predictors(), skip = TRUE)
+  step_zv(all_predictors()) %>%
+  step_impute_mean(all_numeric_predictors()) %>%
+  step_corr(all_predictors()) %>%
+  step_normalize(all_numeric_predictors())
 ```
 
 With each model specification and accompanying recipe now defined, we can combine them via `workflow_set`:

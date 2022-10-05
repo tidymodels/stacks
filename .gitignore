@@ -6,4 +6,4 @@
 notes/
 inst/doc
 data-raw/paper/paper.tex
-vignettes/articles/wfsets-candidates_cache*
+vignettes/articles/workflowsets_cache*
