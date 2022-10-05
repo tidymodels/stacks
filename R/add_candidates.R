@@ -19,15 +19,23 @@
 #' evaluated using the [blend_predictions()] function.
 #'
 #' @param data_stack A `data_stack` object.
-#' @param candidates A model definition: either a `tune_results` 
-#' or `resample_results` object outputted from
-#' [tune::tune_grid()], [tune::tune_bayes()], or [tune::fit_resamples()].
-#' These results must have been fitted with the `control` settings
+#' @param candidates A (set of) model definition(s) defining candidate model 
+#' stack members. Should inherit from `tune_results` or `workflow_set`.
+#' 
+#' - `tune_results`: An object outputted from [tune::tune_grid()], 
+#' [tune::tune_bayes()], or [tune::fit_resamples()].
+#' - `workflow_set`: An object outputted from [workflowsets::workflow_map()].
+#' This approach allows for supplying multiple sets of candidate members 
+#' with only one call to `add_candidates`. See the "Stacking With Workflow Sets"
+#' article on the [package website](https://stacks.tidymodels.org/) for example code!
+#' 
+#' Regardless, these results must have been fitted with the `control` settings
 #' `save_pred = TRUE, save_workflow = TRUE`—see the [control_stack_grid()],
 #' [control_stack_bayes()], and [control_stack_resamples()]
 #' documentation for helper functions.
 #' @param name The label for the model definition---defaults to the name
-#' of the `candidates` object.
+#' of the `candidates` object. Ignored if `candidates` inherits from 
+#' `workflow_set`.
 #' @inheritParams stacks
 #' 
 #' @return A `data_stack` object--see [stacks()] for more details! 

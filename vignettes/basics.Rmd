@@ -353,6 +353,12 @@ tree_frogs_model_st <-
   fit_members()
 ```
 
+```{r, eval = FALSE, include = FALSE}
+st_print <- capture.output(print(tree_frogs_model_st))
+
+writeLines(st_print, con = "inst/figs/st_print.txt")
+```
+
 ```{r, echo = FALSE, fig.alt = "A diagram representing the ensemble members, where each are pentagons labeled and colored-in according to the candidate members they arose from."}
 knitr::include_graphics("https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/members.png")
 ```
