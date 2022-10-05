@@ -34,9 +34,6 @@
     <loc>https://stacks.tidymodels.org/reference/add_candidates.html</loc>
   </url>
   <url>
-    <loc>https://stacks.tidymodels.org/reference/augment.model_stack.html</loc>
-  </url>
-  <url>
     <loc>https://stacks.tidymodels.org/reference/autoplot.linear_stack.html</loc>
   </url>
   <url>
@@ -64,9 +61,6 @@
     <loc>https://stacks.tidymodels.org/reference/get_expressions.html</loc>
   </url>
   <url>
-    <loc>https://stacks.tidymodels.org/reference/glance.model_stack.html</loc>
-  </url>
-  <url>
     <loc>https://stacks.tidymodels.org/reference/index.html</loc>
   </url>
   <url>
@@ -89,9 +83,6 @@
   </url>
   <url>
     <loc>https://stacks.tidymodels.org/reference/stacks_description.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/reference/tidy.model_stack.html</loc>
   </url>
   <url>
     <loc>https://stacks.tidymodels.org/reference/tree_frogs.html</loc>
