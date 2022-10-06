@@ -13,6 +13,15 @@ To be released as stacks 1.0.1.
   infrastructure from the cli package; error headers now refer to the function
   called directly by the user rather than the internal function that raised the
   error.
+  
+* Tightened integration with the workflowsets package.
+    - Refined logic with adding candidates via workflowsets to allow for 
+      partially trained workflow sets. In the case that a workflow set contains 
+      some failed tuning results, stacks will inform the user that they will be 
+      excluded from the data stack and only add the results that trained successfully.
+    - Extended documentation related to the packages' interactions, including 
+      a [new article](https://stacks.tidymodels.org/dev/articles/workflowsets.html) 
+      on the package website.
 
 # stacks 1.0.0
 
