@@ -15,8 +15,7 @@
 #'
 #' @template note_example_data
 #'
-#' @examplesIf rlang::is_installed("ranger") & rlang::is_installed("kernlab")
-#' \donttest{
+#' @examplesIf (stacks:::should_run_examples(suggests = c("ranger", "kernlab")))
 #' 
 #' # see the "Example Data" section above for
 #' # clarification on the data and tuning results
@@ -63,8 +62,6 @@
 #'   type = "prob", 
 #'   members = TRUE
 #' )
-#' 
-#' }
 #'
 #' @importFrom stats predict
 #' @method predict model_stack
@@ -126,10 +123,11 @@ predict.model_stack <- function(object, new_data, type = NULL, members = FALSE,
 #' @export predict.data_stack
 #' @export
 predict.data_stack <- function(object, ...) {
-  glue_stop(
-    "To predict with a stacked ensemble, the supplied data stack must be ",
-    "evaluated with `blend_predictions()` and its member models fitted with ",
-    "`fit_members()` to predict on new data."
+  cli_abort(
+    "To predict with a stacked ensemble, the supplied data stack must be 
+     evaluated with `blend_predictions()` and its member models fitted with 
+     `fit_members()` to predict on new data.",
+    call = caller_env(0)
   )
 }
 
@@ -192,9 +190,10 @@ parse_member_probs <- function(member_name, member_probs, levels) {
 
 check_fitted <- function(model_stack) {
   if (is.null(model_stack[["member_fits"]])) {
-    glue_stop(
-      "The supplied model stack hasn't been fitted yet. ",
-      "Please fit the necessary members with fit_members() to predict on new data."
+    cli_abort(
+      "The supplied model stack hasn't been fitted yet. 
+       Please fit the necessary members with fit_members() to predict on new data.",
+      call = caller_env()
     )
   }
 }

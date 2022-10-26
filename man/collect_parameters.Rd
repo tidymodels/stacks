@@ -82,8 +82,7 @@ the source code that generated them.
 }
 
 \examples{
-\dontshow{if (rlang::is_installed("kernlab")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-\donttest{
+\dontshow{if ((stacks:::should_run_examples(suggests = "kernlab"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # see the "Example Data" section above for
 # clarification on the objects used in these examples!
 
@@ -108,6 +107,5 @@ collect_parameters(
   reg_st \%>\% blend_predictions(), 
   "spline"
 )
-}
 \dontshow{\}) # examplesIf}
 }

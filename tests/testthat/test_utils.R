@@ -63,10 +63,7 @@ test_that("misc. utilities work", {
   expect_true(check_inherits("howdy", "character"))
   
   yall <- "y'all"
-  expect_error(glue_stop("howdy {yall}"), "howdy y'all")
-  expect_warning(glue_warn("howdy {yall}"), "howdy y'all")
-  expect_message(glue_message("howdy {yall}"), "howdy y'all")
-  
+
   expect_warning(
     check_empty_ellipses(yall),
     "were passed: 'yall'"

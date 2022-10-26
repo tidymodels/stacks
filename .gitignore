@@ -6,3 +6,4 @@
 notes/
 inst/doc
 data-raw/paper/paper.tex
+vignettes/articles/workflowsets_cache*

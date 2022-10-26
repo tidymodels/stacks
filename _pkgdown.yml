@@ -1,4 +1,4 @@
-url: https://stacks.tidymodels.org
+url: https://stacks.tidymodels.org/
 
 template:
   package: tidytemplate
@@ -41,3 +41,11 @@ reference:
     - starts_with("axe_")
     - starts_with("predict")
     - starts_with("print")
+
+articles:
+  - title: Get started
+    navbar: ~
+    contents:
+    - basics
+    - classification
+    - articles/workflowsets

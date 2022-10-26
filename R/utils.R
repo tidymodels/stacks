@@ -4,6 +4,12 @@
 #' @export
 dplyr::`%>%`
 
+# Imports
+#' @importFrom cli cli_inform
+#' @importFrom cli cli_warn
+#' @importFrom cli cli_abort
+#' @importFrom rlang caller_env
+
 # Global Variables
 # ------------------------------------------------------------------------
 utils::globalVariables(c(
@@ -13,6 +19,7 @@ utils::globalVariables(c(
   ".metric",
   ".pred",
   ".pred_class",
+  "any_of",
   "as.formula",
   "assess_object",
   "coef",
@@ -54,56 +61,6 @@ utils::globalVariables(c(
 
 # Checks and Prompts
 # ------------------------------------------------------------------------
-# wrappers for prompting with glue with appropriate colors
-glue_stop <- function(..., .sep = "", .envir = parent.frame()) {
-  glue_prompt(
-    ..., 
-    .sep = .sep, 
-    .envir = .envir, 
-    type = "danger", 
-    rlang_fn = rlang::abort
-  )
-}
-
-glue_warn <- function(..., .sep = "", .envir = parent.frame()) {
-  glue_prompt(
-    ..., 
-    .sep = .sep, 
-    .envir = .envir, 
-    type = "warning", 
-    rlang_fn = rlang::warn
-  )
-}
-
-glue_message <- function(..., .sep = "", .envir = parent.frame()) {
-  glue_prompt(
-    ..., 
-    .sep = .sep, 
-    .envir = .envir, 
-    type = "info", 
-    rlang_fn = rlang::inform
-  )
-}
-
-# takes in a prompt and a prompt type and colors the
-# prompt according to the prompt type
-color_prompt <- function(prompt, type) {
-  colors <- tune::get_tune_colors()
-  
-  prompt_fn <- colors[["message"]][[type]]
-  
-  prompt_fn(prompt)
-}
-
-# takes in a vector, parses it with glue, wraps to the console width, colors
-# it with the appropriate tune color, and raises it with the appropriate prompt
-glue_prompt <- function(..., .sep = "", .envir = parent.frame(), type, rlang_fn) {
-  glue::glue(..., .sep = .sep, .envir = .envir) %>%
-    glue::glue_collapse() %>%
-    color_prompt(type) %>%
-    rlang_fn()
-}
-
 # adapted from tune
 check_empty_ellipses <- function(...) {
   dots <- rlang::enquos(...)
@@ -127,11 +84,37 @@ check_inherits <- function(x, what) {
   cl <- match.call()
   
   if (!inherits(x, what)) {
-    glue_stop("Element `{list(cl$x)}` needs to inherit from `{what}`, but its ",
-              "class is `{list(class(x))}`.")
+    cli_abort(
+      "Element `{list(cl$x)}` needs to inherit from `{what}`, but its 
+       class is `{list(class(x))}`.", 
+      call = NULL
+    )
   }
   
   invisible(TRUE)
+}
+
+# adapted from ps:::is_cran_check()
+is_cran_check <- function() {
+  if (identical(Sys.getenv("NOT_CRAN"), "true")) {
+    FALSE
+  }
+  else {
+    Sys.getenv("_R_CHECK_PACKAGE_NAME_", "") != ""
+  }
+}
+
+# suggests: a character vector of package names, giving packages
+#           listed in Suggests that are needed for the example.
+# for use a la `@examplesIf (tune:::should_run_examples())`
+should_run_examples <- function(suggests = NULL) {
+  has_needed_installs <- TRUE
+  
+  if (!is.null(suggests)) {
+    has_needed_installs <- rlang::is_installed(suggests)
+  }
+  
+  has_needed_installs && !is_cran_check()
 }
 
 

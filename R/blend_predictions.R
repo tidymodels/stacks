@@ -57,8 +57,7 @@
 #' 
 #' @template note_example_data
 #' 
-#' @examplesIf rlang::is_installed("kernlab")
-#' \donttest{
+#' @examplesIf (stacks:::should_run_examples(suggests = "kernlab"))
 #' # see the "Example Data" section above for
 #' # clarification on the objects used in these examples!
 #' 
@@ -118,7 +117,6 @@
 #'   blend_predictions()
 #'   
 #' log_st
-#' }
 #' 
 #' @family core verbs
 #' @export
@@ -137,7 +135,7 @@ blend_predictions <- function(data_stack,
   if (!is.null(metric)) {
     check_inherits(metric, "metric_set")
   }
-  check_inherits(control, "control_grid")
+  control <- parsnip::condense_control(control, tune::control_grid())
   check_inherits(times, "numeric")
   
   dat <- tibble::as_tibble(data_stack)
@@ -239,25 +237,29 @@ blend_predictions <- function(data_stack,
 # blending utilities -----------------------------------------------------------
 check_regularization <- function(x, arg) {
   if (!is.numeric(x)) {
-    glue_stop(
-      "The argument to '{arg}' must be a numeric, but the supplied {arg}'s ",
-      "class is `{list(class(x))}`"
+    cli_abort(
+      "The argument to '{arg}' must be a numeric, but the supplied {arg}'s 
+       class is `{list(class(x))}`",
+      call = caller_env()
     )
   }
   
   if (length(x) == 0) {
-    glue_stop("Please supply one or more {arg} values.")
+    cli_abort("Please supply one or more {arg} values.",
+                   call = caller_env())
   }
   
   if (arg == "penalty") {
     if (any(x < 0)) {
-      glue_stop("Please supply only nonnegative values to the {arg} argument.")
+      cli_abort("Please supply only nonnegative values to the {arg} argument.",
+                     call = caller_env())
     }
   }
   
   if (arg == "mixture") {
     if (any(x < 0 || x > 1)) {
-      glue_stop("Please supply only values in [0, 1] to the {arg} argument.")
+      cli_abort("Please supply only values in [0, 1] to the {arg} argument.",
+                     call = caller_env())
     }
   }
 }
@@ -329,16 +331,18 @@ check_blend_data_stack <- function(data_stack) {
   if (!inherits(data_stack, "data_stack")) {
     check_inherits(data_stack, "data_stack")
   } else if (ncol(data_stack) == 0) {
-      glue_stop(
-        "The data stack supplied as the argument to `data_stack` has no ",
-        "candidate members. Please first add candidates with ",
-        "the `add_candidates()` function."
+      cli_abort(
+        "The data stack supplied as the argument to `data_stack` has no 
+         candidate members. Please first add candidates with 
+         the `add_candidates()` function.",
+        call = caller_env()
       )
   } else if ((ncol(data_stack) == 2 && attr(data_stack, "mode") == "regression") || 
              ncol(data_stack) == length(levels(data_stack[[1]])) + 1) {
-    glue_stop(
-      "The supplied data stack only contains one candidate member. Please ",
-      "add more candidate members using `add_candidates()` before blending."
+    cli_abort(
+      "The supplied data stack only contains one candidate member. Please 
+       add more candidate members using `add_candidates()` before blending.",
+      call = caller_env()
     )
   }
   
@@ -346,13 +350,13 @@ check_blend_data_stack <- function(data_stack) {
 }
 
 process_meta_learner <- function(data_stack = data_stack, 
-                                         penalty = penalty, 
-                                         mixture = mixture,
-                                         non_negative = non_negative) {
+                                 penalty = penalty, 
+                                 mixture = mixture,
+                                 non_negative = non_negative) {
   check_regularization(penalty, "penalty")
   check_regularization(mixture, "mixture")
   check_inherits(non_negative, "logical")
-
+  
   lvls <- levels(data_stack[[attr(data_stack, "outcome")]])
   
   ll <- if (non_negative) {0} else {-Inf}
@@ -376,11 +380,6 @@ process_meta_learner <- function(data_stack = data_stack,
         parsnip::set_mode("classification")
     }
   }
-    
+  
   model_spec
 }
-
-
-
-
-

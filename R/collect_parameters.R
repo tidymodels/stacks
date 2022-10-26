@@ -17,8 +17,7 @@
 #' 
 #' @template note_example_data
 #' 
-#' @examplesIf rlang::is_installed("kernlab")
-#' \donttest{
+#' @examplesIf (stacks:::should_run_examples(suggests = "kernlab"))
 #' # see the "Example Data" section above for
 #' # clarification on the objects used in these examples!
 #' 
@@ -43,7 +42,6 @@
 #'   reg_st %>% blend_predictions(), 
 #'   "spline"
 #' )
-#' }
 #' @export
 collect_parameters <- function(stack, candidates, ...) {
   UseMethod("collect_parameters", stack)
@@ -52,9 +50,10 @@ collect_parameters <- function(stack, candidates, ...) {
 #' @export
 #' @rdname collect_parameters
 collect_parameters.default <- function(stack, candidates, ...) {
-  glue_stop(
-    "There is no `collect_parameters()` method currently implemented ",
-    "for {list(class(stack))} objects."
+  cli_abort(
+    "There is no `collect_parameters()` method currently implemented  
+     for {list(class(stack))} objects.",
+    call = caller_env(0)
   )
 }
 
@@ -154,9 +153,10 @@ collect_params <- function(cols_map, model_metrics, candidates, workflows, blend
 check_for_candidates <- function(model_metrics, candidates) {
   if ((!inherits(candidates, "character")) | 
       (!candidates %in% names(model_metrics))) {
-    glue_stop(
-      "The `candidates` argument to `collect_parameters()` must be the name ",
-      "given to a set of candidates added with `add_candidates()`."
+    cli_abort(
+      "The `candidates` argument to `collect_parameters()` must be the name 
+       given to a set of candidates added with `add_candidates()`.",
+      call = caller_env()
     )
   }
 }
