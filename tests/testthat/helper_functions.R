@@ -50,6 +50,3 @@ on_github <- function() {
 on_cran <- function() {
   !identical(Sys.getenv("NOT_CRAN"), "true")
 }
-
-# robustly test for prompt outputs without line breaks
-options(width = 1000)
