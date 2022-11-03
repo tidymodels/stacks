@@ -92,20 +92,39 @@
 
     
     
-<p>In this vignette, we’ll tackle a multiclass classification problem using the stacks package. This vignette assumes that you’re familiar with tidymodels “proper,” as well as the basic grammar of the package, and have seen it implemented on numeric data; if this is not the case, check out the “Getting Started With stacks” vignette!</p>
+<p>In this vignette, we’ll tackle a multiclass classification problem
+using the stacks package. This vignette assumes that you’re familiar
+with tidymodels “proper,” as well as the basic grammar of the package,
+and have seen it implemented on numeric data; if this is not the case,
+check out the “Getting Started With stacks” vignette!</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org" class="external-link">tidymodels</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stacks.tidymodels.org/">stacks</a></span><span class="op">)</span></span></code></pre></div>
-<p>In this example, we’ll make use of the <code>tree_frogs</code> data exported with <code>stacks</code>, giving experimental results on hatching behavior of red-eyed tree frog embryos!</p>
-<p>Red-eyed tree frog (RETF) embryos can hatch earlier than their normal 7ish days if they detect potential predator threat. Researchers wanted to determine how, and when, these tree frog embryos were able to detect stimulus from their environment. To do so, they subjected the embryos at varying developmental stages to “predator stimulus” by jiggling the embryos with a blunt probe. Beforehand, though, some of the embryos were treated with gentamicin, a compound that knocks out their lateral line (a sensory organ). Researcher Julie Jung and her crew found that these factors inform whether an embryo hatches prematurely or not!</p>
-<p>In this article, we’ll use most all of the variables in <code>tree_frogs</code> to predict <code>reflex</code>, a measure of ear function called the vestibulo-ocular reflex (VOR), categorized into bins. Ear function increases from factor levels “low”, to “mid”, to “full”.</p>
+<p>In this example, we’ll make use of the <code>tree_frogs</code> data
+exported with <code>stacks</code>, giving experimental results on
+hatching behavior of red-eyed tree frog embryos!</p>
+<p>Red-eyed tree frog (RETF) embryos can hatch earlier than their normal
+7ish days if they detect potential predator threat. Researchers wanted
+to determine how, and when, these tree frog embryos were able to detect
+stimulus from their environment. To do so, they subjected the embryos at
+varying developmental stages to “predator stimulus” by jiggling the
+embryos with a blunt probe. Beforehand, though, some of the embryos were
+treated with gentamicin, a compound that knocks out their lateral line
+(a sensory organ). Researcher Julie Jung and her crew found that these
+factors inform whether an embryo hatches prematurely or not!</p>
+<p>In this article, we’ll use most all of the variables in
+<code>tree_frogs</code> to predict <code>reflex</code>, a measure of ear
+function called the vestibulo-ocular reflex (VOR), categorized into
+bins. Ear function increases from factor levels “low”, to “mid”, to
+“full”.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"tree_frogs"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># subset the data</span></span>
 <span><span class="va">tree_frogs</span> <span class="op">&lt;-</span> <span class="va">tree_frogs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">clutch</span>, <span class="va">latency</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Let’s plot the data to get a sense for how separable these groups are.</p>
+<p>Let’s plot the data to get a sense for how separable these groups
+are.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">theme_set</span><span class="op">(</span><span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -116,11 +135,17 @@
 <span>       x <span class="op">=</span> <span class="st">"treatment"</span>,</span>
 <span>       color <span class="op">=</span> <span class="st">"Response"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="classification_files/figure-html/unnamed-chunk-4-1.png" alt="A ggplot scatterplot with categorical variable treatment, embryo age in seconds on the y axis, and points colored by response. The ages range from 350,000 to 500,000 seconds, and the two treatments are control and gentamicin. There are three responses: low, mid, and full. All of the embryos beyond a certain age have a full response, while the low and mid responses are well-intermixed regardless of age or treatment." width="768"></p>
-<p>It looks like the embryo age is pretty effective at picking out embryos with full VOR function, but the problem gets tougher for the less developed embryos! Let’s see how well the stacked ensemble can classify these tree frogs.</p>
+<p>It looks like the embryo age is pretty effective at picking out
+embryos with full VOR function, but the problem gets tougher for the
+less developed embryos! Let’s see how well the stacked ensemble can
+classify these tree frogs.</p>
 <div class="section level2">
 <h2 id="defining-candidate-ensemble-members">Defining candidate ensemble members<a class="anchor" aria-label="anchor" href="#defining-candidate-ensemble-members"></a>
 </h2>
-<p>As in the numeric prediction setting, defining the candidate ensemble members is undoubtedly the longest part of the ensembling process with stacks. First, splitting up the training data, generating resamples, and setting some options that will be used by each model definition.</p>
+<p>As in the numeric prediction setting, defining the candidate ensemble
+members is undoubtedly the longest part of the ensembling process with
+stacks. First, splitting up the training data, generating resamples, and
+setting some options that will be used by each model definition.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># some setup: resampling and a basic recipe</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
@@ -139,10 +164,12 @@
 <span><span class="va">tree_frogs_wflow</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="https://workflows.tidymodels.org/reference/workflow.html" class="external-link">workflow</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://workflows.tidymodels.org/reference/add_recipe.html" class="external-link">add_recipe</a></span><span class="op">(</span><span class="va">tree_frogs_rec</span><span class="op">)</span></span></code></pre></div>
-<p>We also need to use the same control settings as in the numeric response setting:</p>
+<p>We also need to use the same control settings as in the numeric
+response setting:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ctrl_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/control_stack.html">control_stack_grid</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>We’ll define two different model definitions to try to predict <code>reflex</code>—a random forest and a neural network.</p>
+<p>We’ll define two different model definitions to try to predict
+<code>reflex</code>—a random forest and a neural network.</p>
 <p>Starting out with a random forest:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rand_forest_spec</span> <span class="op">&lt;-</span> </span>
@@ -187,7 +214,8 @@
 <span>    grid <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>    control <span class="op">=</span> <span class="va">ctrl_grid</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p>With these model definitions fully specified, we’re ready to start putting together an ensemble!</p>
+<p>With these model definitions fully specified, we’re ready to start
+putting together an ensemble!</p>
 </div>
 <div class="section level2">
 <h2 id="putting-together-a-stack">Putting together a stack<a class="anchor" aria-label="anchor" href="#putting-together-a-stack"></a>
@@ -219,7 +247,9 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> .pred_mid_rand_forest_res_1_05  rand_forest   26.9 mid  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> .pred_mid_rand_forest_res_1_01  rand_forest   26.0 low  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> .pred_full_rand_forest_res_1_10 rand_forest   25.2 mid</span></span></code></pre></div>
-<p>To make sure that we have the right trade-off between minimizing the number of members and optimizing performance, we can use the <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot()</a></code> method:</p>
+<p>To make sure that we have the right trade-off between minimizing the
+number of members and optimizing performance, we can use the
+<code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot()</a></code> method:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span><span class="op">)</span></span></code></pre></div>
 <p><img src="classification_files/figure-html/penalty-plot-1.png" alt="A ggplot line plot. The x axis shows the degree of penalization, ranging from 1e-06 to 1e-01, and the y axis displays the mean of three different metrics. The plots are faceted by metric type, with three facets: accuracy, number of members, and ROC AUC. The plots generally show that, as penalization increases, the error increases, though fewer members are included in the model. A dashed line at a penalty of 1e-05 indicates that the stack has chosen a smaller degree of penalization." width="768"></p>
@@ -227,12 +257,19 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span>, type <span class="op">=</span> <span class="st">"members"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="classification_files/figure-html/members-plot-1.png" alt="A similarly formatted ggplot line plot, showing that greater numbers of members result in higher accuracy." width="768"></p>
-<p>If these results were not good enough, <code><a href="../reference/blend_predictions.html">blend_predictions()</a></code> could be called again with different values of <code>penalty</code>. As it is, <code><a href="../reference/blend_predictions.html">blend_predictions()</a></code> picks the penalty parameter with the numerically optimal results. To see the top results:</p>
+<p>If these results were not good enough,
+<code><a href="../reference/blend_predictions.html">blend_predictions()</a></code> could be called again with different
+values of <code>penalty</code>. As it is,
+<code><a href="../reference/blend_predictions.html">blend_predictions()</a></code> picks the penalty parameter with the
+numerically optimal results. To see the top results:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span>, type <span class="op">=</span> <span class="st">"weights"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="classification_files/figure-html/weight-plot-1.png" alt="A ggplot bar plot, giving the stacking coefficient on the x axis and member on the y axis. Bars corresponding to neural networks are shown in red, while random forest bars are shown in blue. Generally, the neural network tends to accentuate features of the 'low' response, while the random forest does so for the 'mid' response." width="768"></p>
-<p>There are multiple facets since the ensemble members can have different effects on different classes.</p>
-<p>To identify which model configurations were assigned what stacking coefficients, we can make use of the <code><a href="../reference/collect_parameters.html">collect_parameters()</a></code> function:</p>
+<p>There are multiple facets since the ensemble members can have
+different effects on different classes.</p>
+<p>To identify which model configurations were assigned what stacking
+coefficients, we can make use of the <code><a href="../reference/collect_parameters.html">collect_parameters()</a></code>
+function:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/collect_parameters.html">collect_parameters</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span>, <span class="st">"rand_forest_res"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 60 × 6</span></span></span>
@@ -261,7 +298,10 @@
 <span>  truth <span class="op">=</span> <span class="va">reflex</span>,</span>
 <span>  <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">contains</a></span><span class="op">(</span><span class="st">".pred_"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p>Looks like our predictions were pretty strong! How do the stacks predictions perform, though, as compared to the members’ predictions? We can use the <code>members</code> argument to generate predictions from each of the ensemble members.</p>
+<p>Looks like our predictions were pretty strong! How do the stacks
+predictions perform, though, as compared to the members’ predictions? We
+can use the <code>members</code> argument to generate predictions from
+each of the ensemble members.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tree_frogs_pred</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">tree_frogs_test</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -325,7 +365,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">18</span>      1 .pred_class_rand_forest_res_1_06 0.888</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">19</span>      1 .pred_class_rand_forest_res_1_08 0.881</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">20</span>      1 .pred_class_nnet_res_1_07        0.558</span></span></code></pre></div>
-<p>Voilà! You’ve now made use of the stacks package to predict tree frog embryo ear function using a stacked ensemble!</p>
+<p>Voilà! You’ve now made use of the stacks package to predict tree frog
+embryo ear function using a stacked ensemble!</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
