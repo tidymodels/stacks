@@ -357,7 +357,7 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
   }
   
   if (nrow(res) < nrow(data_stack)) {
-    glue_message(
+    cli::cli_warn(
       "{nrow(data_stack) - nrow(res)} of the {nrow(data_stack)} rows in the ", 
       "data stack have missing values, and will be omitted in the blending process."
     )
