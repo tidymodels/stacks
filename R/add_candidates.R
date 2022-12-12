@@ -118,7 +118,7 @@ add_candidates.workflow_set <- function(data_stack, candidates,
     } else {
       cli_abort(
         "The supplied workflow set must be fitted to resamples with 
-         `workflows::workflow_map()` before being added to a data stack.",
+         {.help [`workflow_map()`](workflowsets::workflow_map)} before being added to a data stack.",
         call = caller_env(0),
         class = "wf_set_unfitted"
       )
@@ -158,9 +158,10 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
   check_add_data_stack(data_stack)
   
   cli_abort(
-    "The second argument to add_candidates() should inherit from one of 
-     `tune_results` or `workflow_set`, but its class 
-     is {list(class(candidates))}.",
+    "The second argument to {.help [`add_candidates()`](stacks::add_candidates)} should inherit from one of 
+     {.help [`tune_results`](tune::tune_grid)} or 
+     {.help [`workflow_set`](workflowsets::workflow_set)}, but its class 
+     is {.var {class(candidates)}}.",
     call = caller_env(0)
   )
 }
@@ -169,8 +170,8 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
   if (!.get_outcome(stack) %in% c("init_", tune::.get_tune_outcome_names(candidates))) {
     cli_abort(
       "The model definition you've tried to add to the stack has 
-       outcome variable {list(tune::.get_tune_outcome_names(candidates))}, 
-       while the stack's outcome variable is {.get_outcome(stack)}.",
+       outcome variable {.var {tune::.get_tune_outcome_names(candidates)}}, 
+       while the stack's outcome variable is {.var {.get_outcome(stack)}}.",
       call = caller_env(1)
     )
   }
@@ -253,7 +254,7 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
       cli_abort(
         "The supplied candidates were tuned/fitted using only metrics that 
          rely on hard class predictions. Please tune/fit with at least one 
-         class probability-based metric, such as `yardstick::roc_auc()`.",
+         class probability-based metric, such as {.help [`roc_auc`](yardstick::roc_auc)}.",
         call = caller_env(1)
       )
     }
@@ -363,14 +364,8 @@ rm_duplicate_cols <- function(df) {
   exclude <- c(exclude, names(df[duplicated(purrr::map(df, c))]))
   
   if (length(exclude) > 0) {
-    if (length(exclude) > 1) {
-      n_candidates <- paste(length(exclude), "candidates")
-    } else {
-      n_candidates <- "1 candidate"
-    }
-    
     cli_warn(
-      "Predictions from {n_candidates} were identical to 
+      "Predictions from {length(exclude)} candidate{?s} were identical to 
        those from existing candidates and were removed from the data stack."
     )
     
@@ -428,32 +423,33 @@ check_add_data_stack <- function(data_stack) {
     c("tune_results", "tune_bayes", "resample_results")
   )) {
     cli_abort(
-      "It looks like the first argument inherits from {list(class(data_stack))} 
-       rather than `data_stack`. 
+      "It looks like the first argument inherits from {.var {class(data_stack)}} 
+       rather than {.var data_stack}. 
        Did you accidentally supply the candidate members as the first argument? 
-       If so, please supply the output of `stacks()` or another `add_candidates()` as 
-       the argument to `data_stack`.",
+       If so, please supply the output of {.help [`stacks()`](stacks::stacks)} or another 
+       {.help [`add_candidates()`](stacks::add_candidates)} call as 
+       the argument to {.arg data_stack}.",
       call = caller_env()
     )
   } else {
-    check_inherits(data_stack, "data_stack")
+    check_inherits(data_stack, "data_stack", call = caller_env())
   }
 }
 
 check_candidates <- function(candidates, name) {
   if (nrow(tune::collect_notes(candidates)) != 0) {
     cli_warn(
-      "The inputted `candidates` argument `{name}` generated notes during 
+      "The inputted {.arg candidates} argument {.var {name}} generated notes during 
        tuning/resampling. Model stacking may fail due to these 
-       issues; see `?collect_notes` if so."
+       issues; see {.help [`collect_notes()`](tune::collect_notes)} if so."
     )
   }
   
   if ((!".predictions" %in% colnames(candidates)) | 
       is.null(attributes(candidates)$workflow)) {
     cli_abort(
-      "The inputted `candidates` argument was not generated with the 
-       appropriate control settings. Please see ?control_stack.",
+      "The inputted {.arg candidates} argument was not generated with the 
+       appropriate control settings. Please see {.help [`control_stack()`](stacks::control_stack)}.",
       call = caller_env()
     )
   }
@@ -465,17 +461,17 @@ check_name <- function(name) {
     c("tune_results", "tune_bayes", "resample_results")
   )) {
     cli_abort(
-      "The inputted `name` argument looks like a tuning/fitting results object 
-       that might be supplied as a `candidates` argument. Did you try to add 
-       more than one set of candidates in one `add_candidates()` call?",
+      "The inputted {.arg name} argument looks like a tuning/fitting results object 
+       that might be supplied as a {.arg candidates} argument. Did you try to add 
+       more than one set of candidates in one {.help [`add_candidates()`](stacks::add_candidates)} call?",
       call = caller_env()
     )
   } else {
-    check_inherits(name, "character")
+    check_inherits(name, "character", call = caller_env())
     
     if (make.names(name) != name) {
       cli_inform(
-        "The inputted `name` argument cannot prefix a valid column name. The  
+        "The inputted {.arg name} argument cannot prefix a valid column name. The  
          data stack will use '{make.names(name)}' rather than '{name}' in 
          constructing candidate names."
       )

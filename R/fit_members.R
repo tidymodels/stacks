@@ -224,7 +224,7 @@ check_model_stack <- function(model_stack) {
   if (inherits(model_stack, "model_stack")) {
     if (!is.null(model_stack[["member_fits"]])) {
       cli_warn(
-        "The members in the supplied `model_stack` have already been fitted 
+        "The members in the supplied {.arg model_stack} have already been fitted 
          and need not be fitted again."
       )
     }
@@ -232,13 +232,14 @@ check_model_stack <- function(model_stack) {
     return(invisible(TRUE))
   } else if (inherits(model_stack, "data_stack")) {
     cli_abort(
-      "The supplied `model_stack` argument is a data stack rather than 
+      "The supplied {.arg model_stack} argument is a data stack rather than 
        a model stack. Did you forget to first evaluate the ensemble's 
-       stacking coefficients with `blend_predictions()`?",
+       stacking coefficients with 
+      {.help [`blend_predictions()`](stacks::blend_predictions)}?",
       call = caller_env()
     )
   } else {
-    check_inherits(model_stack, "model_stack")
+    check_inherits(model_stack, "model_stack", call = caller_env())
   }
 }
 
@@ -277,20 +278,11 @@ check_for_required_packages <- function(x) {
 # takes in a vector of package names and a logical vector giving
 # whether or not each is installed
 error_needs_install <- function(pkgs, installed, call) {
-  plural <- sum(!installed) != 1
-  
-  last_sep <- if (sum(!installed) == 2) {"` and `"} else {"`, and `"}
-  
-  need_install <- paste0(
-    "`",
-    glue::glue_collapse(pkgs[!installed], sep = "`, `", last = last_sep),
-    "`"
-  )
+  need_install <- pkgs[!installed]
   
   cli_abort(
-    "The following package{if (plural) 's' else ''} 
-     need{if (plural) '' else 's'} to be installed before 
-     fitting members: {need_install}",
+    "{cli::qty(need_install)}The package{?s} {.pkg {need_install}} need{?s/} to be 
+     installed before fitting members.",
     call = call
   )
 }

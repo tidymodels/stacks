@@ -26,11 +26,11 @@ test_that("predict method works (regression)", {
   
   expect_equal(names(pred_r), ".pred")
   expect_equal(nrow(pred_r), nrow(tree_frogs_reg_test))
-  expect_true(check_inherits(pred_r, "tbl_df"))
-  expect_true(check_inherits(pred_r$.pred, "numeric"))
+  expect_s3_class(pred_r, "tbl_df")
+  expect_equal(class(pred_r$.pred), "numeric")
   
   expect_equal(nrow(pred_r2), nrow(tree_frogs_reg_test))
-  expect_true(check_inherits(pred_r2, "tbl_df"))
+  expect_s3_class(pred_r2, "tbl_df")
   expect_true(all(colnames(pred_r2 %in% names(st_reg_1__$member_fits))))
 })
 
@@ -94,23 +94,19 @@ test_that("class probability summarization works", {
 test_that("predict method errors informatively", {
   skip_on_cran()
   
-  expect_error(
-    st_reg_1 %>% predict(penguins_test),
-    "supplied data stack must be evaluated with"
+  expect_snapshot(error = TRUE,
+    st_reg_1 %>% predict(penguins_test)
   )
   
-  expect_error(
-    st_reg_1_ %>% predict(penguins_test),
-    "hasn't been fitted yet."
+  expect_snapshot(error = TRUE,
+    st_reg_1_ %>% predict(penguins_test)
   )
   
-  expect_error(
-    st_reg_1__ %>% predict(penguins_test, members = "for sure!"),
-    "needs to inherit from `logical`, but its class is `character`."
+  expect_snapshot(error = TRUE,
+    st_reg_1__ %>% predict(penguins_test, members = "for sure!")
   )
   
-  expect_error(
-    st_reg_1__ %>% predict(penguins_test, opts = TRUE),
-    "needs to inherit from `list`, but its class is `logical`."
+  expect_snapshot(error = TRUE,
+    st_reg_1__ %>% predict(penguins_test, opts = TRUE)
   )
 })

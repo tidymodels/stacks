@@ -247,7 +247,7 @@ check_regularization <- function(x, arg) {
   if (!is.numeric(x)) {
     cli_abort(
       "The argument to '{arg}' must be a numeric, but the supplied {arg}'s 
-       class is `{list(class(x))}`",
+       class is {.var {class(x)}}.",
       call = caller_env()
     )
   }
@@ -337,19 +337,20 @@ check_blend_data_stack <- function(data_stack) {
   # carry out in fit_members() -- just check for bare stacks, 1-candidate
   # stacks, and non-stack objects
   if (!inherits(data_stack, "data_stack")) {
-    check_inherits(data_stack, "data_stack")
+    check_inherits(data_stack, "data_stack", call = caller_env())
   } else if (ncol(data_stack) == 0) {
       cli_abort(
         "The data stack supplied as the argument to `data_stack` has no 
          candidate members. Please first add candidates with 
-         the `add_candidates()` function.",
+         the {.help [`add_candidates()`](stacks::add_candidates)} function.",
         call = caller_env()
       )
   } else if ((ncol(data_stack) == 2 && attr(data_stack, "mode") == "regression") || 
              ncol(data_stack) == length(levels(data_stack[[1]])) + 1) {
     cli_abort(
       "The supplied data stack only contains one candidate member. Please 
-       add more candidate members using `add_candidates()` before blending.",
+       add more candidate members using 
+      {.help [`add_candidates()`](stacks::add_candidates)} before blending.",
       call = caller_env()
     )
   }
@@ -371,7 +372,8 @@ process_data_stack <- function(data_stack) {
   if (nrow(dat) < nrow(data_stack)) {
     cli_inform(
       "{nrow(data_stack) - nrow(dat)} of the {nrow(data_stack)} rows in the  
-       data stack have missing values, and will be omitted in the blending process."
+       data stack {cli::qty({nrow(data_stack) - nrow(dat)})} {?has/have} missing 
+       values, and will be omitted in the blending process."
     )
   }
 

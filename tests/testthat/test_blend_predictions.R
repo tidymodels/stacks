@@ -21,9 +21,9 @@ library(nnet)
 test_that("blend_predictions works", {
   skip_on_cran()
   
-  expect_true(check_inherits(st_reg_1 %>% blend_predictions(), "model_stack"))
-  expect_true(check_inherits(st_class_1 %>% blend_predictions(), "model_stack"))
-  expect_true(check_inherits(st_log_1 %>% blend_predictions(), "model_stack"))
+  expect_s3_class(st_reg_1 %>% blend_predictions(), "model_stack")
+  expect_s3_class(st_class_1 %>% blend_predictions(), "model_stack")
+  expect_s3_class(st_log_1 %>% blend_predictions(), "model_stack")
   
   expect_null(st_reg_1_[["member_fits"]])
   expect_null(st_class_1_[["member_fits"]])
@@ -37,9 +37,9 @@ test_that("penalty arguments work correctly", {
   st_2 <- st_reg_1 %>% blend_predictions(penalty = 10^-3)
   st_3 <- st_reg_1 %>% blend_predictions(penalty = 10^-2, mixture = .5)
   
-  expect_true(check_inherits(st_1, "model_stack"))
-  expect_true(check_inherits(st_2, "model_stack"))
-  expect_true(check_inherits(st_3, "model_stack"))
+  expect_s3_class(st_1, "model_stack")
+  expect_s3_class(st_2, "model_stack")
+  expect_s3_class(st_3, "model_stack")
   
   expect_equal(class(all.equal(st_1, st_2)), "character")
   expect_equal(class(all.equal(st_1, st_3)), "character")
@@ -48,32 +48,24 @@ test_that("penalty arguments work correctly", {
 test_that("blend_predictions can handle many resample types", {
   skip_on_cran()
   
-  expect_true(
-    check_inherits(
-      stacks() %>% add_candidates(reg_res_svm_2) %>% blend_predictions(), 
-      "model_stack"
-    )
+  expect_s3_class(
+    stacks() %>% add_candidates(reg_res_svm_2) %>% blend_predictions(), 
+    "model_stack"
   )
   
-  expect_true(
-    check_inherits(
-      stacks() %>% add_candidates(reg_res_svm_3) %>% blend_predictions(), 
-      "model_stack"
-    )
+  expect_s3_class(
+    stacks() %>% add_candidates(reg_res_svm_3) %>% blend_predictions(), 
+    "model_stack"
   )
   
-  expect_true(
-    check_inherits(
-      stacks() %>% add_candidates(reg_res_svm_4) %>% blend_predictions(), 
-      "model_stack"
-    )
+  expect_s3_class(
+    stacks() %>% add_candidates(reg_res_svm_4) %>% blend_predictions(), 
+    "model_stack"
   )
   
-  expect_true(
-    check_inherits(
-      stacks() %>% add_candidates(reg_res_svm_5) %>% blend_predictions(), 
-      "model_stack"
-    )
+  expect_s3_class(
+    stacks() %>% add_candidates(reg_res_svm_5) %>% blend_predictions(), 
+    "model_stack"
   )
 })
 
@@ -81,64 +73,56 @@ test_that("blend_predictions errors informatively with bad arguments", {
   skip_on_cran()
   skip_if_not_installed("yardstick")
   
-  expect_error(
-    st_reg_1__ %>% blend_predictions(),
-    "needs to inherit from `data_stack`, but its class is"
+  expect_snapshot(error = TRUE,
+    res <- st_reg_1__ %>% blend_predictions()
   )
   
-  expect_error(
-    st_reg_1 %>% blend_predictions(non_negative = "Yup"),
-    "needs to inherit from `logical`, but its class is"
+  expect_snapshot(error = TRUE,
+    res <- st_reg_1 %>% blend_predictions(non_negative = "Yup")
   )
   
-  expect_error(
-    st_reg_1 %>% blend_predictions(metric = "Yup"),
-    "needs to inherit from `metric_set`, but its class is"
+  expect_snapshot(error = TRUE,
+    res <- st_reg_1 %>% blend_predictions(metric = "Yup")
   )
   
-  expect_error(
-    st_reg_1 %>% blend_predictions(metric = yardstick::accuracy),
-    "needs to inherit from `metric_set`, but its class is"
+  expect_snapshot(error = TRUE,
+    res <- st_reg_1 %>% blend_predictions(metric = yardstick::accuracy)
   )
   
-  expect_error(
-    stacks() %>% blend_predictions(),
-    "the argument to `data_stack` has no candidate members"
+  expect_snapshot(error = TRUE,
+    res <- stacks() %>% blend_predictions()
   )
   
-  expect_error(
-    stacks() %>% add_candidates(reg_res_lr) %>% blend_predictions(),
-    "only contains one candidate member."
+  expect_snapshot(error = TRUE,
+    res <- stacks() %>% add_candidates(reg_res_lr) %>% blend_predictions()
   )
   
-  expect_error(
-    stacks() %>% add_candidates(class_res_nn) %>% blend_predictions(),
-    "only contains one candidate member."
+  expect_snapshot(error = TRUE,
+    res <- stacks() %>% add_candidates(class_res_nn) %>% blend_predictions()
   )
   
-  expect_error(
-    stacks() %>% add_candidates(log_res_nn) %>% blend_predictions(),
-    "only contains one candidate member."
+  expect_snapshot(error = TRUE,
+    res <- stacks() %>% add_candidates(log_res_nn) %>% blend_predictions()
   )
   
-  expect_error(
-    st_reg_1 %>% blend_predictions(penalty = -1),
-    "supply only nonnegative values"
+  expect_snapshot(error = TRUE,
+    res <- st_reg_1 %>% blend_predictions(penalty = -1)
   )
   
-  expect_error(
-    st_reg_1 %>% blend_predictions(mixture = -1),
-    "supply only values in"
+  expect_snapshot(error = TRUE,
+    res <- st_reg_1 %>% blend_predictions(mixture = -1)
   )
   
-  expect_error(
-    st_reg_1 %>% blend_predictions(penalty = "lots"),
-    "supplied penalty's class is `character`"
+  expect_snapshot(error = TRUE,
+    res <- st_reg_1 %>% blend_predictions(penalty = "lots")
   )
   
-  expect_error(
-    st_reg_1 %>% blend_predictions(numeric(0)),
-    "Please supply one or more penalty values."
+  expect_snapshot(error = TRUE,
+    res <- st_reg_1 %>% blend_predictions(penalty = tibble::tibble())
+  )
+  
+  expect_snapshot(error = TRUE,
+    res <- st_reg_1 %>% blend_predictions(numeric(0))
   )
 })
 
@@ -184,12 +168,16 @@ test_that("process_data_stack works", {
   
   expect_message(
     process_data_stack(data.frame(a = c(1:5, NA))),
-    "1 of the 6 rows in the data stack"
+    "1 of the 6 rows in the data stack has"
   )
   
-  expect_error(
-    process_data_stack(data.frame(a = rep(NA, 5))),
-    "All rows in the data stack"
+  expect_message(
+    process_data_stack(data.frame(a = c(1:4, NA, NA))),
+    "2 of the 6 rows in the data stack have"
+  )
+  
+  expect_snapshot(error = TRUE,
+    process_data_stack(data.frame(a = rep(NA, 5)))
   )
 })
 

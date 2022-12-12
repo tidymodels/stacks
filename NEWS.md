@@ -23,6 +23,10 @@ To be released as stacks 1.0.1.
       a [new article](https://stacks.tidymodels.org/dev/articles/workflowsets.html) 
       on the package website.
 
+* Revamped errors, warnings, and messages. Prompts now provide more thorough 
+  context about where they arose, include more extensive references to 
+  documentation, and are correctly pluralized.
+
 # stacks 1.0.0
 
 stacks 1.0.0 is the first production release of the package. While this release

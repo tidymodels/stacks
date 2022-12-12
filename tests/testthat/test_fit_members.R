@@ -58,8 +58,8 @@ test_that("basic fit_members works", {
   expect_false(!is.null(st_log_1_[["member_fits"]]))
   expect_false( is.null(st_log_1__[["member_fits"]]))
   
-  check_inherits(st_reg_bad_names, "linear_stack")
-  check_inherits(st_class_bad_names, "linear_stack")
+  expect_s3_class(st_reg_bad_names, "linear_stack")
+  expect_s3_class(st_class_bad_names, "linear_stack")
 })
 
 test_that("fit_members leaves most model stack elements alone", {
@@ -105,19 +105,16 @@ test_that("fit_members leaves most model stack elements alone", {
 test_that("fit_members errors informatively with a bad model_stack arg", {
   skip_on_cran()
   
-  expect_error(
+  expect_snapshot(error = TRUE,
     st_reg_1 %>% fit_members(),
-    "Did you forget to first evaluate the ensemble's stacking coefficients w"
   )
   
-  expect_error(
-    "howdy" %>% fit_members(),
-    "`model_stack` needs to inherit from `model_stack`"
+  expect_snapshot(error = TRUE,
+    "howdy" %>% fit_members()
   )
   
-  expect_warning(
-    st_reg_1__ %>% fit_members(),
-    "`model_stack` have already been fitted and need not"
+  expect_snapshot(
+    out <- st_reg_1__ %>% fit_members()
   )
 })
 

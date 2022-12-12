@@ -23,8 +23,8 @@ test_that("object types relate as expected", {
   
   atts_d <- attributes(st_reg_1)
   
-  expect_true(check_inherits(st_reg_1, "data_stack"))
-  expect_true(check_inherits(st_reg_1_, "model_stack"))
+  expect_s3_class(st_reg_1, "data_stack")
+  expect_s3_class(st_reg_1_, "model_stack")
   
   expect_equal(atts_d$outcome, st_reg_1_[["outcome"]])
   expect_equal(atts_d$mode, st_reg_1_[["mode"]])
@@ -51,15 +51,15 @@ test_that("control_* functions work", {
   expect_true(ctrl_bayes$save_workflow)
   expect_true(ctrl_res$save_workflow)
   
-  expect_true(check_inherits(ctrl_grid, "control_grid"))
-  expect_true(check_inherits(ctrl_bayes, "control_bayes"))
-  expect_true(check_inherits(ctrl_res, "control_resamples"))
+  expect_s3_class(ctrl_grid, "control_grid")
+  expect_s3_class(ctrl_bayes, "control_bayes")
+  expect_s3_class(ctrl_res, "control_resamples")
 })
 
 test_that("misc. utilities work", {
   skip_on_cran()
   
-  expect_error(check_inherits("howdy", "numeric"), "`howdy` needs to inherit")
+  expect_snapshot(error = TRUE, check_inherits("howdy", "numeric"))
   expect_true(check_inherits("howdy", "character"))
   
   yall <- "y'all"

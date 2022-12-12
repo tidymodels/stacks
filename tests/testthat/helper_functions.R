@@ -8,22 +8,6 @@ ncol_with_name <- function(data_stack, substring) {
     ncol()
 }
 
-# copied from utils
-check_inherits <- function(x, what) {
-  cl <- match.call()
-  
-  if (!inherits(x, what)) {
-    cli_abort(
-      "Element `{list(cl$x)}` needs to inherit from `{what}`, but its 
-       class is `{list(class(x))}`.", 
-      call = NULL
-    )
-  }
-  
-  invisible(TRUE)
-}
-
-
 # Helper Data 
 # -----------------------------------------------------------------------
 # the `helper_data.Rda` contains data objects for use in unit testing.
