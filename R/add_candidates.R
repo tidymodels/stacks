@@ -350,7 +350,7 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
   res <- data_stack %>% na.omit()
   
   if (nrow(res) == 0) {
-    glue_stop(
+    cli::cli_abort(
       "All rows in the data stack have at least one missing value. ",
       "Please ensure that all candidates supply predictions."
     )
