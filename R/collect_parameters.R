@@ -52,7 +52,7 @@ collect_parameters <- function(stack, candidates, ...) {
 collect_parameters.default <- function(stack, candidates, ...) {
   cli_abort(
     "There is no `collect_parameters()` method currently implemented  
-     for {list(class(stack))} objects.",
+     for {.var {class(stack)}} objects.",
     call = caller_env(0)
   )
 }

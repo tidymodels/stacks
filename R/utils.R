@@ -85,8 +85,8 @@ check_inherits <- function(x, what) {
   
   if (!inherits(x, what)) {
     cli_abort(
-      "Element `{list(cl$x)}` needs to inherit from `{what}`, but its 
-       class is `{list(class(x))}`.", 
+      "Element {.val {cl$x}} needs to inherit from {.var {what}}, but its 
+       class is {.var {class(x)}}.", 
       call = NULL
     )
   }

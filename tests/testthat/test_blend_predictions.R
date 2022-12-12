@@ -21,9 +21,9 @@ library(nnet)
 test_that("blend_predictions works", {
   skip_on_cran()
   
-  expect_true(check_inherits(st_reg_1 %>% blend_predictions(), "model_stack"))
-  expect_true(check_inherits(st_class_1 %>% blend_predictions(), "model_stack"))
-  expect_true(check_inherits(st_log_1 %>% blend_predictions(), "model_stack"))
+  expect_s3_class(st_reg_1 %>% blend_predictions(), "model_stack")
+  expect_s3_class(st_class_1 %>% blend_predictions(), "model_stack")
+  expect_s3_class(st_log_1 %>% blend_predictions(), "model_stack")
   
   expect_null(st_reg_1_[["member_fits"]])
   expect_null(st_class_1_[["member_fits"]])
@@ -37,9 +37,9 @@ test_that("penalty arguments work correctly", {
   st_2 <- st_reg_1 %>% blend_predictions(penalty = 10^-3)
   st_3 <- st_reg_1 %>% blend_predictions(penalty = 10^-2, mixture = .5)
   
-  expect_true(check_inherits(st_1, "model_stack"))
-  expect_true(check_inherits(st_2, "model_stack"))
-  expect_true(check_inherits(st_3, "model_stack"))
+  expect_s3_class(st_1, "model_stack")
+  expect_s3_class(st_2, "model_stack")
+  expect_s3_class(st_3, "model_stack")
   
   expect_equal(class(all.equal(st_1, st_2)), "character")
   expect_equal(class(all.equal(st_1, st_3)), "character")
@@ -48,32 +48,24 @@ test_that("penalty arguments work correctly", {
 test_that("blend_predictions can handle many resample types", {
   skip_on_cran()
   
-  expect_true(
-    check_inherits(
-      stacks() %>% add_candidates(reg_res_svm_2) %>% blend_predictions(), 
-      "model_stack"
-    )
+  expect_s3_class(
+    stacks() %>% add_candidates(reg_res_svm_2) %>% blend_predictions(), 
+    "model_stack"
   )
   
-  expect_true(
-    check_inherits(
-      stacks() %>% add_candidates(reg_res_svm_3) %>% blend_predictions(), 
-      "model_stack"
-    )
+  expect_s3_class(
+    stacks() %>% add_candidates(reg_res_svm_3) %>% blend_predictions(), 
+    "model_stack"
   )
   
-  expect_true(
-    check_inherits(
-      stacks() %>% add_candidates(reg_res_svm_4) %>% blend_predictions(), 
-      "model_stack"
-    )
+  expect_s3_class(
+    stacks() %>% add_candidates(reg_res_svm_4) %>% blend_predictions(), 
+    "model_stack"
   )
   
-  expect_true(
-    check_inherits(
-      stacks() %>% add_candidates(reg_res_svm_5) %>% blend_predictions(), 
-      "model_stack"
-    )
+  expect_s3_class(
+    stacks() %>% add_candidates(reg_res_svm_5) %>% blend_predictions(), 
+    "model_stack"
   )
 })
 

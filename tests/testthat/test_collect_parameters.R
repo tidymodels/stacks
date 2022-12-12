@@ -21,28 +21,24 @@ library(nnet)
 test_that("collect_parameters dispatch works", {
   skip_on_cran()
   
-  expect_error(
-    1 %>% collect_parameters(),
-    "currently implemented for numeric objects"
+  expect_snapshot(error = TRUE,
+    1 %>% collect_parameters()
   )
   
-  expect_error(
-    mtcars %>% collect_parameters(),
-    "currently implemented for data.frame objects"
+  expect_snapshot(error = TRUE,
+    mtcars %>% collect_parameters()
   )
 })
 
 test_that("collect_parameters errors informatively with bad arguments", {
   skip_on_cran()
   
-  expect_error(
-    st_reg_1 %>% collect_parameters("the first one"),
-    "must be the name given"
+  expect_snapshot(error = TRUE,
+    st_reg_1 %>% collect_parameters("the first one")
   )
   
-  expect_error(
-    stacks() %>% collect_parameters("all of them"),
-    "must be the name given"
+  expect_snapshot(error = TRUE,
+    stacks() %>% collect_parameters("all of them")
   )
 })
 
@@ -57,9 +53,9 @@ test_that("collect_parameters on a data stack works (regression)", {
       "lr"
     )
   
-  expect_true(check_inherits(res, "tbl_df"))
-  expect_true(check_inherits(res2, "tbl_df"))
-  expect_true(check_inherits(res3, "tbl_df"))
+  expect_s3_class(res, "tbl_df")
+  expect_s3_class(res2, "tbl_df")
+  expect_s3_class(res3, "tbl_df")
   
   expect_equal(ncol(res), 3)
   expect_equal(nrow(res), 5)
@@ -77,7 +73,7 @@ test_that("collect_parameters on a model stack works (regression)", {
   res <- collect_parameters(st_reg_1_, "reg_res_svm")
   res2 <- collect_parameters(st_reg_2 %>% blend_predictions(), "reg_res_sp")
   
-  expect_true(check_inherits(res, "tbl_df"))
+  expect_s3_class(res, "tbl_df")
   
   expect_equal(ncol(res), 4)
   expect_equal(nrow(res), 5)
@@ -103,8 +99,8 @@ test_that("collect_parameters works (classification)", {
   res <- collect_parameters(st_class_1, "class_res_rf")
   res2 <- collect_parameters(st_class_1 %>% blend_predictions(), "class_res_rf")
   
-  expect_true(check_inherits(res, "tbl_df"))
-  expect_true(check_inherits(res2, "tbl_df"))
+  expect_s3_class(res, "tbl_df")
+  expect_s3_class(res2, "tbl_df")
   
   expect_equal(ncol(res), 3)
   expect_equal(nrow(res), 10)

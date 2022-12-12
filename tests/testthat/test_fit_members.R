@@ -58,8 +58,8 @@ test_that("basic fit_members works", {
   expect_false(!is.null(st_log_1_[["member_fits"]]))
   expect_false( is.null(st_log_1__[["member_fits"]]))
   
-  check_inherits(st_reg_bad_names, "linear_stack")
-  check_inherits(st_class_bad_names, "linear_stack")
+  expect_s3_class(st_reg_bad_names, "linear_stack")
+  expect_s3_class(st_class_bad_names, "linear_stack")
 })
 
 test_that("fit_members leaves most model stack elements alone", {

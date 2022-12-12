@@ -26,11 +26,11 @@ test_that("predict method works (regression)", {
   
   expect_equal(names(pred_r), ".pred")
   expect_equal(nrow(pred_r), nrow(tree_frogs_reg_test))
-  expect_true(check_inherits(pred_r, "tbl_df"))
-  expect_true(check_inherits(pred_r$.pred, "numeric"))
+  expect_s3_class(pred_r, "tbl_df")
+  expect_equal(class(pred_r$.pred), "numeric")
   
   expect_equal(nrow(pred_r2), nrow(tree_frogs_reg_test))
-  expect_true(check_inherits(pred_r2, "tbl_df"))
+  expect_s3_class(pred_r2, "tbl_df")
   expect_true(all(colnames(pred_r2 %in% names(st_reg_1__$member_fits))))
 })
 
