@@ -73,6 +73,14 @@
 ---
 
     Code
+      res <- st_reg_1_new_train %>% add_candidates(reg_res_lr)
+    Condition
+      Error:
+      ! The newly added candidate member, `reg_res_lr`, uses different training data than the existing candidates.
+
+---
+
+    Code
       stacks() %>% add_candidates(reg_res_lr_bad)
     Condition
       Error in `add_candidates()`:
