@@ -117,6 +117,7 @@ top_coefs <- function(x, penalty = x$penalty$penalty, n = 10) {
       #   ),
       #   class = gsub(".pred_", x = class, rep = "")
       # ) %>%
+      dplyr::mutate(class = factor(class, levels = pred_levels)) %>%
       dplyr::select(member = terms, type = model_type, weight = estimate, class)
   } else {
     res <- dplyr::select(res, member = terms, type = model_type, weight = estimate)
