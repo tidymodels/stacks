@@ -73,53 +73,53 @@ test_that("stack can add candidates (two-way classification)", {
 test_that("add_candidates errors informatively with bad arguments", {
   skip_on_cran()
   
-  expect_error(
+  expect_snapshot(
     add_candidates(reg_res_svm, "svm"),
-    "Did you accidentally supply the candidate members as the first argument?"
+    error = TRUE
   )
   
-  expect_error(
+  expect_snapshot(
     st_reg_2 %>% add_candidates("howdy"),
-    "should inherit from one of"
+    error = TRUE
   )
   
-  expect_error(
+  expect_snapshot(
     stacks() %>% add_candidates(reg_res_sp, reg_res_svm),
-    "Did you try to add more than one set of candidates in one `add_candidates\\(\\)"
+    error = TRUE
   )
   
-  expect_error(
+  expect_snapshot(
     stacks() %>% add_candidates(reg_res_sp, TRUE),
-    "Element `name` needs to inherit from `character`, but its class is `logical`."
+    error = TRUE
   )
   
-  expect_error(
+  expect_snapshot(
     add_candidates("howdy", reg_res_svm),
-    "needs to inherit from `data_stack`, but its class is `character`"
+    error = TRUE
   )
   
-  expect_error(
+  expect_snapshot(
     st_reg_1 %>% add_candidates(reg_res_svm),
-    "has the same name 'reg_res_svm'"
+    error = TRUE
   )
   
-  expect_error(
+  expect_snapshot(
     st_reg_1 %>% add_candidates(reg_res_sp, "reg_res_svm"),
-    "has the same name 'reg_res_svm'"
+    error = TRUE
   )
 
-  expect_error(
+  expect_snapshot(
     st_0 %>%
       add_candidates(reg_res_sp) %>%
       add_candidates(reg_res_svm_2),
-    "same resampling object"
+    error = TRUE
   )
   
-  expect_error(
+  expect_snapshot(
     st_0 %>%
       add_candidates(reg_res_sp) %>%
       add_candidates(reg_res_svm_3),
-    "same resampling object"
+    error = TRUE
   )
   
   st_reg_1_new_train <- st_reg_1
@@ -151,9 +151,9 @@ test_that("add_candidates errors informatively with bad arguments", {
       )
     )
   
-  expect_error(
+  expect_snapshot(
     stacks() %>% add_candidates(reg_res_lr_bad),
-    "not generated with the appropriate control settings"
+    error = TRUE
   )
   
   suppressWarnings(
@@ -169,16 +169,15 @@ test_that("add_candidates errors informatively with bad arguments", {
     )
   )
   
-  expect_error(
+  expect_snapshot(
     stacks() %>% add_candidates(reg_res_lr_bad2),
-    "not generated with the appropriate control settings"
+    error = TRUE
   )
   
   reg_res_lr_renamed <- reg_res_lr
   
-  expect_warning(
-    stacks() %>% add_candidates(reg_res_lr) %>% add_candidates(reg_res_lr_renamed),
-    "were identical to those"
+  expect_snapshot(
+    stacks() %>% add_candidates(reg_res_lr) %>% add_candidates(reg_res_lr_renamed)
   )
   
   dat <-
@@ -206,9 +205,9 @@ test_that("add_candidates errors informatively with bad arguments", {
       metrics = yardstick::metric_set(yardstick::accuracy)
     )
   
-  expect_error(
+  expect_snapshot(
     stacks() %>% add_candidates(log_res),
-    "only metrics that rely on hard class predictions"
+    error = TRUE
   )
   
   # warn when stacking may fail due to tuning failure
@@ -242,29 +241,28 @@ test_that("model definition naming works as expected", {
   expect_equal(ncol_with_name(st_class_1_newname, "class_res_rf"), 0)
   expect_equal(ncol_with_name(st_class_1_newname, "log_res_rf"), 0)
   
-  expect_error(
+  expect_snapshot(
     st_reg_1 %>% 
       add_candidates(reg_res_sp, "reg_res_svm"),
-    "has the same name"
+    error = TRUE
   )
   
-  expect_error(
+  expect_snapshot(
     st_class_1 %>% 
       add_candidates(class_res_nn, "class_res_rf"),
-    "has the same name"
+    error = TRUE
   )
   
-  expect_error(
+  expect_snapshot(
     st_log_1 %>% 
       add_candidates(log_res_nn, "log_res_rf"),
-    "has the same name"
+    error = TRUE
   )
   
-  expect_message(
+  expect_snapshot(
     st_reg_1 <- 
       stacks() %>%
-      add_candidates(reg_res_svm, name = "beep bop"),
-    "cannot prefix a valid column name"
+      add_candidates(reg_res_svm, name = "beep bop")
   )
 })
 
