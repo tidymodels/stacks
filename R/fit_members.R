@@ -239,7 +239,7 @@ check_model_stack <- function(model_stack) {
       call = caller_env()
     )
   } else {
-    check_inherits(model_stack, "model_stack")
+    check_inherits(model_stack, "model_stack", call = caller_env())
   }
 }
 

@@ -3,7 +3,7 @@
     Code
       res <- st_reg_1__ %>% blend_predictions()
     Condition
-      Error:
+      Error in `blend_predictions()`:
       ! Element data_stack needs to inherit from `data_stack`, but its class is `linear_stack`, `model_stack`, and `list`.
 
 ---
@@ -11,7 +11,7 @@
     Code
       res <- st_reg_1 %>% blend_predictions(non_negative = "Yup")
     Condition
-      Error:
+      Error in `blend_predictions()`:
       ! Element non_negative needs to inherit from `logical`, but its class is `character`.
 
 ---
@@ -19,7 +19,7 @@
     Code
       res <- st_reg_1 %>% blend_predictions(metric = "Yup")
     Condition
-      Error:
+      Error in `blend_predictions()`:
       ! Element metric needs to inherit from `metric_set`, but its class is `character`.
 
 ---
@@ -27,7 +27,7 @@
     Code
       res <- st_reg_1 %>% blend_predictions(metric = yardstick::accuracy)
     Condition
-      Error:
+      Error in `blend_predictions()`:
       ! Element metric needs to inherit from `metric_set`, but its class is `class_metric`, `metric`, and `function`.
 
 ---

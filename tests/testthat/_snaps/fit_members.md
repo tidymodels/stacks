@@ -11,7 +11,7 @@
     Code
       "howdy" %>% fit_members()
     Condition
-      Error:
+      Error in `fit_members()`:
       ! Element model_stack needs to inherit from `model_stack`, but its class is `character`.
 
 ---

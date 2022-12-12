@@ -432,7 +432,7 @@ check_add_data_stack <- function(data_stack) {
       call = caller_env()
     )
   } else {
-    check_inherits(data_stack, "data_stack")
+    check_inherits(data_stack, "data_stack", call = caller_env())
   }
 }
 
@@ -467,7 +467,7 @@ check_name <- function(name) {
       call = caller_env()
     )
   } else {
-    check_inherits(name, "character")
+    check_inherits(name, "character", call = caller_env())
     
     if (make.names(name) != name) {
       cli_inform(

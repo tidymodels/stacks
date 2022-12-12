@@ -27,7 +27,7 @@
     Code
       stacks() %>% add_candidates(reg_res_sp, TRUE)
     Condition
-      Error:
+      Error in `add_candidates()`:
       ! Element name needs to inherit from `character`, but its class is `logical`.
 
 ---
@@ -35,7 +35,7 @@
     Code
       add_candidates("howdy", reg_res_svm)
     Condition
-      Error:
+      Error in `add_candidates()`:
       ! Element data_stack needs to inherit from `data_stack`, but its class is `character`.
 
 ---

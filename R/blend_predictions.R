@@ -337,7 +337,7 @@ check_blend_data_stack <- function(data_stack) {
   # carry out in fit_members() -- just check for bare stacks, 1-candidate
   # stacks, and non-stack objects
   if (!inherits(data_stack, "data_stack")) {
-    check_inherits(data_stack, "data_stack")
+    check_inherits(data_stack, "data_stack", call = caller_env())
   } else if (ncol(data_stack) == 0) {
       cli_abort(
         "The data stack supplied as the argument to `data_stack` has no 

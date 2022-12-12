@@ -19,7 +19,7 @@
     Code
       st_reg_1__ %>% predict(penguins_test, members = "for sure!")
     Condition
-      Error:
+      Error in `predict()`:
       ! Element members needs to inherit from `logical`, but its class is `character`.
 
 ---
@@ -27,6 +27,6 @@
     Code
       st_reg_1__ %>% predict(penguins_test, opts = TRUE)
     Condition
-      Error:
+      Error in `predict()`:
       ! Element opts needs to inherit from `list`, but its class is `logical`.
 

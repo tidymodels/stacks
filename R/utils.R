@@ -80,14 +80,14 @@ check_empty_ellipses <- function(...) {
   invisible(NULL)
 }
 
-check_inherits <- function(x, what) {
+check_inherits <- function(x, what, call = caller_env()) {
   cl <- match.call()
   
   if (!inherits(x, what)) {
     cli_abort(
       "Element {.val {cl$x}} needs to inherit from {.var {what}}, but its 
        class is {.var {class(x)}}.", 
-      call = NULL
+      call = call
     )
   }
   
