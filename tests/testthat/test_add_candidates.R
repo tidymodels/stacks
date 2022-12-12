@@ -124,9 +124,8 @@ test_that("add_candidates errors informatively with bad arguments", {
   
   st_reg_1_new_train <- st_reg_1
   attr(st_reg_1_new_train, "train") <- attr(st_reg_1, "train")[-1,]
-  expect_error(
-    st_reg_1_new_train %>% add_candidates(reg_res_lr),
-    "member, `reg_res_lr`, uses different training data"
+  expect_snapshot(error = TRUE,
+    res <- st_reg_1_new_train %>% add_candidates(reg_res_lr)
   )
   
   reg_res_lr_ <- lin_reg_spec <-

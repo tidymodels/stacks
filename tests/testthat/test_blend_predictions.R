@@ -73,68 +73,56 @@ test_that("blend_predictions errors informatively with bad arguments", {
   skip_on_cran()
   skip_if_not_installed("yardstick")
   
-  expect_error(
-    st_reg_1__ %>% blend_predictions(),
-    "needs to inherit from `data_stack`, but its class is"
-  )
-  
-  expect_error(
-    st_reg_1 %>% blend_predictions(non_negative = "Yup"),
-    "needs to inherit from `logical`, but its class is"
-  )
-  
-  expect_error(
-    st_reg_1 %>% blend_predictions(metric = "Yup"),
-    "needs to inherit from `metric_set`, but its class is"
-  )
-  
-  expect_error(
-    st_reg_1 %>% blend_predictions(metric = yardstick::accuracy),
-    "needs to inherit from `metric_set`, but its class is"
-  )
-  
-  expect_error(
-    stacks() %>% blend_predictions(),
-    "the argument to `data_stack` has no candidate members"
-  )
-  
-  expect_error(
-    stacks() %>% add_candidates(reg_res_lr) %>% blend_predictions(),
-    "only contains one candidate member."
-  )
-  
-  expect_error(
-    stacks() %>% add_candidates(class_res_nn) %>% blend_predictions(),
-    "only contains one candidate member."
-  )
-  
-  expect_error(
-    stacks() %>% add_candidates(log_res_nn) %>% blend_predictions(),
-    "only contains one candidate member."
-  )
-  
-  expect_error(
-    st_reg_1 %>% blend_predictions(penalty = -1),
-    "supply only nonnegative values"
-  )
-  
-  expect_error(
-    st_reg_1 %>% blend_predictions(mixture = -1),
-    "supply only values in"
-  )
-  
-  expect_error(
-    st_reg_1 %>% blend_predictions(penalty = "lots"),
-    "supplied penalty's class is `character`"
+  expect_snapshot(error = TRUE,
+    res <- st_reg_1__ %>% blend_predictions()
   )
   
   expect_snapshot(error = TRUE,
-    st_reg_1 %>% blend_predictions(penalty = tibble::tibble())
+    res <- st_reg_1 %>% blend_predictions(non_negative = "Yup")
   )
   
-  expect_error(
-    st_reg_1 %>% blend_predictions(numeric(0)),
-    "Please supply one or more penalty values."
+  expect_snapshot(error = TRUE,
+    res <- st_reg_1 %>% blend_predictions(metric = "Yup")
+  )
+  
+  expect_snapshot(error = TRUE,
+    res <- st_reg_1 %>% blend_predictions(metric = yardstick::accuracy)
+  )
+  
+  expect_snapshot(error = TRUE,
+    res <- stacks() %>% blend_predictions()
+  )
+  
+  expect_snapshot(error = TRUE,
+    res <- stacks() %>% add_candidates(reg_res_lr) %>% blend_predictions()
+  )
+  
+  expect_snapshot(error = TRUE,
+    res <- stacks() %>% add_candidates(class_res_nn) %>% blend_predictions()
+  )
+  
+  expect_snapshot(error = TRUE,
+    res <- stacks() %>% add_candidates(log_res_nn) %>% blend_predictions()
+  )
+  
+  expect_snapshot(error = TRUE,
+    res <- st_reg_1 %>% blend_predictions(penalty = -1)
+  )
+  
+  expect_snapshot(error = TRUE,
+    res <- st_reg_1 %>% blend_predictions(mixture = -1)
+  )
+  
+  expect_snapshot(error = TRUE,
+    res <- st_reg_1 %>% blend_predictions(penalty = "lots")
+  )
+  
+  expect_snapshot(error = TRUE,
+    res <- st_reg_1 %>% blend_predictions(penalty = tibble::tibble())
+  )
+  
+  expect_snapshot(error = TRUE,
+    res <- st_reg_1 %>% blend_predictions(numeric(0))
   )
 })
 
@@ -188,9 +176,8 @@ test_that("process_data_stack works", {
     "2 of the 6 rows in the data stack have"
   )
   
-  expect_error(
-    process_data_stack(data.frame(a = rep(NA, 5))),
-    "All rows in the data stack"
+  expect_snapshot(error = TRUE,
+    process_data_stack(data.frame(a = rep(NA, 5)))
   )
 })
 
