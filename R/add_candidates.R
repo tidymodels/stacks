@@ -391,7 +391,7 @@ rm_duplicate_cols <- function(df) {
   exclude <- character(0)
   exclude <- c(exclude, names(df[duplicated(purrr::map(df, c))]))
   
-  if (length(exclude) > 0) {
+  if (FALSE) {
     if (length(exclude) > 1) {
       n_candidates <- paste(length(exclude), "candidates")
     } else {
