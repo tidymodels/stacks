@@ -351,15 +351,15 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
   
   if (nrow(res) == 0) {
     cli::cli_abort(
-      "All rows in the data stack have at least one missing value. ",
-      "Please ensure that all candidates supply predictions."
+      "All rows in the data stack have at least one missing value. \\
+       Please ensure that all candidates supply predictions."
     )
   }
   
   if (nrow(res) < nrow(data_stack)) {
     cli::cli_warn(
-      "{nrow(data_stack) - nrow(res)} of the {nrow(data_stack)} rows in the ", 
-      "data stack have missing values, and will be omitted in the blending process."
+      "{nrow(data_stack) - nrow(res)} of the {nrow(data_stack)} rows in the \\ 
+       data stack have missing values, and will be omitted in the blending process."
     )
   }
   
