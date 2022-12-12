@@ -136,6 +136,10 @@ test_that("blend_predictions errors informatively with bad arguments", {
     "supplied penalty's class is `character`"
   )
   
+  expect_snapshot(error = TRUE,
+    st_reg_1 %>% blend_predictions(penalty = tibble::tibble())
+  )
+  
   expect_error(
     st_reg_1 %>% blend_predictions(numeric(0)),
     "Please supply one or more penalty values."
@@ -184,7 +188,12 @@ test_that("process_data_stack works", {
   
   expect_message(
     process_data_stack(data.frame(a = c(1:5, NA))),
-    "1 of the 6 rows in the data stack"
+    "1 of the 6 rows in the data stack has"
+  )
+  
+  expect_message(
+    process_data_stack(data.frame(a = c(1:4, NA, NA))),
+    "2 of the 6 rows in the data stack have"
   )
   
   expect_error(
