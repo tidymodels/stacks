@@ -70,7 +70,7 @@
     Output
       # A tibble: 6 x 4
         member                       type        weight class
-        <chr>                        <chr>        <dbl> <chr>
+        <chr>                        <chr>        <dbl> <fct>
       1 .pred_full_class_res_rf_1_05 rand_forest 3.75   full 
       2 .pred_mid_class_res_rf_1_06  rand_forest 0.674  mid  
       3 .pred_full_class_res_rf_1_07 rand_forest 0.411  full 
@@ -139,7 +139,7 @@
     Output
       # A tibble: 6 x 4
         member                       type        weight class
-        <chr>                        <chr>        <dbl> <chr>
+        <chr>                        <chr>        <dbl> <fct>
       1 .pred_full_class_res_rf_1_05 rand_forest 3.75   full 
       2 .pred_mid_class_res_rf_1_06  rand_forest 0.674  mid  
       3 .pred_full_class_res_rf_1_07 rand_forest 0.411  full 
