@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">stacks</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,17 +53,19 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.0.9000" id="stacks-1009000-developmental-version">stacks 1.0.0.9000 (developmental version)<a class="anchor" aria-label="anchor" href="#stacks-1009000-developmental-version"></a></h2>
-<p>To be released as stacks 1.0.1.</p>
-<ul><li><p>Removes an unneeded data import attribute from the <code>tree_frogs</code> example data and its associated objects.</p></li>
-<li><p><code><a href="../reference/blend_predictions.html">blend_predictions()</a></code> doesn’t error anymore if <code>control</code> argument isn’t a <code><a href="https://tune.tidymodels.org/reference/control_grid.html" class="external-link">control_grid()</a></code> object. Will work as long as the object passed to <code>control</code> includes the same elements as <code><a href="https://tune.tidymodels.org/reference/control_grid.html" class="external-link">control_grid()</a></code>.</p></li>
-<li><p>Re-implemented package errors, warnings, and messages to make use of infrastructure from the cli package; error headers now refer to the function called directly by the user rather than the internal function that raised the error.</p></li>
+<h2 class="pkg-version" data-toc-text="development version" id="stacks-development-version">stacks (development version)<a class="anchor" aria-label="anchor" href="#stacks-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.0.1" id="stacks-101">stacks 1.0.1<a class="anchor" aria-label="anchor" href="#stacks-101"></a></h2>
+<ul><li><p>Removes an unneeded data import attribute from the <code>tree_frogs</code> example data and its associated objects (<a href="https://github.com/tidymodels/stacks/issues/148" class="external-link">#148</a>).</p></li>
+<li><p><code><a href="../reference/blend_predictions.html">blend_predictions()</a></code> doesn’t error anymore if the <code>control</code> argument isn’t a <code>control_grid</code> object. As long as the object passed to <code>control</code> include the same elements as <code><a href="https://tune.tidymodels.org/reference/control_grid.html" class="external-link">control_grid()</a></code> output, <code><a href="https://parsnip.tidymodels.org/reference/condense_control.html" class="external-link">parsnip::condense_control()</a></code> will handle input (<a href="https://github.com/tidymodels/stacks/issues/149" class="external-link">#149</a>).</p></li>
 <li>
-<p>Tightened integration with the workflowsets package.</p>
+<p>Tightened integration with the workflowsets package (<a href="https://github.com/tidymodels/stacks/issues/161" class="external-link">#161</a>, <a href="https://github.com/tidymodels/stacks/issues/165" class="external-link">#165</a>).</p>
 <ul><li>Refined logic with adding candidates via workflowsets to allow for partially trained workflow sets. In the case that a workflow set contains some failed tuning results, stacks will inform the user that they will be excluded from the data stack and only add the results that trained successfully.</li>
 <li>Extended documentation related to the packages’ interactions, including a <a href="https://stacks.tidymodels.org/dev/articles/workflowsets.html">new article</a> on the package website.</li>
 </ul></li>
-<li><p>Revamped errors, warnings, and messages. Prompts now provide more thorough context about where they arose, include more extensive references to documentation, and are correctly pluralized.</p></li>
+<li><p>Revamped errors, warnings, and messages. Prompts now provide more thorough context about where they arose, include more extensive references to documentation, and are correctly pluralized (<a href="https://github.com/tidymodels/stacks/issues/150" class="external-link">#150</a>, <a href="https://github.com/tidymodels/stacks/issues/167" class="external-link">#167</a>).</p></li>
+<li><p>Various bug fixes and improvements to documentation.</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.0" id="stacks-100">stacks 1.0.0<a class="anchor" aria-label="anchor" href="#stacks-100"></a></h2><p class="text-muted">CRAN release: 2022-07-06</p>
