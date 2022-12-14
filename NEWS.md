@@ -1,20 +1,14 @@
-# stacks 1.0.0.9000 (developmental version)
-
-To be released as stacks 1.0.1.
+# stacks 1.0.1
 
 * Removes an unneeded data import attribute from the `tree_frogs` example data 
-  and its associated objects.
+  and its associated objects (#148).
   
-* `blend_predictions()` doesn't error anymore if `control` argument isn't a 
-  `control_grid()` object. Will work as long as the object passed to `control` 
-  includes the same elements as `control_grid()`.
-
-* Re-implemented package errors, warnings, and messages to make use of
-  infrastructure from the cli package; error headers now refer to the function
-  called directly by the user rather than the internal function that raised the
-  error.
+* `blend_predictions()` doesn't error anymore if the `control` argument isn't a 
+  `control_grid` object. As long as the object passed to `control` 
+  include the same elements as `control_grid()` output, 
+  `parsnip::condense_control()` will handle input (#149).
   
-* Tightened integration with the workflowsets package.
+* Tightened integration with the workflowsets package (#161, #165).
     - Refined logic with adding candidates via workflowsets to allow for 
       partially trained workflow sets. In the case that a workflow set contains 
       some failed tuning results, stacks will inform the user that they will be 
@@ -25,7 +19,9 @@ To be released as stacks 1.0.1.
 
 * Revamped errors, warnings, and messages. Prompts now provide more thorough 
   context about where they arose, include more extensive references to 
-  documentation, and are correctly pluralized.
+  documentation, and are correctly pluralized (#150, #167).
+  
+* Various bug fixes and improvements to documentation.
 
 # stacks 1.0.0
 
