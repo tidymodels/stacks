@@ -104,7 +104,8 @@ predict.model_stack <- function(object, new_data, type = NULL, members = FALSE,
           names(object[["member_fits"]]),
           parse_member_probs,
           member_preds,
-          attr(new_data[[object[["outcome"]]]], "levels")
+          attr(new_data[[object[["outcome"]]]], "levels") %||% 
+            levels(object[["data_stack"]][[object[["outcome"]]]])
         )
     }
     res <- dplyr::bind_cols(res, member_preds)
@@ -163,8 +164,6 @@ predict_members_regression <- function(model_stack, coefs, new_data, opts, type)
 }
 
 predict_members_classification <- function(model_stack, coefs, new_data, opts, type) {
-  levels <- attr(new_data[[model_stack[["outcome"]]]], "levels")
-  
   member_preds <- 
     purrr::map(
       model_stack[["member_fits"]],

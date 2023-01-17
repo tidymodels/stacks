@@ -8,7 +8,7 @@ dplyr::`%>%`
 #' @importFrom cli cli_inform
 #' @importFrom cli cli_warn
 #' @importFrom cli cli_abort
-#' @importFrom rlang caller_env
+#' @importFrom rlang caller_env %||%
 
 # Global Variables
 # ------------------------------------------------------------------------

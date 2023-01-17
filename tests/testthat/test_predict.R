@@ -40,8 +40,7 @@ test_that("predict method works (classification)", {
   pred_c <- predict(st_class_1__, tree_frogs_class_test)
   pred_l <- predict(st_log_1__, tree_frogs_class_test)
   pred_c2 <- predict(st_class_1__, tree_frogs_class_test, members = TRUE)
-  # NOTE: members prediction erroring here
-  # pred_l2 <- predict(st_log_1__, tree_frogs_class_test, members = TRUE)
+  pred_l2 <- predict(st_log_1__, tree_frogs_class_test, members = TRUE)
   
   expect_equal(nrow(pred_c), nrow(tree_frogs_class_test))
   expect_equal(nrow(pred_c), nrow(tree_frogs_class_test))
@@ -50,16 +49,16 @@ test_that("predict method works (classification)", {
   expect_equal(names(pred_l), ".pred_class")
   
   expect_true(all(grepl(".pred_class", names(pred_c2))))
-  # expect_true(all(grepl(".pred_class", names(pred_l2))))
+  expect_true(all(grepl(".pred_class", names(pred_l2))))
   
   expect_true(all(grepl(
     paste0(c(names(st_class_1__$member_fits), "pred_class"), collapse = "|"), 
     names(pred_c2)
   )))
-  # expect_true(all(grepl(
-  #   paste0(c(names(st_log_1__$member_fits), "pred_class"), collapse = "|"), 
-  #   names(pred_l2)
-  # )))
+  expect_true(all(grepl(
+    paste0(c(names(st_log_1__$member_fits), "pred_class"), collapse = "|"), 
+    names(pred_l2)
+  )))
 })
 
 test_that("class probability summarization works", {
