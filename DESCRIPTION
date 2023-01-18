@@ -37,6 +37,7 @@ Imports:
     butcher (>= 0.1.3),
     yardstick,
     tidyr,
+    generics,
     glue,
     ggplot2,
     glmnet,
