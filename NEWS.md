@@ -1,5 +1,7 @@
 # stacks (development version)
 
+* Added an `augment()` method for `model_stack` objects (#173).
+
 # stacks 1.0.1
 
 * Removes an unneeded data import attribute from the `tree_frogs` example data 
