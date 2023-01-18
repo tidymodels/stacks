@@ -200,6 +200,10 @@ check_fitted <- function(model_stack) {
   }
 }
 
+#' @importFrom generics augment
+#' @export
+generics::augment
+
 #' Augment a model stack
 #' 
 #' @param x A fitted model stack; see [fit_members()].
@@ -210,7 +214,6 @@ check_fitted <- function(model_stack) {
 #' @seealso The [collect_parameters()] function is analogous to a [`tidy()`][generics::tidy()] 
 #' method for model stacks.
 #' 
-#' @importFrom generics augment
 #' @method augment model_stack
 #' @name augment.model_stack
 #' @export
