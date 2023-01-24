@@ -199,3 +199,45 @@ check_fitted <- function(model_stack) {
     )
   }
 }
+
+#' @importFrom generics augment
+#' @export
+generics::augment
+
+#' Augment a model stack
+#' 
+#' @param x A fitted model stack; see [fit_members()].
+#' @inheritParams predict.model_stack
+#' @param ... Additional arguments passed to `predict.model_stack`. In
+#' particular, see `type` and `members`.
+#' 
+#' @seealso The [collect_parameters()] function is analogous to a [`tidy()`][generics::tidy()] 
+#' method for model stacks.
+#' 
+#' @method augment model_stack
+#' @name augment.model_stack
+#' @export
+augment.model_stack <- function(x, new_data, ...) {
+  dots <- list(...)
+  outcome <- x[["outcome"]]
+  member_cols <- unlist(x[["cols_map"]])
+  
+  res <- dplyr::bind_cols(new_data, predict(x, new_data = new_data, ...))
+  
+  if (mode_is_regression(x) & isTRUE(dots[["members"]])) {
+    res <- dplyr::rename_with(res, ~paste0(".pred_", .x), any_of(member_cols))
+  }
+  
+  if (mode_is_regression(x) & outcome %in% colnames(new_data)) {
+    res <- 
+      dplyr::mutate(
+        res, 
+        across(
+          starts_with(".pred"),
+          ~ !!rlang::sym(outcome) - .x,
+          .names = ".resid{gsub('.pred', '', .col)}")
+      )
+  }
+  
+  tibble::as_tibble(res)
+}
