@@ -117,6 +117,10 @@ should_run_examples <- function(suggests = NULL) {
   has_needed_installs && !is_cran_check()
 }
 
+mode_is_regression <- function(x) {
+  isTRUE(x[["mode"]] %in% c("regression", "censored regression"))
+}
+
 
 # Getters
 # -----------------------------------------------------------------------
