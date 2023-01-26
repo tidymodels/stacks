@@ -225,7 +225,7 @@ augment.model_stack <- function(x, new_data, ...) {
   res <- dplyr::bind_cols(new_data, predict(x, new_data = new_data, ...))
   
   if (mode_is_regression(x) & isTRUE(dots[["members"]])) {
-    res <- dplyr::rename_with(res, ~paste0(".pred_", .x), any_of(member_cols))
+    res <- dplyr::rename_with(res, ~paste0(".pred_", .x), any_of(unname(member_cols)))
   }
   
   if (mode_is_regression(x) & outcome %in% colnames(new_data)) {
