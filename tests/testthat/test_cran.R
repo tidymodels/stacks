@@ -30,10 +30,7 @@ test_that("basic stacks pipeline works", {
     tibble::tibble(
       x = rnorm(200),
       y = x + rnorm(200, 0, .1),
-      z = dplyr::case_when(
-        x > 0 ~ purrr::rbernoulli(1, p = .2),
-        TRUE ~ TRUE
-      )
+      z = runif(1) > x
     )
   
   lin_reg <- 
