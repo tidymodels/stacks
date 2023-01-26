@@ -40,6 +40,7 @@ reference:
     - starts_with("autoplot")
     - starts_with("axe_")
     - starts_with("predict")
+    - augment.model_stack
     - starts_with("print")
 
 articles:
