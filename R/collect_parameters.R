@@ -138,12 +138,17 @@ collect_params <- function(cols_map, model_metrics, candidates, workflows, blend
         dplyr::filter(member %in% res$member)
       
       res <-
-        dplyr::full_join(res, stacking_coefs, by = "member") %>%
+        dplyr::full_join(res, stacking_coefs, by = "member", multiple = "all") %>%
         dplyr::filter(!is.na(terms))
     } else {
       # regression context
       res <- 
-        dplyr::left_join(res, stacking_coefs, by = c("member" = "terms"))
+        dplyr::left_join(
+          res, 
+          stacking_coefs, 
+          by = c("member" = "terms"), 
+          multiple = "all"
+        )
     }
   }
   

@@ -57,7 +57,13 @@ member_plot <- function(x) {
   
   other_metrics <- dplyr::filter(plot_dat, .metric != "num_members")
   
-  plot_dat <- dplyr::full_join(memb_data, other_metrics, by = c("penalty", "mixture", ".config"))
+  plot_dat <- 
+    dplyr::full_join(
+      memb_data, 
+      other_metrics, 
+      by = c("penalty", "mixture", ".config"), 
+      multiple = "all"
+    )
   
   mult_mix <- length(unique(plot_dat$mixture)) > 1
   
