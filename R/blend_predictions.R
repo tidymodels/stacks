@@ -202,12 +202,7 @@ blend_predictions <- function(data_stack,
     preds_wf %>%
     tune::tune_grid(
       resamples = rsample::bootstraps(dat, times = times),
-      grid = purrr::cross_df(
-        list(
-          penalty = penalty,
-          mixture = mixture
-          )
-        ),
+      grid = tidyr::expand_grid(penalty = penalty, mixture = mixture),
       metrics = metric,
       control = control
     )
