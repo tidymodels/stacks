@@ -2,6 +2,9 @@
 
 * Added an `augment()` method for `model_stack` objects (#173).
 
+* Converted all character variables in the `tree_frogs` example data to factor 
+  and updated downstream example objects (#177).
+
 # stacks 1.0.1
 
 * Removes an unneeded data import attribute from the `tree_frogs` example data 
