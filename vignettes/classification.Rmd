@@ -150,7 +150,8 @@ nnet_rec <-
 
 nnet_wflow <- 
   tree_frogs_wflow %>%
-  add_model(nnet_spec)
+  add_model(nnet_spec) %>%
+  update_recipe(nnet_rec)
 
 nnet_res <-
   tune_grid(
