@@ -246,20 +246,19 @@ model:</p>
 <span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_normalize.html" class="external-link">step_normalize</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_numeric_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">knn_rec</span></span>
-<span><span class="co">#&gt; Recipe</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Inputs:</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Recipe</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;       role #variables</span></span>
-<span><span class="co">#&gt;    outcome          1</span></span>
-<span><span class="co">#&gt;  predictor          4</span></span>
+<span><span class="co">#&gt; ── Inputs</span></span>
+<span><span class="co">#&gt; Number of variables by role</span></span>
+<span><span class="co">#&gt; outcome:   1</span></span>
+<span><span class="co">#&gt; predictor: 4</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Operations:</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Dummy variables from all_nominal_predictors()</span></span>
-<span><span class="co">#&gt; Zero variance filter on all_predictors()</span></span>
-<span><span class="co">#&gt; Mean imputation for all_numeric_predictors()</span></span>
-<span><span class="co">#&gt; Centering and scaling for all_numeric_predictors()</span></span></code></pre></div>
+<span><span class="co">#&gt; ── Operations</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Dummy variables from: <span style="color: #0000BB;">all_nominal_predictors()</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Zero variance filter on: <span style="color: #0000BB;">all_predictors()</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Mean imputation for: <span style="color: #0000BB;">all_numeric_predictors()</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Centering and scaling for: <span style="color: #0000BB;">all_numeric_predictors()</span></span></span></code></pre></div>
 <p>Starting with the basic recipe, we convert categorical variables to
 dummy variables, remove column with only one observation, impute missing
 values in numeric variables using the mean, and normalize numeric
@@ -600,7 +599,7 @@ outline for these steps can be found <a href="https://github.com/tidymodels/stac
   <footer><div class="container">
   <div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Simon Couch, <a href="https://github.com/topepo" class="external-link">Max Kuhn</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" width="72"></a>.</p>
+<p>Developed by Simon Couch, <a href="https://github.com/topepo" class="external-link">Max Kuhn</a>, <a href="https://www.posit.co" class="external-link"><img src="https://www.tidyverse.org/posit-logo.svg" alt="Posit" height="16" style="margin-bottom: 3px;"></a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
