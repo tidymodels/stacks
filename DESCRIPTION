@@ -2,9 +2,9 @@ Package: stacks
 Title: Tidy Model Stacking
 Version: 1.0.1.9000
 Authors@R: c(
-    person("Simon", "Couch", , "simonpatrickcouch@gmail.com", role = c("aut", "cre")),
-    person("Max", "Kuhn", , "max@rstudio.com", role = "aut"),
-    person("RStudio", role = c("cph", "fnd"))
+    person("Simon", "Couch", , "simon.couch@posit.co", role = c("aut", "cre")),
+    person("Max", "Kuhn", , "max@posit.co", role = "aut"),
+    person(given = "Posit Software, PBC", role = c("cph", "fnd"))
   )
 Description: Model stacking is an ensemble technique that involves
     training a model to combine the outputs of many diverse statistical
