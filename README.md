@@ -45,7 +45,8 @@ install.packages("stacks")
 Install the development version with:
 
 ``` r
-remotes::install_github("tidymodels/stacks", ref = "main")
+# install.packages("pak")
+pak::pak("tidymodels/stacks")
 ```
 
 stacks is generalized with respect to:
