@@ -45,7 +45,8 @@ install.packages("stacks")
 Install the development version with:
 
 ``` r
-remotes::install_github("tidymodels/stacks", ref = "main")
+# install.packages("pak")
+pak::pak("tidymodels/stacks")
 ```
 
 stacks is generalized with respect to:
@@ -174,7 +175,7 @@ Conduct](https://github.com/tidymodels/stacks/blob/main/CODE_OF_CONDUCT.md).
 By contributing to this project, you agree to abide by its terms.
 
 -   For questions and discussions about tidymodels packages, modeling,
-    and machine learning, please [post on RStudio
+    and machine learning, please [post on Posit
     Community](https://community.rstudio.com/new-topic?category_id=15&tags=tidymodels,question).
 
 -   If you think you have encountered a bug, please [submit an
