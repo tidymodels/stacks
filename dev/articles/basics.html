@@ -465,16 +465,16 @@ actual data:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 429 × 12</span></span></span>
 <span><span class="co">#&gt;    latency knn_r…¹ knn_r…² knn_r…³ knn_r…⁴ lin_r…⁵ svm_r…⁶ svm_r…⁷ svm_r…⁸</span></span>
 <span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     142    76.5    67.8    83.2    83.0   114.     71.0    71.0    84.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     142    76.5    67.8    83.2    83.0   114.     71.0    71.0    85.4</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>      79    74.3    71.0    64.2    63.9    78.6    72.5    72.5    71.4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>      50    75.0    71.4    64.9    64.3    81.5    71.0    71.0    70.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>      68    47.9    49.7    54.0    54.0    78.6    71.1    71.1    70.4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>      64    60.9    53.1    48.4    48.3    36.5    71.0    71.0    51.5</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>      52   207.    168.    129.    124.    124.     71.1    71.1    92.1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>      39    22.6    24.9    31.0    31.5    35.2    72.5    72.5    50.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>      46    23.2    26.6    33.4    33.9    37.1    72.5    72.5    51.2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     137    75.9    78.8    90.4    90.6    78.8    71.1    71.1    70.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      73    67.7    73.6    67.9    67.4    38.8    72.5    72.5    51.7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>      50    75.0    71.4    64.9    64.3    81.5    71.0    71.0    70.9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>      68    47.9    49.7    54.0    54.0    78.6    71.1    71.1    70.5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>      64    60.9    53.1    48.4    48.3    36.5    71.0    71.0    52.2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>      52   207.    168.    129.    124.    124.     71.1    71.1    94.5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>      39    22.6    24.9    31.0    31.5    35.2    72.5    72.5    50.9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>      46    23.2    26.6    33.4    33.9    37.1    72.5    72.5    51.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     137    75.9    78.8    90.4    90.6    78.8    71.1    71.1    70.8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      73    67.7    73.6    67.9    67.4    38.8    72.5    72.5    52.2</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 419 more rows, 3 more variables: svm_res_1_5 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   svm_res_1_2 &lt;dbl&gt;, svm_res_1_6 &lt;dbl&gt;, and abbreviated variable names</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   ¹​knn_res_1_1, ²​knn_res_1_2, ³​knn_res_1_3, ⁴​knn_res_1_4,</span></span></span>
@@ -542,10 +542,10 @@ function:</p>
 <span><span class="co">#&gt;   member         cost    sigma  coef</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> svm_res_1_1 0.001<span style="text-decoration: underline;">43</span> 6.64<span style="color: #949494;">e</span><span style="color: #BB0000;">- 9</span> 0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> svm_res_1_2 3.59    3.95<span style="color: #949494;">e</span><span style="color: #BB0000;">- 4</span> 0.410</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> svm_res_1_3 0.097<span style="text-decoration: underline;">8</span>  1.81<span style="color: #949494;">e</span><span style="color: #BB0000;">- 2</span> 0.472</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> svm_res_1_2 3.59    3.95<span style="color: #949494;">e</span><span style="color: #BB0000;">- 4</span> 0.931</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> svm_res_1_3 0.097<span style="text-decoration: underline;">8</span>  1.81<span style="color: #949494;">e</span><span style="color: #BB0000;">- 2</span> 0    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> svm_res_1_4 0.008<span style="text-decoration: underline;">49</span> 2.16<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span> 0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> svm_res_1_5 0.256   4.54<span style="color: #949494;">e</span><span style="color: #BB0000;">- 1</span> 0.167</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> svm_res_1_5 0.256   4.54<span style="color: #949494;">e</span><span style="color: #BB0000;">- 1</span> 0.159</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> svm_res_1_6 7.64    3.16<span style="color: #949494;">e</span><span style="color: #BB0000;">- 7</span> 0</span></span></code></pre></div>
 <p>This object is now ready to predict with new data!</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
@@ -573,16 +573,15 @@ predictions from each of the ensemble members.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">map_dfr</span><span class="op">(</span><span class="va">member_preds</span>, <span class="va">rmse</span>, truth <span class="op">=</span> <span class="va">latency</span>, data <span class="op">=</span> <span class="va">member_preds</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>member <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">member_preds</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 7 × 4</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 4</span></span></span>
 <span><span class="co">#&gt;   .metric .estimator .estimate member         </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> rmse    standard         0   latency        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> rmse    standard        54.5 .pred          </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> rmse    standard        56.2 knn_res_1_3    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> rmse    standard        54.3 .pred          </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> rmse    standard        56.1 knn_res_1_4    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> rmse    standard        55.5 lin_reg_res_1_1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> rmse    standard        60.4 svm_res_1_3    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> rmse    standard        56.8 svm_res_1_5    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> rmse    standard        61.2 svm_res_1_2</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> rmse    standard        56.9 svm_res_1_5    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> rmse    standard        60.6 svm_res_1_2</span></span></code></pre></div>
 <p>As we can see, the stacked ensemble outperforms each of the member
 models, though is closely followed by one of its members.</p>
 <p>Voila! You’ve now made use of the stacks package to predict red-eyed

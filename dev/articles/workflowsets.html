@@ -377,13 +377,13 @@ results:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1 rmse    standard    81.3     5    4.37 Preprocessor1_Model01</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     3 rmse    standard    69.6     5    3.57 Preprocessor1_Model02</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     5 rmse    standard    63.7     5    3.30 Preprocessor1_Model03</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     6 rmse    standard    62.2     5    3.13 Preprocessor1_Model04</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     7 rmse    standard    61.2     5    2.97 Preprocessor1_Model05</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     9 rmse    standard    59.8     5    2.83 Preprocessor1_Model06</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>    10 rmse    standard    59.4     5    2.82 Preprocessor1_Model07</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>    11 rmse    standard    58.9     5    2.82 Preprocessor1_Model08</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>    13 rmse    standard    58.5     5    2.85 Preprocessor1_Model09</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    15 rmse    standard    58.1     5    2.88 Preprocessor1_Model10</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     6 rmse    standard    62.3     5    3.12 Preprocessor1_Model04</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     7 rmse    standard    61.2     5    2.95 Preprocessor1_Model05</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     9 rmse    standard    59.8     5    2.82 Preprocessor1_Model06</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>    10 rmse    standard    59.3     5    2.83 Preprocessor1_Model07</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>    11 rmse    standard    59.0     5    2.82 Preprocessor1_Model08</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>    13 rmse    standard    58.5     5    2.84 Preprocessor1_Model09</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    15 rmse    standard    58.2     5    2.88 Preprocessor1_Model10</span></span></code></pre></div>
 <p>With these three model definitions fully specified and tuned in a
 workflow set, we are ready to begin stacking these model configurations.
 (Note that, in most applied settings, one would likely specify many more
@@ -406,12 +406,13 @@ did with individual workflows:</p>
 <span>  <span class="fu"><a href="../reference/fit_members.html">fit_members</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">tree_frogs_model_st</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 3</span></span></span>
 <span><span class="co">#&gt;   member           type             weight</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> rec3_svm_1_06    svm_rbf           0.799</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> rec2_lin_reg_1_1 linear_reg        0.266</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> rec1_knn_1_08    nearest_neighbor  0.208</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> rec3_svm_1_06    svm_rbf          0.779 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> rec2_lin_reg_1_1 linear_reg       0.275 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> rec1_knn_1_08    nearest_neighbor 0.190 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> rec1_knn_1_07    nearest_neighbor 0.020<span style="text-decoration: underline;">5</span></span></span></code></pre></div>
 <p>The results obtained from building a model stack with workflow sets
 are identical to those that would result from building a model stack
 with individual workflows.</p>
@@ -441,7 +442,7 @@ function:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> rec3_svm_1_03  0.019<span style="text-decoration: underline;">5</span>  3.37<span style="color: #949494;">e</span><span style="color: #BB0000;">- 5</span> 0    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> rec3_svm_1_04 15.2     4.78<span style="color: #949494;">e</span><span style="color: #BB0000;">- 8</span> 0    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> rec3_svm_1_05  2.97    1.30<span style="color: #949494;">e</span><span style="color: #BB0000;">- 6</span> 0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> rec3_svm_1_06  0.134   5.62<span style="color: #949494;">e</span><span style="color: #BB0000;">- 2</span> 0.799</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> rec3_svm_1_06  0.134   5.62<span style="color: #949494;">e</span><span style="color: #BB0000;">- 2</span> 0.779</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> rec3_svm_1_07  0.001<span style="text-decoration: underline;">63</span> 3.01<span style="color: #949494;">e</span><span style="color: #BB0000;">- 3</span> 0    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> rec3_svm_1_08  4.08    2.98<span style="color: #949494;">e</span><span style="color: #BB0000;">- 1</span> 0    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> rec3_svm_1_09  0.004<span style="text-decoration: underline;">29</span> 3.45<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span> 0    </span></span>
@@ -472,14 +473,15 @@ of the ensemble members.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">map_dfr</span><span class="op">(</span><span class="va">member_preds</span>, <span class="va">rmse</span>, truth <span class="op">=</span> <span class="va">latency</span>, data <span class="op">=</span> <span class="va">member_preds</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>member <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">member_preds</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 4</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 4</span></span></span>
 <span><span class="co">#&gt;   .metric .estimator .estimate member          </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> rmse    standard         0   latency         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> rmse    standard        54.0 .pred           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> rmse    standard        56.2 rec1_knn_1_08   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> rmse    standard        55.5 rec2_lin_reg_1_1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> rmse    standard        57.4 rec3_svm_1_06</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> rmse    standard        53.9 .pred           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> rmse    standard        56.2 rec1_knn_1_07   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> rmse    standard        56.2 rec1_knn_1_08   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> rmse    standard        55.5 rec2_lin_reg_1_1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> rmse    standard        57.3 rec3_svm_1_06</span></span></code></pre></div>
 <p>As we can see, the stacked ensemble outperforms each of the member
 models, though is closely followed by one of its members.</p>
 <p>Voila! You’ve now made use of the stacks and workflowsets packages to
