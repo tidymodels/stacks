@@ -175,16 +175,16 @@ the source code that generated them.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── A stacked ensemble model ─────────────────────────────────────</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Out of 16 possible candidate members, the ensemble retained 3.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Penalty: <span style="color: #0000BB;">0.1</span>.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Penalty: <span style="color: #0000BB;">1e-06</span>.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Mixture: <span style="color: #0000BB;">1</span>.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The 3 highest weighted members are:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   member          type       weight</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> reg_res_svm_1_3 svm_rbf    0.636 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> reg_res_sp_03_1 linear_reg 0.484 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> reg_res_sp_10_1 linear_reg 0.049<span style="text-decoration: underline;">6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> reg_res_svm_1_3 svm_rbf    0.638 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> reg_res_sp_03_1 linear_reg 0.486 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> reg_res_sp_10_1 linear_reg 0.048<span style="text-decoration: underline;">2</span></span>
 <span class="r-in"><span>  </span></span>
 <span class="r-in"><span><span class="va">reg_st</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> # A data stack with 3 model definitions and 16 candidate members:</span>
@@ -206,23 +206,20 @@ the source code that generated them.</p>
 <span class="r-in"><span><span class="va">class_st</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── A stacked ensemble model ─────────────────────────────────────</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Out of 21 possible candidate members, the ensemble retained 8.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Penalty: <span style="color: #0000BB;">0.01</span>.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Out of 21 possible candidate members, the ensemble retained 5.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Penalty: <span style="color: #0000BB;">0.1</span>.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Mixture: <span style="color: #0000BB;">1</span>.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Across the 3 classes, there are an average of 4 coefficients per class.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Across the 3 classes, there are an average of 2.5 coefficients per class.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The 8 highest weighted member classes are:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 8 × 4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   member                       type           weight class</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> .pred_full_class_res_nn_1_1  mlp         23.3      full </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> .pred_mid_class_res_nn_1_1   mlp          1.89     mid  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> .pred_mid_class_res_rf_1_06  rand_forest  1.71     mid  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> .pred_mid_class_res_rf_1_10  rand_forest  1.17     mid  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> .pred_full_class_res_rf_1_03 rand_forest  0.407    full </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> .pred_full_class_res_rf_1_05 rand_forest  0.222    full </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> .pred_full_class_res_rf_1_01 rand_forest  0.001<span style="text-decoration: underline;">60</span>  full </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> .pred_full_class_res_rf_1_02 rand_forest  0.000<span style="text-decoration: underline;">322</span> full </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The 5 highest weighted member classes are:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   member                       type          weight class</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> .pred_full_class_res_nn_1_1  mlp         12.0     full </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> .pred_mid_class_res_rf_1_06  rand_forest  0.670   mid  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> .pred_full_class_res_rf_1_05 rand_forest  0.101   full </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> .pred_full_class_res_rf_1_07 rand_forest  0.004<span style="text-decoration: underline;">57</span> full </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> .pred_full_class_res_rf_1_01 rand_forest  0.002<span style="text-decoration: underline;">19</span> full </span>
 <span class="r-in"><span>  </span></span>
 <span class="r-in"><span><span class="co"># ...or binomial classification models</span></span></span>
 <span class="r-in"><span><span class="va">log_st</span> <span class="op">&lt;-</span></span></span>
@@ -235,17 +232,16 @@ the source code that generated them.</p>
 <span class="r-in"><span><span class="va">log_st</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── A stacked ensemble model ─────────────────────────────────────</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Out of 11 possible candidate members, the ensemble retained 3.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Penalty: <span style="color: #0000BB;">1e-04</span>.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Out of 11 possible candidate members, the ensemble retained 2.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Penalty: <span style="color: #0000BB;">0.01</span>.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Mixture: <span style="color: #0000BB;">1</span>.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The 3 highest weighted member classes are:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The 2 highest weighted member classes are:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   member                   type        weight</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> .pred_no_log_res_nn_1_1  mlp         7.41  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> .pred_no_log_res_rf_1_05 rand_forest 3.44  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> .pred_no_log_res_rf_1_02 rand_forest 0.063<span style="text-decoration: underline;">8</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> .pred_no_log_res_nn_1_1  mlp           7.08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> .pred_no_log_res_rf_1_05 rand_forest   3.10</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
