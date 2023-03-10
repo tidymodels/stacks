@@ -26,6 +26,7 @@ tree_frogs <-
       treatment == "NT" ~ "control",
       TRUE ~ NA_character_
     ),
+    treatment = factor(treatment, levels = c("gentamicin", "control")),
     reflex = case_when(
       age_groups_four == "4d_lowVOR" ~ "low",
       age_groups_four == "4d_highVOR" ~ "mid",
@@ -40,11 +41,13 @@ tree_frogs <-
       stimulus_h >= 12 & stimulus_h < 20 ~ "afternoon",
       TRUE ~ NA_character_
     ), 
+    t_o_d = factor(t_o_d, levels = c("morning", "afternoon", "night")),
     hatched = case_when(
       response == 1 ~ "yes",
       response == 0 ~ "no",
       TRUE ~ NA_character_
     ),
+    hatched = factor(hatched, levels = c("yes", "no")),
     latency = 
       ((age_days * 86400) + (hatch_h * 3600) + (hatch_m * 60) + hatch_s) - age
   ) %>%
