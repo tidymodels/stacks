@@ -263,9 +263,7 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
   model_defs <- attr(stack, "model_defs")
   model_metrics <- attr(stack, "model_metrics")
   
-  model_defs[[name]] <- 
-    attr(candidates, "workflow") %>% 
-    stack_workflow(call = caller_env())
+  model_defs[[name]] <- attr(candidates, "workflow")
   model_metrics[[name]] <- tune::collect_metrics(candidates)
   
   attr(stack, "model_defs") <- model_defs
@@ -390,31 +388,6 @@ update_stack_data <- function(stack, new_data) {
     new_data,
     class = c("data_stack", class(new_data))
   )
-}
-
-# takes in a workflow and returns a minimal workflow for
-# use in the stack
-stack_workflow <- function(x, call) {
-  res <-
-    workflows::workflow() %>%
-    workflows::add_model(workflows::extract_spec_parsnip(x))
-  
-  pre <- workflows::extract_preprocessor(x)
-  
-  if (inherits(pre, "formula")) {
-    res <- res %>% workflows::add_formula(pre)
-  } else if (inherits(pre, "recipe")) {
-    res <- res %>% workflows::add_recipe(pre)
-  } else if (inherits(pre, "workflow_variables")) {
-    res <- res %>% workflows::add_variables(variables = pre)
-  } else {
-    cli_abort(
-      "Can't add a preprocessor of class '{class(pre)[1]}'",
-      call = call
-    )
-  }
-  
-  res
 }
 
 check_add_data_stack <- function(data_stack) {
