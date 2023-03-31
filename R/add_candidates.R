@@ -247,7 +247,7 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
       purrr::pluck("metrics") %>%
       attributes() %>%
       purrr::pluck("metrics") %>%
-      purrr::map_chr(~class(.x)[[1]]) %>%
+      purrr::map_chr(class_1) %>%
       unname()
     
     if (!"prob_metric" %in% metric_types) {
@@ -272,6 +272,10 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
   attr(stack, "model_metrics") <- model_metrics
   
   stack
+}
+
+class_1 <- function(.x) {
+  class(.x)[[1]]
 }
 
 # checks that the training data in a newly added candidate
