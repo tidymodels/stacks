@@ -100,13 +100,12 @@ predict.model_stack <- function(object, new_data, type = NULL, members = FALSE,
   if (members) {
     if (type == "class") {
       member_preds <- 
-        purrr::map(
+        purrr::map_dfc(
           names(object[["member_fits"]]),
           parse_member_probs,
           member_preds,
           levels(object[["data_stack"]][[object[["outcome"]]]])
-        ) %>%
-        purrr::list_cbind()
+        )
     }
     res <- dplyr::bind_cols(res, member_preds)
   }

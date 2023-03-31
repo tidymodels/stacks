@@ -156,15 +156,13 @@ stack_predict.lognet_class <- function(x, data, ...) {
 #' @export
 #' @rdname stack_predict
 stack_predict.lognet_prob <- function(x, data, ...) {
-  purrr::map(x, rlang::eval_tidy, data = data) %>%
-    purrr::list_cbind()
+  purrr::map_dfc(x, rlang::eval_tidy, data = data)
 }
 
 
 multi_net_engine <- function(x, data, ...) {
   res <- 
-    purrr::map(x$.pred, rlang::eval_tidy, data = data) %>% 
-    purrr::list_cbind() %>%
+    purrr::map_dfc(x$.pred, rlang::eval_tidy, data = data) %>%
     multi_net_helper()
 }
 
