@@ -26,7 +26,7 @@ Imports:
     glmnet,
     glue,
     parsnip (>= 1.0.2),
-    purrr (>= 0.3.2),
+    purrr (>= 1.0.0),
     recipes (>= 0.2.0),
     rlang (>= 0.4.0),
     rsample (>= 0.1.1),

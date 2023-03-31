@@ -314,7 +314,8 @@ member_preds <-
 Now, evaluating the root mean squared error from each model:
 
 ```{r}
-map_dfr(member_preds, rmse, truth = latency, data = member_preds) %>%
+map(member_preds, rmse, truth = latency, data = member_preds) %>%
+  list_rbind() %>%
   mutate(member = colnames(member_preds))
 ```
 

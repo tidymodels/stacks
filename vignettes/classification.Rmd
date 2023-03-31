@@ -244,10 +244,11 @@ tree_frogs_pred <-
 
 tree_frogs_pred
 
-map_dfr(
+map(
   setNames(colnames(tree_frogs_pred), colnames(tree_frogs_pred)),
   ~mean(tree_frogs_pred$reflex == pull(tree_frogs_pred, .x))
 ) %>%
+  list_rbind() %>%
   pivot_longer(c(everything(), -reflex))
 ```
 
