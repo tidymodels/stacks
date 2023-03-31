@@ -166,7 +166,8 @@ blend_predictions <- function(data_stack,
     # The class probabilities add up to one so we remove the probability columns
     # associated with the first level of the outcome. 
     col_filter <- paste0(".pred_", lvls[1])
-    dat <- dat %>% dplyr::select(-dplyr::starts_with(!!col_filter))
+    cols_drop <- grepl(col_filter, colnames(dat), fixed = TRUE)
+    dat <- dat[, !cols_drop]
     if (length(lvls) == 2) {
       model_spec <-
         parsnip::logistic_reg(penalty = !!tune_quo, mixture = !!tune_quo) %>% 
@@ -269,19 +270,21 @@ check_regularization <- function(x, arg) {
 
 # ------------------------------------------------------------------------------
 
+first_extract <- function(.x) {
+  .x$.extracts[[1]]
+}
+
 glmnet_metrics <- function(x) {
   res <- tune::collect_metrics(x)
   pens <- sort(unique(res$penalty))
-  num_mem <- 
-    dplyr::select(x, id, .extracts) %>% 
-    tidyr::unnest(.extracts) %>% 
-    dplyr::group_nest(id, penalty, mixture) %>% 
-    # There are redundant model objects over penalty values
-    dplyr::mutate(data = purrr::map(data, ~ .x$.extracts[[1]])) %>% 
-    dplyr::mutate(
-      members = purrr::map(data, ~ num_members(.x, pens))
-    ) %>% 
-    dplyr::select(mixture, members) %>% 
+  res_ <- vctrs::vec_unique(res[, c("penalty", "mixture", ".config")])
+  num_mem <- x[, c("id", ".extracts")]
+  num_mem <- tidyr::unnest(num_mem, .extracts)
+  num_mem <- dplyr::group_nest(num_mem, id, penalty, mixture)
+  num_mem$data <- purrr::map(num_mem$data, first_extract)
+  num_mem$members <- purrr::map(num_mem$data, num_members, pens)
+  num_mem <- num_mem[, c("mixture", "members")]
+  num_mem <- num_mem %>%
     tidyr::unnest(cols = members) %>% 
     dplyr::group_by(penalty, mixture) %>% 
     dplyr::summarize(
@@ -292,13 +295,12 @@ glmnet_metrics <- function(x) {
       std_err = sqrt(mean/n),
       .groups = "drop"
     ) %>% 
-    dplyr::full_join(
-      res %>% dplyr::select(penalty, mixture, .config) %>% dplyr::distinct(),
-      by = c("penalty", "mixture")
-    )
+    dplyr::full_join(res_, by = c("penalty", "mixture"))
   
-  dplyr::bind_rows(res, num_mem) %>% 
-    dplyr::arrange(.config)
+  out <- vctrs::vec_rbind(res, num_mem)
+  out <- vctrs::vec_slice(out, vctrs::vec_order(out[".config"]))
+  
+  out
 }
 
 num_members <- function(x, penalties) {
