@@ -148,8 +148,11 @@ mode_is_regression <- function(x) {
   x <- as.matrix(x)
   colnames(x) <- "estimate"
   rn <- rownames(x)
-  x <- tibble::as_tibble(x) %>% dplyr::mutate(terms = rn, penalty = penalty)
-  x <- dplyr::select(x, terms, estimate, penalty)
+  x <- tibble::as_tibble(x)
+  x$terms <- rn
+  x$penalty <- penalty
+  x <- x[, c("terms", "estimate", "penalty")]
+
   if (is.list(x$estimate)) {
     x$estimate <- purrr::map(x$estimate, ~ tibble::as_tibble(as.matrix(.x), rownames = "terms"))
     x <- tidyr::unnest(x, cols = c(estimate), names_repair = "minimal")
