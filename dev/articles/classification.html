@@ -286,7 +286,7 @@ function:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> rand_forest_res_1_02     2    33 low   .pred_full_rand_forest_re…     0</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> rand_forest_res_1_02     2    33 mid   .pred_mid_rand_forest_res…     0</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> rand_forest_res_1_02     2    33 mid   .pred_full_rand_forest_re…     0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 50 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 50 more rows</span></span></span></code></pre></div>
 <p>This object is now ready to predict with new data!</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tree_frogs_pred</span> <span class="op">&lt;-</span></span>
@@ -318,30 +318,32 @@ each of the ensemble members.</p>
 <span></span>
 <span><span class="va">tree_frogs_pred</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 303 × 15</span></span></span>
-<span><span class="co">#&gt;    reflex .pred_…¹ .pred…² .pred…³ .pred…⁴ .pred…⁵ .pred…⁶ .pred…⁷ .pred…⁸</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> full   full     full    full    full    full    full    full    full   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> mid    mid      low     mid     low     low     mid     mid     mid    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> mid    mid      mid     mid     mid     mid     mid     mid     mid    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> mid    mid      low     low     low     low     low     low     mid    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> full   full     full    full    full    full    full    full    full   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> full   full     full    full    full    full    full    full    full   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> full   full     full    full    full    full    full    full    full   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> full   full     full    full    full    full    full    full    full   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> full   full     full    full    full    full    full    full    full   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> full   full     full    full    full    full    full    full    full   </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 293 more rows, 6 more variables:</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   .pred_class_rand_forest_res_1_08 &lt;fct&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   .pred_class_nnet_res_1_05 &lt;fct&gt;, .pred_class_nnet_res_1_09 &lt;fct&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   .pred_class_nnet_res_1_06 &lt;fct&gt;, .pred_class_nnet_res_1_04 &lt;fct&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   .pred_class_nnet_res_1_10 &lt;fct&gt;, and abbreviated variable names</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​.pred_class, ²​.pred_class_rand_forest_res_1_05,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ³​.pred_class_rand_forest_res_1_07, ⁴​.pred_class_nnet_res_1_07, …</span></span></span>
+<span><span class="co">#&gt;    reflex .pred_class .pred_class_rand_forest_res…¹ .pred_class_rand_for…²</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                         <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> full   full        full                          full                  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> mid    mid         low                           mid                   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> mid    mid         mid                           mid                   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> mid    mid         low                           low                   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> full   full        full                          full                  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> full   full        full                          full                  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> full   full        full                          full                  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> full   full        full                          full                  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> full   full        full                          full                  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> full   full        full                          full                  </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 293 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ abbreviated names: ¹​.pred_class_rand_forest_res_1_05,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ²​.pred_class_rand_forest_res_1_07</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 11 more variables: .pred_class_nnet_res_1_07 &lt;fct&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   .pred_class_nnet_res_1_02 &lt;fct&gt;, .pred_class_nnet_res_1_03 &lt;fct&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   .pred_class_nnet_res_1_01 &lt;fct&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   .pred_class_rand_forest_res_1_09 &lt;fct&gt;, …</span></span></span>
 <span></span>
-<span><span class="fu">map_dfr</span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span><span class="op">)</span><span class="op">)</span>,</span>
+<span><span class="fu">map</span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span><span class="op">)</span>,</span>
 <span>  <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span><span class="op">$</span><span class="va">reflex</span> <span class="op">==</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span>, <span class="va">.x</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">set_names</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">pivot_longer</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">-</span><span class="va">reflex</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 14 × 3</span></span></span>
 <span><span class="co">#&gt;    reflex name                             value</span></span>

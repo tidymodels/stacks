@@ -471,17 +471,12 @@ of the ensemble members.</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_cols.html" class="external-link">bind_cols</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span>, <span class="va">tree_frogs_test</span>, members <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Now, evaluating the root mean squared error from each model:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">map_dfr</span><span class="op">(</span><span class="va">member_preds</span>, <span class="va">rmse</span>, truth <span class="op">=</span> <span class="va">latency</span>, data <span class="op">=</span> <span class="va">member_preds</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>member <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">member_preds</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 4</span></span></span>
-<span><span class="co">#&gt;   .metric .estimator .estimate member          </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> rmse    standard         0   latency         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> rmse    standard        53.9 .pred           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> rmse    standard        56.2 rec1_knn_1_07   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> rmse    standard        56.2 rec1_knn_1_08   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> rmse    standard        55.5 rec2_lin_reg_1_1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> rmse    standard        57.3 rec3_svm_1_06</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">map</span><span class="op">(</span><span class="va">member_preds</span>, <span class="va">rmse_vec</span>, truth <span class="op">=</span> <span class="va">member_preds</span><span class="op">$</span><span class="va">latency</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 6</span></span></span>
+<span><span class="co">#&gt;   latency .pred rec1_knn_1_07 rec1_knn_1_08 rec2_lin_reg_1_1 rec3_svm_1_06</span></span>
+<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       0  53.9          56.2          56.2             55.5          57.3</span></span></code></pre></div>
 <p>As we can see, the stacked ensemble outperforms each of the member
 models, though is closely followed by one of its members.</p>
 <p>Voila! You’ve now made use of the stacks and workflowsets packages to
