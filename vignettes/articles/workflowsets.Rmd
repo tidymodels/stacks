@@ -3,9 +3,16 @@ title: "Stacking With Workflow Sets"
 ---
 
 ```{r, include = FALSE}
+if (rlang::is_installed("workflowsets")) {
+  run <- TRUE
+} else {
+  run <- FALSE
+}
+
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  eval = run
 )
 ```
 

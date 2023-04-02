@@ -293,6 +293,7 @@ test_that("stacks can handle columns and levels named 'class'", {
 
 test_that("stacks can add candidates via workflow sets", {
   skip_on_cran()
+  skip_if_not_installed("workflowsets")
   
   wf_set <-
     workflowsets::workflow_set(

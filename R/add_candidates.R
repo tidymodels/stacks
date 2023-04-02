@@ -24,7 +24,7 @@
 #' 
 #' - `tune_results`: An object outputted from [tune::tune_grid()], 
 #' [tune::tune_bayes()], or [tune::fit_resamples()].
-#' - `workflow_set`: An object outputted from [workflowsets::workflow_map()].
+#' - `workflow_set`: An object outputted from `workflowsets::workflow_map()`.
 #' This approach allows for supplying multiple sets of candidate members 
 #' with only one call to `add_candidates`. See the "Stacking With Workflow Sets"
 #' article on the [package website](https://stacks.tidymodels.org/) for example code!

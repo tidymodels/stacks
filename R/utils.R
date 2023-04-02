@@ -163,8 +163,7 @@ mode_is_regression <- function(x) {
   x
 }
 
-# quiet R-CMD-check NOTEs that workflowsets and yardstick are unused
+# quiet R-CMD-check NOTEs that yardstick is unused
 # (see example data .Rmds for usage)
 #' @importFrom yardstick metric_set
-#' @importFrom workflowsets workflow_set
 NULL
