@@ -75,9 +75,13 @@ fit_members <- function(model_stack, ...) {
     .get_glmn_coefs(
       model_stack[["coefs"]][["fit"]], 
       model_stack[["coefs"]][["spec"]][["args"]][["penalty"]]
-    ) %>%
-    dplyr::filter(estimate != 0 & terms != "(Intercept)") %>%
-    dplyr::pull(terms)
+    )
+  
+  member_names <- 
+    vctrs::vec_slice(
+      member_names$terms, 
+      member_names$estimate != 0 & member_names$terms != "(Intercept)"
+    )
   
   if (model_stack[["mode"]] == "classification") {
     member_dict <- 
@@ -96,38 +100,21 @@ fit_members <- function(model_stack, ...) {
   if (model_stack[["mode"]] == "regression") {
     members_map <- 
       tibble::enframe(model_stack[["cols_map"]]) %>%
-      tidyr::unnest(cols = value)
-    if (utils::packageVersion("dplyr") >= "1.0.99.9000") {
-      members_map <- members_map %>%
-        dplyr::full_join(metrics_dict, by = c("value" = ".config"), multiple = "all")
-    } else {
-      members_map <- members_map %>%
-        dplyr::full_join(metrics_dict, by = c("value" = ".config"))
-    }
+      tidyr::unnest(cols = value) %>%
+      dplyr::full_join(metrics_dict, by = c("value" = ".config"), multiple = "all")
   } else {
     members_map <- 
       tibble::enframe(model_stack[["cols_map"]]) %>%
-      tidyr::unnest(cols = value)
-    if (utils::packageVersion("dplyr") >= "1.0.99.9000") {
-      members_map <- members_map %>%
-        dplyr::full_join(member_dict, by = c("value" = "old"), multiple = "all")
-    } else {
-      members_map <- members_map %>%
-        dplyr::full_join(member_dict, by = c("value" = "old"))
-    }
+      tidyr::unnest(cols = value) %>%
+      dplyr::full_join(member_dict, by = c("value" = "old"), multiple = "all")
+    
+    members_map <- vctrs::vec_slice(members_map, !is.na(members_map$new))
+    members_map <- members_map[, c("name", "new")]
+    members_map$value <- members_map$new
+    members_map <- vctrs::vec_slice(members_map, !duplicated(members_map$value))
     
     members_map <- members_map %>%
-      dplyr::filter(!is.na(new)) %>%
-      dplyr::select(name, value = new) %>%
-      dplyr::filter(!duplicated(.$value))
-    
-    if (utils::packageVersion("dplyr") >= "1.0.99.9000") {
-      members_map <- members_map %>%
-        dplyr::full_join(metrics_dict, by = c("value" = ".config"), multiple = "all")
-    } else {
-      members_map <- members_map %>%
-        dplyr::full_join(metrics_dict, by = c("value" = ".config"))
-    }
+      dplyr::full_join(metrics_dict, by = c("value" = ".config"), multiple = "all")
   }
   
   if (foreach::getDoParWorkers() > 1) {
@@ -156,22 +143,18 @@ fit_members <- function(model_stack, ...) {
 
 # fit one member of the ensemble
 fit_member <- function(name, wflows, members_map, train_dat) {
-  member_row <- 
-    members_map %>%
-    dplyr::filter(value == name)
+  member_row <- vctrs::vec_slice(members_map, members_map$value == name)
   
   member_params <- 
-    wflows[[member_row$name.x[1]]] %>%
-    parsnip::extract_parameter_set_dials() %>%
-    dplyr::pull(id)
+    parsnip::extract_parameter_set_dials(wflows[[member_row$name.x[1]]])
+  
+  member_params <- member_params$id
   
   needs_finalizing <- length(member_params) != 0
   
   if (needs_finalizing) {
     member_metrics <-
-      members_map %>%
-      dplyr::filter(value == name) %>%
-      dplyr::slice(1)
+      vctrs::vec_slice(member_row, 1L)
     
     member_wf <- 
       wflows[[member_metrics$name.x]]
@@ -180,11 +163,7 @@ fit_member <- function(name, wflows, members_map, train_dat) {
       tune::finalize_workflow(member_wf, member_metrics[,member_params]) %>%
       parsnip::fit(data = train_dat)
   } else {
-    member_model <-
-      members_map %>%
-      dplyr::filter(value == name) %>%
-      dplyr::select(name.x) %>%
-      dplyr::pull()
+    member_model <- member_row$name.x
     
     new_member <-
       parsnip::fit(wflows[[member_model[1]]], data = train_dat)
@@ -196,12 +175,9 @@ fit_member <- function(name, wflows, members_map, train_dat) {
 # creates a map for column / entry names resulting
 # from tuning in the classification setting
 sanitize_classification_names <- function(model_stack, member_names) {
-  outcome_levels <-
-    model_stack[["train"]] %>%
-    dplyr::select(!!.get_outcome(model_stack)) %>%
-    dplyr::pull() %>%
-    as.character() %>%
-    unique()
+  outcome_levels <- model_stack[["train"]]
+  outcome_levels <- outcome_levels[[.get_outcome(model_stack)]]
+  outcome_levels <- unique(as.character(outcome_levels))
   
   pred_strings <- paste0(".pred_", outcome_levels, "_") %>% 
     make.names()
@@ -213,10 +189,10 @@ sanitize_classification_names <- function(model_stack, member_names) {
       replacement = ""
     )
   
-  tibble::tibble(
+  tibble::new_tibble(vctrs::df_list(
     old = member_names,
     new = new_member_names
-  )
+  ))
 }
 
 

@@ -19,7 +19,7 @@ Depends:
 Imports:
     butcher (>= 0.1.3),
     cli,
-    dplyr (>= 1.0.99.9000),
+    dplyr (>= 1.1.0),
     foreach,
     generics,
     ggplot2,
