@@ -4,6 +4,9 @@
 
 * Converted all character variables in the `tree_frogs` example data to factor 
   and updated downstream example objects (#177).
+  
+* Fixed bug that resulted in errors when using model formulas with the 
+  `"mgcv"` engine (#193).
 
 # stacks 1.0.1
 
