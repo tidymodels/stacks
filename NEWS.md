@@ -7,6 +7,11 @@
   
 * Fixed bug that resulted in errors when using model formulas with the 
   `"mgcv"` engine (#193).
+  
+* Made several optimizations to reduce evaluation time and memory allocation
+  when stacking.
+  
+* Various bug fixes and improvements to documentation.
 
 # stacks 1.0.1
 
