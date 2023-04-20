@@ -171,7 +171,7 @@ vignette for an example of how this grammar is implemented!
 ## contributing
 
 This project is released with a [Contributor Code of
-Conduct](https://github.com/tidymodels/stacks/blob/main/CODE_OF_CONDUCT.md).
+Conduct](https://github.com/tidymodels/stacks/blob/main/.github/CODE_OF_CONDUCT.md).
 By contributing to this project, you agree to abide by its terms.
 
 -   For questions and discussions about tidymodels packages, modeling,
