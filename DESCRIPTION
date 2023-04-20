@@ -1,6 +1,6 @@
 Package: stacks
 Title: Tidy Model Stacking
-Version: 1.0.1.9000
+Version: 1.0.2
 Authors@R: c(
     person("Simon", "Couch", , "simon.couch@posit.co", role = c("aut", "cre")),
     person("Max", "Kuhn", , "max@posit.co", role = "aut"),
