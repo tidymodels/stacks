@@ -1,3 +1,5 @@
+# stacks (development version)
+
 # stacks 1.0.2
 
 * Added an `augment()` method for `model_stack` objects (#173).
