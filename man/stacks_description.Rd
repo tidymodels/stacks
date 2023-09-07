@@ -5,6 +5,7 @@
 \alias{stacks_description}
 \alias{_PACKAGE}
 \alias{stacks_package}
+\alias{stacks-package}
 \title{stacks: Tidy Model Stacking}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
