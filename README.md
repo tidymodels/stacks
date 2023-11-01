@@ -11,7 +11,7 @@ coverage](https://codecov.io/gh/tidymodels/stacks/branch/main/graph/badge.svg)](
 status](https://www.r-pkg.org/badges/version/stacks)](https://CRAN.R-project.org/package=stacks)
 <!-- badges: end -->
 
-## stacks - tidy model stacking <a href='https://stacks.tidymodels.org'><img src='man/figures/logo.png' align="right" height="280" /></a>
+## stacks - tidy model stacking <a href='https://stacks.tidymodels.org'><img src='man/figures/logo.png' alt = 'A hexagonal logo. Dark blue text reads "stacks", cascading over a stack of pancakes on a light blue background.' align="right" height="280" /></a>
 
 stacks is an R package for model stacking that aligns with the
 tidymodels. Model stacking is an ensembling method that takes the
