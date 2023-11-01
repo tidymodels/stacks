@@ -261,7 +261,7 @@ check_regularization <- function(x, arg) {
   }
   
   if (arg == "mixture") {
-    if (any(x < 0 || x > 1)) {
+    if (any(x < 0) || any(x > 1)) {
       cli_abort("Please supply only values in [0, 1] to the {arg} argument.",
                      call = caller_env())
     }
