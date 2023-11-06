@@ -1,5 +1,13 @@
 # stacks (development version)
 
+* Refine package alt text (#202).
+
+* Update example objects, resolving deprecation warnings from recipes (#203).
+
+* Fix bug in type checking for `blend_predictions(mixture)` (#204).
+
+* Resolve package-level documentation aliasing notice from CRAN.
+
 # stacks 1.0.2
 
 * Added an `augment()` method for `model_stack` objects (#173).
