@@ -34,7 +34,7 @@ is typically used after a number of calls to add_candidates().'><meta property="
     
     <a class="navbar-brand me-2" href="../index.html">stacks</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.2.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.3.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -315,7 +315,7 @@ the source code that generated them.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── A stacked ensemble model ─────────────────────────────────────</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Out of 16 possible candidate members, the ensemble retained 3.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Penalty: <span style="color: #0000BB;">0.001</span>.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Penalty: <span style="color: #0000BB;">1e-06</span>.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Mixture: <span style="color: #0000BB;">1</span>.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The 3 highest weighted members are:</span>
@@ -378,6 +378,10 @@ the source code that generated them.</p>
 <span class="r-in"><span>  <span class="fu">blend_predictions</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Predictions from 1 candidate were identical to those from existing</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> candidates and were removed from the data stack.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> → <span style="color: #BBBB00; font-weight: bold;">A</span> | <span style="color: #BBBB00;">warning</span>: from glmnet C++ code (error code -82); Convergence for 82th lambda value not reached after maxit=100000 iterations; solutions for larger lambdas returned</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> There were issues with some computations   <span style="color: #BBBB00; font-weight: bold;">A</span>: x1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> There were issues with some computations   <span style="color: #BBBB00; font-weight: bold;">A</span>: x1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span>  </span></span>
 <span class="r-in"><span><span class="va">class_st</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── A stacked ensemble model ─────────────────────────────────────</span>
