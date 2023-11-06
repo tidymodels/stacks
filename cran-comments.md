@@ -1,8 +1,8 @@
-This release addresses a breakage seen with an upcoming release of the package dependency {yardstick}.
+This release addresses a package-level documentation aliasing issue, surfaced by CRAN in September.
 
 ## R CMD check results
 
-There were no ERRORs or WARNINGs. 1 NOTE is raised due to the change in maintainer email address.
+There were no ERRORs, WARNINGs, or NOTEs.
 
 ## Reverse dependencies
 
