@@ -1,5 +1,3 @@
-This release addresses a package-level documentation aliasing issue, surfaced by CRAN in September.
-
 ## R CMD check results
 
 There were no ERRORs, WARNINGs, or NOTEs.
