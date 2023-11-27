@@ -3,7 +3,6 @@
 \docType{package}
 \name{stacks_description}
 \alias{stacks_description}
-\alias{_PACKAGE}
 \alias{stacks_package}
 \alias{stacks-package}
 \title{stacks: Tidy Model Stacking}
