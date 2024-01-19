@@ -115,6 +115,14 @@
       Error:
       ! The supplied candidates were tuned/fitted using only metrics that rely on hard class predictions. Please tune/fit with at least one class probability-based metric, such as `roc_auc` (`?yardstick::roc_auc()`).
 
+---
+
+    Code
+      stacks() %>% add_candidates(reg_res_lr)
+    Condition
+      Error:
+      ! The stacks package does not support stacking models with mode "censored regression".
+
 # model definition naming works as expected
 
     Code

@@ -222,6 +222,14 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
   new_mode <- wf_spec$mode
   old_mode <- attr(stack, "mode")
   
+  if (isFALSE(new_mode %in% c("regression", "classification"))) {
+    cli_abort(
+      "The {.pkg stacks} package does not support stacking models with mode
+       {.val {new_mode}}.",
+      call = NULL
+    )
+  }
+  
   attr(stack, "mode") <- new_mode
   
   stack
