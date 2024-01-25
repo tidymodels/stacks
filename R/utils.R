@@ -121,7 +121,7 @@ should_run_examples <- function(suggests = NULL) {
 }
 
 mode_is_regression <- function(x) {
-  isTRUE(x[["mode"]] %in% c("regression", "censored regression"))
+  isTRUE(x[["mode"]] %in% "regression")
 }
 
 

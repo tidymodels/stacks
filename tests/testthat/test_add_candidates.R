@@ -209,6 +209,16 @@ test_that("add_candidates errors informatively with bad arguments", {
     error = TRUE
   )
   
+  # fake a censored regression tuning result
+  wf <- attr(reg_res_lr, "workflow")
+  wf$fit$actions$model$spec$mode <- "censored regression"
+  attr(reg_res_lr, "workflow") <- wf
+  
+  expect_snapshot(
+    stacks() %>% add_candidates(reg_res_lr),
+    error = TRUE
+  )
+  
   # warn when stacking may fail due to tuning failure
   # TODO: re-implement tests--devel tune now errors on previous failure
 })

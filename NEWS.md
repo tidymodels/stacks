@@ -1,5 +1,7 @@
 # stacks (development version)
 
+* Improved error message for unsupported model modes (#152).
+
 # stacks 1.0.3
 
 * Refine package alt text (#202).
