@@ -1,5 +1,7 @@
 # stacks (development version)
 
+* Introduced support for parallel processing using the [future](https://www.futureverse.org/) framework. The stacks package previously supported parallelism with foreach, and users can use either framework for now. In a future release, stacks will begin the deprecation cycle for parallelism with foreach, so we encourage users to begin migrating their code now. See [the _Parallel Processing_ section in the tune package's "Optimizations" article](https://tune.tidymodels.org/articles/extras/optimizations.html#parallel-processing) to learn more (#866).
+
 * Improved error message for unsupported model modes (#152).
 
 # stacks 1.0.3
