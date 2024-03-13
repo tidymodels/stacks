@@ -129,21 +129,19 @@ fit_members <- function(model_stack, ...) {
   }
   
   # fit each of them
-  rlang::with_options(
-    doFuture.rng.onMisuse = "ignore",
-    .expr = {
-      member_fits <- 
-        foreach::foreach(mem = member_names, .inorder = FALSE) %do_op% {
-          asNamespace("stacks")$fit_member(
-            name = mem,
-            wflows = model_stack[["model_defs"]],
-            members_map = members_map,
-            train_dat = dat
-          )
-        }
+  member_fits <- 
+    foreach::foreach(
+      mem = member_names,
+      .inorder = FALSE,
+      .options.future = list(seed = TRUE)
+    ) %do_op% {
+      asNamespace("stacks")$fit_member(
+        name = mem,
+        wflows = model_stack[["model_defs"]],
+        members_map = members_map,
+        train_dat = dat
+      )
     }
-  )
-
   
   model_stack[["member_fits"]] <- 
     setNames(member_fits, member_names)
