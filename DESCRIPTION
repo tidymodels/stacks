@@ -48,7 +48,6 @@ Suggests:
     nnet,
     ranger,
     rmarkdown,
-    SuperLearner,
     testthat (>= 3.0.0),
     workflowsets (>= 0.1.0)
 VignetteBuilder: 

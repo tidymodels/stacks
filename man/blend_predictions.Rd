@@ -77,7 +77,7 @@ is typically used after a number of calls to \code{\link[=add_candidates]{add_ca
 Note that a regularized linear model is one of many possible
 learning algorithms that could be used to fit a stacked ensemble
 model. For implementations of additional ensemble learning algorithms, see
-\code{\link[h2o:h2o.stackedEnsemble]{h2o::h2o.stackedEnsemble()}} and \code{\link[SuperLearner:SuperLearner]{SuperLearner::SuperLearner()}}.
+\code{\link[h2o:h2o.stackedEnsemble]{h2o::h2o.stackedEnsemble()}} and \code{SuperLearner::SuperLearner()}.
 }
 \section{Example Data}{
 
