@@ -21,7 +21,7 @@
 #' Note that a regularized linear model is one of many possible
 #' learning algorithms that could be used to fit a stacked ensemble
 #' model. For implementations of additional ensemble learning algorithms, see
-#' [h2o::h2o.stackedEnsemble()] and [SuperLearner::SuperLearner()].
+#' [h2o::h2o.stackedEnsemble()] and `SuperLearner::SuperLearner()`.
 #' 
 #' @param data_stack A `data_stack` object
 #' @param penalty A numeric vector of proposed values for total amount of
