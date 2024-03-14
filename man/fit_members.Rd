@@ -24,8 +24,8 @@ stack's predictions, members should be trained on the full
 training set using \code{fit_members()}.
 }
 \details{
-To fit members in parallel, please register a parallel backend function.
-See the documentation of \code{\link[foreach:foreach]{foreach::foreach()}} for examples.
+To fit members in parallel, please create a plan with the future package.
+See the documentation of \code{\link[future:plan]{future::plan()}} for examples.
 }
 \section{Example Data}{
 

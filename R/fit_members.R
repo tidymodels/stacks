@@ -15,8 +15,8 @@
 #' model contains the necessary components to predict on new data.
 #' 
 #' @details 
-#' To fit members in parallel, please register a parallel backend function. 
-#' See the documentation of [foreach::foreach()] for examples.
+#' To fit members in parallel, please create a plan with the future package. 
+#' See the documentation of [future::plan()] for examples.
 #' 
 #' @template note_example_data
 #' 
@@ -138,15 +138,24 @@ fit_members <- function(model_stack, ...) {
     }
   }
   
-  if (foreach::getDoParWorkers() > 1) {
-    `%do_op%` <- foreach::`%dopar%`
+  if (foreach::getDoParWorkers() > 1 || future::nbrOfWorkers() > 1) {
+    `%do_op%` <- switch(
+      # note some backends can return +Inf
+      min(future::nbrOfWorkers(), 2),
+      foreach::`%dopar%`,
+      doFuture::`%dofuture%`
+    )
   } else {
     `%do_op%` <- foreach::`%do%`
   }
   
   # fit each of them
   member_fits <- 
-    foreach::foreach(mem = member_names, .inorder = FALSE) %do_op% {
+    foreach::foreach(
+      mem = member_names,
+      .inorder = FALSE,
+      .options.future = list(seed = TRUE)
+    ) %do_op% {
       asNamespace("stacks")$fit_member(
         name = mem,
         wflows = model_stack[["model_defs"]],

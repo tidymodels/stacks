@@ -42,7 +42,9 @@ Imports:
     glmnet,
     cli,
     stats,
-    foreach
+    foreach,
+    doFuture,
+    future
 Suggests: 
     testthat (>= 3.0.0),
     covr,
