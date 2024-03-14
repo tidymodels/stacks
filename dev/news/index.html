@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">stacks</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.3.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.3.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +54,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="stacks-development-version">stacks (development version)<a class="anchor" aria-label="anchor" href="#stacks-development-version"></a></h2>
-<ul><li>Improved error message for unsupported model modes (<a href="https://github.com/tidymodels/stacks/issues/152" class="external-link">#152</a>).</li>
+<ul><li><p>Introduced support for parallel processing using the <a href="https://www.futureverse.org/" class="external-link">future</a> framework. The stacks package previously supported parallelism with foreach, and users can use either framework for now. In a future release, stacks will begin the deprecation cycle for parallelism with foreach, so we encourage users to begin migrating their code now. See <a href="https://tune.tidymodels.org/articles/extras/optimizations.html#parallel-processing" class="external-link">the <em>Parallel Processing</em> section in the tune package’s “Optimizations” article</a> to learn more (<a href="https://github.com/tidymodels/stacks/issues/866" class="external-link">#866</a>).</p></li>
+<li><p>Improved error message for unsupported model modes (<a href="https://github.com/tidymodels/stacks/issues/152" class="external-link">#152</a>).</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.3" id="stacks-103">stacks 1.0.3<a class="anchor" aria-label="anchor" href="#stacks-103"></a></h2><p class="text-muted">CRAN release: 2023-11-06</p>
