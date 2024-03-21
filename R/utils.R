@@ -163,8 +163,3 @@ mode_is_regression <- function(x) {
   }
   x
 }
-
-# quiet R-CMD-check NOTEs that yardstick is unused
-# (see example data .Rmds for usage)
-#' @importFrom yardstick metric_set
-NULL

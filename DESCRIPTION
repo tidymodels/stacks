@@ -1,6 +1,6 @@
 Package: stacks
 Title: Tidy Model Stacking
-Version: 1.0.3.9001
+Version: 1.0.4
 Authors@R: c(
     person("Simon", "Couch", , "simon.couch@posit.co", role = c("aut", "cre")),
     person("Max", "Kuhn", , "max@posit.co", role = "aut"),
@@ -37,8 +37,7 @@ Imports:
     tidyr,
     tune (>= 1.2.0),
     vctrs (>= 0.6.1),
-    workflows (>= 1.1.4),
-    yardstick (>= 1.1.0)
+    workflows (>= 1.1.4)
 Suggests: 
     covr,
     h2o,
@@ -51,7 +50,8 @@ Suggests:
     ranger,
     rmarkdown,
     testthat (>= 3.0.0),
-    workflowsets (>= 0.1.0)
+    workflowsets (>= 0.1.0),
+    yardstick (>= 1.1.0)
 VignetteBuilder: 
     knitr
 Config/Needs/website: tidyverse/tidytemplate
