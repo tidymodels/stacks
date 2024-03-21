@@ -18,6 +18,8 @@ library(kernlab)
 skip_if_not_installed("nnet")
 library(nnet)
 
+skip_if_not_installed("yardstick")
+
 test_that("stack can add candidates (regression)", {
   skip_on_cran()
   
