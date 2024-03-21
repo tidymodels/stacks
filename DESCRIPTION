@@ -15,7 +15,7 @@ License: MIT + file LICENSE
 URL: https://stacks.tidymodels.org/, https://github.com/tidymodels/stacks
 BugReports: https://github.com/tidymodels/stacks/issues
 Depends:
-    R (>= 3.5)
+    R (>= 3.6)
 Imports:
     butcher (>= 0.1.3),
     cli,
