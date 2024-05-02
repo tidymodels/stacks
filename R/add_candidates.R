@@ -327,7 +327,7 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
     stack <- 
       update_stack_data(
         stack, 
-        candidate_cols %>% rm_duplicate_cols()
+        candidate_cols %>% rm_duplicate_cols() %>% na.omit()
       )
   } else {
     stack <- 
