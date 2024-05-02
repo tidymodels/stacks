@@ -337,7 +337,8 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
           tibble::as_tibble(stack), 
           dplyr::select(candidate_cols, -!!.get_outcome(stack))
         ) %>%
-          rm_duplicate_cols()
+          rm_duplicate_cols() %>%
+          na.omit()
       )
   }
   
@@ -347,31 +348,15 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
 }
 
 .set_tibble_checks <- function(data_stack) {
-  res <- data_stack %>% na.omit()
-  
-  if (nrow(res) == 0) {
-    cli::cli_abort(
-      "All rows in the data stack have at least one missing value. \\
-       Please ensure that all candidates supply predictions."
-    )
-  }
-  
-  if (nrow(res) < nrow(data_stack)) {
-    cli::cli_warn(
-      "{nrow(data_stack) - nrow(res)} of the {nrow(data_stack)} rows in the \\ 
-       data stack have missing values, and will be omitted in the blending process."
-    )
-  }
-  
   if (attr(data_stack, "mode") != "regression") {
     # The class probabilities add up to one so we remove the probability columns
     # associated with the first level of the outcome. 
     lvls <- levels(data_stack[[attr(data_stack, "outcome")]])
     col_filter <- paste0(".pred_", lvls[1])
-    res <- res %>% dplyr::select(-dplyr::starts_with(!!col_filter))
+    data_stack <- data_stack %>% dplyr::select(-dplyr::starts_with(!!col_filter))
   }
   
-  res
+  data_stack
 }
 
 # logs which columns in the data stack came from which candidates
