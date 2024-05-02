@@ -125,11 +125,14 @@ add_candidates.workflow_set <- function(data_stack, candidates,
     }
   }
   
-  purrr::reduce2(
-    append(list(data_stack), candidates$result),
-    candidates$wflow_id,
-    add_candidates
-  )
+  res <- 
+    purrr::reduce2(
+      append(list(data_stack), candidates$result),
+      candidates$wflow_id,
+      add_candidates
+    )
+  
+  update_stack_data(res, na.omit(res))
 }
 
 #' @export
@@ -327,7 +330,7 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
     stack <- 
       update_stack_data(
         stack, 
-        candidate_cols %>% rm_duplicate_cols() %>% na.omit()
+        candidate_cols %>% rm_duplicate_cols()
       )
   } else {
     stack <- 
@@ -337,8 +340,7 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
           tibble::as_tibble(stack), 
           dplyr::select(candidate_cols, -!!.get_outcome(stack))
         ) %>%
-          rm_duplicate_cols() %>%
-          na.omit()
+          rm_duplicate_cols()
       )
   }
   
