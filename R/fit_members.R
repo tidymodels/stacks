@@ -154,7 +154,7 @@ fit_members <- function(model_stack, ...) {
     foreach::foreach(
       mem = member_names,
       .inorder = FALSE,
-      .options.future = list(seed = TRUE, packages = c("parsnip", parsnip:::extensions(), "recipes", "embed"))
+      .options.future = list(seed = TRUE, packages = c("tune", "rsample", "parsnip", parsnip:::extensions(), "recipes", "embed"))
     ) %do_op% {
       asNamespace("stacks")$fit_member(
         name = mem,
