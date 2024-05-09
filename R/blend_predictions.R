@@ -193,11 +193,15 @@ blend_predictions <- function(data_stack,
   metric <- tune::.get_tune_metric_names(candidates)[1]
   best_param <- tune::select_best(candidates, metric = metric)
   
-  coefs <-
-    meta_learner %>%
-    parsnip::extract_spec_parsnip() %>%
-    tune::finalize_model(best_param) %>%
-    parsnip::fit(formula = preds_formula, data = dat)
+  if (inherits(parsnip::extract_spec_parsnip(meta_learner), "null_model")) {
+    coefs <- structure(list(), class = "model_fit")
+  } else {
+    coefs <-
+      meta_learner %>%
+      parsnip::extract_spec_parsnip() %>%
+      tune::finalize_model(best_param) %>%
+      parsnip::fit(formula = preds_formula, data = dat)
+  }
   
   # TODO: make the penalty object structure general
   if (inherits(coefs, c("_elnet", "_multnet", "_lognet"))) {
