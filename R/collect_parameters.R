@@ -156,7 +156,7 @@ collect_params <- function(cols_map, model_metrics, candidates, workflows, blend
 }
 
 check_for_candidates <- function(model_metrics, candidates) {
-  if ((!inherits(candidates, "character")) | 
+  if ((!inherits(candidates, "character")) || 
       (!candidates %in% names(model_metrics))) {
     cli_abort(
       "The `candidates` argument to `collect_parameters()` must be the name 
