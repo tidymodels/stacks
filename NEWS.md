@@ -2,6 +2,8 @@
 
 * Addressed inflation of butchered model stack object size after saving and
   reloading (#214).
+  
+* Fixed type-checking bug for `add_candidates(name)`.
 
 # stacks 1.0.4
 
