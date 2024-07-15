@@ -357,6 +357,11 @@ check_blend_data_stack <- function(data_stack) {
 
 process_data_stack <- function(data_stack) {
   dat <- tibble::as_tibble(data_stack) %>% na.omit()
+
+  # retain only the tbl_df attributes (#214)
+  attributes(dat) <- attributes(dat)[
+    names(attributes(tibble::new_tibble(list())))
+  ]
   
   if (nrow(dat) == 0) {
     cli_abort(
