@@ -1,5 +1,8 @@
 # stacks (development version)
 
+* Addressed inflation of butchered model stack object size after saving and
+  reloading (#214).
+
 # stacks 1.0.4
 
 * Introduced support for parallel processing using the [future](https://www.futureverse.org/) framework. The stacks package previously supported parallelism with foreach, and users can use either framework for now. In a future release, stacks will begin the deprecation cycle for parallelism with foreach, so we encourage users to begin migrating their code now. See [the _Parallel Processing_ section in the tune package's "Optimizations" article](https://tune.tidymodels.org/articles/extras/optimizations.html#parallel-processing) to learn more (#866).
