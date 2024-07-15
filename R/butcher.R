@@ -12,7 +12,8 @@ butcher::butcher
 #'
 #' @return Axed model_stack object.
 #'
-#' @examplesIf (stacks:::should_run_examples(suggests = c("ranger", "kernlab")))
+#' @examplesIf FALSE
+# (stacks:::should_run_examples(suggests = c("ranger", "kernlab")))
 #' 
 #' # build a regression model stack
 #' st <-

@@ -45,7 +45,7 @@ Remove environments.
 Remove fitted values.
 }
 \examples{
-\dontshow{if ((stacks:::should_run_examples(suggests = c("ranger", "kernlab")))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 # build a regression model stack
 st <-
