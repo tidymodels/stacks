@@ -1,4 +1,4 @@
-# stacks (development version)
+# stacks 1.0.5
 
 * Addressed inflation of butchered model stack object size after saving and
   reloading (#214).
