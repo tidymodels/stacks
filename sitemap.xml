@@ -1,96 +1,34 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://stacks.tidymodels.org/404.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/articles/basics.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/articles/classification.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/articles/workflowsets.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/index.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/reference/add_candidates.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/reference/augment.model_stack.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/reference/autoplot.linear_stack.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/reference/axe_model_stack.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/reference/blend_predictions.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/reference/build_linear_predictor.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/reference/collect_parameters.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/reference/control_stack.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/reference/example_data.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/reference/fit_members.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/reference/get_expressions.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/reference/predict.data_stack.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/reference/predict.model_stack.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/reference/prediction_eqn.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/reference/reexports.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/reference/stack_predict.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/reference/stacks.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/reference/stacks_description.html</loc>
-  </url>
-  <url>
-    <loc>https://stacks.tidymodels.org/reference/tree_frogs.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://stacks.tidymodels.org/404.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/LICENSE-text.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/LICENSE.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/articles/basics.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/articles/classification.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/articles/index.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/articles/workflowsets.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/authors.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/index.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/news/index.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/reference/add_candidates.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/reference/augment.model_stack.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/reference/autoplot.linear_stack.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/reference/axe_model_stack.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/reference/blend_predictions.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/reference/build_linear_predictor.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/reference/collect_parameters.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/reference/control_stack.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/reference/example_data.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/reference/fit_members.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/reference/get_expressions.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/reference/index.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/reference/predict.data_stack.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/reference/predict.model_stack.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/reference/prediction_eqn.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/reference/reexports.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/reference/stack_predict.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/reference/stacks.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/reference/stacks_description.html</loc></url>
+<url><loc>https://stacks.tidymodels.org/reference/tree_frogs.html</loc></url>
 </urlset>
+
