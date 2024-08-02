@@ -5,7 +5,7 @@ articles:
   basics: basics.html
   classification: classification.html
   articles/workflowsets: workflowsets.html
-last_built: 2024-07-23T12:48Z
+last_built: 2024-08-02T19:40Z
 urls:
   reference: https://stacks.tidymodels.org/reference
   article: https://stacks.tidymodels.org/articles
