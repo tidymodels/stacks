@@ -50,12 +50,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-
-In this example, we'll make use of the `tree_frogs` data exported with `stacks`, giving experimental results on hatching behavior of red-eyed tree frog embryos! 
+In this example, we'll make use of the `tree_frogs` data exported with stacks, giving experimental results on hatching behavior of red-eyed tree frog embryos!
 
 Red-eyed tree frog (RETF) embryos can hatch earlier than their normal 7ish days if they detect potential predator threat. Researchers wanted to determine how, and when, these tree frog embryos were able to detect stimulus from their environment. To do so, they subjected the embryos at varying developmental stages to "predator stimulus" by jiggling the embryos with a blunt probe. Beforehand, though, some of the embryos were treated with gentamicin, a compound that knocks out their lateral line (a sensory organ). Researcher Julie Jung and her crew found that these factors inform whether an embryo hatches prematurely or not!
 
-In this article, we'll use most all of the variables in `tree_frogs` to predict `reflex`, a measure of ear function called the vestibulo-ocular reflex (VOR), categorized into bins. Ear function increases from factor levels "low", to "mid", to "full".
+In this article, we'll use most all of the variables in `tree_frogs` to predict "reflex," a measure of ear function called the vestibulo-ocular reflex (VOR), categorized into bins. Ear function increases from factor levels "low", to "mid", to "full".
 
 ```{r, message = FALSE, warning = FALSE}
 data("tree_frogs")
@@ -110,7 +109,7 @@ We also need to use the same control settings as in the numeric response setting
 ctrl_grid <- control_stack_grid()
 ```
 
-We'll define two different model definitions to try to predict `reflex`—a random forest and a neural network.
+We'll define two different model definitions to try to predict "reflex"—a random forest and a neural network.
 
 Starting out with a random forest:
 
@@ -184,25 +183,25 @@ tree_frogs_model_st <-
 tree_frogs_model_st
 ```
 
-To make sure that we have the right trade-off between minimizing the number of members and optimizing performance, we can use the `autoplot()` method: 
+To make sure that we have the right trade-off between minimizing the number of members and optimizing performance, we can use the `autoplot()` method:
 
 ```{r penalty-plot, fig.alt = "A ggplot line plot. The x axis shows the degree of penalization, ranging from 1e-06 to 1e-01, and the y axis displays the mean of three different metrics. The plots are faceted by metric type, with three facets: accuracy, number of members, and ROC AUC. The plots generally show that, as penalization increases, the error increases, though fewer members are included in the model. A dashed line at a penalty of 1e-05 indicates that the stack has chosen a smaller degree of penalization."}
 autoplot(tree_frogs_model_st)
 ```
 
-To show the relationship more directly: 
+To show the relationship more directly:
 
 ```{r members-plot, fig.alt = "A similarly formatted ggplot line plot, showing that greater numbers of members result in higher accuracy."}
 autoplot(tree_frogs_model_st, type = "members")
 ```
 
-If these results were not good enough, `blend_predictions()` could be called again with different values of `penalty`. As it is, `blend_predictions()` picks the penalty parameter with the numerically optimal results. To see the top results: 
+If these results were not good enough, `blend_predictions()` could be called again with different values of "penalty." As it is, `blend_predictions()` picks the penalty parameter with the numerically optimal results. To see the top results:
 
 ```{r weight-plot, fig.alt = "A ggplot bar plot, giving the stacking coefficient on the x axis and member on the y axis. Bars corresponding to neural networks are shown in red, while random forest bars are shown in blue. Generally, the neural network tends to accentuate features of the 'low' response, while the random forest does so for the 'mid' response."}
 autoplot(tree_frogs_model_st, type = "weights")
 ```
 
-There are multiple facets since the ensemble members can have different effects on different classes. 
+There are multiple facets since the ensemble members can have different effects on different classes.
 
 To identify which model configurations were assigned what stacking coefficients, we can make use of the `collect_parameters()` function:
 
@@ -254,4 +253,4 @@ map(
   pivot_longer(c(everything(), -reflex))
 ```
 
-Voilà! You've now made use of the stacks package to predict tree frog embryo ear function using a stacked ensemble!  
+Voilà! You've now made use of the stacks package to predict tree frog embryo ear function using a stacked ensemble!

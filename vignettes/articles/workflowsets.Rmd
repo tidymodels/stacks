@@ -73,7 +73,7 @@ In this example, we'll again make use of the `tree_frogs` data exported with `st
 
 Red-eyed tree frog (RETF) embryos can hatch earlier than their normal 7ish days if they detect potential predator threat. Researchers wanted to determine how, and when, these tree frog embryos were able to detect stimulus from their environment. To do so, they subjected the embryos at varying developmental stages to "predator stimulus" by jiggling the embryos with a blunt probe. Beforehand, though some of the embryos were treated with gentamicin, a compound that knocks out their lateral line (a sensory organ.) Researcher Julie Jung and her crew found that these factors inform whether an embryo hatches prematurely or not!
 
-We'll start out with predicting `latency` (i.e. time to hatch) based on other attributes. We'll need to filter out NAs (i.e. cases where the embryo did not hatch) first.
+We'll start out with predicting "latency" (i.e., time to hatch) based on other attributes. We'll need to filter out NAs (i.e., cases where the embryo did not hatch) first.
 
 ```{r, message = FALSE, warning = FALSE}
 data("tree_frogs")
@@ -108,12 +108,12 @@ First, splitting up the training data, generating resamples, and setting some op
 set.seed(1)
 tree_frogs_split <- initial_split(tree_frogs)
 tree_frogs_train <- training(tree_frogs_split)
-tree_frogs_test  <- testing(tree_frogs_split)
+tree_frogs_test <- testing(tree_frogs_split)
 
 set.seed(1)
 folds <- rsample::vfold_cv(tree_frogs_train, v = 5)
 
-tree_frogs_rec <- 
+tree_frogs_rec <-
   recipe(latency ~ ., data = tree_frogs_train)
 
 metric <- metric_set(rmse)
@@ -133,7 +133,7 @@ Starting out with K-nearest neighbors, we begin by creating a parsnip model spec
 # create a model specification
 knn_spec <-
   nearest_neighbor(
-    mode = "regression", 
+    mode = "regression",
     neighbors = tune("k")
   ) %>%
   set_engine("kknn")
@@ -178,9 +178,9 @@ Finally, putting together the model specification and recipe for the support vec
 
 ```{r}
 # create a model specification
-svm_spec <- 
+svm_spec <-
   svm_rbf(
-    cost = tune("cost"), 
+    cost = tune("cost"),
     rbf_sigma = tune("sigma")
   ) %>%
   set_engine("kernlab") %>%
@@ -196,20 +196,20 @@ svm_rec <-
   step_normalize(all_numeric_predictors())
 ```
 
-With each model specification and accompanying recipe now defined, we can combine them via `workflow_set`:
+With each model specification and accompanying recipe now defined, we can combine them via `workflow_set()`:
 
 ```{r}
-wf_set <- 
+wf_set <-
   workflow_set(
-    preproc = list(rec1 = knn_rec, rec2 = lin_reg_rec,     rec3 = svm_rec),
-    models =  list(knn = knn_spec, lin_reg = lin_reg_spec, svm = svm_spec),
+    preproc = list(rec1 = knn_rec, rec2 = lin_reg_rec, rec3 = svm_rec),
+    models = list(knn = knn_spec, lin_reg = lin_reg_spec, svm = svm_spec),
     cross = FALSE
   )
 
 wf_set
 ```
 
-Note that each combination of preprocessor and model specification is assigned a `wflow_id` that we can use to interface with individual model definitions:
+Note that each combination of preprocessor and model specification is assigned a wflow_id that we can use to interface with individual model definitions:
 
 ```{r}
 wf_set %>%
@@ -258,7 +258,7 @@ With these three model definitions fully specified and tuned in a workflow set, 
 Building the stacked ensemble, now, takes even fewer lines than it did with individual workflows:
 
 ```{r, message = FALSE, warning = FALSE}
-tree_frogs_model_st <- 
+tree_frogs_model_st <-
   # initialize the stack
   stacks() %>%
   # add candidate members
@@ -279,7 +279,7 @@ To make sure that we have the right trade-off between minimizing the number of m
 autoplot(tree_frogs_model_st)
 ```
 
-If these results were not good enough, `blend_predictions()` could be called again with different values of `penalty`. As it is, `blend_predictions()` picks the penalty parameter with the numerically optimal results. To see the top results: 
+If these results were not good enough, `blend_predictions()` could be called again with different values of "penalty." As it is, `blend_predictions()` picks the penalty parameter with the numerically optimal results. To see the top results: 
 
 ```{r weight-plot, fig.alt = "A ggplot bar plot, giving the stacking coefficient on the x axis and member on the y axis. There are three members in this ensemble, where a nearest neighbor is weighted most heavily, followed by a linear regression with a stacking coefficient about half as large, followed by a support vector machine with a very small contribution."}
 autoplot(tree_frogs_model_st, type = "weights")
@@ -294,7 +294,7 @@ collect_parameters(tree_frogs_model_st, "rec3_svm")
 This object is now ready to predict with new data!
 
 ```{r}
-tree_frogs_test <- 
+tree_frogs_test <-
   tree_frogs_test %>%
   bind_cols(predict(tree_frogs_model_st, .))
 ```
@@ -303,16 +303,18 @@ Juxtaposing the predictions with the true data:
 
 ```{r, fig.alt = "A ggplot scatterplot showing observed versus predicted latency values. While there is indeed a positive and roughly linear relationship, there is certainly patterned structure in the residuals."}
 ggplot(tree_frogs_test) +
-  aes(x = latency, 
-      y = .pred) +
-  geom_point() + 
+  aes(
+    x = latency,
+    y = .pred
+  ) +
+  geom_point() +
   coord_obs_pred()
 ```
 
 Looks like our predictions were decent! How do the stacks predictions perform, though, as compared to the members' predictions? We can use the `type = "members"` argument to generate predictions from each of the ensemble members.
 
 ```{r}
-member_preds <- 
+member_preds <-
   tree_frogs_test %>%
   select(latency) %>%
   bind_cols(predict(tree_frogs_model_st, tree_frogs_test, members = TRUE))
