@@ -1,5 +1,7 @@
 # stacks (development version)
 
+* Added missing commas and formatting issues throughout the vignettes and articles. Backticks for package names were removed, and missing parentheses for functions were added. (@Joscelinrocha, #218).
+  
 # stacks 1.0.5
 
 * Addressed inflation of butchered model stack object size after saving and
