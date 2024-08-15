@@ -61,7 +61,7 @@ In this example, we'll make use of the `tree_frogs` data exported with `stacks`,
 
 Red-eyed tree frog (RETF) embryos can hatch earlier than their normal 7ish days if they detect potential predator threat. Researchers wanted to determine how, and when, these tree frog embryos were able to detect stimulus from their environment. To do so, they subjected the embryos at varying developmental stages to "predator stimulus" by jiggling the embryos with a blunt probe. Beforehand, though some of the embryos were treated with gentamicin, a compound that knocks out their lateral line (a sensory organ.) Researcher Julie Jung and her crew found that these factors inform whether an embryo hatches prematurely or not!
 
-We'll start out with predicting `latency` (i.e. time to hatch) based on other attributes. We'll need to filter out NAs (i.e. cases where the embryo did not hatch) first.
+We'll start out with predicting `latency` (i.e., time to hatch) based on other attributes. We'll need to filter out NAs (i.e., cases where the embryo did not hatch) first.
 
 ```{r, message = FALSE, warning = FALSE}
 data("tree_frogs")
@@ -385,9 +385,11 @@ Juxtaposing the predictions with the true data:
 
 ```{r, fig.alt = "A ggplot scatterplot showing observed versus predicted latency values. While there is indeed a positive and roughly linear relationship, there is certainly patterned structure in the residuals."}
 ggplot(tree_frogs_test) +
-  aes(x = latency, 
-      y = .pred) +
-  geom_point() + 
+  aes(
+    x = latency,
+    y = .pred
+  ) +
+  geom_point() +
   coord_obs_pred()
 ```
 
