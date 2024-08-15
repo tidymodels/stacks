@@ -73,9 +73,11 @@ theme_set(theme_bw())
 ggplot(tree_frogs) +
   aes(x = treatment, y = age, color = reflex) +
   geom_jitter() +
-  labs(y = "Embryo Age (s)", 
-       x = "treatment",
-       color = "Response")
+  labs(
+    y = "Embryo Age (s)",
+    x = "treatment",
+    color = "Response"
+  )
 ```
 
 It looks like the embryo age is pretty effective at picking out embryos with full VOR function, but the problem gets tougher for the less developed embryos! Let's see how well the stacked ensemble can classify these tree frogs.
