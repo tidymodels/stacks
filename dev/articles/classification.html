@@ -115,9 +115,11 @@ are.</p>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">tree_frogs</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">treatment</span>, y <span class="op">=</span> <span class="va">age</span>, color <span class="op">=</span> <span class="va">reflex</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_jitter</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Embryo Age (s)"</span>, </span>
-<span>       x <span class="op">=</span> <span class="st">"treatment"</span>,</span>
-<span>       color <span class="op">=</span> <span class="st">"Response"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    y <span class="op">=</span> <span class="st">"Embryo Age (s)"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"treatment"</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">"Response"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="classification_files/figure-html/unnamed-chunk-4-1.png" alt="A ggplot scatterplot with categorical variable treatment, embryo age in seconds on the y axis, and points colored by response. The ages range from 350,000 to 500,000 seconds, and the two treatments are control and gentamicin. There are three responses: low, mid, and full. All of the embryos beyond a certain age have a full response, while the low and mid responses are well-intermixed regardless of age or treatment." width="768"></p>
 <p>It looks like the embryo age is pretty effective at picking out
 embryos with full VOR function, but the problem gets tougher for the

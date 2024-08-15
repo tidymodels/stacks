@@ -114,9 +114,9 @@ embryos with a blunt probe. Beforehand, though some of the embryos were
 treated with gentamicin, a compound that knocks out their lateral line
 (a sensory organ.) Researcher Julie Jung and her crew found that these
 factors inform whether an embryo hatches prematurely or not!</p>
-<p>We’ll start out with predicting <code>latency</code> (i.e. time to
-hatch) based on other attributes. We’ll need to filter out NAs
-(i.e. cases where the embryo did not hatch) first.</p>
+<p>We’ll start out with predicting <code>latency</code> (i.e., time to
+hatch) based on other attributes. We’ll need to filter out NAs (i.e.,
+cases where the embryo did not hatch) first.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"tree_frogs"</span><span class="op">)</span></span>
 <span></span>
@@ -539,9 +539,11 @@ function:</p>
 <p>Juxtaposing the predictions with the true data:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="va">tree_frogs_test</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">latency</span>, </span>
-<span>      y <span class="op">=</span> <span class="va">.pred</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">aes</span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="va">latency</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">.pred</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://tune.tidymodels.org/reference/coord_obs_pred.html" class="external-link">coord_obs_pred</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="basics_files/figure-html/unnamed-chunk-27-1.png" alt="A ggplot scatterplot showing observed versus predicted latency values. While there is indeed a positive and roughly linear relationship, there is certainly patterned structure in the residuals." width="768"></p>
 <p>Looks like our predictions were pretty strong! How do the stacks

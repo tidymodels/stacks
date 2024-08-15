@@ -112,8 +112,8 @@ package, refer to that vignette for the big picture!</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org" class="external-link">tidymodels</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stacks.tidymodels.org/">stacks</a></span><span class="op">)</span></span></code></pre></div>
 <p>In this example, we’ll again make use of the <code>tree_frogs</code>
-data exported with <code>stacks</code>, giving experimental results on
-hatching behavior of red-eyed tree frog embryos!</p>
+data exported with stacks, giving experimental results on hatching
+behavior of red-eyed tree frog embryos!</p>
 <p>Red-eyed tree frog (RETF) embryos can hatch earlier than their normal
 7ish days if they detect potential predator threat. Researchers wanted
 to determine how, and when, these tree frog embryos were able to detect
@@ -123,9 +123,9 @@ embryos with a blunt probe. Beforehand, though some of the embryos were
 treated with gentamicin, a compound that knocks out their lateral line
 (a sensory organ.) Researcher Julie Jung and her crew found that these
 factors inform whether an embryo hatches prematurely or not!</p>
-<p>We’ll start out with predicting <code>latency</code> (i.e. time to
-hatch) based on other attributes. We’ll need to filter out NAs
-(i.e. cases where the embryo did not hatch) first.</p>
+<p>We’ll start out with predicting <code>latency</code> (i.e., time to
+hatch) based on other attributes. We’ll need to filter out NAs (i.e.,
+cases where the embryo did not hatch) first.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"tree_frogs"</span><span class="op">)</span></span>
 <span></span>
@@ -265,7 +265,7 @@ support vector machine:</p>
 <span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_corr.html" class="external-link">step_corr</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_normalize.html" class="external-link">step_normalize</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_numeric_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>With each model specification and accompanying recipe now defined, we
-can combine them via <code>workflow_set</code>:</p>
+can combine them via <code><a href="https://workflowsets.tidymodels.org/reference/workflow_set.html" class="external-link">workflow_set()</a></code>:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wf_set</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="https://workflowsets.tidymodels.org/reference/workflow_set.html" class="external-link">workflow_set</a></span><span class="op">(</span></span>
@@ -439,9 +439,11 @@ function:</p>
 <p>Juxtaposing the predictions with the true data:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="va">tree_frogs_test</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">latency</span>, </span>
-<span>      y <span class="op">=</span> <span class="va">.pred</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">aes</span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="va">latency</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">.pred</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://tune.tidymodels.org/reference/coord_obs_pred.html" class="external-link">coord_obs_pred</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="workflowsets_files/figure-html/unnamed-chunk-20-1.png" alt="A ggplot scatterplot showing observed versus predicted latency values. While there is indeed a positive and roughly linear relationship, there is certainly patterned structure in the residuals." width="768"></p>
 <p>Looks like our predictions were decent! How do the stacks predictions
