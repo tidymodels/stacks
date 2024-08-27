@@ -17,6 +17,16 @@
 #' 
 #' @seealso See [example_data] for examples of these functions used in context.
 #'
+#' @examples
+#' library(tune)
+#' 
+#' # these are the same!
+#' control_stack_grid()
+#' control_grid(save_pred = TRUE, save_workflow = TRUE)
+#' 
+#' @name control_stack
+NULL
+
 #' @rdname control_stack
 #' @export
 control_stack_grid <- function() {
