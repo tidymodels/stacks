@@ -8,6 +8,7 @@ dplyr::`%>%`
 #' @importFrom cli cli_inform
 #' @importFrom cli cli_warn
 #' @importFrom cli cli_abort
+#' @importFrom cli qty
 #' @importFrom rlang caller_env %||%
 #' @import workflows
 
@@ -76,9 +77,10 @@ check_empty_ellipses <- function(...) {
       ) %>%
       unlist()
     
-    msg <- "The `...` are not used in this function but one or more arguments were passed: "
-    msg <- paste0(msg, paste0("'", names(dots), "'", collapse = ", "))
-    rlang::warn(msg)
+    cli_warn(
+        "The `...` are not used in this function but {?an/}{qty(length(dots))}
+         argument{?s} {.arg {names(dots)}} {?was/were} passed."
+    )
   }
   invisible(NULL)
 }
