@@ -1,5 +1,8 @@
 # stacks (development version)
 
+* Model stack and data stack print methods no longer raise conditions to
+  print to the console (#228).
+
 * Added missing commas and addressed formatting issues throughout the vignettes and articles. Backticks for package names were removed and missing parentheses for functions were added (@Joscelinrocha, #218).
   
 # stacks 1.0.5

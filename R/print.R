@@ -53,7 +53,7 @@ print.data_stack <- function(x, ...) {
 #' @export
 print.model_stack <- function(x, n = 10, ...) {
   
-  rlang::inform(cli::rule("A stacked ensemble model", 
+  cli::cli_text(cli::rule("A stacked ensemble model", 
                           width = min(65, cli::console_width())))
   
   member_summary(x)
@@ -61,7 +61,8 @@ print.model_stack <- function(x, n = 10, ...) {
   print_top_coefs(x)
   
   if (is.null(x[["member_fits"]])) {
-    rlang::inform("\nMembers have not yet been fitted with `fit_members()`.")
+    cli::cli_text("\n")
+    cli::cli_text("Members have not yet been fitted with `fit_members()`.")
   }
   
   invisible(NULL)
@@ -69,10 +70,11 @@ print.model_stack <- function(x, n = 10, ...) {
 
 #' @export
 print.butchered_linear_stack <- function(x, ...) {
-  rlang::inform(cli::rule("A stacked ensemble model", 
+  cli::cli_text(cli::rule("A stacked ensemble model", 
                           width = min(65, cli::console_width())))
   
-  rlang::inform("\nPrint methods for butchered model stacks are disabled.")
+  cli::cli_text("\n")
+  cli::cli_text("Print methods for butchered model stacks are disabled.")
 }
 
 top_coefs <- function(x, penalty = x$penalty$penalty, n = 10) {
@@ -131,10 +133,9 @@ top_coefs <- function(x, penalty = x$penalty$penalty, n = 10) {
 print_top_coefs <- function(x, penalty = x$penalty$penalty, n = 10, digits = 3) {
   res <- top_coefs(x, penalty = penalty, n = n)
   
-  msg <- paste0("\nThe ", nrow(res), " highest weighted member",
-               if (x$mode == "regression") {"s"} else {" classes"},
-               " are:")
-  rlang::inform(msg)
+  cli::cli_text("\n")
+  values <- if (x$mode == "regression") {"s"} else {" classes"}
+  cli::cli_text("The {nrow(res)} highest weighted member{values} are:")
   print(res)
   invisible(NULL)
 }
