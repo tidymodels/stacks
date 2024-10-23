@@ -64,15 +64,13 @@ test_that("misc. utilities work", {
   
   yall <- "y'all"
 
-  expect_warning(
-    check_empty_ellipses(yall),
-    "were passed: 'yall'"
+  expect_snapshot(
+    res <- check_empty_ellipses(yall)
   )
   
   going <- "on"
   
-  expect_warning(
-    check_empty_ellipses(hey = yall, what = "is", going),
-    "were passed: 'hey', 'what', 'going'"
+  expect_snapshot(
+    res <- check_empty_ellipses(hey = yall, what = "is", going)
   )
 })

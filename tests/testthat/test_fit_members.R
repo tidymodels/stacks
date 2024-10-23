@@ -126,9 +126,9 @@ test_that("fit_members checks for required packages", {
   library(mockr)
   
   # check pluralization of error
-  expect_snapshot_error(error_needs_install(letters[1], rep(FALSE, 1)))
-  expect_snapshot_error(error_needs_install(letters[1:2], rep(FALSE, 2)))
-  expect_snapshot_error(error_needs_install(letters[1:3], rep(FALSE, 3)))
+  expect_snapshot(error = TRUE, error_needs_install(letters[1], rep(FALSE, 1)))
+  expect_snapshot(error = TRUE, error_needs_install(letters[1:2], rep(FALSE, 2)))
+  expect_snapshot(error = TRUE, error_needs_install(letters[1:3], rep(FALSE, 3)))
   
   # loads dependency when it's installed but not loaded
   unloadNamespace("kernlab")

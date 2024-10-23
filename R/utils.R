@@ -78,8 +78,8 @@ check_empty_ellipses <- function(...) {
       unlist()
     
     cli_warn(
-        "The `...` are not used in this function but {?an/}{qty(length(dots))}
-         argument{?s} {.arg {names(dots)}} {?was/were} passed."
+      "The `...` are not used in this function but {?an/}
+       argument{?s} {.arg {names(dots)}} {?was/were} passed."
     )
   }
   invisible(NULL)

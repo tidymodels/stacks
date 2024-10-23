@@ -354,24 +354,27 @@ test_that("stacks can add candidates via workflow sets", {
     class = "wf_set_partial_fit"
   )
   
-  expect_snapshot_warning(
-    stacks() %>% add_candidates(wf_set_trained_error),
-    class = "wf_set_partial_fit"
+  expect_snapshot(
+    res <- stacks() %>% add_candidates(wf_set_trained_error)
   )
   
   wf_set_trained_error$result[[2]] <- "boop"
   
-  expect_snapshot_warning(
-    stacks() %>% add_candidates(wf_set_trained_error),
-    class = "wf_set_partial_fit"
+  expect_snapshot(
+    res <- stacks() %>% add_candidates(wf_set_trained_error)
   )
   
   # now, will all resampled fits failing, should error
   wf_set_trained_error$result[[3]] <- "boop"
   
-  expect_snapshot_error(
+  expect_error(
     stacks() %>% add_candidates(wf_set_trained_error),
     class = "wf_set_unfitted"
+  )
+  
+  expect_snapshot(
+    error = TRUE,
+    stacks() %>% add_candidates(wf_set_trained_error)
   )
   
   # check that add_candidate adds the candidates it said it would
