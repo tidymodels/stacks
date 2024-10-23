@@ -137,7 +137,7 @@ add_candidates.tune_results <- function(data_stack, candidates,
                                         ...) {
   check_add_data_stack(data_stack)
   check_candidates(candidates, name)
-  col_name <- check_name(name)
+  col_name <- check_candidate_name(name)
   
   stack <- 
     data_stack %>%
@@ -438,7 +438,7 @@ check_candidates <- function(candidates, name, call = caller_env()) {
   }
 }
 
-check_name <- function(name, call = caller_env()) {
+check_candidate_name <- function(name, call = caller_env()) {
   if (rlang::inherits_any(
     name, 
     c("tune_results", "tune_bayes", "resample_results")
