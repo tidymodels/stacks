@@ -44,7 +44,6 @@ Suggests:
     kernlab,
     kknn,
     knitr,
-    mockr,
     modeldata,
     nnet,
     ranger,

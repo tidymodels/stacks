@@ -121,10 +121,6 @@ test_that("fit_members errors informatively with a bad model_stack arg", {
 test_that("fit_members checks for required packages", {
   skip_on_cran()
   
-  skip_if_not_installed("mockr")
-  
-  library(mockr)
-  
   # check pluralization of error
   expect_snapshot(error = TRUE, error_needs_install(letters[1], rep(FALSE, 1)))
   expect_snapshot(error = TRUE, error_needs_install(letters[1:2], rep(FALSE, 2)))
@@ -142,11 +138,7 @@ test_that("fit_members checks for required packages", {
   expect_true(isNamespaceLoaded("kernlab"))
   
   # errors informatively when it's not installed
-  mockr::with_mock(
-    is_installed_ = function(x) {FALSE},
-    {expect_snapshot_error(
-        st_reg_1_ %>%
-          fit_members()
-    )}
-  )
+  testthat::local_mocked_bindings(is_installed_ = function(x) {FALSE})
+
+  expect_snapshot(error = TRUE, st_reg_1_ %>% fit_members())
 })
