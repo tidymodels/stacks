@@ -130,8 +130,7 @@ predict.data_stack <- function(object, ...) {
   cli_abort(
     "To predict with a stacked ensemble, the supplied data stack must be 
      evaluated with `blend_predictions()` and its member models fitted with 
-     `fit_members()` to predict on new data.",
-    call = caller_env(0)
+     `fit_members()` to predict on new data."
   )
 }
 
@@ -190,12 +189,12 @@ parse_member_probs <- function(member_name, member_probs, levels) {
     )
 }
 
-check_fitted <- function(model_stack) {
+check_fitted <- function(model_stack, call = caller_env()) {
   if (is.null(model_stack[["member_fits"]])) {
     cli_abort(
       "The supplied model stack hasn't been fitted yet. 
        Please fit the necessary members with fit_members() to predict on new data.",
-      call = caller_env()
+      call = call
     )
   }
 }

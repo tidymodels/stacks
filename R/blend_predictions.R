@@ -239,31 +239,31 @@ blend_predictions <- function(data_stack,
   if (model_stack_constr(model_stack)) {model_stack}
 }
 
-check_regularization <- function(x, arg) {
+check_regularization <- function(x, arg, call = caller_env()) {
   if (!is.numeric(x)) {
     cli_abort(
       "The argument to '{arg}' must be a numeric, but the supplied {arg}'s 
        class is {.var {class(x)}}.",
-      call = caller_env()
+      call = call
     )
   }
   
   if (length(x) == 0) {
     cli_abort("Please supply one or more {arg} values.",
-                   call = caller_env())
+              call = call)
   }
   
   if (arg == "penalty") {
     if (any(x < 0)) {
       cli_abort("Please supply only nonnegative values to the {arg} argument.",
-                     call = caller_env())
+                call = call)
     }
   }
   
   if (arg == "mixture") {
     if (any(x < 0) || any(x > 1)) {
       cli_abort("Please supply only values in [0, 1] to the {arg} argument.",
-                     call = caller_env())
+                call = call)
     }
   }
 }
@@ -329,18 +329,18 @@ safe_attr <- function(x, new_attr) {
   res
 }
 
-check_blend_data_stack <- function(data_stack) {
+check_blend_data_stack <- function(data_stack, call = caller_env()) {
   # many possible checks we could do here are redundant with those we
   # carry out in fit_members() -- just check for bare stacks, 1-candidate
   # stacks, and non-stack objects
   if (!inherits(data_stack, "data_stack")) {
-    check_inherits(data_stack, "data_stack", call = caller_env())
+    check_inherits(data_stack, "data_stack", call = call)
   } else if (ncol(data_stack) == 0) {
       cli_abort(
         "The data stack supplied as the argument to `data_stack` has no 
          candidate members. Please first add candidates with 
          the {.help [`add_candidates()`](stacks::add_candidates)} function.",
-        call = caller_env()
+        call = call
       )
   } else if ((ncol(data_stack) == 2 && attr(data_stack, "mode") == "regression") || 
              ncol(data_stack) == length(levels(data_stack[[1]])) + 1) {
@@ -348,14 +348,14 @@ check_blend_data_stack <- function(data_stack) {
       "The supplied data stack only contains one candidate member. Please 
        add more candidate members using 
       {.help [`add_candidates()`](stacks::add_candidates)} before blending.",
-      call = caller_env()
+      call = call
     )
   }
   
   invisible(NULL)
 }
 
-process_data_stack <- function(data_stack) {
+process_data_stack <- function(data_stack, call = caller_env()) {
   dat <- tibble::as_tibble(data_stack) %>% na.omit()
 
   # retain only the tbl_df attributes (#214)
@@ -367,7 +367,7 @@ process_data_stack <- function(data_stack) {
     cli_abort(
       "All rows in the data stack have at least one missing value. 
        Please ensure that all candidates supply predictions.",
-      call = caller_env()
+      call = call
     )
   }
   

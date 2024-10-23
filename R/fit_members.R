@@ -205,7 +205,7 @@ sanitize_classification_names <- function(model_stack, member_names) {
 }
 
 
-check_model_stack <- function(model_stack) {
+check_model_stack <- function(model_stack, call = caller_env()) {
   if (inherits(model_stack, "model_stack")) {
     if (!is.null(model_stack[["member_fits"]])) {
       cli_warn(
@@ -221,7 +221,7 @@ check_model_stack <- function(model_stack) {
        a model stack. Did you forget to first evaluate the ensemble's 
        stacking coefficients with 
       {.help [`blend_predictions()`](stacks::blend_predictions)}?",
-      call = caller_env()
+      call = call
     )
   } else {
     check_inherits(model_stack, "model_stack", call = caller_env())

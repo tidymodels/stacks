@@ -52,8 +52,7 @@ collect_parameters <- function(stack, candidates, ...) {
 collect_parameters.default <- function(stack, candidates, ...) {
   cli_abort(
     "There is no `collect_parameters()` method currently implemented  
-     for {.var {class(stack)}} objects.",
-    call = caller_env(0)
+     for {.var {class(stack)}} objects."
   )
 }
 
@@ -155,13 +154,13 @@ collect_params <- function(cols_map, model_metrics, candidates, workflows, blend
   res
 }
 
-check_for_candidates <- function(model_metrics, candidates) {
+check_for_candidates <- function(model_metrics, candidates, call = caller_env()) {
   if ((!inherits(candidates, "character")) || 
       (!candidates %in% names(model_metrics))) {
     cli_abort(
       "The `candidates` argument to `collect_parameters()` must be the name 
        given to a set of candidates added with `add_candidates()`.",
-      call = caller_env()
+      call = call
     )
   }
 }

@@ -119,7 +119,6 @@ add_candidates.workflow_set <- function(data_stack, candidates,
       cli_abort(
         "The supplied workflow set must be fitted to resamples with 
          {.help [`workflow_map()`](workflowsets::workflow_map)} before being added to a data stack.",
-        call = caller_env(0),
         class = "wf_set_unfitted"
       )
     }
@@ -161,18 +160,17 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
     "The second argument to {.help [`add_candidates()`](stacks::add_candidates)} should inherit from one of 
      {.help [`tune_results`](tune::tune_grid)} or 
      {.help [`workflow_set`](workflowsets::workflow_set)}, but its class 
-     is {.var {class(candidates)}}.",
-    call = caller_env(0)
+     is {.var {class(candidates)}}."
   )
 }
 
-.set_outcome <- function(stack, candidates) {
+.set_outcome <- function(stack, candidates, call = caller_env()) {
   if (!.get_outcome(stack) %in% c("init_", tune::.get_tune_outcome_names(candidates))) {
     cli_abort(
       "The model definition you've tried to add to the stack has 
        outcome variable {.var {tune::.get_tune_outcome_names(candidates)}}, 
        while the stack's outcome variable is {.var {.get_outcome(stack)}}.",
-      call = caller_env(1)
+      call = call
     )
   }
   
@@ -183,7 +181,7 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
 
 # checks that the hash for the resampling object
 # is appropriate and then sets it
-.set_rs_hash <- function(stack, candidates, name) {
+.set_rs_hash <- function(stack, candidates, name, call = caller_env()) {
   new_hash <- tune::.get_fingerprint(candidates)
   
   hash_matches <- .get_rs_hash(stack) %in% c("init_", new_hash)
@@ -192,7 +190,7 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
     cli_abort(
       "It seems like the new candidate member '{name}' doesn't make use 
        of the same resampling object as the existing candidates.",
-      call = caller_env()
+      call = call
     )
   }
   
@@ -214,7 +212,7 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
 }
 
 # note whether classification or regression
-.set_mode_ <- function(stack, candidates, name) {
+.set_mode_ <- function(stack, candidates, name, call = caller_env()) {
   wf_spec <- 
     attr(candidates, "workflow") %>%
     workflows::extract_spec_parsnip()
@@ -226,7 +224,7 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
     cli_abort(
       "The {.pkg stacks} package does not support stacking models with mode
        {.val {new_mode}}.",
-      call = NULL
+      call = call
     )
   }
   
@@ -238,12 +236,12 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
 # check to make sure that the supplied model def name
 # doesn't have the same name or hash as an existing model def
 # and then appends the model definition, hash, and metrics
-.set_model_defs_candidates <- function(stack, candidates, name) {
+.set_model_defs_candidates <- function(stack, candidates, name, call = caller_env()) {
   if (name %in% .get_model_def_names(stack)) {
     cli_abort(
       "The new model definition has the 
        same name '{name}' as an existing model definition.",
-      call = caller_env(1)
+      call = call
     )
   }
   
@@ -263,7 +261,7 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
         "The supplied candidates were tuned/fitted using only metrics that 
          rely on hard class predictions. Please tune/fit with at least one 
          class probability-based metric, such as {.help [`roc_auc`](yardstick::roc_auc)}.",
-        call = caller_env(1)
+        call = call
       )
     }
   }
@@ -287,7 +285,7 @@ class_1 <- function(.x) {
 # checks that the training data in a newly added candidate
 # is the same is that from existing candidates, and sets the
 # training data if the new candidate is the first in the stack
-.set_training_data <- function(stack, candidates, name) {
+.set_training_data <- function(stack, candidates, name, call = caller_env()) {
   training_data <- attr(stack, "train")
   new_data <- tibble::as_tibble(candidates[["splits"]][[1]][["data"]])
   
@@ -296,7 +294,7 @@ class_1 <- function(.x) {
     cli_abort(
       "The newly added candidate member, `{name}`, 
        uses different training data than the existing candidates.",
-      call = caller_env(1)
+      call = call
     )
   }
   
@@ -402,7 +400,7 @@ update_stack_data <- function(stack, new_data) {
   )
 }
 
-check_add_data_stack <- function(data_stack) {
+check_add_data_stack <- function(data_stack, call = caller_env()) {
   if (rlang::inherits_any(
     data_stack, 
     c("tune_results", "tune_bayes", "resample_results")
@@ -414,14 +412,14 @@ check_add_data_stack <- function(data_stack) {
        If so, please supply the output of {.help [`stacks()`](stacks::stacks)} or another 
        {.help [`add_candidates()`](stacks::add_candidates)} call as 
        the argument to {.arg data_stack}.",
-      call = caller_env()
+      call = call
     )
   } else {
     check_inherits(data_stack, "data_stack", call = caller_env())
   }
 }
 
-check_candidates <- function(candidates, name) {
+check_candidates <- function(candidates, name, call = caller_env()) {
   if (nrow(tune::collect_notes(candidates)) != 0) {
     cli_warn(
       "The inputted {.arg candidates} argument {.var {name}} generated notes during 
@@ -435,12 +433,12 @@ check_candidates <- function(candidates, name) {
     cli_abort(
       "The inputted {.arg candidates} argument was not generated with the 
        appropriate control settings. Please see {.help [`control_stack()`](stacks::control_stack)}.",
-      call = caller_env()
+      call = call
     )
   }
 }
 
-check_name <- function(name) {
+check_name <- function(name, call = caller_env()) {
   if (rlang::inherits_any(
     name, 
     c("tune_results", "tune_bayes", "resample_results")
@@ -449,7 +447,7 @@ check_name <- function(name) {
       "The inputted {.arg name} argument looks like a tuning/fitting results object 
        that might be supplied as a {.arg candidates} argument. Did you try to add 
        more than one set of candidates in one {.help [`add_candidates()`](stacks::add_candidates)} call?",
-      call = caller_env()
+      call = call
     )
   } else {
     check_inherits(name, "character", call = caller_env())
