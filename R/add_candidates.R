@@ -49,40 +49,40 @@
 #' # put together a data stack using
 #' # tuning results for regression models
 #' reg_st <-
-#'   stacks() %>%
-#'   add_candidates(reg_res_lr) %>%
-#'   add_candidates(reg_res_svm) %>%
+#'   stacks() |>
+#'   add_candidates(reg_res_lr) |>
+#'   add_candidates(reg_res_svm) |>
 #'   add_candidates(reg_res_sp)
 #'
 #' reg_st
 #'
 #' # do the same with multinomial classification models
 #' class_st <-
-#'   stacks() %>%
-#'   add_candidates(class_res_nn) %>%
+#'   stacks() |>
+#'   add_candidates(class_res_nn) |>
 #'   add_candidates(class_res_rf)
 #'
 #' class_st
 #'
 #' # ...or binomial classification models
 #' log_st <-
-#'   stacks() %>%
-#'   add_candidates(log_res_nn) %>%
+#'   stacks() |>
+#'   add_candidates(log_res_nn) |>
 #'   add_candidates(log_res_rf)
 #'
 #' log_st
 #'
 #' # use custom names for each model:
 #' log_st2 <-
-#'   stacks() %>%
-#'   add_candidates(log_res_nn, name = "neural_network") %>%
+#'   stacks() |>
+#'   add_candidates(log_res_nn, name = "neural_network") |>
 #'   add_candidates(log_res_rf, name = "random_forest")
 #'
 #' log_st2
 #'
 #' # these objects would likely then be
 #' # passed to blend_predictions():
-#' log_st2 %>% blend_predictions()
+#' log_st2 |> blend_predictions()
 #'
 #' @family core verbs
 #' @export
@@ -151,13 +151,13 @@ add_candidates.tune_results <- function(
   col_name <- check_candidate_name(name)
 
   stack <-
-    data_stack %>%
-    .set_rs_hash(candidates, name) %>%
-    .set_splits(candidates) %>%
-    .set_outcome(candidates) %>%
-    .set_mode_(candidates, name) %>%
-    .set_training_data(candidates, name) %>%
-    .set_model_defs_candidates(candidates, name) %>%
+    data_stack |>
+    .set_rs_hash(candidates, name) |>
+    .set_splits(candidates) |>
+    .set_outcome(candidates) |>
+    .set_mode_(candidates, name) |>
+    .set_training_data(candidates, name) |>
+    .set_model_defs_candidates(candidates, name) |>
     .set_data_candidates(candidates, name, col_name)
 
   if (data_stack_constr(stack)) {
@@ -224,7 +224,7 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
     colnames(candidates)[grep("id", names(candidates))]
   )
 
-  attr(stack, "splits") <- candidates %>%
+  attr(stack, "splits") <- candidates |>
     dplyr::select(dplyr::all_of(splits_cols))
   attr(attr(stack, "splits"), "rset_info") <- attr(candidates, "rset_info")
 
@@ -234,7 +234,7 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
 # note whether classification or regression
 .set_mode_ <- function(stack, candidates, name, call = caller_env()) {
   wf_spec <-
-    attr(candidates, "workflow") %>%
+    attr(candidates, "workflow") |>
     workflows::extract_spec_parsnip()
 
   new_mode <- wf_spec$mode
@@ -273,12 +273,12 @@ add_candidates.default <- function(data_stack, candidates, name, ...) {
   if (attr(stack, "mode") == "classification") {
     # check to make sure that the candidates include a prob_metric so that
     # collect_predictions won't supply only hard class predictions
-    metric_types <- candidates %>%
-      attributes() %>%
-      purrr::pluck("metrics") %>%
-      attributes() %>%
-      purrr::pluck("metrics") %>%
-      purrr::map_chr(class_1) %>%
+    metric_types <- candidates |>
+      attributes() |>
+      purrr::pluck("metrics") |>
+      attributes() |>
+      purrr::pluck("metrics") |>
+      purrr::map_chr(class_1) |>
       unname()
 
     if (!"prob_metric" %in% metric_types) {
@@ -333,25 +333,31 @@ class_1 <- function(.x) {
 # appends assessment set predictions to a data stack
 .set_data_candidates <- function(stack, candidates, name, col_name) {
   candidate_cols <-
-    collate_predictions(candidates) %>%
-    dplyr::ungroup() %>%
+    collate_predictions(candidates) |>
+    dplyr::ungroup()
+
+  candidate_cols <- 
+    candidate_cols |>
     dplyr::mutate(
-      .config = if (".config" %in% names(.)) .config else NA_character_
-    ) %>%
+      .config = if (".config" %in% names(candidate_cols)) .config else NA_character_
+    ) |>
     dplyr::select(
       !!tune::.get_tune_outcome_names(candidates),
       .row,
       dplyr::contains(".pred"),
       .config
-    ) %>%
+    )
+  
+  candidate_cols <-
+    candidate_cols |>
     dplyr::mutate(
-      .config = process_.config(.config, df = ., name = col_name)
-    ) %>%
+      .config = process_.config(.config, df = candidate_cols, name = col_name)
+    ) |>
     tidyr::pivot_wider(
       id_cols = c(".row", !!tune::.get_tune_outcome_names(candidates)),
       names_from = ".config",
       values_from = dplyr::contains(".pred")
-    ) %>%
+    ) |>
     dplyr::select(-.row)
 
   if (attr(stack, "mode") == "classification") {
@@ -362,7 +368,7 @@ class_1 <- function(.x) {
     stack <-
       update_stack_data(
         stack,
-        candidate_cols %>% rm_duplicate_cols()
+        candidate_cols |> rm_duplicate_cols()
       )
   } else {
     stack <-
@@ -371,7 +377,7 @@ class_1 <- function(.x) {
         dplyr::bind_cols(
           tibble::as_tibble(stack),
           dplyr::select(candidate_cols, -!!.get_outcome(stack))
-        ) %>%
+        ) |>
           rm_duplicate_cols()
       )
   }
@@ -404,7 +410,7 @@ rm_duplicate_cols <- function(df) {
        those from existing candidates and were removed from the data stack."
     )
 
-    df <- df %>% dplyr::select(-any_of(exclude))
+    df <- df |> dplyr::select(-any_of(exclude))
   }
 
   df
@@ -531,21 +537,21 @@ process_.config <- function(.config, df, name) {
 
 # For racing, we only want to keep the candidates with complete resamples.
 collate_predictions <- function(x) {
-  res <- tune::collect_predictions(x, summarize = TRUE) %>%
+  res <- tune::collect_predictions(x, summarize = TRUE) |>
     dplyr::rename_with(make.names, .cols = dplyr::starts_with(".pred"))
 
   if (inherits(x, "tune_race")) {
     config_counts <-
-      tune::collect_metrics(x, summarize = FALSE) %>%
-      dplyr::group_by(.config) %>%
-      dplyr::count() %>%
+      tune::collect_metrics(x, summarize = FALSE) |>
+      dplyr::group_by(.config) |>
+      dplyr::count() |>
       dplyr::ungroup()
     # At least one configuration will always be fully resampled. We can filter
     # on configurations that have the maximum number of resamples.
     complete_count <- max(config_counts$n, na.rm = TRUE)
     retain_configs <-
-      config_counts %>%
-      dplyr::filter(n == complete_count) %>%
+      config_counts |>
+      dplyr::filter(n == complete_count) |>
       dplyr::select(.config)
     res <- dplyr::inner_join(res, retain_configs, by = ".config")
   }
@@ -562,15 +568,15 @@ remove_class_preds <- function(x) {
     paste0(".pred_", lvls),
     grepl,
     x = colnames(x)
-  ) %>%
-    purrr::pmap(any) %>%
+  ) |>
+    purrr::pmap(any) |>
     unlist()
 
   # select the columns that look like they have probability predictions,
   # get rid of entries that would have been okayed because of an outcome
   # level called "class", and re-attach the outcome column itself
-  x[, prob_preds_idx] %>%
-    dplyr::select(where(is.numeric)) %>%
-    dplyr::bind_cols(x[, 1], .) %>%
-    setNames(., make.names(names(.)))
+  res <- x[, prob_preds_idx] |>
+    dplyr::select(where(is.numeric))
+  res <- dplyr::bind_cols(x[, 1], res)
+  setNames(res, make.names(names(res)))
 }

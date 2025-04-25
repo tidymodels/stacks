@@ -14,13 +14,13 @@ cat_time_raw <- read_excel("data-raw/caterpillars_raw.xlsx", sheet = "TIME")
 
 # process each similarly for col-binding
 cat_height <-
-  cat_height_raw %>%
+  cat_height_raw |>
   tidyr::pivot_longer(
     tidyselect::everything(),
     values_to = "height",
     names_to = "progeny"
-  ) %>%
-  tidyr::drop_na(height) %>%
+  ) |>
+  tidyr::drop_na(height) |>
   dplyr::mutate(
     progeny = stringr::str_remove(progeny, " height"),
     progeny = case_when(
@@ -35,13 +35,13 @@ cat_height <-
   )
 
 cat_spines <-
-  cat_spines_raw %>%
+  cat_spines_raw |>
   tidyr::pivot_longer(
     tidyselect::everything(),
     values_to = "spines",
     names_to = "progeny"
-  ) %>%
-  tidyr::drop_na(spines) %>%
+  ) |>
+  tidyr::drop_na(spines) |>
   dplyr::mutate(
     progeny = stringr::str_remove(progeny, " spines"),
     progeny = case_when(
@@ -51,13 +51,13 @@ cat_spines <-
   )
 
 cat_time <-
-  cat_time_raw %>%
+  cat_time_raw |>
   tidyr::pivot_longer(
     tidyselect::everything(),
     values_to = "time",
     names_to = "progeny"
-  ) %>%
-  tidyr::drop_na(time) %>%
+  ) |>
+  tidyr::drop_na(time) |>
   dplyr::mutate(
     progeny = stringr::str_remove(progeny, " time"),
     progeny = case_when(

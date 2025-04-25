@@ -71,20 +71,20 @@ test_that("class probability summarization works", {
   pred_c <- predict(st_class_1__, tree_frogs_class_test, type = "class")
 
   hard_class_preds <-
-    pred_p %>%
-    dplyr::select(where(is.numeric)) %>%
-    dplyr::mutate(row = dplyr::row_number()) %>%
+    pred_p |>
+    dplyr::select(where(is.numeric)) |>
+    dplyr::mutate(row = dplyr::row_number()) |>
     tidyr::pivot_longer(
       dplyr::starts_with(".pred_"),
       names_to = "level",
       values_to = "prob"
-    ) %>%
+    ) |>
     dplyr::mutate(
       level = gsub(".pred_", "", level)
-    ) %>%
+    ) |>
     dplyr::group_by(
       row
-    ) %>%
+    ) |>
     dplyr::summarize(
       max = max(prob),
       level = level[prob == max]
@@ -96,18 +96,18 @@ test_that("class probability summarization works", {
 test_that("predict method errors informatively", {
   skip_on_cran()
 
-  expect_snapshot(error = TRUE, st_reg_1 %>% predict(penguins_test))
+  expect_snapshot(error = TRUE, st_reg_1 |> predict(penguins_test))
 
-  expect_snapshot(error = TRUE, st_reg_1_ %>% predict(penguins_test))
+  expect_snapshot(error = TRUE, st_reg_1_ |> predict(penguins_test))
 
   expect_snapshot(
     error = TRUE,
-    st_reg_1__ %>% predict(penguins_test, members = "for sure!")
+    st_reg_1__ |> predict(penguins_test, members = "for sure!")
   )
 
   expect_snapshot(
     error = TRUE,
-    st_reg_1__ %>% predict(penguins_test, opts = TRUE)
+    st_reg_1__ |> predict(penguins_test, opts = TRUE)
   )
 })
 
@@ -197,8 +197,8 @@ test_that("augment method works (multinomial classification)", {
   ))
 
   # no .resid here, so output ought to be the same w and w/o outcome:
-  expect_equal(aug_c %>% dplyr::select(-reflex), aug_c3)
-  expect_equal(aug_c4 %>% dplyr::select(-reflex), aug_c6)
+  expect_equal(aug_c |> dplyr::select(-reflex), aug_c3)
+  expect_equal(aug_c4 |> dplyr::select(-reflex), aug_c6)
 })
 
 test_that("augment method works (binary classification)", {
@@ -238,6 +238,6 @@ test_that("augment method works (binary classification)", {
   ))
 
   # no .resid here, so output ought to be the same w and w/o outcome:
-  expect_equal(aug_l %>% dplyr::select(-hatched), aug_l3)
-  expect_equal(aug_l4 %>% dplyr::select(-hatched), aug_l6)
+  expect_equal(aug_l |> dplyr::select(-hatched), aug_l3)
+  expect_equal(aug_l4 |> dplyr::select(-hatched), aug_l6)
 })

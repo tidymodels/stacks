@@ -14,11 +14,11 @@ set.seed(2)
 
 # some filtering + selecting :-)
 tree_frogs <-
-  tree_frogs_raw %>%
-  dplyr::rename_all(janitor::make_clean_names) %>%
+  tree_frogs_raw |>
+  dplyr::rename_all(janitor::make_clean_names) |>
   dplyr::filter(
     experiment == "Individual"
-  ) %>%
+  ) |>
   dplyr::transmute(
     clutch = factor(clutch),
     treatment = case_when(
@@ -55,7 +55,7 @@ tree_frogs <-
       (hatch_m * 60) +
       hatch_s) -
       age
-  ) %>%
+  ) |>
   slice_sample(n = nrow(.))
 
 # wipe `problems` attribute

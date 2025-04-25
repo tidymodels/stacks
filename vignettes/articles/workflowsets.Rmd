@@ -21,21 +21,21 @@ sets of candidate members in one call to `add_candidates()` via the
 [workflowsets](https://workflowsets.tidymodels.org/) package. Instead of iteratively calling `add_candidates()` for each tuning result:
 
 ```{r, eval = FALSE}
-stacks() %>%
-  add_candidates(tuning_result_1) %>%
-  add_candidates(tuning_result_2) %>%
-  add_candidates(tuning_result_3) %>%
-  add_candidates(tuning_result_4) %>%
-  blend_predictions() %>%
+stacks() |>
+  add_candidates(tuning_result_1) |>
+  add_candidates(tuning_result_2) |>
+  add_candidates(tuning_result_3) |>
+  add_candidates(tuning_result_4) |>
+  blend_predictions() |>
   fit_members()
 ```
 
 ...we can add candidate members "in batch:"
 
 ```{r, eval = FALSE}
-stacks() %>%
-  add_candidates(wf_set) %>%
-  blend_predictions() %>%
+stacks() |>
+  add_candidates(wf_set) |>
+  blend_predictions() |>
   fit_members()
 ```
 
@@ -79,8 +79,8 @@ We'll start out with predicting `latency` (i.e., time to hatch) based on other a
 data("tree_frogs")
 
 # subset the data
-tree_frogs <- tree_frogs %>%
-  filter(!is.na(latency)) %>%
+tree_frogs <- tree_frogs |>
+  filter(!is.na(latency)) |>
   select(-c(clutch, hatched))
 ```
 
@@ -135,7 +135,7 @@ knn_spec <-
   nearest_neighbor(
     mode = "regression", 
     neighbors = tune("k")
-  ) %>%
+  ) |>
   set_engine("kknn")
 
 knn_spec
@@ -148,10 +148,10 @@ From here, we extend the basic recipe defined earlier to fully specify the form 
 ```{r}
 # extend the recipe
 knn_rec <-
-  tree_frogs_rec %>%
-  step_dummy(all_nominal_predictors()) %>%
-  step_zv(all_predictors()) %>%
-  step_impute_mean(all_numeric_predictors()) %>%
+  tree_frogs_rec |>
+  step_dummy(all_nominal_predictors()) |>
+  step_zv(all_predictors()) |>
+  step_impute_mean(all_numeric_predictors()) |>
   step_normalize(all_numeric_predictors())
 
 knn_rec
@@ -164,13 +164,13 @@ Now, specifying the linear model, note that we are not optimizing over any hyper
 ```{r}
 # create a model specification
 lin_reg_spec <-
-  linear_reg() %>%
+  linear_reg() |>
   set_engine("lm")
 
 # extend the recipe
 lin_reg_rec <-
-  tree_frogs_rec %>%
-  step_dummy(all_nominal_predictors()) %>%
+  tree_frogs_rec |>
+  step_dummy(all_nominal_predictors()) |>
   step_zv(all_predictors())
 ```
 
@@ -182,17 +182,17 @@ svm_spec <-
   svm_rbf(
     cost = tune("cost"), 
     rbf_sigma = tune("sigma")
-  ) %>%
-  set_engine("kernlab") %>%
+  ) |>
+  set_engine("kernlab") |>
   set_mode("regression")
 
 # extend the recipe
 svm_rec <-
-  tree_frogs_rec %>%
-  step_dummy(all_nominal_predictors()) %>%
-  step_zv(all_predictors()) %>%
-  step_impute_mean(all_numeric_predictors()) %>%
-  step_corr(all_predictors()) %>%
+  tree_frogs_rec |>
+  step_dummy(all_nominal_predictors()) |>
+  step_zv(all_predictors()) |>
+  step_impute_mean(all_numeric_predictors()) |>
+  step_corr(all_predictors()) |>
   step_normalize(all_numeric_predictors())
 ```
 
@@ -212,7 +212,7 @@ wf_set
 Note that each combination of preprocessor and model specification is assigned a `wflow_id` that we can use to interface with individual model definitions:
 
 ```{r}
-wf_set %>%
+wf_set |>
   extract_workflow("rec3_svm")
 ```
 
@@ -222,7 +222,7 @@ We can iteratively add the appropriate control settings with the `control_stack_
 
 ```{r}
 wf_set <-
-  wf_set %>%
+  wf_set |>
   option_add(
     control = control_stack_grid(),
     metrics = metric
@@ -247,7 +247,7 @@ The results section now contains three sets of tuning results. Note that the res
 We can extract tuning results with the `extract_workflow_set_result()` helper to explore our tuning results:
 
 ```{r}
-extract_workflow_set_result(wf_set_trained, id = "rec1_knn") %>%
+extract_workflow_set_result(wf_set_trained, id = "rec1_knn") |>
   collect_metrics(summarize = TRUE)
 ```
 
@@ -260,11 +260,11 @@ Building the stacked ensemble, now, takes even fewer lines than it did with indi
 ```{r, message = FALSE, warning = FALSE}
 tree_frogs_model_st <- 
   # initialize the stack
-  stacks() %>%
+  stacks() |>
   # add candidate members
-  add_candidates(wf_set_trained) %>%
+  add_candidates(wf_set_trained) |>
   # determine how to combine their predictions
-  blend_predictions() %>%
+  blend_predictions() |>
   # fit the candidates with nonzero stacking coefficients
   fit_members()
 
@@ -295,7 +295,7 @@ This object is now ready to predict with new data!
 
 ```{r}
 tree_frogs_test <- 
-  tree_frogs_test %>%
+  tree_frogs_test |>
   bind_cols(predict(tree_frogs_model_st, .))
 ```
 
@@ -315,15 +315,15 @@ Looks like our predictions were decent! How do the stacks predictions perform, t
 
 ```{r}
 member_preds <- 
-  tree_frogs_test %>%
-  select(latency) %>%
+  tree_frogs_test |>
+  select(latency) |>
   bind_cols(predict(tree_frogs_model_st, tree_frogs_test, members = TRUE))
 ```
 
 Now, evaluating the root mean squared error from each model:
 
 ```{r}
-map(member_preds, rmse_vec, truth = member_preds$latency) %>%
+map(member_preds, rmse_vec, truth = member_preds$latency) |>
   as_tibble()
 ```
 

@@ -67,8 +67,8 @@ We'll start out with predicting `latency` (i.e., time to hatch) based on other a
 data("tree_frogs")
 
 # subset the data
-tree_frogs <- tree_frogs %>%
-  filter(!is.na(latency)) %>%
+tree_frogs <- tree_frogs |>
+  filter(!is.na(latency)) |>
   select(-c(clutch, hatched))
 ```
 
@@ -134,7 +134,7 @@ knn_spec <-
   nearest_neighbor(
     mode = "regression", 
     neighbors = tune("k")
-  ) %>%
+  ) |>
   set_engine("kknn")
 
 knn_spec
@@ -147,10 +147,10 @@ From here, we extend the basic recipe defined earlier to fully specify the form 
 ```{r}
 # extend the recipe
 knn_rec <-
-  tree_frogs_rec %>%
-  step_dummy(all_nominal_predictors()) %>%
-  step_zv(all_predictors()) %>%
-  step_impute_mean(all_numeric_predictors()) %>%
+  tree_frogs_rec |>
+  step_dummy(all_nominal_predictors()) |>
+  step_zv(all_predictors()) |>
+  step_impute_mean(all_numeric_predictors()) |>
   step_normalize(all_numeric_predictors())
 
 knn_rec
@@ -163,8 +163,8 @@ Now, we combine the model specification and pre-processing instructions defined 
 ```{r}
 # add both to a workflow
 knn_wflow <- 
-  workflow() %>% 
-  add_model(knn_spec) %>%
+  workflow() |> 
+  add_model(knn_spec) |>
   add_recipe(knn_rec)
 
 knn_wflow
@@ -194,19 +194,19 @@ Now, specifying the linear model, note that we are not optimizing over any hyper
 ```{r}
 # create a model definition
 lin_reg_spec <-
-  linear_reg() %>%
+  linear_reg() |>
   set_engine("lm")
 
 # extend the recipe
 lin_reg_rec <-
-  tree_frogs_rec %>%
-  step_dummy(all_nominal_predictors()) %>%
+  tree_frogs_rec |>
+  step_dummy(all_nominal_predictors()) |>
   step_zv(all_predictors())
 
 # add both to a workflow
 lin_reg_wflow <- 
-  workflow() %>%
-  add_model(lin_reg_spec) %>%
+  workflow() |>
+  add_model(lin_reg_spec) |>
   add_recipe(lin_reg_rec)
 
 # fit to the 5-fold cv
@@ -230,23 +230,23 @@ svm_spec <-
   svm_rbf(
     cost = tune("cost"), 
     rbf_sigma = tune("sigma")
-  ) %>%
-  set_engine("kernlab") %>%
+  ) |>
+  set_engine("kernlab") |>
   set_mode("regression")
 
 # extend the recipe
 svm_rec <-
-  tree_frogs_rec %>%
-  step_dummy(all_nominal_predictors()) %>%
-  step_zv(all_predictors()) %>%
-  step_impute_mean(all_numeric_predictors()) %>%
-  step_corr(all_predictors()) %>%
+  tree_frogs_rec |>
+  step_dummy(all_nominal_predictors()) |>
+  step_zv(all_predictors()) |>
+  step_impute_mean(all_numeric_predictors()) |>
+  step_corr(all_predictors()) |>
   step_normalize(all_numeric_predictors())
 
 # add both to a workflow
 svm_wflow <- 
-  workflow() %>% 
-  add_model(svm_spec) %>%
+  workflow() |> 
+  add_model(svm_spec) |>
   add_recipe(svm_rec)
 
 # tune cost and sigma and fit to the 5-fold cv
@@ -291,9 +291,9 @@ The `add_candidates()` function adds ensemble members to the stack.
 
 ```{r}
 tree_frogs_data_st <- 
-  stacks() %>%
-  add_candidates(knn_res) %>%
-  add_candidates(lin_reg_res) %>%
+  stacks() |>
+  add_candidates(knn_res) |>
+  add_candidates(lin_reg_res) |>
   add_candidates(svm_res)
 
 tree_frogs_data_st
@@ -315,7 +315,7 @@ The outputs from each of these candidate ensemble members are highly correlated,
 
 ```{r}
 tree_frogs_model_st <-
-  tree_frogs_data_st %>%
+  tree_frogs_data_st |>
   blend_predictions()
 ```
 
@@ -347,7 +347,7 @@ Now that we know how to combine our model output, we can fit the candidates with
 
 ```{r}
 tree_frogs_model_st <-
-  tree_frogs_model_st %>%
+  tree_frogs_model_st |>
   fit_members()
 ```
 
@@ -377,7 +377,7 @@ This object is now ready to predict with new data!
 
 ```{r}
 tree_frogs_test <- 
-  tree_frogs_test %>%
+  tree_frogs_test |>
   bind_cols(predict(tree_frogs_model_st, .))
 ```
 
@@ -397,19 +397,18 @@ Looks like our predictions were pretty strong! How do the stacks predictions per
 
 ```{r}
 member_preds <- 
-  tree_frogs_test %>%
-  select(latency) %>%
+  tree_frogs_test |>
+  select(latency) |>
   bind_cols(predict(tree_frogs_model_st, tree_frogs_test, members = TRUE))
 ```
 
 Now, evaluating the root mean squared error from each model:
 
 ```{r}
-map(member_preds, rmse_vec, truth = member_preds$latency) %>%
+map(member_preds, rmse_vec, truth = member_preds$latency) |>
   as_tibble()
 ```
 
 As we can see, the stacked ensemble outperforms each of the member models, though is closely followed by one of its members.
 
 Voila! You've now made use of the stacks package to predict red-eyed tree frog embryo hatching using a stacked ensemble! The full visual outline for these steps can be found [here](https://github.com/tidymodels/stacks/blob/main/inst/figs/outline.png).
-

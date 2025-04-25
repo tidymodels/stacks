@@ -133,57 +133,57 @@ the source code that generated them.
 
 # put together a data stack
 reg_st <-
-  stacks() \%>\%
-  add_candidates(reg_res_lr) \%>\%
-  add_candidates(reg_res_svm) \%>\%
+  stacks() |>
+  add_candidates(reg_res_lr) |>
+  add_candidates(reg_res_svm) |>
   add_candidates(reg_res_sp)
 
 reg_st
 
 # evaluate the data stack
-reg_st \%>\%
+reg_st |>
   blend_predictions()
 
 # include fewer models by proposing higher penalties
-reg_st \%>\%
+reg_st |>
   blend_predictions(penalty = c(.5, 1))
 
 # allow for negative stacking coefficients
 # with the non_negative argument
-reg_st \%>\%
+reg_st |>
   blend_predictions(non_negative = FALSE)
 
 # use a custom metric in tuning the lasso penalty
 library(yardstick)
-reg_st \%>\%
+reg_st |>
   blend_predictions(metric = metric_set(rmse))
 
 # pass control options for stack blending
-reg_st \%>\%
+reg_st |>
   blend_predictions(
     control = tune::control_grid(allow_par = TRUE)
   )
 
 # to speed up the stacking process for preliminary
 # results, bump down the `times` argument:
-reg_st \%>\%
+reg_st |>
   blend_predictions(times = 5)
 
 # the process looks the same with
 # multinomial classification models
 class_st <-
-  stacks() \%>\%
-  add_candidates(class_res_nn) \%>\%
-  add_candidates(class_res_rf) \%>\%
+  stacks() |>
+  add_candidates(class_res_nn) |>
+  add_candidates(class_res_rf) |>
   blend_predictions()
 
 class_st
 
 # ...or binomial classification models
 log_st <-
-  stacks() \%>\%
-  add_candidates(log_res_nn) \%>\%
-  add_candidates(log_res_rf) \%>\%
+  stacks() |>
+  add_candidates(log_res_nn) |>
+  add_candidates(log_res_rf) |>
   blend_predictions()
 
 log_st

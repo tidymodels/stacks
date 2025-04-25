@@ -24,9 +24,9 @@
 #' # put together a data stack using
 #' # tuning results for regression models
 #' reg_st <-
-#'   stacks() %>%
-#'   add_candidates(reg_res_lr) %>%
-#'   add_candidates(reg_res_svm) %>%
+#'   stacks() |>
+#'   add_candidates(reg_res_lr) |>
+#'   add_candidates(reg_res_svm) |>
 #'   add_candidates(reg_res_sp, "spline")
 #'
 #' reg_st
@@ -39,7 +39,7 @@
 #' # blend the data stack to view the hyperparameters
 #' # along with the stacking coefficients!
 #' collect_parameters(
-#'   reg_st %>% blend_predictions(),
+#'   reg_st |> blend_predictions(),
 #'   "spline"
 #' )
 #' @export
@@ -92,30 +92,30 @@ collect_params <- function(
   check_for_candidates(model_metrics, candidates)
 
   params <-
-    workflows[[candidates]] %>%
-    parsnip::extract_parameter_set_dials() %>%
+    workflows[[candidates]] |>
+    parsnip::extract_parameter_set_dials() |>
     dplyr::pull(id)
 
   res <-
-    model_metrics[[candidates]] %>%
+    model_metrics[[candidates]] |>
     dplyr::mutate(
-      .config = process_.config(.config, ., name = candidates),
+      .config = process_.config(.config, model_metrics[[candidates]], name = candidates),
       member = gsub(
         pattern = c("Model|Recipe"),
         replacement = candidates,
         x = .config
       )
-    ) %>%
-    dplyr::select(member, dplyr::all_of(params)) %>%
-    dplyr::filter(., !duplicated(.))
+    ) |>
+    dplyr::select(member, dplyr::all_of(params))
+  res <- dplyr::filter(res, !duplicated(res))
 
   if (!is.null(blend)) {
     stacking_coefs <-
       .get_glmn_coefs(
         blend$fit,
         blend$spec$args$penalty
-      ) %>%
-      dplyr::select(-penalty) %>%
+      ) |>
+      dplyr::select(-penalty) |>
       dplyr::rename(coef = estimate)
 
     if (grepl(".pred", stacking_coefs$terms[2], fixed = TRUE)) {
@@ -137,14 +137,14 @@ collect_params <- function(
       }
 
       stacking_coefs <-
-        stacking_coefs %>%
+        stacking_coefs |>
         dplyr::mutate(
           member = gsub(
             pred_strings,
             "",
             terms
           )
-        ) %>%
+        ) |>
         dplyr::filter(member %in% res$member)
 
       res <-
@@ -153,7 +153,7 @@ collect_params <- function(
           stacking_coefs,
           by = "member",
           multiple = "all"
-        ) %>%
+        ) |>
         dplyr::filter(!is.na(terms))
     } else {
       # regression context

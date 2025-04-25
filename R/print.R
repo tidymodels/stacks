@@ -92,34 +92,34 @@ print.butchered_linear_stack <- function(x, ...) {
 
 top_coefs <- function(x, penalty = x$penalty$penalty, n = 10) {
   betas <-
-    .get_glmn_coefs(x$coefs$fit, penalty = penalty) %>%
+    .get_glmn_coefs(x$coefs$fit, penalty = penalty) |>
     dplyr::filter(estimate != 0 & terms != "(Intercept)")
   n <- min(n, nrow(betas))
 
   sub_models <-
-    purrr::map(x$cols_map, ~ tibble::tibble(terms = .x)) %>%
+    purrr::map(x$cols_map, ~ tibble::tibble(terms = .x)) |>
     purrr::list_rbind(names_to = "model_name")
   model_types <-
-    purrr::map(x$model_defs, workflows::extract_spec_parsnip) %>%
-    purrr::map(~ tibble::tibble(model_type = class(.x)[1])) %>%
+    purrr::map(x$model_defs, workflows::extract_spec_parsnip) |>
+    purrr::map(~ tibble::tibble(model_type = class(.x)[1])) |>
     purrr::list_rbind(names_to = "model_name")
   res <-
-    dplyr::left_join(betas, sub_models, by = "terms") %>%
-    dplyr::left_join(model_types, by = "model_name") %>%
-    dplyr::top_n(n, abs(estimate)) %>%
+    dplyr::left_join(betas, sub_models, by = "terms") |>
+    dplyr::left_join(model_types, by = "model_name") |>
+    dplyr::top_n(n, abs(estimate)) |>
     dplyr::arrange(dplyr::desc(abs(estimate)))
 
   if (any(names(res) == "class")) {
     pred_levels <-
-      x$train %>%
-      dplyr::select(!!.get_outcome(x)) %>%
-      dplyr::pull() %>%
+      x$train |>
+      dplyr::select(!!.get_outcome(x)) |>
+      dplyr::pull() |>
       levels()
 
     pred_strings <- paste0(".pred_", pred_levels, "_")
 
     res <-
-      res %>%
+      res |>
       # possible code to split the pred class and (actual) member
       # dplyr::mutate(
       #   member_ = gsub(
@@ -133,8 +133,8 @@ top_coefs <- function(x, penalty = x$penalty$penalty, n = 10) {
       #     replacement = ""
       #   ),
       #   class = gsub(".pred_", x = class, rep = "")
-      # ) %>%
-      dplyr::mutate(class = factor(class, levels = pred_levels)) %>%
+      # ) |>
+      dplyr::mutate(class = factor(class, levels = pred_levels)) |>
       dplyr::select(member = terms, type = model_type, weight = estimate, class)
   } else {
     res <- dplyr::select(
@@ -169,7 +169,7 @@ print_top_coefs <- function(
 
 member_summary <- function(x, penalty = x$penalty$penalty) {
   betas <-
-    .get_glmn_coefs(x$coefs$fit, penalty = penalty) %>%
+    .get_glmn_coefs(x$coefs$fit, penalty = penalty) |>
     dplyr::filter(terms != "(Intercept)")
   all_terms <- length(unique(betas$terms))
   used_betas <- dplyr::filter(betas, estimate != 0)
@@ -187,12 +187,12 @@ member_summary <- function(x, penalty = x$penalty$penalty) {
   if (any(names(betas) == "class")) {
     n_classes <- length(unique(betas$class))
     beta_per_class <-
-      used_betas %>%
-      dplyr::group_by(class) %>%
-      dplyr::count() %>%
-      dplyr::ungroup() %>%
-      dplyr::pull(n) %>%
-      mean() %>%
+      used_betas |>
+      dplyr::group_by(class) |>
+      dplyr::count() |>
+      dplyr::ungroup() |>
+      dplyr::pull(n) |>
+      mean() |>
       round(2)
     msg <- "Across the {n_classes} classes, there are an average \\
             of {beta_per_class} coefficients per class."

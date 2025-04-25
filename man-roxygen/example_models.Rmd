@@ -25,8 +25,8 @@ ctrl_res <-
 
 # for regression, predict latency to hatch (excluding NAs)
 tree_frogs_reg <- 
-  tree_frogs %>% 
-  filter(!is.na(latency)) %>%
+  tree_frogs |> 
+  filter(!is.na(latency)) |>
   select(-clutch, -hatched)
 
 set.seed(1)
@@ -42,20 +42,20 @@ set.seed(1)
 reg_folds <- rsample::vfold_cv(tree_frogs_reg_train, v = 5)
 
 tree_frogs_reg_rec <- 
-  recipes::recipe(latency ~ ., data = tree_frogs_reg_train) %>%
-  recipes::step_dummy(recipes::all_nominal()) %>%
+  recipes::recipe(latency ~ ., data = tree_frogs_reg_train) |>
+  recipes::step_dummy(recipes::all_nominal()) |>
   recipes::step_zv(recipes::all_predictors())
 
 metric <- yardstick::metric_set(yardstick::rmse)
 
 # linear regression ---------------------------------------
 lin_reg_spec <-
-  parsnip::linear_reg() %>%
+  parsnip::linear_reg() |>
   parsnip::set_engine("lm")
 
 reg_wf_lr <- 
-  workflows::workflow() %>%
-  workflows::add_model(lin_reg_spec) %>%
+  workflows::workflow() |>
+  workflows::add_model(lin_reg_spec) |>
   workflows::add_recipe(tree_frogs_reg_rec)
 
 set.seed(1)
@@ -72,13 +72,13 @@ svm_spec <-
   parsnip::svm_rbf(
     cost = tune::tune(), 
     rbf_sigma = tune::tune()
-  ) %>%
-  parsnip::set_engine("kernlab") %>%
+  ) |>
+  parsnip::set_engine("kernlab") |>
   parsnip::set_mode("regression")
 
 reg_wf_svm <- 
-  workflows::workflow() %>%
-  workflows::add_model(svm_spec) %>%
+  workflows::workflow() |>
+  workflows::add_model(svm_spec) |>
   workflows::add_recipe(tree_frogs_reg_rec)
 
 set.seed(1)
@@ -92,12 +92,12 @@ reg_res_svm <-
 
 # spline regression ---------------------------------------
 spline_rec <- 
-  tree_frogs_reg_rec %>%
+  tree_frogs_reg_rec |>
   recipes::step_ns(age, deg_free = tune::tune("age"))
 
 reg_wf_sp <- 
-  workflows::workflow() %>%
-  workflows::add_model(lin_reg_spec) %>%
+  workflows::workflow() |>
+  workflows::add_model(lin_reg_spec) |>
   workflows::add_recipe(spline_rec)
 
 set.seed(1)
@@ -111,7 +111,7 @@ reg_res_sp <-
 
 # classification - preliminaries -----------------------------------
 tree_frogs_class <- 
-  tree_frogs %>%
+  tree_frogs |>
   dplyr::select(-c(clutch, latency))
 
 set.seed(1)
@@ -127,9 +127,9 @@ set.seed(1)
 class_folds <- rsample::vfold_cv(tree_frogs_class_train, v = 5)
 
 tree_frogs_class_rec <- 
-  recipes::recipe(reflex ~ ., data = tree_frogs_class_train) %>%
-  recipes::step_dummy(recipes::all_nominal(), -reflex) %>%
-  recipes::step_zv(recipes::all_predictors()) %>%
+  recipes::recipe(reflex ~ ., data = tree_frogs_class_train) |>
+  recipes::step_dummy(recipes::all_nominal(), -reflex) |>
+  recipes::step_zv(recipes::all_predictors()) |>
   recipes::step_normalize(recipes::all_numeric())
 
 # random forest classification --------------------------------------
@@ -138,13 +138,13 @@ rand_forest_spec <-
     mtry = tune::tune(),
     trees = 500,
     min_n = tune::tune()
-  ) %>%
-  parsnip::set_mode("classification") %>%
+  ) |>
+  parsnip::set_mode("classification") |>
   parsnip::set_engine("ranger")
 
 class_wf_rf <-
-  workflows::workflow() %>%
-  workflows::add_recipe(tree_frogs_class_rec) %>%
+  workflows::workflow() |>
+  workflows::add_recipe(tree_frogs_class_rec) |>
   workflows::add_model(rand_forest_spec)
 
 set.seed(1)
@@ -158,13 +158,13 @@ class_res_rf <-
 
 # neural network classification -------------------------------------
 nnet_spec <-
-  mlp(hidden_units = 5, penalty = 0.01, epochs = 100) %>%
-  set_mode("classification") %>%
+  mlp(hidden_units = 5, penalty = 0.01, epochs = 100) |>
+  set_mode("classification") |>
   set_engine("nnet")
 
 class_wf_nn <- 
-  workflows::workflow() %>%
-  workflows::add_recipe(tree_frogs_class_rec) %>%
+  workflows::workflow() |>
+  workflows::add_recipe(tree_frogs_class_rec) |>
   workflows::add_model(nnet_spec)
 
 set.seed(1)
@@ -177,9 +177,9 @@ class_res_nn <-
 
 # binary classification --------------------------------
 tree_frogs_2_class_rec <- 
-  recipes::recipe(hatched ~ ., data = tree_frogs_class_train) %>%
-  recipes::step_dummy(recipes::all_nominal(), -hatched) %>%
-  recipes::step_zv(recipes::all_predictors()) %>%
+  recipes::recipe(hatched ~ ., data = tree_frogs_class_train) |>
+  recipes::step_dummy(recipes::all_nominal(), -hatched) |>
+  recipes::step_zv(recipes::all_predictors()) |>
   recipes::step_normalize(recipes::all_numeric())
 
 set.seed(1)
@@ -188,13 +188,13 @@ rand_forest_spec_2 <-
     mtry = tune(),
     trees = 500,
     min_n = tune()
-  ) %>%
-  parsnip::set_mode("classification") %>%
+  ) |>
+  parsnip::set_mode("classification") |>
   parsnip::set_engine("ranger")
 
 log_wf_rf <-
-  workflows::workflow() %>%
-  workflows::add_recipe(tree_frogs_2_class_rec) %>%
+  workflows::workflow() |>
+  workflows::add_recipe(tree_frogs_2_class_rec) |>
   workflows::add_model(rand_forest_spec_2)
 
 set.seed(1)
@@ -207,13 +207,13 @@ log_res_rf <-
   )
 
 nnet_spec_2 <-
-  parsnip::mlp(epochs = 100, hidden_units = 5, penalty = 0.1) %>%
-  parsnip::set_mode("classification") %>%
+  parsnip::mlp(epochs = 100, hidden_units = 5, penalty = 0.1) |>
+  parsnip::set_mode("classification") |>
   parsnip::set_engine("nnet", verbose = 0)
 
 log_wf_nn <- 
-  workflows::workflow() %>%
-  workflows::add_recipe(tree_frogs_2_class_rec) %>%
+  workflows::workflow() |>
+  workflows::add_recipe(tree_frogs_2_class_rec) |>
   workflows::add_model(nnet_spec_2)
 
 set.seed(1)
@@ -247,60 +247,60 @@ usethis::use_data(tree_frogs_class_test, overwrite = TRUE)
 st_0 <- stacks()
 
 st_reg_1 <- 
-  stacks() %>%
+  stacks() |>
   add_candidates(reg_res_svm)
 
 st_reg_1_ <-
-  st_reg_1 %>%
+  st_reg_1 |>
   blend_predictions()
 
 st_reg_1__ <-
-  st_reg_1_ %>%
+  st_reg_1_ |>
   fit_members()
 
 st_reg_2 <- 
-  stacks() %>%
-  add_candidates(reg_res_svm) %>%
+  stacks() |>
+  add_candidates(reg_res_svm) |>
   add_candidates(reg_res_sp)
 
 st_class_1 <- 
-  stacks() %>%
+  stacks() |>
   add_candidates(class_res_rf)
 
 st_class_1_non_neg <-
-  st_class_1 %>%
+  st_class_1 |>
   blend_predictions(non_negative = FALSE)
 
 st_class_1_mixed <-
-  st_class_1 %>%
+  st_class_1 |>
   blend_predictions(non_negative = FALSE, mixture = c(.25, .75))
 
 st_class_1_ <-
-  st_class_1 %>%
+  st_class_1 |>
   blend_predictions()
 
 st_class_1__ <- 
-  st_class_1_ %>%
+  st_class_1_ |>
   fit_members()
 
 st_class_2 <- 
-  st_class_1 %>%
+  st_class_1 |>
   add_candidates(class_res_nn)
 
 st_log_1 <- 
-  stacks() %>%
+  stacks() |>
   add_candidates(log_res_rf)
 
 st_log_1_ <-
-  st_log_1 %>%
+  st_log_1 |>
   blend_predictions()
 
 st_log_1__ <-
-  st_log_1_ %>%
+  st_log_1_ |>
   fit_members()
 
 st_log_2 <- 
-  st_log_1 %>%
+  st_log_1 |>
   add_candidates(log_res_nn)
 
 # Resampling Objects

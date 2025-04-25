@@ -25,31 +25,31 @@ test_that("basic fit_members works", {
   skip_on_cran()
 
   expect_silent(
-    st_reg_1 %>%
-      add_candidates(reg_res_lr) %>%
-      blend_predictions() %>%
+    st_reg_1 |>
+      add_candidates(reg_res_lr) |>
+      blend_predictions() |>
       fit_members()
   )
 
   expect_silent(
-    st_class_1_ %>% fit_members()
+    st_class_1_ |> fit_members()
   )
 
   expect_silent(
-    st_log_1_ %>% fit_members()
+    st_log_1_ |> fit_members()
   )
 
   expect_message(
-    st_reg_bad_names <- stacks() %>%
-      add_candidates(reg_res_svm, name = "name with spaces") %>%
-      blend_predictions() %>%
+    st_reg_bad_names <- stacks() |>
+      add_candidates(reg_res_svm, name = "name with spaces") |>
+      blend_predictions() |>
       fit_members()
   )
 
   expect_message(
-    st_class_bad_names <- stacks() %>%
-      add_candidates(class_res_rf, name = "name with spaces") %>%
-      blend_predictions() %>%
+    st_class_bad_names <- stacks() |>
+      add_candidates(class_res_rf, name = "name with spaces") |>
+      blend_predictions() |>
       fit_members()
   )
 
@@ -111,12 +111,12 @@ test_that("fit_members leaves most model stack elements alone", {
 test_that("fit_members errors informatively with a bad model_stack arg", {
   skip_on_cran()
 
-  expect_snapshot(error = TRUE, st_reg_1 %>% fit_members(), )
+  expect_snapshot(error = TRUE, st_reg_1 |> fit_members(), )
 
-  expect_snapshot(error = TRUE, "howdy" %>% fit_members())
+  expect_snapshot(error = TRUE, "howdy" |> fit_members())
 
   expect_snapshot(
-    out <- st_reg_1__ %>% fit_members()
+    out <- st_reg_1__ |> fit_members()
   )
 })
 
@@ -138,7 +138,7 @@ test_that("fit_members checks for required packages", {
   unloadNamespace("kernlab")
 
   expect_s3_class(
-    st_reg_1_ %>%
+    st_reg_1_ |>
       fit_members(),
     "model_stack"
   )
@@ -150,5 +150,5 @@ test_that("fit_members checks for required packages", {
     FALSE
   })
 
-  expect_snapshot(error = TRUE, st_reg_1_ %>% fit_members())
+  expect_snapshot(error = TRUE, st_reg_1_ |> fit_members())
 })

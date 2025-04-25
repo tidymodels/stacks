@@ -82,36 +82,36 @@ the source code that generated them.
 
 # put together a data stack
 reg_st <-
-  stacks() \%>\%
-  add_candidates(reg_res_lr) \%>\%
-  add_candidates(reg_res_svm) \%>\%
+  stacks() |>
+  add_candidates(reg_res_lr) |>
+  add_candidates(reg_res_svm) |>
   add_candidates(reg_res_sp)
 
 reg_st
 
 # evaluate the data stack and fit the member models
-reg_st \%>\%
-  blend_predictions() \%>\%
+reg_st |>
+  blend_predictions() |>
   fit_members()
 
 reg_st
 
 # do the same with multinomial classification models
 class_st <-
-  stacks() \%>\%
-  add_candidates(class_res_nn) \%>\%
-  add_candidates(class_res_rf) \%>\%
-  blend_predictions() \%>\%
+  stacks() |>
+  add_candidates(class_res_nn) |>
+  add_candidates(class_res_rf) |>
+  blend_predictions() |>
   fit_members()
 
 class_st
 
 # ...or binomial classification models
 log_st <-
-  stacks() \%>\%
-  add_candidates(log_res_nn) \%>\%
-  add_candidates(log_res_rf) \%>\%
-  blend_predictions() \%>\%
+  stacks() |>
+  add_candidates(log_res_nn) |>
+  add_candidates(log_res_rf) |>
+  blend_predictions() |>
   fit_members()
 
 log_st

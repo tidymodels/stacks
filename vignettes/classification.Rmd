@@ -61,7 +61,7 @@ In this article, we'll use most all of the variables in `tree_frogs` to predict 
 data("tree_frogs")
 
 # subset the data
-tree_frogs <- tree_frogs %>%
+tree_frogs <- tree_frogs |>
   select(-c(clutch, latency))
 ```
 
@@ -97,12 +97,12 @@ tree_frogs_test  <- testing(tree_frogs_split)
 folds <- rsample::vfold_cv(tree_frogs_train, v = 5)
 
 tree_frogs_rec <- 
-  recipe(reflex ~ ., data = tree_frogs_train) %>%
-  step_dummy(all_nominal_predictors(), -reflex) %>%
+  recipe(reflex ~ ., data = tree_frogs_train) |>
+  step_dummy(all_nominal_predictors(), -reflex) |>
   step_zv(all_predictors())
 
 tree_frogs_wflow <- 
-  workflow() %>% 
+  workflow() |> 
   add_recipe(tree_frogs_rec)
 ```
 
@@ -122,12 +122,12 @@ rand_forest_spec <-
     mtry = tune(),
     min_n = tune(),
     trees = 500
-  ) %>%
-  set_mode("classification") %>%
+  ) |>
+  set_mode("classification") |>
   set_engine("ranger")
 
 rand_forest_wflow <-
-  tree_frogs_wflow %>%
+  tree_frogs_wflow |>
   add_model(rand_forest_spec)
 
 rand_forest_res <- 
@@ -143,17 +143,17 @@ Now, moving on to the neural network model definition:
 
 ```{r, message = FALSE, warning = FALSE}
 nnet_spec <-
-  mlp(hidden_units = tune(), penalty = tune(), epochs = tune()) %>%
-  set_mode("classification") %>%
+  mlp(hidden_units = tune(), penalty = tune(), epochs = tune()) |>
+  set_mode("classification") |>
   set_engine("nnet")
 
 nnet_rec <- 
-  tree_frogs_rec %>% 
+  tree_frogs_rec |> 
   step_normalize(all_predictors())
 
 nnet_wflow <- 
-  tree_frogs_wflow %>%
-  add_model(nnet_spec) %>%
+  tree_frogs_wflow |>
+  add_model(nnet_spec) |>
   update_recipe(nnet_rec)
 
 nnet_res <-
@@ -174,12 +174,12 @@ Building the stacked ensemble, now, only takes a few lines:
 ```{r, message = FALSE, warning = FALSE}
 tree_frogs_model_st <- 
   # initialize the stack
-  stacks() %>%
+  stacks() |>
   # add candidate members
-  add_candidates(rand_forest_res) %>%
-  add_candidates(nnet_res) %>%
+  add_candidates(rand_forest_res) |>
+  add_candidates(nnet_res) |>
   # determine how to combine their predictions
-  blend_predictions() %>%
+  blend_predictions() |>
   # fit the candidates with nonzero stacking coefficients
   fit_members()
 
@@ -216,7 +216,7 @@ This object is now ready to predict with new data!
 
 ```{r, eval = FALSE}
 tree_frogs_pred <-
-  tree_frogs_test %>%
+  tree_frogs_test |>
   bind_cols(predict(tree_frogs_model_st, ., type = "prob"))
 ```
 
@@ -234,8 +234,8 @@ Looks like our predictions were pretty strong! How do the stacks predictions per
 
 ```{r}
 tree_frogs_pred <-
-  tree_frogs_test %>%
-  select(reflex) %>%
+  tree_frogs_test |>
+  select(reflex) |>
   bind_cols(
     predict(
       tree_frogs_model_st,
@@ -250,9 +250,9 @@ tree_frogs_pred
 map(
   colnames(tree_frogs_pred),
   ~mean(tree_frogs_pred$reflex == pull(tree_frogs_pred, .x))
-) %>%
-  set_names(colnames(tree_frogs_pred)) %>%
-  as_tibble() %>%
+) |>
+  set_names(colnames(tree_frogs_pred)) |>
+  as_tibble() |>
   pivot_longer(c(everything(), -reflex))
 ```
 

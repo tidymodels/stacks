@@ -35,13 +35,13 @@ test_that("basic stacks pipeline works", {
 
   lin_reg <-
     tune::tune_grid(
-      workflows::workflow() %>%
-        workflows::add_formula(x ~ y + z) %>%
+      workflows::workflow() |>
+        workflows::add_formula(x ~ y + z) |>
         workflows::add_model(
           parsnip::linear_reg(
             penalty = tune::tune("penalty"),
             mixture = tune::tune("mixture")
-          ) %>%
+          ) |>
             parsnip::set_engine("glmnet")
         ),
       rsample::vfold_cv(dat, v = 4),
@@ -50,9 +50,9 @@ test_that("basic stacks pipeline works", {
     )
 
   st <-
-    stacks() %>%
-    add_candidates(lin_reg) %>%
-    blend_predictions() %>%
+    stacks() |>
+    add_candidates(lin_reg) |>
+    blend_predictions() |>
     fit_members()
 
   expect_true(model_stack_constr(st))

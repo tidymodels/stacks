@@ -26,10 +26,10 @@
 #'
 #' # build and fit a regression model stack
 #' reg_st <-
-#'   stacks() %>%
-#'   add_candidates(reg_res_lr) %>%
-#'   add_candidates(reg_res_sp) %>%
-#'   blend_predictions() %>%
+#'   stacks() |>
+#'   add_candidates(reg_res_lr) |>
+#'   add_candidates(reg_res_sp) |>
+#'   blend_predictions() |>
 #'   fit_members()
 #'
 #' reg_st
@@ -42,10 +42,10 @@
 #'
 #' # build and fit a classification model stack
 #' class_st <-
-#'   stacks() %>%
-#'   add_candidates(class_res_nn) %>%
-#'   add_candidates(class_res_rf) %>%
-#'   blend_predictions() %>%
+#'   stacks() |>
+#'   add_candidates(class_res_nn) |>
+#'   add_candidates(class_res_rf) |>
+#'   blend_predictions() |>
 #'   fit_members()
 #'
 #' class_st
@@ -81,7 +81,7 @@ predict.model_stack <- function(
   check_inherits(opts, "list")
 
   coefs <-
-    .get_glmn_coefs(object[["coefs"]][["fit"]]) %>%
+    .get_glmn_coefs(object[["coefs"]][["fit"]]) |>
     dplyr::select(terms, estimate)
 
   member_type <-
@@ -95,9 +95,10 @@ predict.model_stack <- function(
       new_data = new_data,
       opts = opts,
       type = member_type
-    ) %>%
-    rlang::eval_tidy() %>%
-    setNames(., make.names(names(.)))
+    ) |>
+    rlang::eval_tidy()
+
+  member_preds <- setNames(member_preds, make.names(names(member_preds)))
 
   res <- stack_predict(object$equations[[type]], member_preds)
 
@@ -164,8 +165,8 @@ predict_members_regression <- function(
       new_data = new_data,
       type = "numeric",
       opts = opts
-    ) %>%
-    purrr::map(dplyr::pull) %>%
+    ) |>
+    purrr::map(dplyr::pull) |>
     tibble::as_tibble()
 
   predictions
@@ -185,23 +186,25 @@ predict_members_classification <- function(
       new_data = new_data,
       type = "prob",
       opts = opts
-    ) %>%
-    purrr::map(tibble::rowid_to_column) %>%
-    tibble::enframe() %>%
-    tidyr::unnest(cols = value) %>%
+    ) |>
+    purrr::map(tibble::rowid_to_column) |>
+    tibble::enframe() |>
+    tidyr::unnest(cols = value)
+  member_preds <- 
+    member_preds |>
     tidyr::pivot_wider(
       id_cols = rowid,
       names_from = name,
-      values_from = 3:ncol(.)
-    ) %>%
+      values_from = 3:ncol(member_preds)
+    ) |>
     dplyr::select(-rowid)
 
   member_preds
 }
 
 parse_member_probs <- function(member_name, member_probs, levels) {
-  member_probs[, grepl(member_name, colnames(member_probs))] %>%
-    multi_net_helper() %>%
+  member_probs[, grepl(member_name, colnames(member_probs))] |>
+    multi_net_helper() |>
     dplyr::transmute(
       !!paste0(".pred_class_", member_name) := factor(
         levels[idx],

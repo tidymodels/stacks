@@ -47,12 +47,12 @@ member_plot <- function(x) {
   dat <- x$metrics
 
   plot_dat <-
-    dat %>%
+    dat |>
     dplyr::select(penalty, mixture, .config, mean, .metric)
 
   memb_data <-
-    dplyr::filter(plot_dat, .metric == "num_members") %>%
-    dplyr::rename(num_members = mean) %>%
+    dplyr::filter(plot_dat, .metric == "num_members") |>
+    dplyr::rename(num_members = mean) |>
     dplyr::select(-.metric)
 
   other_metrics <- dplyr::filter(plot_dat, .metric != "num_members")
@@ -114,23 +114,23 @@ performance_plot <- function(x) {
 }
 
 weights_plot <- function(x, penalty = x$penalty$penalty, n = Inf) {
-  dat <- top_coefs(x, penalty = penalty, n = n) %>%
+  dat <- top_coefs(x, penalty = penalty, n = n) |>
     dplyr::rename(terms = member, model = type)
 
   if (any(names(dat) == "class")) {
     dat_order <-
-      dat %>%
-      dplyr::group_by(model, terms) %>%
-      dplyr::summarize(mean = max(abs(weight), na.rm = TRUE)) %>%
-      dplyr::ungroup() %>%
-      dplyr::arrange(mean) %>%
-      dplyr::mutate(member = dplyr::row_number()) %>%
+      dat |>
+      dplyr::group_by(model, terms) |>
+      dplyr::summarize(mean = max(abs(weight), na.rm = TRUE)) |>
+      dplyr::ungroup() |>
+      dplyr::arrange(mean) |>
+      dplyr::mutate(member = dplyr::row_number()) |>
       dplyr::select(-mean)
     dat <- dplyr::full_join(dat, dat_order, by = c("model", "terms"))
   } else {
     dat <-
-      dat %>%
-      dplyr::arrange(abs(weight)) %>%
+      dat |>
+      dplyr::arrange(abs(weight)) |>
       dplyr::mutate(member = dplyr::row_number())
   }
   p <-

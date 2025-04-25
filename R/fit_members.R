@@ -27,36 +27,36 @@
 #'
 #' # put together a data stack
 #' reg_st <-
-#'   stacks() %>%
-#'   add_candidates(reg_res_lr) %>%
-#'   add_candidates(reg_res_svm) %>%
+#'   stacks() |>
+#'   add_candidates(reg_res_lr) |>
+#'   add_candidates(reg_res_svm) |>
 #'   add_candidates(reg_res_sp)
 #'
 #' reg_st
 #'
 #' # evaluate the data stack and fit the member models
-#' reg_st %>%
-#'   blend_predictions() %>%
+#' reg_st |>
+#'   blend_predictions() |>
 #'   fit_members()
 #'
 #' reg_st
 #'
 #' # do the same with multinomial classification models
 #' class_st <-
-#'   stacks() %>%
-#'   add_candidates(class_res_nn) %>%
-#'   add_candidates(class_res_rf) %>%
-#'   blend_predictions() %>%
+#'   stacks() |>
+#'   add_candidates(class_res_nn) |>
+#'   add_candidates(class_res_rf) |>
+#'   blend_predictions() |>
 #'   fit_members()
 #'
 #' class_st
 #'
 #' # ...or binomial classification models
 #' log_st <-
-#'   stacks() %>%
-#'   add_candidates(log_res_nn) %>%
-#'   add_candidates(log_res_rf) %>%
-#'   blend_predictions() %>%
+#'   stacks() |>
+#'   add_candidates(log_res_nn) |>
+#'   add_candidates(log_res_rf) |>
+#'   blend_predictions() |>
 #'   fit_members()
 #'
 #' log_st
@@ -87,22 +87,24 @@ fit_members <- function(model_stack, ...) {
     member_dict <-
       sanitize_classification_names(model_stack, member_names)
 
-    member_names <- member_dict$new %>% unique()
+    member_names <- member_dict$new |> unique()
   }
 
   # make model specs with the chosen parameters
   # for chosen sub-models
   metrics_dict <-
-    tibble::enframe(model_stack[["model_metrics"]]) %>%
-    tidyr::unnest(cols = value) %>%
+    tibble::enframe(model_stack[["model_metrics"]]) |>
+    tidyr::unnest(cols = value)
+  metrics_dict <-
+    metrics_dict |>
     dplyr::mutate(
-      .config = process_.config(.config, ., name = make.names(name))
+      .config = process_.config(.config, metrics_dict, name = make.names(name))
     )
 
   if (model_stack[["mode"]] == "regression") {
     members_map <-
-      tibble::enframe(model_stack[["cols_map"]]) %>%
-      tidyr::unnest(cols = value) %>%
+      tibble::enframe(model_stack[["cols_map"]]) |>
+      tidyr::unnest(cols = value) |>
       dplyr::full_join(
         metrics_dict,
         by = c("value" = ".config"),
@@ -110,8 +112,8 @@ fit_members <- function(model_stack, ...) {
       )
   } else {
     members_map <-
-      tibble::enframe(model_stack[["cols_map"]]) %>%
-      tidyr::unnest(cols = value) %>%
+      tibble::enframe(model_stack[["cols_map"]]) |>
+      tidyr::unnest(cols = value) |>
       dplyr::full_join(member_dict, by = c("value" = "old"), multiple = "all")
 
     members_map <- vctrs::vec_slice(members_map, !is.na(members_map$new))
@@ -119,7 +121,7 @@ fit_members <- function(model_stack, ...) {
     members_map$value <- members_map$new
     members_map <- vctrs::vec_slice(members_map, !duplicated(members_map$value))
 
-    members_map <- members_map %>%
+    members_map <- members_map |>
       dplyr::full_join(
         metrics_dict,
         by = c("value" = ".config"),
@@ -182,7 +184,7 @@ fit_member <- function(name, wflows, members_map, train_dat) {
       wflows[[member_metrics$name.x]]
 
     new_member <-
-      tune::finalize_workflow(member_wf, member_metrics[, member_params]) %>%
+      tune::finalize_workflow(member_wf, member_metrics[, member_params]) |>
       parsnip::fit(data = train_dat)
   } else {
     member_model <- member_row$name.x
@@ -201,7 +203,7 @@ sanitize_classification_names <- function(model_stack, member_names) {
   outcome_levels <- outcome_levels[[.get_outcome(model_stack)]]
   outcome_levels <- unique(as.character(outcome_levels))
 
-  pred_strings <- paste0(".pred_", outcome_levels, "_") %>%
+  pred_strings <- paste0(".pred_", outcome_levels, "_") |>
     make.names()
 
   new_member_names <-
@@ -252,8 +254,8 @@ check_for_required_packages <- function(x) {
     purrr::map(
       x$model_defs,
       parsnip::required_pkgs
-    ) %>%
-    unlist() %>%
+    ) |>
+    unlist() |>
     unique()
 
   installed <- purrr::map_lgl(

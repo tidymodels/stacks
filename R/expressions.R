@@ -14,7 +14,7 @@ build_linear_predictor <- function(x, ...) {
 
 # `x` should be a tidy-type format for the data with columns terms and estimate.
 build_linear_predictor_eng <- function(x, ...) {
-  slopes <- x %>% dplyr::filter(terms != "(Intercept)")
+  slopes <- x |> dplyr::filter(terms != "(Intercept)")
   lin_pred <- purrr::map2(
     slopes$terms,
     slopes$estimate,
@@ -32,7 +32,7 @@ build_linear_predictor_eng <- function(x, ...) {
 build_linear_predictor_glmnet <- function(x, ...) {
   lvls <- x$lvl
   coefs <-
-    .get_glmn_coefs(x$fit, x$spec$args$penalty) %>%
+    .get_glmn_coefs(x$fit, x$spec$args$penalty) |>
     dplyr::filter(estimate != 0)
   lp <- build_linear_predictor_eng(coefs)
   lp
@@ -55,9 +55,9 @@ build_linear_predictor._lognet <- function(x, ...) {
 build_linear_predictor._multnet <- function(x, ...) {
   lvls <- x$lvl
   coefs <-
-    .get_glmn_coefs(x$fit, x$spec$args$penalty) %>%
-    dplyr::filter(estimate != 0) %>%
-    dplyr::group_nest(class, .key = "coefs") %>%
+    .get_glmn_coefs(x$fit, x$spec$args$penalty) |>
+    dplyr::filter(estimate != 0) |>
+    dplyr::group_nest(class, .key = "coefs") |>
     dplyr::mutate(lp = purrr::map(coefs, build_linear_predictor_eng))
   coefs
 }
@@ -126,7 +126,7 @@ prediction_eqn._multnet <- function(x, type = "class", ...) {
   type <- match.arg(type, c("class", "prob"))
   model_class <- class(x$fit)[1]
   lvls <- x$lvl
-  res <- build_linear_predictor(x) %>%
+  res <- build_linear_predictor(x) |>
     dplyr::mutate(.pred = purrr::map(lp, eexp))
   names(res$.pred) <- paste0(".pred_", res$class)
   eqn_constuctor(res, model_class, type, lvls)
@@ -167,20 +167,20 @@ stack_predict.lognet_prob <- function(x, data, ...) {
 
 multi_net_engine <- function(x, data, ...) {
   res <-
-    purrr::map_dfc(x$.pred, rlang::eval_tidy, data = data) %>%
+    purrr::map_dfc(x$.pred, rlang::eval_tidy, data = data) |>
     multi_net_helper()
 }
 
 multi_net_helper <- function(data, ...) {
-  data %>%
-    dplyr::rowwise() %>%
+  data |>
+    dplyr::rowwise() |>
     dplyr::mutate(
       .sum = sum(dplyr::c_across(dplyr::starts_with(".pred_")))
-    ) %>%
+    ) |>
     dplyr::mutate(
       dplyr::across(dplyr::starts_with(".pred_"), ~ .x / .sum),
       idx = which.max(dplyr::c_across(dplyr::starts_with(".pred_")))
-    ) %>%
+    ) |>
     dplyr::ungroup()
 }
 
@@ -188,12 +188,13 @@ multi_net_helper <- function(data, ...) {
 #' @rdname stack_predict
 stack_predict.multnet_class <- function(x, data, ...) {
   lvls <- attr(x, "levels")
-  res <-
-    multi_net_engine(x, data) %>%
+  res <- multi_net_engine(x, data)
+  res <- 
+    res |>
     dplyr::mutate(
-      .pred_class = gsub(".pred_", "", colnames(.)[idx]),
+      .pred_class = gsub(".pred_", "", colnames(res)[idx]),
       .pred_class = factor(.pred_class, levels = lvls)
-    ) %>%
+    ) |>
     dplyr::select(.pred_class)
   res
 }
@@ -201,7 +202,7 @@ stack_predict.multnet_class <- function(x, data, ...) {
 #' @export
 #' @rdname stack_predict
 stack_predict.multnet_prob <- function(x, data, ...) {
-  multi_net_engine(x, data) %>%
+  multi_net_engine(x, data) |>
     dplyr::select(dplyr::starts_with(".pred_"))
 }
 

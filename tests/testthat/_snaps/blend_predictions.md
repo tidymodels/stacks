@@ -1,7 +1,7 @@
 # blend_predictions errors informatively with bad arguments
 
     Code
-      res <- st_reg_1__ %>% blend_predictions()
+      res <- blend_predictions(st_reg_1__)
     Condition
       Error in `blend_predictions()`:
       ! Element data_stack needs to inherit from `data_stack`, but its class is `linear_stack`, `model_stack`, and `list`.
@@ -9,7 +9,7 @@
 ---
 
     Code
-      res <- st_reg_1 %>% blend_predictions(non_negative = "Yup")
+      res <- blend_predictions(st_reg_1, non_negative = "Yup")
     Condition
       Error in `blend_predictions()`:
       ! Element non_negative needs to inherit from `logical`, but its class is `character`.
@@ -17,7 +17,7 @@
 ---
 
     Code
-      res <- st_reg_1 %>% blend_predictions(metric = "Yup")
+      res <- blend_predictions(st_reg_1, metric = "Yup")
     Condition
       Error in `blend_predictions()`:
       ! Element metric needs to inherit from `metric_set`, but its class is `character`.
@@ -25,7 +25,7 @@
 ---
 
     Code
-      res <- st_reg_1 %>% blend_predictions(metric = yardstick::accuracy)
+      res <- blend_predictions(st_reg_1, metric = yardstick::accuracy)
     Condition
       Error in `blend_predictions()`:
       ! Element metric needs to inherit from `metric_set`, but its class is `class_metric`, `metric`, and `function`.
@@ -33,7 +33,7 @@
 ---
 
     Code
-      res <- stacks() %>% blend_predictions()
+      res <- blend_predictions(stacks())
     Condition
       Error in `blend_predictions()`:
       ! The data stack supplied as the argument to `data_stack` has no candidate members. Please first add candidates with the `add_candidates()` (`?stacks::add_candidates()`) function.
@@ -41,7 +41,7 @@
 ---
 
     Code
-      res <- stacks() %>% add_candidates(reg_res_lr) %>% blend_predictions()
+      res <- blend_predictions(add_candidates(stacks(), reg_res_lr))
     Condition
       Error in `blend_predictions()`:
       ! The supplied data stack only contains one candidate member. Please add more candidate members using `add_candidates()` (`?stacks::add_candidates()`) before blending.
@@ -49,7 +49,7 @@
 ---
 
     Code
-      res <- stacks() %>% add_candidates(class_res_nn) %>% blend_predictions()
+      res <- blend_predictions(add_candidates(stacks(), class_res_nn))
     Condition
       Error in `blend_predictions()`:
       ! The supplied data stack only contains one candidate member. Please add more candidate members using `add_candidates()` (`?stacks::add_candidates()`) before blending.
@@ -57,7 +57,7 @@
 ---
 
     Code
-      res <- stacks() %>% add_candidates(log_res_nn) %>% blend_predictions()
+      res <- blend_predictions(add_candidates(stacks(), log_res_nn))
     Condition
       Error in `blend_predictions()`:
       ! The supplied data stack only contains one candidate member. Please add more candidate members using `add_candidates()` (`?stacks::add_candidates()`) before blending.
@@ -65,7 +65,7 @@
 ---
 
     Code
-      res <- st_reg_1 %>% blend_predictions(penalty = -1)
+      res <- blend_predictions(st_reg_1, penalty = -1)
     Condition
       Error in `blend_predictions()`:
       ! Please supply only nonnegative values to the penalty argument.
@@ -73,7 +73,7 @@
 ---
 
     Code
-      res <- st_reg_1 %>% blend_predictions(mixture = -1)
+      res <- blend_predictions(st_reg_1, mixture = -1)
     Condition
       Error in `blend_predictions()`:
       ! Please supply only values in [0, 1] to the mixture argument.
@@ -81,7 +81,7 @@
 ---
 
     Code
-      res <- st_reg_1 %>% blend_predictions(penalty = "lots")
+      res <- blend_predictions(st_reg_1, penalty = "lots")
     Condition
       Error in `blend_predictions()`:
       ! The argument to 'penalty' must be a numeric, but the supplied penalty's class is `character`.
@@ -89,7 +89,7 @@
 ---
 
     Code
-      res <- st_reg_1 %>% blend_predictions(penalty = tibble::tibble())
+      res <- blend_predictions(st_reg_1, penalty = tibble::tibble())
     Condition
       Error in `blend_predictions()`:
       ! The argument to 'penalty' must be a numeric, but the supplied penalty's class is `tbl_df`, `tbl`, and `data.frame`.
@@ -97,7 +97,7 @@
 ---
 
     Code
-      res <- st_reg_1 %>% blend_predictions(numeric(0))
+      res <- blend_predictions(st_reg_1, numeric(0))
     Condition
       Error in `blend_predictions()`:
       ! Please supply one or more penalty values.

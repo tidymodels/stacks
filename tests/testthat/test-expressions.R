@@ -17,8 +17,8 @@ library(nnet)
 data("penguins", package = "modeldata")
 
 penguins <-
-  penguins %>%
-  na.omit() %>%
+  penguins |>
+  na.omit() |>
   dplyr::select(
     bill_length_mm,
     bill_depth_mm,
@@ -33,9 +33,9 @@ data(two_class_dat, package = "modeldata")
 
 test_that("linear regression", {
   reg_model <-
-    linear_reg(penalty = .1) %>%
-    set_engine("glmnet") %>%
-    set_mode("regression") %>%
+    linear_reg(penalty = .1) |>
+    set_engine("glmnet") |>
+    set_mode("regression") |>
     fit(
       body_mass_g ~ bill_length_mm + bill_depth_mm + flipper_length_mm,
       data = penguins
@@ -55,9 +55,9 @@ test_that("linear regression", {
 
 test_that("logistic regression", {
   bin_model <-
-    logistic_reg(penalty = .1) %>%
-    set_engine("glmnet") %>%
-    set_mode("classification") %>%
+    logistic_reg(penalty = .1) |>
+    set_engine("glmnet") |>
+    set_mode("classification") |>
     fit(Class ~ ., data = two_class_dat)
 
   bin_cls_eqns <- prediction_eqn(bin_model, type = "class")
@@ -76,9 +76,9 @@ test_that("logistic regression", {
 
 test_that("multiclass regression", {
   mltn_model <-
-    multinom_reg(penalty = .1) %>%
-    set_engine("glmnet") %>%
-    set_mode("classification") %>%
+    multinom_reg(penalty = .1) |>
+    set_engine("glmnet") |>
+    set_mode("classification") |>
     fit(species ~ ., data = penguins)
 
   mltn_cls_eqns <- prediction_eqn(mltn_model, type = "class")

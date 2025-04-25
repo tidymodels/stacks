@@ -71,10 +71,10 @@ check_empty_ellipses <- function(...) {
   if (length(dots) > 0) {
     needs_name <- names(dots) == ""
     names(dots)[needs_name] <-
-      dots[needs_name] %>%
+      dots[needs_name] |>
       purrr::map(
         rlang::get_expr
-      ) %>%
+      ) |>
       unlist()
 
     cli_warn(

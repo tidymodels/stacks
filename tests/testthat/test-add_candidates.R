@@ -27,12 +27,12 @@ test_that("stack can add candidates (regression)", {
   skip_on_cran()
 
   expect_equal(
-    st_0 %>% add_candidates(reg_res_svm),
+    st_0 |> add_candidates(reg_res_svm),
     st_reg_1
   )
 
   expect_equal(
-    st_reg_1 %>% add_candidates(reg_res_sp),
+    st_reg_1 |> add_candidates(reg_res_sp),
     st_reg_2
   )
 
@@ -45,12 +45,12 @@ test_that("stack can add candidates (multinomial classification)", {
   skip_on_cran()
 
   expect_equal(
-    st_0 %>% add_candidates(class_res_rf),
+    st_0 |> add_candidates(class_res_rf),
     st_class_1
   )
 
   expect_equal(
-    st_class_1 %>% add_candidates(class_res_nn),
+    st_class_1 |> add_candidates(class_res_nn),
     st_class_2
   )
 
@@ -62,12 +62,12 @@ test_that("stack can add candidates (two-way classification)", {
   skip_on_cran()
 
   expect_equal(
-    st_0 %>% add_candidates(log_res_rf),
+    st_0 |> add_candidates(log_res_rf),
     st_log_1
   )
 
   expect_equal(
-    st_log_1 %>% add_candidates(log_res_nn),
+    st_log_1 |> add_candidates(log_res_nn),
     st_log_2
   )
 
@@ -84,17 +84,17 @@ test_that("add_candidates errors informatively with bad arguments", {
   )
 
   expect_snapshot(
-    st_reg_2 %>% add_candidates("howdy"),
+    st_reg_2 |> add_candidates("howdy"),
     error = TRUE
   )
 
   expect_snapshot(
-    stacks() %>% add_candidates(reg_res_sp, reg_res_svm),
+    stacks() |> add_candidates(reg_res_sp, reg_res_svm),
     error = TRUE
   )
 
   expect_snapshot(
-    stacks() %>% add_candidates(reg_res_sp, TRUE),
+    stacks() |> add_candidates(reg_res_sp, TRUE),
     error = TRUE
   )
 
@@ -104,25 +104,25 @@ test_that("add_candidates errors informatively with bad arguments", {
   )
 
   expect_snapshot(
-    st_reg_1 %>% add_candidates(reg_res_svm),
+    st_reg_1 |> add_candidates(reg_res_svm),
     error = TRUE
   )
 
   expect_snapshot(
-    st_reg_1 %>% add_candidates(reg_res_sp, "reg_res_svm"),
+    st_reg_1 |> add_candidates(reg_res_sp, "reg_res_svm"),
     error = TRUE
   )
 
   expect_snapshot(
-    st_0 %>%
-      add_candidates(reg_res_sp) %>%
+    st_0 |>
+      add_candidates(reg_res_sp) |>
       add_candidates(reg_res_svm_2),
     error = TRUE
   )
 
   expect_snapshot(
-    st_0 %>%
-      add_candidates(reg_res_sp) %>%
+    st_0 |>
+      add_candidates(reg_res_sp) |>
       add_candidates(reg_res_svm_3),
     error = TRUE
   )
@@ -131,16 +131,16 @@ test_that("add_candidates errors informatively with bad arguments", {
   attr(st_reg_1_new_train, "train") <- attr(st_reg_1, "train")[-1, ]
   expect_snapshot(
     error = TRUE,
-    res <- st_reg_1_new_train %>% add_candidates(reg_res_lr)
+    res <- st_reg_1_new_train |> add_candidates(reg_res_lr)
   )
 
   reg_res_lr_ <- lin_reg_spec <-
-    parsnip::linear_reg() %>%
+    parsnip::linear_reg() |>
     parsnip::set_engine("lm")
 
   reg_wf_lr <-
-    workflows::workflow() %>%
-    workflows::add_model(lin_reg_spec) %>%
+    workflows::workflow() |>
+    workflows::add_model(lin_reg_spec) |>
     workflows::add_recipe(tree_frogs_reg_rec)
 
   set.seed(1)
@@ -157,7 +157,7 @@ test_that("add_candidates errors informatively with bad arguments", {
     )
 
   expect_snapshot(
-    stacks() %>% add_candidates(reg_res_lr_bad),
+    stacks() |> add_candidates(reg_res_lr_bad),
     error = TRUE
   )
 
@@ -175,15 +175,15 @@ test_that("add_candidates errors informatively with bad arguments", {
   )
 
   expect_snapshot(
-    stacks() %>% add_candidates(reg_res_lr_bad2),
+    stacks() |> add_candidates(reg_res_lr_bad2),
     error = TRUE
   )
 
   reg_res_lr_renamed <- reg_res_lr
 
   expect_snapshot(
-    stacks() %>%
-      add_candidates(reg_res_lr) %>%
+    stacks() |>
+      add_candidates(reg_res_lr) |>
       add_candidates(reg_res_lr_renamed)
   )
 
@@ -197,13 +197,13 @@ test_that("add_candidates errors informatively with bad arguments", {
   # use a metric that only relies on hard class prediction
   log_res <-
     tune::tune_grid(
-      workflows::workflow() %>%
-        workflows::add_formula(z ~ x + y) %>%
+      workflows::workflow() |>
+        workflows::add_formula(z ~ x + y) |>
         workflows::add_model(
           parsnip::multinom_reg(
             penalty = tune::tune("penalty"),
             mixture = tune::tune("mixture")
-          ) %>%
+          ) |>
             parsnip::set_engine("glmnet")
         ),
       rsample::vfold_cv(dat, v = 4),
@@ -213,7 +213,7 @@ test_that("add_candidates errors informatively with bad arguments", {
     )
 
   expect_snapshot(
-    stacks() %>% add_candidates(log_res),
+    stacks() |> add_candidates(log_res),
     error = TRUE
   )
 
@@ -223,7 +223,7 @@ test_that("add_candidates errors informatively with bad arguments", {
   attr(reg_res_lr, "workflow") <- wf
 
   expect_snapshot(
-    stacks() %>% add_candidates(reg_res_lr),
+    stacks() |> add_candidates(reg_res_lr),
     error = TRUE
   )
 
@@ -235,15 +235,15 @@ test_that("model definition naming works as expected", {
   skip_on_cran()
 
   st_reg_1_newname <-
-    stacks() %>%
+    stacks() |>
     add_candidates(reg_res_svm, name = "boop")
 
   st_class_1_newname <-
-    stacks() %>%
+    stacks() |>
     add_candidates(class_res_rf, name = "boop")
 
   st_log_1_newname <-
-    stacks() %>%
+    stacks() |>
     add_candidates(log_res_rf, name = "boop")
 
   expect_true(ncol_with_name(st_reg_1, "reg_res_svm") > 0)
@@ -259,26 +259,26 @@ test_that("model definition naming works as expected", {
   expect_equal(ncol_with_name(st_class_1_newname, "log_res_rf"), 0)
 
   expect_snapshot(
-    st_reg_1 %>%
+    st_reg_1 |>
       add_candidates(reg_res_sp, "reg_res_svm"),
     error = TRUE
   )
 
   expect_snapshot(
-    st_class_1 %>%
+    st_class_1 |>
       add_candidates(class_res_nn, "class_res_rf"),
     error = TRUE
   )
 
   expect_snapshot(
-    st_log_1 %>%
+    st_log_1 |>
       add_candidates(log_res_nn, "log_res_rf"),
     error = TRUE
   )
 
   expect_snapshot(
     st_reg_1 <-
-      stacks() %>%
+      stacks() |>
       add_candidates(reg_res_svm, name = "beep bop")
   )
 })
@@ -306,7 +306,7 @@ test_that("stacks can handle columns and levels named 'class'", {
 
   expect_s3_class(
     suppressWarnings(
-      stacks() %>%
+      stacks() |>
         add_candidates(res)
     ),
     "data_stack"
@@ -340,27 +340,27 @@ test_that("stacks can add candidates via workflow sets", {
 
   set.seed(1)
   wf_set_stack <-
-    stacks() %>%
-    add_candidates(wf_set_trained) %>%
-    blend_predictions() %>%
+    stacks() |>
+    add_candidates(wf_set_trained) |>
+    blend_predictions() |>
     fit_members()
 
   set.seed(1)
   wf_stack <-
-    stacks() %>%
+    stacks() |>
     add_candidates(
       wf_set_trained$result[[1]],
       name = wf_set_trained$wflow_id[[1]]
-    ) %>%
+    ) |>
     add_candidates(
       wf_set_trained$result[[2]],
       name = wf_set_trained$wflow_id[[2]]
-    ) %>%
+    ) |>
     add_candidates(
       wf_set_trained$result[[3]],
       name = wf_set_trained$wflow_id[[3]]
-    ) %>%
-    blend_predictions() %>%
+    ) |>
+    blend_predictions() |>
     fit_members()
 
   expect_equal(
@@ -373,45 +373,45 @@ test_that("stacks can add candidates via workflow sets", {
 
   # check that warning is supplied and looks as it ought to
   expect_warning(
-    wf_set_stack_2 <- stacks() %>% add_candidates(wf_set_trained_error),
+    wf_set_stack_2 <- stacks() |> add_candidates(wf_set_trained_error),
     class = "wf_set_partial_fit"
   )
 
   expect_snapshot(
-    res <- stacks() %>% add_candidates(wf_set_trained_error)
+    res <- stacks() |> add_candidates(wf_set_trained_error)
   )
 
   wf_set_trained_error$result[[2]] <- "boop"
 
   expect_snapshot(
-    res <- stacks() %>% add_candidates(wf_set_trained_error)
+    res <- stacks() |> add_candidates(wf_set_trained_error)
   )
 
   # now, will all resampled fits failing, should error
   wf_set_trained_error$result[[3]] <- "boop"
 
   expect_error(
-    stacks() %>% add_candidates(wf_set_trained_error),
+    stacks() |> add_candidates(wf_set_trained_error),
     class = "wf_set_unfitted"
   )
 
   expect_snapshot(
     error = TRUE,
-    stacks() %>% add_candidates(wf_set_trained_error)
+    stacks() |> add_candidates(wf_set_trained_error)
   )
 
   # check that add_candidate adds the candidates it said it would
   wf_stack_2 <-
-    stacks() %>%
+    stacks() |>
     add_candidates(
       wf_set_trained$result[[2]],
       name = wf_set_trained$wflow_id[[2]]
-    ) %>%
+    ) |>
     add_candidates(
       wf_set_trained$result[[3]],
       name = wf_set_trained$wflow_id[[3]]
-    ) %>%
-    blend_predictions() %>%
+    ) |>
+    blend_predictions() |>
     fit_members()
 
   expect_equal(

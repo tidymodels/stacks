@@ -63,57 +63,57 @@
 #'
 #' # put together a data stack
 #' reg_st <-
-#'   stacks() %>%
-#'   add_candidates(reg_res_lr) %>%
-#'   add_candidates(reg_res_svm) %>%
+#'   stacks() |>
+#'   add_candidates(reg_res_lr) |>
+#'   add_candidates(reg_res_svm) |>
 #'   add_candidates(reg_res_sp)
 #'
 #' reg_st
 #'
 #' # evaluate the data stack
-#' reg_st %>%
+#' reg_st |>
 #'   blend_predictions()
 #'
 #' # include fewer models by proposing higher penalties
-#' reg_st %>%
+#' reg_st |>
 #'   blend_predictions(penalty = c(.5, 1))
 #'
 #' # allow for negative stacking coefficients
 #' # with the non_negative argument
-#' reg_st %>%
+#' reg_st |>
 #'   blend_predictions(non_negative = FALSE)
 #'
 #' # use a custom metric in tuning the lasso penalty
 #' library(yardstick)
-#' reg_st %>%
+#' reg_st |>
 #'   blend_predictions(metric = metric_set(rmse))
 #'
 #' # pass control options for stack blending
-#' reg_st %>%
+#' reg_st |>
 #'   blend_predictions(
 #'     control = tune::control_grid(allow_par = TRUE)
 #'   )
 #'
 #' # to speed up the stacking process for preliminary
 #' # results, bump down the `times` argument:
-#' reg_st %>%
+#' reg_st |>
 #'   blend_predictions(times = 5)
 #'
 #' # the process looks the same with
 #' # multinomial classification models
 #' class_st <-
-#'   stacks() %>%
-#'   add_candidates(class_res_nn) %>%
-#'   add_candidates(class_res_rf) %>%
+#'   stacks() |>
+#'   add_candidates(class_res_nn) |>
+#'   add_candidates(class_res_rf) |>
 #'   blend_predictions()
 #'
 #' class_st
 #'
 #' # ...or binomial classification models
 #' log_st <-
-#'   stacks() %>%
-#'   add_candidates(log_res_nn) %>%
-#'   add_candidates(log_res_rf) %>%
+#'   stacks() |>
+#'   add_candidates(log_res_nn) |>
+#'   add_candidates(log_res_rf) |>
 #'   blend_predictions()
 #'
 #' log_st
@@ -161,12 +161,12 @@ blend_predictions <- function(
 
   if (attr(data_stack, "mode") == "regression") {
     model_spec <-
-      parsnip::linear_reg(penalty = !!tune_quo, mixture = !!tune_quo) %>%
+      parsnip::linear_reg(penalty = !!tune_quo, mixture = !!tune_quo) |>
       parsnip::set_engine("glmnet", lower.limits = !!ll, lambda.min.ratio = 0)
 
     preds_wf <-
-      workflows::workflow() %>%
-      workflows::add_model(model_spec) %>%
+      workflows::workflow() |>
+      workflows::add_model(model_spec) |>
       workflows::add_formula(preds_formula)
   } else {
     # The class probabilities add up to one so we remove the probability columns
@@ -176,45 +176,45 @@ blend_predictions <- function(
     dat <- dat[, !cols_drop]
     if (length(lvls) == 2) {
       model_spec <-
-        parsnip::logistic_reg(penalty = !!tune_quo, mixture = !!tune_quo) %>%
+        parsnip::logistic_reg(penalty = !!tune_quo, mixture = !!tune_quo) |>
         parsnip::set_engine(
           "glmnet",
           lower.limits = !!ll,
           lambda.min.ratio = 0
-        ) %>%
+        ) |>
         parsnip::set_mode("classification")
     } else {
       model_spec <-
-        parsnip::multinom_reg(penalty = !!tune_quo, mixture = !!tune_quo) %>%
+        parsnip::multinom_reg(penalty = !!tune_quo, mixture = !!tune_quo) |>
         parsnip::set_engine(
           "glmnet",
           lower.limits = !!ll,
           lambda.min.ratio = 0
-        ) %>%
+        ) |>
         parsnip::set_mode("classification")
     }
 
     preds_wf <-
-      workflows::workflow() %>%
+      workflows::workflow() |>
       workflows::add_recipe(
         recipes::recipe(
           preds_formula,
           data = dat
         )
-      ) %>%
+      ) |>
       workflows::add_model(model_spec)
   }
 
   get_models <- function(x) {
-    x %>%
-      workflows::extract_fit_parsnip() %>%
+    x |>
+      workflows::extract_fit_parsnip() |>
       purrr::pluck("fit")
   }
 
   control$extract <- get_models
 
   candidates <-
-    preds_wf %>%
+    preds_wf |>
     tune::tune_grid(
       resamples = rsample::bootstraps(dat, times = times),
       grid = tidyr::expand_grid(penalty = penalty, mixture = mixture),
@@ -225,8 +225,8 @@ blend_predictions <- function(
   metric <- tune::.get_tune_metric_names(candidates)[1]
   best_param <- tune::select_best(candidates, metric = metric)
   coefs <-
-    model_spec %>%
-    tune::finalize_model(best_param) %>%
+    model_spec |>
+    tune::finalize_model(best_param) |>
     parsnip::fit(formula = preds_formula, data = dat)
 
   model_stack <-
@@ -305,9 +305,9 @@ glmnet_metrics <- function(x) {
   num_mem$data <- purrr::map(num_mem$data, first_extract)
   num_mem$members <- purrr::map(num_mem$data, num_members, pens)
   num_mem <- num_mem[, c("mixture", "members")]
-  num_mem <- num_mem %>%
-    tidyr::unnest(cols = members) %>%
-    dplyr::group_by(penalty, mixture) %>%
+  num_mem <- num_mem |>
+    tidyr::unnest(cols = members) |>
+    dplyr::group_by(penalty, mixture) |>
     dplyr::summarize(
       .metric = "num_members",
       .estimator = "Poisson",
@@ -315,7 +315,7 @@ glmnet_metrics <- function(x) {
       n = sum(!is.na(members)),
       std_err = sqrt(mean / n),
       .groups = "drop"
-    ) %>%
+    ) |>
     dplyr::full_join(res_, by = c("penalty", "mixture"))
 
   out <- vctrs::vec_rbind(res, num_mem)
@@ -379,7 +379,7 @@ check_blend_data_stack <- function(data_stack, call = caller_env()) {
 }
 
 process_data_stack <- function(data_stack, call = caller_env()) {
-  dat <- tibble::as_tibble(data_stack) %>% na.omit()
+  dat <- tibble::as_tibble(data_stack) |> na.omit()
 
   # retain only the tbl_df attributes (#214)
   attributes(dat) <- attributes(dat)[

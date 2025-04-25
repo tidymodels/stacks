@@ -1,7 +1,7 @@
 # fit_members errors informatively with a bad model_stack arg
 
     Code
-      st_reg_1 %>% fit_members()
+      fit_members(st_reg_1)
     Condition
       Error in `fit_members()`:
       ! The supplied `model_stack` argument is a data stack rather than a model stack. Did you forget to first evaluate the ensemble's stacking coefficients with `blend_predictions()` (`?stacks::blend_predictions()`)?
@@ -9,7 +9,7 @@
 ---
 
     Code
-      "howdy" %>% fit_members()
+      fit_members("howdy")
     Condition
       Error in `fit_members()`:
       ! Element model_stack needs to inherit from `model_stack`, but its class is `character`.
@@ -17,7 +17,7 @@
 ---
 
     Code
-      out <- st_reg_1__ %>% fit_members()
+      out <- fit_members(st_reg_1__)
     Condition
       Warning:
       The members in the supplied `model_stack` have already been fitted and need not be fitted again.
@@ -49,7 +49,7 @@
 ---
 
     Code
-      st_reg_1_ %>% fit_members()
+      fit_members(st_reg_1_)
     Condition
       Error in `fit_members()`:
       ! The packages recipes, parsnip, and kernlab need to be installed before fitting members.
