@@ -14,10 +14,10 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/Source_Code_Pro-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Source_Code_Pro-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Stacking With Workflow Sets">
 <meta name="robots" content="noindex">
 <script defer data-domain="stacks.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script>
@@ -82,18 +82,18 @@ multiple sets of candidate members in one call to
 Instead of iteratively calling <code><a href="../reference/add_candidates.html">add_candidates()</a></code> for each
 tuning result:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/stacks.html">stacks</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/add_candidates.html">add_candidates</a></span><span class="op">(</span><span class="va">tuning_result_1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/add_candidates.html">add_candidates</a></span><span class="op">(</span><span class="va">tuning_result_2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/add_candidates.html">add_candidates</a></span><span class="op">(</span><span class="va">tuning_result_3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/add_candidates.html">add_candidates</a></span><span class="op">(</span><span class="va">tuning_result_4</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/blend_predictions.html">blend_predictions</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/stacks.html">stacks</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/add_candidates.html">add_candidates</a></span><span class="op">(</span><span class="va">tuning_result_1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/add_candidates.html">add_candidates</a></span><span class="op">(</span><span class="va">tuning_result_2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/add_candidates.html">add_candidates</a></span><span class="op">(</span><span class="va">tuning_result_3</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/add_candidates.html">add_candidates</a></span><span class="op">(</span><span class="va">tuning_result_4</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/blend_predictions.html">blend_predictions</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/fit_members.html">fit_members</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>…we can add candidate members “in batch:”</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/stacks.html">stacks</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/add_candidates.html">add_candidates</a></span><span class="op">(</span><span class="va">wf_set</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/blend_predictions.html">blend_predictions</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/stacks.html">stacks</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/add_candidates.html">add_candidates</a></span><span class="op">(</span><span class="va">wf_set</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/blend_predictions.html">blend_predictions</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/fit_members.html">fit_members</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>This interface is especially helpful with a large number of candidate
 members, which is exactly the setting that model stacking excels in.</p>
@@ -130,8 +130,8 @@ cases where the embryo did not hatch) first.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"tree_frogs"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># subset the data</span></span>
-<span><span class="va">tree_frogs</span> <span class="op">&lt;-</span> <span class="va">tree_frogs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">latency</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">tree_frogs</span> <span class="op">&lt;-</span> <span class="va">tree_frogs</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">latency</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">clutch</span>, <span class="va">hatched</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Taking a quick look at the data, it seems like the hatch time is
 pretty closely related to some of our predictors!</p>
@@ -186,7 +186,7 @@ model specification:</p>
 <span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/nearest_neighbor.html" class="external-link">nearest_neighbor</a></span><span class="op">(</span></span>
 <span>    mode <span class="op">=</span> <span class="st">"regression"</span>, </span>
 <span>    neighbors <span class="op">=</span> <span class="fu"><a href="https://hardhat.tidymodels.org/reference/tune.html" class="external-link">tune</a></span><span class="op">(</span><span class="st">"k"</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html" class="external-link">set_engine</a></span><span class="op">(</span><span class="st">"kknn"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">knn_spec</span></span>
@@ -206,15 +206,15 @@ model:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># extend the recipe</span></span>
 <span><span class="va">knn_rec</span> <span class="op">&lt;-</span></span>
-<span>  <span class="va">tree_frogs_rec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_dummy.html" class="external-link">step_dummy</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_nominal_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_zv.html" class="external-link">step_zv</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_impute_mean.html" class="external-link">step_impute_mean</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_numeric_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="va">tree_frogs_rec</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_dummy.html" class="external-link">step_dummy</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_nominal_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_zv.html" class="external-link">step_zv</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_impute_mean.html" class="external-link">step_impute_mean</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_numeric_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_normalize.html" class="external-link">step_normalize</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_numeric_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">knn_rec</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Recipe</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Recipe</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Inputs</span></span>
 <span><span class="co">#&gt; Number of variables by role</span></span>
@@ -236,13 +236,13 @@ over any hyperparameters.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># create a model specification</span></span>
 <span><span class="va">lin_reg_spec</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/linear_reg.html" class="external-link">linear_reg</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/linear_reg.html" class="external-link">linear_reg</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html" class="external-link">set_engine</a></span><span class="op">(</span><span class="st">"lm"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># extend the recipe</span></span>
 <span><span class="va">lin_reg_rec</span> <span class="op">&lt;-</span></span>
-<span>  <span class="va">tree_frogs_rec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_dummy.html" class="external-link">step_dummy</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_nominal_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="va">tree_frogs_rec</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_dummy.html" class="external-link">step_dummy</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_nominal_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_zv.html" class="external-link">step_zv</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Finally, putting together the model specification and recipe for the
 support vector machine:</p>
@@ -252,17 +252,17 @@ support vector machine:</p>
 <span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/svm_rbf.html" class="external-link">svm_rbf</a></span><span class="op">(</span></span>
 <span>    cost <span class="op">=</span> <span class="fu"><a href="https://hardhat.tidymodels.org/reference/tune.html" class="external-link">tune</a></span><span class="op">(</span><span class="st">"cost"</span><span class="op">)</span>, </span>
 <span>    rbf_sigma <span class="op">=</span> <span class="fu"><a href="https://hardhat.tidymodels.org/reference/tune.html" class="external-link">tune</a></span><span class="op">(</span><span class="st">"sigma"</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html" class="external-link">set_engine</a></span><span class="op">(</span><span class="st">"kernlab"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html" class="external-link">set_engine</a></span><span class="op">(</span><span class="st">"kernlab"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_args.html" class="external-link">set_mode</a></span><span class="op">(</span><span class="st">"regression"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># extend the recipe</span></span>
 <span><span class="va">svm_rec</span> <span class="op">&lt;-</span></span>
-<span>  <span class="va">tree_frogs_rec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_dummy.html" class="external-link">step_dummy</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_nominal_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_zv.html" class="external-link">step_zv</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_impute_mean.html" class="external-link">step_impute_mean</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_numeric_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_corr.html" class="external-link">step_corr</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="va">tree_frogs_rec</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_dummy.html" class="external-link">step_dummy</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_nominal_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_zv.html" class="external-link">step_zv</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_impute_mean.html" class="external-link">step_impute_mean</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_numeric_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_corr.html" class="external-link">step_corr</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_normalize.html" class="external-link">step_normalize</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_numeric_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>With each model specification and accompanying recipe now defined, we
 can combine them via <code><a href="https://workflowsets.tidymodels.org/reference/workflow_set.html" class="external-link">workflow_set()</a></code>:</p>
@@ -285,13 +285,13 @@ can combine them via <code><a href="https://workflowsets.tidymodels.org/referenc
 assigned a <code>wflow_id</code> that we can use to interface with
 individual model definitions:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">wf_set</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">wf_set</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://hardhat.tidymodels.org/reference/hardhat-extract.html" class="external-link">extract_workflow</a></span><span class="op">(</span><span class="st">"rec3_svm"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ══ Workflow ══════════════════════════════════════════════════════════════</span></span>
+<span><span class="co">#&gt; ══ Workflow ═══════════════════════════════════════════════════════════</span></span>
 <span><span class="co">#&gt; <span style="font-style: italic;">Preprocessor:</span> Recipe</span></span>
 <span><span class="co">#&gt; <span style="font-style: italic;">Model:</span> svm_rbf()</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── Preprocessor ──────────────────────────────────────────────────────────</span></span>
+<span><span class="co">#&gt; ── Preprocessor ───────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; 5 Recipe Steps</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; • step_dummy()</span></span>
@@ -300,7 +300,7 @@ individual model definitions:</p>
 <span><span class="co">#&gt; • step_corr()</span></span>
 <span><span class="co">#&gt; • step_normalize()</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── Model ─────────────────────────────────────────────────────────────────</span></span>
+<span><span class="co">#&gt; ── Model ──────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; Radial Basis Function Support Vector Machine Model Specification (regression)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Main Arguments:</span></span>
@@ -318,7 +318,7 @@ to stacks.</p>
 <code><a href="https://workflowsets.tidymodels.org/reference/option_add.html" class="external-link">option_add()</a></code> function:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wf_set</span> <span class="op">&lt;-</span></span>
-<span>  <span class="va">wf_set</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="va">wf_set</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://workflowsets.tidymodels.org/reference/option_add.html" class="external-link">option_add</a></span><span class="op">(</span></span>
 <span>    control <span class="op">=</span> <span class="fu"><a href="../reference/control_stack.html">control_stack_grid</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    metrics <span class="op">=</span> <span class="va">metric</span></span>
@@ -353,7 +353,7 @@ this case!</p>
 <code><a href="https://workflowsets.tidymodels.org/reference/extract_workflow_set_result.html" class="external-link">extract_workflow_set_result()</a></code> helper to explore our tuning
 results:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://workflowsets.tidymodels.org/reference/extract_workflow_set_result.html" class="external-link">extract_workflow_set_result</a></span><span class="op">(</span><span class="va">wf_set_trained</span>, id <span class="op">=</span> <span class="st">"rec1_knn"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://workflowsets.tidymodels.org/reference/extract_workflow_set_result.html" class="external-link">extract_workflow_set_result</a></span><span class="op">(</span><span class="va">wf_set_trained</span>, id <span class="op">=</span> <span class="st">"rec1_knn"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://tune.tidymodels.org/reference/collect_predictions.html" class="external-link">collect_metrics</a></span><span class="op">(</span>summarize <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 7</span></span></span>
 <span><span class="co">#&gt;        k .metric .estimator  mean     n std_err .config              </span></span>
@@ -361,11 +361,11 @@ results:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1 rmse    standard    81.3     5    4.37 Preprocessor1_Model01</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     3 rmse    standard    69.6     5    3.57 Preprocessor1_Model02</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     5 rmse    standard    63.7     5    3.30 Preprocessor1_Model03</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     6 rmse    standard    62.3     5    3.12 Preprocessor1_Model04</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     7 rmse    standard    61.2     5    2.95 Preprocessor1_Model05</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     7 rmse    standard    61.2     5    2.95 Preprocessor1_Model04</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     8 rmse    standard    60.5     5    2.81 Preprocessor1_Model05</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     9 rmse    standard    59.8     5    2.82 Preprocessor1_Model06</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>    10 rmse    standard    59.3     5    2.83 Preprocessor1_Model07</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>    11 rmse    standard    59.0     5    2.82 Preprocessor1_Model08</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>    12 rmse    standard    58.7     5    2.83 Preprocessor1_Model08</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>    13 rmse    standard    58.5     5    2.84 Preprocessor1_Model09</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    15 rmse    standard    58.2     5    2.88 Preprocessor1_Model10</span></span></code></pre></div>
 <p>With these three model definitions fully specified and tuned in a
@@ -381,22 +381,21 @@ did with individual workflows:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tree_frogs_model_st</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="co"># initialize the stack</span></span>
-<span>  <span class="fu"><a href="../reference/stacks.html">stacks</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/stacks.html">stacks</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="co"># add candidate members</span></span>
-<span>  <span class="fu"><a href="../reference/add_candidates.html">add_candidates</a></span><span class="op">(</span><span class="va">wf_set_trained</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/add_candidates.html">add_candidates</a></span><span class="op">(</span><span class="va">wf_set_trained</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="co"># determine how to combine their predictions</span></span>
-<span>  <span class="fu"><a href="../reference/blend_predictions.html">blend_predictions</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/blend_predictions.html">blend_predictions</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="co"># fit the candidates with nonzero stacking coefficients</span></span>
 <span>  <span class="fu"><a href="../reference/fit_members.html">fit_members</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">tree_frogs_model_st</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
 <span><span class="co">#&gt;   member           type             weight</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> rec3_svm_1_06    svm_rbf          0.779 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> rec2_lin_reg_1_1 linear_reg       0.275 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> rec1_knn_1_08    nearest_neighbor 0.190 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> rec1_knn_1_07    nearest_neighbor 0.020<span style="text-decoration: underline;">5</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> rec3_svm_1_05    svm_rbf           0.747</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> rec2_lin_reg_1_1 linear_reg        0.292</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> rec1_knn_1_08    nearest_neighbor  0.224</span></span></code></pre></div>
 <p>The results obtained from building a model stack with workflow sets
 are identical to those that would result from building a model stack
 with individual workflows.</p>
@@ -419,23 +418,22 @@ function:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/collect_parameters.html">collect_parameters</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span>, <span class="st">"rec3_svm"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 4</span></span></span>
-<span><span class="co">#&gt;    member            cost    sigma  coef</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> rec3_svm_1_01  0.185   1.17<span style="color: #949494;">e</span><span style="color: #BB0000;">- 4</span> 0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> rec3_svm_1_02  1.23    2.39<span style="color: #949494;">e</span><span style="color: #BB0000;">- 7</span> 0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> rec3_svm_1_03  0.019<span style="text-decoration: underline;">5</span>  3.37<span style="color: #949494;">e</span><span style="color: #BB0000;">- 5</span> 0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> rec3_svm_1_04 15.2     4.78<span style="color: #949494;">e</span><span style="color: #BB0000;">- 8</span> 0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> rec3_svm_1_05  2.97    1.30<span style="color: #949494;">e</span><span style="color: #BB0000;">- 6</span> 0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> rec3_svm_1_06  0.134   5.62<span style="color: #949494;">e</span><span style="color: #BB0000;">- 2</span> 0.779</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> rec3_svm_1_07  0.001<span style="text-decoration: underline;">63</span> 3.01<span style="color: #949494;">e</span><span style="color: #BB0000;">- 3</span> 0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> rec3_svm_1_08  4.08    2.98<span style="color: #949494;">e</span><span style="color: #BB0000;">- 1</span> 0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> rec3_svm_1_09  0.004<span style="text-decoration: underline;">29</span> 3.45<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span> 0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> rec3_svm_1_10  0.028<span style="text-decoration: underline;">0</span>  1.54<span style="color: #949494;">e</span><span style="color: #BB0000;">- 9</span> 0</span></span></code></pre></div>
+<span><span class="co">#&gt;    member             cost         sigma  coef</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> rec3_svm_1_01  0.000<span style="text-decoration: underline;">977</span> 0.000<span style="text-decoration: underline;">000</span>215   0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> rec3_svm_1_02  0.003<span style="text-decoration: underline;">10</span>  0.005<span style="text-decoration: underline;">99</span>       0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> rec3_svm_1_03  0.009<span style="text-decoration: underline;">84</span>  0.000<span style="text-decoration: underline;">000</span>000<span style="text-decoration: underline;">1</span>  0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> rec3_svm_1_04  0.031<span style="text-decoration: underline;">2</span>   0.000<span style="text-decoration: underline;">002</span>78    0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> rec3_svm_1_05  0.099<span style="text-decoration: underline;">2</span>   0.077<span style="text-decoration: underline;">4</span>        0.747</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> rec3_svm_1_06  0.315    0.000<span style="text-decoration: underline;">000</span>001<span style="text-decoration: underline;">29</span> 0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> rec3_svm_1_07  1        0.000<span style="text-decoration: underline;">035</span>9     0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> rec3_svm_1_08  3.17     1             0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> rec3_svm_1_09 10.1      0.000<span style="text-decoration: underline;">000</span>016<span style="text-decoration: underline;">7</span>  0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> rec3_svm_1_10 32        0.000<span style="text-decoration: underline;">464</span>      0</span></span></code></pre></div>
 <p>This object is now ready to predict with new data!</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tree_frogs_test</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="va">tree_frogs_test</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_cols.html" class="external-link">bind_cols</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span>, <span class="va">.</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_cols.html" class="external-link">bind_cols</a></span><span class="op">(</span><span class="va">tree_frogs_test</span>, <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span>, <span class="va">tree_frogs_test</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Juxtaposing the predictions with the true data:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="va">tree_frogs_test</span><span class="op">)</span> <span class="op">+</span></span>
@@ -452,17 +450,17 @@ perform, though, as compared to the members’ predictions? We can use the
 of the ensemble members.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">member_preds</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="va">tree_frogs_test</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">latency</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="va">tree_frogs_test</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">latency</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_cols.html" class="external-link">bind_cols</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span>, <span class="va">tree_frogs_test</span>, members <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Now, evaluating the root mean squared error from each model:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">map</span><span class="op">(</span><span class="va">member_preds</span>, <span class="va">rmse_vec</span>, truth <span class="op">=</span> <span class="va">member_preds</span><span class="op">$</span><span class="va">latency</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="fu">map</span><span class="op">(</span><span class="va">member_preds</span>, <span class="va">rmse_vec</span>, truth <span class="op">=</span> <span class="va">member_preds</span><span class="op">$</span><span class="va">latency</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 6</span></span></span>
-<span><span class="co">#&gt;   latency .pred rec1_knn_1_07 rec1_knn_1_08 rec2_lin_reg_1_1 rec3_svm_1_06</span></span>
-<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       0  53.9          56.2          56.2             55.5          57.3</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
+<span><span class="co">#&gt;   latency .pred rec1_knn_1_08 rec2_lin_reg_1_1 rec3_svm_1_05</span></span>
+<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       0  53.9          56.1             55.5          57.5</span></span></code></pre></div>
 <p>As we can see, the stacked ensemble outperforms each of the member
 models, though is closely followed by one of its members.</p>
 <p>Voila! You’ve now made use of the stacks and workflowsets packages to
