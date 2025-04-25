@@ -129,32 +129,16 @@ fit_members <- function(model_stack, ...) {
       )
   }
 
-  if (foreach::getDoParWorkers() > 1 || future::nbrOfWorkers() > 1) {
-    `%do_op%` <- switch(
-      # note some backends can return +Inf
-      min(future::nbrOfWorkers(), 2),
-      foreach::`%dopar%`,
-      doFuture::`%dofuture%`
-    )
-  } else {
-    `%do_op%` <- foreach::`%do%`
-  }
-
   # fit each of them
   member_fits <-
-    foreach::foreach(
-      mem = member_names,
-      .inorder = FALSE,
-      .options.future = list(seed = TRUE)
-    ) %do_op%
-    {
-      asNamespace("stacks")$fit_member(
-        name = mem,
-        wflows = model_stack[["model_defs"]],
-        members_map = members_map,
-        train_dat = dat
-      )
-    }
+    furrr::future_map(
+      member_names,
+      .f = fit_member,
+      wflows = model_stack[["model_defs"]],
+      members_map = members_map,
+      train_dat = dat,
+      .options = furrr::furrr_options(seed = TRUE)
+    )
 
   model_stack[["member_fits"]] <-
     setNames(member_fits, member_names)

@@ -22,7 +22,7 @@ Imports:
     cli,
     doFuture,
     dplyr (>= 1.1.0),
-    foreach,
+    furrr,
     future,
     generics,
     ggplot2,
