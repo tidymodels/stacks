@@ -111,38 +111,38 @@ the source code that generated them.
 
 # put together a data stack using
 # tuning results for regression models
-reg_st <- 
+reg_st <-
   stacks() \%>\%
   add_candidates(reg_res_lr) \%>\%
   add_candidates(reg_res_svm) \%>\%
   add_candidates(reg_res_sp)
-  
+
 reg_st
-  
+
 # do the same with multinomial classification models
 class_st <-
   stacks() \%>\%
   add_candidates(class_res_nn) \%>\%
   add_candidates(class_res_rf)
-  
+
 class_st
-  
+
 # ...or binomial classification models
 log_st <-
   stacks() \%>\%
   add_candidates(log_res_nn) \%>\%
   add_candidates(log_res_rf)
-  
+
 log_st
-  
+
 # use custom names for each model:
 log_st2 <-
   stacks() \%>\%
   add_candidates(log_res_nn, name = "neural_network") \%>\%
   add_candidates(log_res_rf, name = "random_forest")
-  
+
 log_st2
-  
+
 # these objects would likely then be
 # passed to blend_predictions():
 log_st2 \%>\% blend_predictions()

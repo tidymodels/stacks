@@ -54,7 +54,7 @@ st <-
   add_candidates(reg_res_sp) \%>\%
   blend_predictions() \%>\%
   fit_members()
-  
+
 # remove any of the "butcherable"
 # elements individually
 axe_call(st)

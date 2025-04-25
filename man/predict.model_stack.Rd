@@ -106,7 +106,7 @@ class_st <-
   add_candidates(class_res_rf) \%>\%
   blend_predictions() \%>\%
   fit_members()
- 
+
 class_st
 
 # predict reflex, first as a class, then as
@@ -116,9 +116,9 @@ predict(class_st, tree_frogs_class_test, type = "prob")
 
 # returning the member predictions as well
 predict(
-  class_st, 
-  tree_frogs_class_test, 
-  type = "prob", 
+  class_st,
+  tree_frogs_class_test,
+  type = "prob",
   members = TRUE
 )
 \dontshow{\}) # examplesIf}
