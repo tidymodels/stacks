@@ -88,23 +88,23 @@ the source code that generated them.
 
 # put together a data stack using
 # tuning results for regression models
-reg_st <- 
-  stacks() \%>\%
-  add_candidates(reg_res_lr) \%>\%
-  add_candidates(reg_res_svm) \%>\%
+reg_st <-
+  stacks() |>
+  add_candidates(reg_res_lr) |>
+  add_candidates(reg_res_svm) |>
   add_candidates(reg_res_sp, "spline")
-  
+
 reg_st
-  
+
 # check out the hyperparameters for some of the candidates
 collect_parameters(reg_st, "reg_res_svm")
 
 collect_parameters(reg_st, "spline")
 
-# blend the data stack to view the hyperparameters 
+# blend the data stack to view the hyperparameters
 # along with the stacking coefficients!
 collect_parameters(
-  reg_st \%>\% blend_predictions(), 
+  reg_st |> blend_predictions(),
   "spline"
 )
 \dontshow{\}) # examplesIf}

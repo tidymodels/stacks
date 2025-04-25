@@ -23,37 +23,37 @@ test_that("basic stacks pipeline works", {
   skip_if_not_installed("parsnip")
   skip_if_not_installed("rsample")
   skip_if_not_installed("glmnet")
-  
+
   set.seed(1)
-  
+
   dat <-
     tibble::tibble(
       x = rnorm(200),
       y = x + rnorm(200, 0, .1),
       z = runif(1) > x
     )
-  
-  lin_reg <- 
+
+  lin_reg <-
     tune::tune_grid(
-      workflows::workflow() %>%
-        workflows::add_formula(x ~ y + z) %>%
+      workflows::workflow() |>
+        workflows::add_formula(x ~ y + z) |>
         workflows::add_model(
           parsnip::linear_reg(
-            penalty = tune::tune("penalty"), 
+            penalty = tune::tune("penalty"),
             mixture = tune::tune("mixture")
-          ) %>%
-          parsnip::set_engine("glmnet")
+          ) |>
+            parsnip::set_engine("glmnet")
         ),
       rsample::vfold_cv(dat, v = 4),
       grid = 4,
       control = control_stack_grid()
     )
-  
+
   st <-
-    stacks() %>%
-    add_candidates(lin_reg) %>%
-    blend_predictions() %>%
+    stacks() |>
+    add_candidates(lin_reg) |>
+    blend_predictions() |>
     fit_members()
-  
+
   expect_true(model_stack_constr(st))
 })

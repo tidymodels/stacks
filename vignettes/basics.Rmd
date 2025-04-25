@@ -7,7 +7,8 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -25,12 +26,16 @@ In this article, we'll be working through an example of the workflow of model st
 
 The package is closely integrated with the rest of the functionality in tidymodels—we'll load those packages as well, in addition to some tidyverse packages to evaluate our results later on.
 
-```{r setup, eval = FALSE}
+```{r}
+#| label: setup
+#| eval: false
 library(tidymodels)
 library(stacks)
 ```
 
-```{r packages, include = FALSE}
+```{r}
+#| label: packages
+#| include: false
 library(tune)
 library(rsample)
 library(parsnip)
@@ -43,7 +48,8 @@ library(purrr)
 library(ggplot2)
 ```
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 if (rlang::is_installed("ranger") && 
     rlang::is_installed("nnet") &&
     rlang::is_installed("kernlab")) {
@@ -63,18 +69,28 @@ Red-eyed tree frog (RETF) embryos can hatch earlier than their normal 7ish days 
 
 We'll start out with predicting `latency` (i.e., time to hatch) based on other attributes. We'll need to filter out NAs (i.e., cases where the embryo did not hatch) first.
 
-```{r, message = FALSE, warning = FALSE}
+```{r}
+#| message: false
+#| warning: false
 data("tree_frogs")
 
 # subset the data
-tree_frogs <- tree_frogs %>%
-  filter(!is.na(latency)) %>%
+tree_frogs <- tree_frogs |>
+  filter(!is.na(latency)) |>
   select(-c(clutch, hatched))
 ```
 
 Taking a quick look at the data, it seems like the hatch time is pretty closely related to some of our predictors!
 
-```{r, message = FALSE, warning = FALSE, fig.alt = "A ggplot scatterplot with embryo age in seconds on the x axis, time to hatch on the y axis, and points colored by treatment. The ages range from 350,000 to 500,000 seconds, while the times to hatch range from 0 to 450 seconds. There are two treatments—control and gentamicin—and the time to hatch is generally larger for the gentamicin group. The embryo ages are generally distributed in three clouds, where the older embryos tend to hatch more quickly after stimulus than the younger ones."}
+```{r}
+#| message: false
+#| warning: false
+#| fig-alt: A ggplot scatterplot with embryo age in seconds on the x axis, time to hatch
+#|   on the y axis, and points colored by treatment. The ages range from 350,000 to 500,000
+#|   seconds, while the times to hatch range from 0 to 450 seconds. There are two treatments—control
+#|   and gentamicin—and the time to hatch is generally larger for the gentamicin group.
+#|   The embryo ages are generally distributed in three clouds, where the older embryos
+#|   tend to hatch more quickly after stimulus than the younger ones.
 theme_set(theme_bw())
 
 ggplot(tree_frogs) +
@@ -88,7 +104,12 @@ Let's give this a go!
 
 At the highest level, ensembles are formed from _model definitions_. In this package, model definitions are an instance of a minimal [`workflow`](https://workflows.tidymodels.org/), containing a _model specification_ (as defined in the [`parsnip`](https://parsnip.tidymodels.org/) package) and, optionally, a _preprocessor_ (as defined in the [`recipes`](https://recipes.tidymodels.org/) package). Model definitions specify the form of candidate ensemble members. 
 
-```{r, echo = FALSE, fig.alt = "A diagram representing 'model definitions,' which specify the form of candidate ensemble members. Three colored boxes represent three different model types; a K-nearest neighbors model (in salmon), a linear regression model (in yellow), and a support vector machine model (in green)."}
+```{r}
+#| echo: false
+#| fig-alt: A diagram representing 'model definitions,' which specify the form of candidate
+#|   ensemble members. Three colored boxes represent three different model types; a K-nearest
+#|   neighbors model (in salmon), a linear regression model (in yellow), and a support
+#|   vector machine model (in green).
 knitr::include_graphics("https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/model_defs.png")
 ```
 
@@ -134,7 +155,7 @@ knn_spec <-
   nearest_neighbor(
     mode = "regression", 
     neighbors = tune("k")
-  ) %>%
+  ) |>
   set_engine("kknn")
 
 knn_spec
@@ -147,10 +168,10 @@ From here, we extend the basic recipe defined earlier to fully specify the form 
 ```{r}
 # extend the recipe
 knn_rec <-
-  tree_frogs_rec %>%
-  step_dummy(all_nominal_predictors()) %>%
-  step_zv(all_predictors()) %>%
-  step_impute_mean(all_numeric_predictors()) %>%
+  tree_frogs_rec |>
+  step_dummy(all_nominal_predictors()) |>
+  step_zv(all_predictors()) |>
+  step_impute_mean(all_numeric_predictors()) |>
   step_normalize(all_numeric_predictors())
 
 knn_rec
@@ -163,8 +184,8 @@ Now, we combine the model specification and pre-processing instructions defined 
 ```{r}
 # add both to a workflow
 knn_wflow <- 
-  workflow() %>% 
-  add_model(knn_spec) %>%
+  workflow() |> 
+  add_model(knn_spec) |>
   add_recipe(knn_rec)
 
 knn_wflow
@@ -194,19 +215,19 @@ Now, specifying the linear model, note that we are not optimizing over any hyper
 ```{r}
 # create a model definition
 lin_reg_spec <-
-  linear_reg() %>%
+  linear_reg() |>
   set_engine("lm")
 
 # extend the recipe
 lin_reg_rec <-
-  tree_frogs_rec %>%
-  step_dummy(all_nominal_predictors()) %>%
+  tree_frogs_rec |>
+  step_dummy(all_nominal_predictors()) |>
   step_zv(all_predictors())
 
 # add both to a workflow
 lin_reg_wflow <- 
-  workflow() %>%
-  add_model(lin_reg_spec) %>%
+  workflow() |>
+  add_model(lin_reg_spec) |>
   add_recipe(lin_reg_rec)
 
 # fit to the 5-fold cv
@@ -230,23 +251,23 @@ svm_spec <-
   svm_rbf(
     cost = tune("cost"), 
     rbf_sigma = tune("sigma")
-  ) %>%
-  set_engine("kernlab") %>%
+  ) |>
+  set_engine("kernlab") |>
   set_mode("regression")
 
 # extend the recipe
 svm_rec <-
-  tree_frogs_rec %>%
-  step_dummy(all_nominal_predictors()) %>%
-  step_zv(all_predictors()) %>%
-  step_impute_mean(all_numeric_predictors()) %>%
-  step_corr(all_predictors()) %>%
+  tree_frogs_rec |>
+  step_dummy(all_nominal_predictors()) |>
+  step_zv(all_predictors()) |>
+  step_impute_mean(all_numeric_predictors()) |>
+  step_corr(all_predictors()) |>
   step_normalize(all_numeric_predictors())
 
 # add both to a workflow
 svm_wflow <- 
-  workflow() %>% 
-  add_model(svm_spec) %>%
+  workflow() |> 
+  add_model(svm_spec) |>
   add_recipe(svm_rec)
 
 # tune cost and sigma and fit to the 5-fold cv
@@ -265,7 +286,13 @@ svm_res
 
 Altogether, we've created three model definitions, where the K-nearest neighbors model definition specifies 4 model configurations, the linear regression specifies 1, and the support vector machine specifies 6.
 
-```{r, echo = FALSE, fig.alt = "A diagram representing 'candidate members' generated from each model definition. Four salmon-colored boxes labeled 'KNN' represent K-nearest neighbors models trained on the resamples with differing hyperparameters. Similarly, the linear regression (LM) model generates one candidate member, and the support vector machine (SVM) model generates six."}
+```{r}
+#| echo: false
+#| fig-alt: A diagram representing 'candidate members' generated from each model definition.
+#|   Four salmon-colored boxes labeled 'KNN' represent K-nearest neighbors models trained
+#|   on the resamples with differing hyperparameters. Similarly, the linear regression
+#|   (LM) model generates one candidate member, and the support vector machine (SVM)
+#|   model generates six.
 knitr::include_graphics("https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/candidates.png")
 ```
 
@@ -275,7 +302,13 @@ With these three model definitions fully specified, we are ready to begin stacki
 
 The first step to building an ensemble with stacks is to create a `data_stack` object—in this package, data stacks are tibbles (with some extra attributes) that contain the assessment set predictions for each candidate ensemble member.
 
-```{r, echo = FALSE, fig.alt = "A diagram representing a 'data stack,' a specific kind of data frame. Colored 'columns' depict, in white, the true value of the outcome variable in the validation set, followed by four columns (in salmon) representing the predictions from the K-nearest neighbors model, one column (in tan) representing the linear regression model, and six (in green) representing the support vector machine model."}
+```{r}
+#| echo: false
+#| fig-alt: A diagram representing a 'data stack,' a specific kind of data frame. Colored
+#|   'columns' depict, in white, the true value of the outcome variable in the validation
+#|   set, followed by four columns (in salmon) representing the predictions from the
+#|   K-nearest neighbors model, one column (in tan) representing the linear regression
+#|   model, and six (in green) representing the support vector machine model.
 knitr::include_graphics("https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/data_stack.png")
 ```
 
@@ -291,9 +324,9 @@ The `add_candidates()` function adds ensemble members to the stack.
 
 ```{r}
 tree_frogs_data_st <- 
-  stacks() %>%
-  add_candidates(knn_res) %>%
-  add_candidates(lin_reg_res) %>%
+  stacks() |>
+  add_candidates(knn_res) |>
+  add_candidates(lin_reg_res) |>
   add_candidates(svm_res)
 
 tree_frogs_data_st
@@ -315,31 +348,51 @@ The outputs from each of these candidate ensemble members are highly correlated,
 
 ```{r}
 tree_frogs_model_st <-
-  tree_frogs_data_st %>%
+  tree_frogs_data_st |>
   blend_predictions()
 ```
 
 The `blend_predictions` function determines how member model output will ultimately be combined in the final prediction by fitting a LASSO model on the data stack, predicting the true assessment set outcome using the predictions from each of the candidate members. Candidates with nonzero stacking coefficients become members. 
 
-```{r, echo = FALSE, fig.alt = "A diagram representing 'stacking coefficients,' the coefficients of the linear model combining each of the candidate member predictions to generate the ensemble's ultimate prediction. Boxes for each of the candidate members are placed besides each other, filled in with color if the coefficient for the associated candidate member is nonzero."}
+```{r}
+#| echo: false
+#| fig-alt: A diagram representing 'stacking coefficients,' the coefficients of the linear
+#|   model combining each of the candidate member predictions to generate the ensemble's
+#|   ultimate prediction. Boxes for each of the candidate members are placed besides
+#|   each other, filled in with color if the coefficient for the associated candidate
+#|   member is nonzero.
 knitr::include_graphics("https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/coefs.png")
 ```
 
 To make sure that we have the right trade-off between minimizing the number of members and optimizing performance, we can use the `autoplot()` method: 
 
-```{r penalty-plot}
+```{r}
+#| label: penalty-plot
 autoplot(tree_frogs_model_st)
 ```
 
 To show the relationship more directly: 
 
-```{r members-plot, fig.alt = "A ggplot line plot. The x axis shows the degree of penalization, ranging from 1e-06 to 1e-01, and the y axis displays the mean of three different metrics. The plots are faceted by metric type, with three facets: number of members, root mean squared error, and R squared. The plots generally show that, as penalization increases, the error decreases. There are very few proposed members in this example, so penalization doesn't drive down the number of members much at all. In this case, then, a larger penalty is acceptable."}
+```{r}
+#| label: members-plot
+#| fig-alt: 'A ggplot line plot. The x axis shows the degree of penalization, ranging
+#|   from 1e-06 to 1e-01, and the y axis displays the mean of three different metrics.
+#|   The plots are faceted by metric type, with three facets: number of members, root
+#|   mean squared error, and R squared. The plots generally show that, as penalization
+#|   increases, the error decreases. There are very few proposed members in this example,
+#|   so penalization doesn''t drive down the number of members much at all. In this case,
+#|   then, a larger penalty is acceptable.'
 autoplot(tree_frogs_model_st, type = "members")
 ```
 
 If these results were not good enough, `blend_predictions()` could be called again with different values of `penalty`. As it is, `blend_predictions()` picks the penalty parameter with the numerically optimal results. To see the top results: 
 
-```{r weight-plot, fig.alt = "A ggplot bar plot, giving the stacking coefficient on the x axis and member on the y axis. There are three members in this ensemble, where a nearest neighbor is weighted most heavily, followed by a linear regression with a stacking coefficient about half as large, followed by a support vector machine with a very small contribution."}
+```{r}
+#| label: weight-plot
+#| fig-alt: A ggplot bar plot, giving the stacking coefficient on the x axis and member
+#|   on the y axis. There are three members in this ensemble, where a nearest neighbor
+#|   is weighted most heavily, followed by a linear regression with a stacking coefficient
+#|   about half as large, followed by a support vector machine with a very small contribution.
 autoplot(tree_frogs_model_st, type = "weights")
 ```
 
@@ -347,23 +400,33 @@ Now that we know how to combine our model output, we can fit the candidates with
 
 ```{r}
 tree_frogs_model_st <-
-  tree_frogs_model_st %>%
+  tree_frogs_model_st |>
   fit_members()
 ```
 
-```{r, eval = FALSE, include = FALSE}
+```{r}
+#| eval: false
+#| include: false
 st_print <- capture.output(print(tree_frogs_model_st))
 
 writeLines(st_print, con = "inst/figs/st_print.txt")
 ```
 
-```{r, echo = FALSE, fig.alt = "A diagram representing the ensemble members, where each are pentagons labeled and colored-in according to the candidate members they arose from."}
+```{r}
+#| echo: false
+#| fig-alt: A diagram representing the ensemble members, where each are pentagons labeled
+#|   and colored-in according to the candidate members they arose from.
 knitr::include_graphics("https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/members.png")
 ```
 
 Model stacks can be thought of as a group of fitted member models and a set of instructions on how to combine their predictions.
 
-```{r, echo = FALSE, fig.alt = "A diagram representing the 'model stack' class, which collates the stacking coefficients and members (candidate members with nonzero stacking coefficients that are trained on the full training set). The representation of the stacking coefficients and members is as before. Model stacks are a list subclass."}
+```{r}
+#| echo: false
+#| fig-alt: A diagram representing the 'model stack' class, which collates the stacking
+#|   coefficients and members (candidate members with nonzero stacking coefficients that
+#|   are trained on the full training set). The representation of the stacking coefficients
+#|   and members is as before. Model stacks are a list subclass.
 knitr::include_graphics("https://raw.githubusercontent.com/tidymodels/stacks/main/man/figures/class_model_stack.png")
 ```
 
@@ -377,13 +440,15 @@ This object is now ready to predict with new data!
 
 ```{r}
 tree_frogs_test <- 
-  tree_frogs_test %>%
-  bind_cols(predict(tree_frogs_model_st, .))
+  bind_cols(tree_frogs_test, predict(tree_frogs_model_st, tree_frogs_test))
 ```
 
 Juxtaposing the predictions with the true data:
 
-```{r, fig.alt = "A ggplot scatterplot showing observed versus predicted latency values. While there is indeed a positive and roughly linear relationship, there is certainly patterned structure in the residuals."}
+```{r}
+#| fig-alt: A ggplot scatterplot showing observed versus predicted latency values. While
+#|   there is indeed a positive and roughly linear relationship, there is certainly patterned
+#|   structure in the residuals.
 ggplot(tree_frogs_test) +
   aes(
     x = latency,
@@ -397,19 +462,18 @@ Looks like our predictions were pretty strong! How do the stacks predictions per
 
 ```{r}
 member_preds <- 
-  tree_frogs_test %>%
-  select(latency) %>%
+  tree_frogs_test |>
+  select(latency) |>
   bind_cols(predict(tree_frogs_model_st, tree_frogs_test, members = TRUE))
 ```
 
 Now, evaluating the root mean squared error from each model:
 
 ```{r}
-map(member_preds, rmse_vec, truth = member_preds$latency) %>%
+map(member_preds, rmse_vec, truth = member_preds$latency) |>
   as_tibble()
 ```
 
 As we can see, the stacked ensemble outperforms each of the member models, though is closely followed by one of its members.
 
 Voila! You've now made use of the stacks package to predict red-eyed tree frog embryo hatching using a stacked ensemble! The full visual outline for these steps can be found [here](https://github.com/tidymodels/stacks/blob/main/inst/figs/outline.png).
-

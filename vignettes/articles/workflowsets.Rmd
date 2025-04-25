@@ -2,7 +2,8 @@
 title: "Stacking With Workflow Sets"
 ---
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 if (rlang::is_installed("workflowsets")) {
   run <- TRUE
 } else {
@@ -20,22 +21,24 @@ The stacks package provides a shorthand interface for supplying multiple
 sets of candidate members in one call to `add_candidates()` via the 
 [workflowsets](https://workflowsets.tidymodels.org/) package. Instead of iteratively calling `add_candidates()` for each tuning result:
 
-```{r, eval = FALSE}
-stacks() %>%
-  add_candidates(tuning_result_1) %>%
-  add_candidates(tuning_result_2) %>%
-  add_candidates(tuning_result_3) %>%
-  add_candidates(tuning_result_4) %>%
-  blend_predictions() %>%
+```{r}
+#| eval: false
+stacks() |>
+  add_candidates(tuning_result_1) |>
+  add_candidates(tuning_result_2) |>
+  add_candidates(tuning_result_3) |>
+  add_candidates(tuning_result_4) |>
+  blend_predictions() |>
   fit_members()
 ```
 
 ...we can add candidate members "in batch:"
 
-```{r, eval = FALSE}
-stacks() %>%
-  add_candidates(wf_set) %>%
-  blend_predictions() %>%
+```{r}
+#| eval: false
+stacks() |>
+  add_candidates(wf_set) |>
+  blend_predictions() |>
   fit_members()
 ```
 
@@ -50,12 +53,16 @@ them using [workflowsets::workflow_map()](https://workflowsets.tidymodels.org/re
 
 First, loading needed packages:
 
-```{r setup, eval = FALSE}
+```{r}
+#| label: setup
+#| eval: false
 library(tidymodels)
 library(stacks)
 ```
 
-```{r packages, include = FALSE}
+```{r}
+#| label: packages
+#| include: false
 library(tune)
 library(rsample)
 library(parsnip)
@@ -75,18 +82,28 @@ Red-eyed tree frog (RETF) embryos can hatch earlier than their normal 7ish days 
 
 We'll start out with predicting `latency` (i.e., time to hatch) based on other attributes. We'll need to filter out NAs (i.e., cases where the embryo did not hatch) first.
 
-```{r, message = FALSE, warning = FALSE}
+```{r}
+#| message: false
+#| warning: false
 data("tree_frogs")
 
 # subset the data
-tree_frogs <- tree_frogs %>%
-  filter(!is.na(latency)) %>%
+tree_frogs <- tree_frogs |>
+  filter(!is.na(latency)) |>
   select(-c(clutch, hatched))
 ```
 
 Taking a quick look at the data, it seems like the hatch time is pretty closely related to some of our predictors!
 
-```{r, message = FALSE, warning = FALSE, fig.alt = "A ggplot scatterplot with embryo age in seconds on the x axis, time to hatch on the y axis, and points colored by treatment. The ages range from 350,000 to 500,000 seconds, while the times to hatch range from 0 to 450 seconds. There are two treatments—control and gentamicin—and the time to hatch is generally larger for the gentamicin group. The embryo ages are generally distributed in three clouds, where the older embryos tend to hatch more quickly after stimulus than the younger ones."}
+```{r}
+#| message: false
+#| warning: false
+#| fig-alt: A ggplot scatterplot with embryo age in seconds on the x axis, time to hatch
+#|   on the y axis, and points colored by treatment. The ages range from 350,000 to 500,000
+#|   seconds, while the times to hatch range from 0 to 450 seconds. There are two treatments—control
+#|   and gentamicin—and the time to hatch is generally larger for the gentamicin group.
+#|   The embryo ages are generally distributed in three clouds, where the older embryos
+#|   tend to hatch more quickly after stimulus than the younger ones.
 theme_set(theme_bw())
 
 ggplot(tree_frogs) +
@@ -135,7 +152,7 @@ knn_spec <-
   nearest_neighbor(
     mode = "regression", 
     neighbors = tune("k")
-  ) %>%
+  ) |>
   set_engine("kknn")
 
 knn_spec
@@ -148,10 +165,10 @@ From here, we extend the basic recipe defined earlier to fully specify the form 
 ```{r}
 # extend the recipe
 knn_rec <-
-  tree_frogs_rec %>%
-  step_dummy(all_nominal_predictors()) %>%
-  step_zv(all_predictors()) %>%
-  step_impute_mean(all_numeric_predictors()) %>%
+  tree_frogs_rec |>
+  step_dummy(all_nominal_predictors()) |>
+  step_zv(all_predictors()) |>
+  step_impute_mean(all_numeric_predictors()) |>
   step_normalize(all_numeric_predictors())
 
 knn_rec
@@ -164,13 +181,13 @@ Now, specifying the linear model, note that we are not optimizing over any hyper
 ```{r}
 # create a model specification
 lin_reg_spec <-
-  linear_reg() %>%
+  linear_reg() |>
   set_engine("lm")
 
 # extend the recipe
 lin_reg_rec <-
-  tree_frogs_rec %>%
-  step_dummy(all_nominal_predictors()) %>%
+  tree_frogs_rec |>
+  step_dummy(all_nominal_predictors()) |>
   step_zv(all_predictors())
 ```
 
@@ -182,17 +199,17 @@ svm_spec <-
   svm_rbf(
     cost = tune("cost"), 
     rbf_sigma = tune("sigma")
-  ) %>%
-  set_engine("kernlab") %>%
+  ) |>
+  set_engine("kernlab") |>
   set_mode("regression")
 
 # extend the recipe
 svm_rec <-
-  tree_frogs_rec %>%
-  step_dummy(all_nominal_predictors()) %>%
-  step_zv(all_predictors()) %>%
-  step_impute_mean(all_numeric_predictors()) %>%
-  step_corr(all_predictors()) %>%
+  tree_frogs_rec |>
+  step_dummy(all_nominal_predictors()) |>
+  step_zv(all_predictors()) |>
+  step_impute_mean(all_numeric_predictors()) |>
+  step_corr(all_predictors()) |>
   step_normalize(all_numeric_predictors())
 ```
 
@@ -212,7 +229,7 @@ wf_set
 Note that each combination of preprocessor and model specification is assigned a `wflow_id` that we can use to interface with individual model definitions:
 
 ```{r}
-wf_set %>%
+wf_set |>
   extract_workflow("rec3_svm")
 ```
 
@@ -222,7 +239,7 @@ We can iteratively add the appropriate control settings with the `control_stack_
 
 ```{r}
 wf_set <-
-  wf_set %>%
+  wf_set |>
   option_add(
     control = control_stack_grid(),
     metrics = metric
@@ -231,7 +248,10 @@ wf_set <-
 
 We can now use the `workflow_map()` function to map over each model definition, evaluating hyperparameters on the supplied resamples.
 
-```{r, message = FALSE, warning = FALSE, cache = TRUE}
+```{r}
+#| message: false
+#| warning: false
+#| cache: true
 wf_set_trained <-
   workflow_map(
     wf_set,
@@ -247,7 +267,7 @@ The results section now contains three sets of tuning results. Note that the res
 We can extract tuning results with the `extract_workflow_set_result()` helper to explore our tuning results:
 
 ```{r}
-extract_workflow_set_result(wf_set_trained, id = "rec1_knn") %>%
+extract_workflow_set_result(wf_set_trained, id = "rec1_knn") |>
   collect_metrics(summarize = TRUE)
 ```
 
@@ -257,14 +277,16 @@ With these three model definitions fully specified and tuned in a workflow set, 
 
 Building the stacked ensemble, now, takes even fewer lines than it did with individual workflows:
 
-```{r, message = FALSE, warning = FALSE}
+```{r}
+#| message: false
+#| warning: false
 tree_frogs_model_st <- 
   # initialize the stack
-  stacks() %>%
+  stacks() |>
   # add candidate members
-  add_candidates(wf_set_trained) %>%
+  add_candidates(wf_set_trained) |>
   # determine how to combine their predictions
-  blend_predictions() %>%
+  blend_predictions() |>
   # fit the candidates with nonzero stacking coefficients
   fit_members()
 
@@ -275,13 +297,26 @@ The results obtained from building a model stack with workflow sets are identica
 
 To make sure that we have the right trade-off between minimizing the number of members and optimizing performance, we can use: 
 
-```{r penalty-plot, fig.alt = "A ggplot line plot. The x axis shows the degree of penalization, ranging from 1e-06 to 1e-01, and the y axis displays the mean of three different metrics. The plots are faceted by metric type, with three facets: number of members, root mean squared error, and R squared. The plots generally show that, as penalization increases, the error decreases. There are very few proposed members in this example, so penalization doesn't drive down the number of members much at all. In this case, then, a larger penalty is acceptable."}
+```{r}
+#| label: penalty-plot
+#| fig-alt: 'A ggplot line plot. The x axis shows the degree of penalization, ranging
+#|   from 1e-06 to 1e-01, and the y axis displays the mean of three different metrics.
+#|   The plots are faceted by metric type, with three facets: number of members, root
+#|   mean squared error, and R squared. The plots generally show that, as penalization
+#|   increases, the error decreases. There are very few proposed members in this example,
+#|   so penalization doesn''t drive down the number of members much at all. In this case,
+#|   then, a larger penalty is acceptable.'
 autoplot(tree_frogs_model_st)
 ```
 
 If these results were not good enough, `blend_predictions()` could be called again with different values of `penalty`. As it is, `blend_predictions()` picks the penalty parameter with the numerically optimal results. To see the top results: 
 
-```{r weight-plot, fig.alt = "A ggplot bar plot, giving the stacking coefficient on the x axis and member on the y axis. There are three members in this ensemble, where a nearest neighbor is weighted most heavily, followed by a linear regression with a stacking coefficient about half as large, followed by a support vector machine with a very small contribution."}
+```{r}
+#| label: weight-plot
+#| fig-alt: A ggplot bar plot, giving the stacking coefficient on the x axis and member
+#|   on the y axis. There are three members in this ensemble, where a nearest neighbor
+#|   is weighted most heavily, followed by a linear regression with a stacking coefficient
+#|   about half as large, followed by a support vector machine with a very small contribution.
 autoplot(tree_frogs_model_st, type = "weights")
 ```
 
@@ -295,13 +330,15 @@ This object is now ready to predict with new data!
 
 ```{r}
 tree_frogs_test <- 
-  tree_frogs_test %>%
-  bind_cols(predict(tree_frogs_model_st, .))
+  bind_cols(tree_frogs_test, predict(tree_frogs_model_st, tree_frogs_test))
 ```
 
 Juxtaposing the predictions with the true data:
 
-```{r, fig.alt = "A ggplot scatterplot showing observed versus predicted latency values. While there is indeed a positive and roughly linear relationship, there is certainly patterned structure in the residuals."}
+```{r}
+#| fig-alt: A ggplot scatterplot showing observed versus predicted latency values. While
+#|   there is indeed a positive and roughly linear relationship, there is certainly patterned
+#|   structure in the residuals.
 ggplot(tree_frogs_test) +
   aes(
     x = latency,
@@ -315,15 +352,15 @@ Looks like our predictions were decent! How do the stacks predictions perform, t
 
 ```{r}
 member_preds <- 
-  tree_frogs_test %>%
-  select(latency) %>%
+  tree_frogs_test |>
+  select(latency) |>
   bind_cols(predict(tree_frogs_model_st, tree_frogs_test, members = TRUE))
 ```
 
 Now, evaluating the root mean squared error from each model:
 
 ```{r}
-map(member_preds, rmse_vec, truth = member_preds$latency) %>%
+map(member_preds, rmse_vec, truth = member_preds$latency) |>
   as_tibble()
 ```
 

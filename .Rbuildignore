@@ -18,3 +18,5 @@ tests/testthat/helper_data\.Rda$
 cran-comments.md
 ^CRAN-RELEASE$
 ^vignettes/articles$
+^[\.]?air\.toml$
+^\.vscode$

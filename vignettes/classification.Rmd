@@ -7,7 +7,8 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -16,12 +17,16 @@ knitr::opts_chunk$set(
 
 In this vignette, we'll tackle a multiclass classification problem using the stacks package. This vignette assumes that you're familiar with tidymodels "proper," as well as the basic grammar of the package, and have seen it implemented on numeric data; if this is not the case, check out the "Getting Started With stacks" vignette!
 
-```{r setup, eval = FALSE}
+```{r}
+#| label: setup
+#| eval: false
 library(tidymodels)
 library(stacks)
 ```
 
-```{r packages, include = FALSE}
+```{r}
+#| label: packages
+#| include: false
 library(tune)
 library(rsample)
 library(parsnip)
@@ -34,7 +39,8 @@ library(tidyr)
 library(ggplot2)
 ```
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 if (rlang::is_installed("ranger") && 
     rlang::is_installed("nnet") &&
     rlang::is_installed("kernlab") &&
@@ -57,17 +63,27 @@ Red-eyed tree frog (RETF) embryos can hatch earlier than their normal 7ish days 
 
 In this article, we'll use most all of the variables in `tree_frogs` to predict `reflex`, a measure of ear function called the vestibulo-ocular reflex (VOR), categorized into bins. Ear function increases from factor levels "low", to "mid", to "full".
 
-```{r, message = FALSE, warning = FALSE}
+```{r}
+#| message: false
+#| warning: false
 data("tree_frogs")
 
 # subset the data
-tree_frogs <- tree_frogs %>%
+tree_frogs <- tree_frogs |>
   select(-c(clutch, latency))
 ```
 
 Let's plot the data to get a sense for how separable these groups are.
 
-```{r, message = FALSE, warning = FALSE, fig.alt = "A ggplot scatterplot with categorical variable treatment, embryo age in seconds on the y axis, and points colored by response. The ages range from 350,000 to 500,000 seconds, and the two treatments are control and gentamicin. There are three responses: low, mid, and full. All of the embryos beyond a certain age have a full response, while the low and mid responses are well-intermixed regardless of age or treatment."}
+```{r}
+#| message: false
+#| warning: false
+#| fig-alt: 'A ggplot scatterplot with categorical variable treatment, embryo age in
+#|   seconds on the y axis, and points colored by response. The ages range from 350,000
+#|   to 500,000 seconds, and the two treatments are control and gentamicin. There are
+#|   three responses: low, mid, and full. All of the embryos beyond a certain age have
+#|   a full response, while the low and mid responses are well-intermixed regardless
+#|   of age or treatment.'
 theme_set(theme_bw())
 
 ggplot(tree_frogs) +
@@ -97,12 +113,12 @@ tree_frogs_test  <- testing(tree_frogs_split)
 folds <- rsample::vfold_cv(tree_frogs_train, v = 5)
 
 tree_frogs_rec <- 
-  recipe(reflex ~ ., data = tree_frogs_train) %>%
-  step_dummy(all_nominal_predictors(), -reflex) %>%
+  recipe(reflex ~ ., data = tree_frogs_train) |>
+  step_dummy(all_nominal_predictors(), -reflex) |>
   step_zv(all_predictors())
 
 tree_frogs_wflow <- 
-  workflow() %>% 
+  workflow() |> 
   add_recipe(tree_frogs_rec)
 ```
 
@@ -116,18 +132,20 @@ We'll define two different model definitions to try to predict `reflex`—a rand
 
 Starting out with a random forest:
 
-```{r, message = FALSE, warning = FALSE}
+```{r}
+#| message: false
+#| warning: false
 rand_forest_spec <- 
   rand_forest(
     mtry = tune(),
     min_n = tune(),
     trees = 500
-  ) %>%
-  set_mode("classification") %>%
+  ) |>
+  set_mode("classification") |>
   set_engine("ranger")
 
 rand_forest_wflow <-
-  tree_frogs_wflow %>%
+  tree_frogs_wflow |>
   add_model(rand_forest_spec)
 
 rand_forest_res <- 
@@ -141,19 +159,21 @@ rand_forest_res <-
 
 Now, moving on to the neural network model definition:
 
-```{r, message = FALSE, warning = FALSE}
+```{r}
+#| message: false
+#| warning: false
 nnet_spec <-
-  mlp(hidden_units = tune(), penalty = tune(), epochs = tune()) %>%
-  set_mode("classification") %>%
+  mlp(hidden_units = tune(), penalty = tune(), epochs = tune()) |>
+  set_mode("classification") |>
   set_engine("nnet")
 
 nnet_rec <- 
-  tree_frogs_rec %>% 
+  tree_frogs_rec |> 
   step_normalize(all_predictors())
 
 nnet_wflow <- 
-  tree_frogs_wflow %>%
-  add_model(nnet_spec) %>%
+  tree_frogs_wflow |>
+  add_model(nnet_spec) |>
   update_recipe(nnet_rec)
 
 nnet_res <-
@@ -171,15 +191,17 @@ With these model definitions fully specified, we're ready to start putting toget
 
 Building the stacked ensemble, now, only takes a few lines:
 
-```{r, message = FALSE, warning = FALSE}
+```{r}
+#| message: false
+#| warning: false
 tree_frogs_model_st <- 
   # initialize the stack
-  stacks() %>%
+  stacks() |>
   # add candidate members
-  add_candidates(rand_forest_res) %>%
-  add_candidates(nnet_res) %>%
+  add_candidates(rand_forest_res) |>
+  add_candidates(nnet_res) |>
   # determine how to combine their predictions
-  blend_predictions() %>%
+  blend_predictions() |>
   # fit the candidates with nonzero stacking coefficients
   fit_members()
 
@@ -188,19 +210,34 @@ tree_frogs_model_st
 
 To make sure that we have the right trade-off between minimizing the number of members and optimizing performance, we can use the `autoplot()` method: 
 
-```{r penalty-plot, fig.alt = "A ggplot line plot. The x axis shows the degree of penalization, ranging from 1e-06 to 1e-01, and the y axis displays the mean of three different metrics. The plots are faceted by metric type, with three facets: accuracy, number of members, and ROC AUC. The plots generally show that, as penalization increases, the error increases, though fewer members are included in the model. A dashed line at a penalty of 1e-05 indicates that the stack has chosen a smaller degree of penalization."}
+```{r}
+#| label: penalty-plot
+#| fig-alt: 'A ggplot line plot. The x axis shows the degree of penalization, ranging
+#|   from 1e-06 to 1e-01, and the y axis displays the mean of three different metrics.
+#|   The plots are faceted by metric type, with three facets: accuracy, number of members,
+#|   and ROC AUC. The plots generally show that, as penalization increases, the error
+#|   increases, though fewer members are included in the model. A dashed line at a penalty
+#|   of 1e-05 indicates that the stack has chosen a smaller degree of penalization.'
 autoplot(tree_frogs_model_st)
 ```
 
 To show the relationship more directly: 
 
-```{r members-plot, fig.alt = "A similarly formatted ggplot line plot, showing that greater numbers of members result in higher accuracy."}
+```{r}
+#| label: members-plot
+#| fig-alt: A similarly formatted ggplot line plot, showing that greater numbers of members
+#|   result in higher accuracy.
 autoplot(tree_frogs_model_st, type = "members")
 ```
 
 If these results were not good enough, `blend_predictions()` could be called again with different values of `penalty`. As it is, `blend_predictions()` picks the penalty parameter with the numerically optimal results. To see the top results: 
 
-```{r weight-plot, fig.alt = "A ggplot bar plot, giving the stacking coefficient on the x axis and member on the y axis. Bars corresponding to neural networks are shown in red, while random forest bars are shown in blue. Generally, the neural network tends to accentuate features of the 'low' response, while the random forest does so for the 'mid' response."}
+```{r}
+#| label: weight-plot
+#| fig-alt: A ggplot bar plot, giving the stacking coefficient on the x axis and member
+#|   on the y axis. Bars corresponding to neural networks are shown in red, while random
+#|   forest bars are shown in blue. Generally, the neural network tends to accentuate
+#|   features of the 'low' response, while the random forest does so for the 'mid' response.
 autoplot(tree_frogs_model_st, type = "weights")
 ```
 
@@ -214,15 +251,17 @@ collect_parameters(tree_frogs_model_st, "rand_forest_res")
 
 This object is now ready to predict with new data!
 
-```{r, eval = FALSE}
+```{r}
+#| eval: false
 tree_frogs_pred <-
-  tree_frogs_test %>%
+  tree_frogs_test |>
   bind_cols(predict(tree_frogs_model_st, ., type = "prob"))
 ```
 
 Computing the ROC AUC for the model:
 
-```{r, eval = FALSE}
+```{r}
+#| eval: false
 yardstick::roc_auc(
   tree_frogs_pred,
   truth = reflex,
@@ -234,8 +273,8 @@ Looks like our predictions were pretty strong! How do the stacks predictions per
 
 ```{r}
 tree_frogs_pred <-
-  tree_frogs_test %>%
-  select(reflex) %>%
+  tree_frogs_test |>
+  select(reflex) |>
   bind_cols(
     predict(
       tree_frogs_model_st,
@@ -250,9 +289,9 @@ tree_frogs_pred
 map(
   colnames(tree_frogs_pred),
   ~mean(tree_frogs_pred$reflex == pull(tree_frogs_pred, .x))
-) %>%
-  set_names(colnames(tree_frogs_pred)) %>%
-  as_tibble() %>%
+) |>
+  set_names(colnames(tree_frogs_pred)) |>
+  as_tibble() |>
   pivot_longer(c(everything(), -reflex))
 ```
 

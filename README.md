@@ -51,21 +51,20 @@ pak::pak("tidymodels/stacks")
 
 stacks is generalized with respect to:
 
--   Model type: Any model type implemented in
-    [parsnip](https://parsnip.tidymodels.org/) or extension packages is
-    fair game to add to a stacks model stack.
-    [Here](https://www.tidymodels.org/find/parsnip/)’s a table of many
-    of the implemented model types in the tidymodels core, with a link
-    there to an article about implementing your own model classes as
-    well.
--   Cross-validation scheme: Any resampling algorithm implemented in
-    [rsample](https://rsample.tidymodels.org/) or extension packages is
-    fair game for resampling data for use in training a model stack.
--   Error metric: Any metric function implemented in
-    [yardstick](https://yardstick.tidymodels.org/) or extension packages
-    is fair game for evaluating model stacks and their members. That
-    package provides some infrastructure for creating your own metric
-    functions as well!
+- Model type: Any model type implemented in
+  [parsnip](https://parsnip.tidymodels.org/) or extension packages is
+  fair game to add to a stacks model stack.
+  [Here](https://www.tidymodels.org/find/parsnip/)’s a table of many of
+  the implemented model types in the tidymodels core, with a link there
+  to an article about implementing your own model classes as well.
+- Cross-validation scheme: Any resampling algorithm implemented in
+  [rsample](https://rsample.tidymodels.org/) or extension packages is
+  fair game for resampling data for use in training a model stack.
+- Error metric: Any metric function implemented in
+  [yardstick](https://yardstick.tidymodels.org/) or extension packages
+  is fair game for evaluating model stacks and their members. That
+  package provides some infrastructure for creating your own metric
+  functions as well!
 
 stacks uses a regularized linear model to combine predictions from
 ensemble members, though this model type is only one of many possible
@@ -90,11 +89,15 @@ specification* (as defined in the
 [recipes](https://recipes.tidymodels.org/) package). Model definitions
 specify the form of candidate ensemble members.
 
-![A diagram representing “model definitions,” which specify the form of
-candidate ensemble members. Three colored boxes represent three
-different model types; a K-nearest neighbors model (in salmon), a linear
-regression model (in yellow), and a support vector machine model (in
-green).](man/figures/model_defs.png)
+<figure>
+<img src="man/figures/model_defs.png"
+alt="A diagram representing “model definitions,” which specify the form of candidate ensemble members. Three colored boxes represent three different model types; a K-nearest neighbors model (in salmon), a linear regression model (in yellow), and a support vector machine model (in green)." />
+<figcaption aria-hidden="true">A diagram representing “model
+definitions,” which specify the form of candidate ensemble members.
+Three colored boxes represent three different model types; a K-nearest
+neighbors model (in salmon), a linear regression model (in yellow), and
+a support vector machine model (in green).</figcaption>
+</figure>
 
 To be used in the same ensemble, each of these model definitions must
 share the same *resample*. This
@@ -102,12 +105,16 @@ share the same *resample*. This
 with the model definitions, can be used to generate the tuning/fitting
 results objects for the candidate *ensemble members* with tune.
 
-![A diagram representing “candidate members” generated from each model
-definition. Four salmon-colored boxes labeled “KNN” represent K-nearest
-neighbors models trained on the resamples with differing
-hyperparameters. Similarly, the linear regression model generates one
-candidate member, and the support vector machine model generates
-six.](man/figures/candidates.png)
+<figure>
+<img src="man/figures/candidates.png"
+alt="A diagram representing “candidate members” generated from each model definition. Four salmon-colored boxes labeled “KNN” represent K-nearest neighbors models trained on the resamples with differing hyperparameters. Similarly, the linear regression model generates one candidate member, and the support vector machine model generates six." />
+<figcaption aria-hidden="true">A diagram representing “candidate
+members” generated from each model definition. Four salmon-colored boxes
+labeled “KNN” represent K-nearest neighbors models trained on the
+resamples with differing hyperparameters. Similarly, the linear
+regression model generates one candidate member, and the support vector
+machine model generates six.</figcaption>
+</figure>
 
 Candidate members first come together in a `data_stack` object through
 the `add_candidates()` function. Principally, these objects are just
@@ -120,13 +127,17 @@ Classification requires as many columns per candidate as there are
 levels in the outcome variable.) They also bring along a few extra
 attributes to keep track of model definitions.
 
-![A diagram representing a “data stack,” a specific kind of data frame.
-Colored “columns” depict, in white, the true value of the outcome
-variable in the validation set, followed by four columns (in salmon)
-representing the predictions from the K-nearest neighbors model, one
-column (in tan) representing the linear regression model, and six (in
-green) representing the support vector machine
-model.](man/figures/data_stack.png)
+<figure>
+<img src="man/figures/data_stack.png"
+alt="A diagram representing a “data stack,” a specific kind of data frame. Colored “columns” depict, in white, the true value of the outcome variable in the validation set, followed by four columns (in salmon) representing the predictions from the K-nearest neighbors model, one column (in tan) representing the linear regression model, and six (in green) representing the support vector machine model." />
+<figcaption aria-hidden="true">A diagram representing a “data stack,” a
+specific kind of data frame. Colored “columns” depict, in white, the
+true value of the outcome variable in the validation set, followed by
+four columns (in salmon) representing the predictions from the K-nearest
+neighbors model, one column (in tan) representing the linear regression
+model, and six (in green) representing the support vector machine
+model.</figcaption>
+</figure>
 
 Then, the data stack can be evaluated using `blend_predictions()` to
 determine to how best to combine the outputs from each of the candidate
@@ -139,25 +150,33 @@ inputs of (possibly) many of the members will zero out—their predictions
 will have no influence on the final output, and those terms will thus be
 thrown out.
 
-![A diagram representing “stacking coefficients,” the coefficients of
-the linear model combining each of the candidate member predictions to
-generate the ensemble’s ultimate prediction. Boxes for each of the
-candidate members are placed besides each other, filled in with color if
-the coefficient for the associated candidate member is
-nonzero.](man/figures/coefs.png)
+<figure>
+<img src="man/figures/coefs.png"
+alt="A diagram representing “stacking coefficients,” the coefficients of the linear model combining each of the candidate member predictions to generate the ensemble’s ultimate prediction. Boxes for each of the candidate members are placed besides each other, filled in with color if the coefficient for the associated candidate member is nonzero." />
+<figcaption aria-hidden="true">A diagram representing “stacking
+coefficients,” the coefficients of the linear model combining each of
+the candidate member predictions to generate the ensemble’s ultimate
+prediction. Boxes for each of the candidate members are placed besides
+each other, filled in with color if the coefficient for the associated
+candidate member is nonzero.</figcaption>
+</figure>
 
 These stacking coefficients determine which candidate ensemble members
 will become ensemble members. Candidates with non-zero stacking
 coefficients are then fitted on the whole training set, altogether
 making up a `model_stack` object.
 
-![A diagram representing the “model stack” class, which collates the
-stacking coefficients and members (candidate members with nonzero
-stacking coefficients that are trained on the full training set). The
-representation of the stacking coefficients is as before, where the
-members (shown next to their associated stacking coefficients) are
-colored-in pentagons. Model stacks are a list
-subclass.](man/figures/class_model_stack.png)
+<figure>
+<img src="man/figures/class_model_stack.png"
+alt="A diagram representing the “model stack” class, which collates the stacking coefficients and members (candidate members with nonzero stacking coefficients that are trained on the full training set). The representation of the stacking coefficients is as before, where the members (shown next to their associated stacking coefficients) are colored-in pentagons. Model stacks are a list subclass." />
+<figcaption aria-hidden="true">A diagram representing the “model stack”
+class, which collates the stacking coefficients and members (candidate
+members with nonzero stacking coefficients that are trained on the full
+training set). The representation of the stacking coefficients is as
+before, where the members (shown next to their associated stacking
+coefficients) are colored-in pentagons. Model stacks are a list
+subclass.</figcaption>
+</figure>
 
 This model stack object, outputted from `fit_members()`, is ready to
 predict on new data! The trained ensemble members are often referred to
@@ -174,21 +193,21 @@ This project is released with a [Contributor Code of
 Conduct](https://github.com/tidymodels/stacks/blob/main/.github/CODE_OF_CONDUCT.md).
 By contributing to this project, you agree to abide by its terms.
 
--   For questions and discussions about tidymodels packages, modeling,
-    and machine learning, please [post on Posit
-    Community](https://forum.posit.co/new-topic?category_id=15&tags=tidymodels,question).
+- For questions and discussions about tidymodels packages, modeling, and
+  machine learning, please [post on Posit
+  Community](https://forum.posit.co/new-topic?category_id=15&tags=tidymodels,question).
 
--   If you think you have encountered a bug, please [submit an
-    issue](https://github.com/tidymodels/stacks/issues).
+- If you think you have encountered a bug, please [submit an
+  issue](https://github.com/tidymodels/stacks/issues).
 
--   Either way, learn how to create and share a
-    [reprex](https://reprex.tidyverse.org/articles/articles/learn-reprex.html)
-    (a minimal, reproducible example), to clearly communicate about your
-    code.
+- Either way, learn how to create and share a
+  [reprex](https://reprex.tidyverse.org/articles/articles/learn-reprex.html)
+  (a minimal, reproducible example), to clearly communicate about your
+  code.
 
--   Check out further details on [contributing guidelines for tidymodels
-    packages](https://www.tidymodels.org/contribute/) and [how to get
-    help](https://www.tidymodels.org/help/).
+- Check out further details on [contributing guidelines for tidymodels
+  packages](https://www.tidymodels.org/contribute/) and [how to get
+  help](https://www.tidymodels.org/help/).
 
 In the stacks package, some test objects take too long to build with
 every commit. If your contribution changes the structure of `data_stack`

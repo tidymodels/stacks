@@ -85,10 +85,10 @@ data(tree_frogs_class_test)
 
 # build and fit a regression model stack
 reg_st <-
-  stacks() \%>\%
-  add_candidates(reg_res_lr) \%>\%
-  add_candidates(reg_res_sp) \%>\%
-  blend_predictions() \%>\%
+  stacks() |>
+  add_candidates(reg_res_lr) |>
+  add_candidates(reg_res_sp) |>
+  blend_predictions() |>
   fit_members()
 
 reg_st
@@ -101,12 +101,12 @@ predict(reg_st, tree_frogs_reg_test, members = TRUE)
 
 # build and fit a classification model stack
 class_st <-
-  stacks() \%>\%
-  add_candidates(class_res_nn) \%>\%
-  add_candidates(class_res_rf) \%>\%
-  blend_predictions() \%>\%
+  stacks() |>
+  add_candidates(class_res_nn) |>
+  add_candidates(class_res_rf) |>
+  blend_predictions() |>
   fit_members()
- 
+
 class_st
 
 # predict reflex, first as a class, then as
@@ -116,9 +116,9 @@ predict(class_st, tree_frogs_class_test, type = "prob")
 
 # returning the member predictions as well
 predict(
-  class_st, 
-  tree_frogs_class_test, 
-  type = "prob", 
+  class_st,
+  tree_frogs_class_test,
+  type = "prob",
   members = TRUE
 )
 \dontshow{\}) # examplesIf}

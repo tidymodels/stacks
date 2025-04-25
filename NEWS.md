@@ -4,6 +4,8 @@
   print to the console (#228).
 
 * Added missing commas and addressed formatting issues throughout the vignettes and articles. Backticks for package names were removed and missing parentheses for functions were added (@Joscelinrocha, #218).
+
+* Increased the minimum R version to R 4.1.
   
 # stacks 1.0.5
 
