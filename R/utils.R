@@ -162,7 +162,7 @@ mode_is_regression <- function(x) {
   if (is.list(x$estimate)) {
     x$estimate <- purrr::map(
       x$estimate,
-      ~ tibble::as_tibble(as.matrix(.x), rownames = "terms")
+      function(.x) tibble::as_tibble(as.matrix(.x), rownames = "terms")
     )
     x <- tidyr::unnest(x, cols = c(estimate), names_repair = "minimal")
     names(x) <- c("class", "terms", "estimate", "penalty")

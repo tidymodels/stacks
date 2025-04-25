@@ -269,7 +269,7 @@ check_for_required_packages <- function(x) {
 
   purrr::map(
     pkgs,
-    ~ suppressPackageStartupMessages(requireNamespace(.x, quietly = TRUE))
+    function(.x) suppressPackageStartupMessages(requireNamespace(.x, quietly = TRUE))
   )
 
   invisible(TRUE)

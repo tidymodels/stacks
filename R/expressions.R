@@ -18,7 +18,7 @@ build_linear_predictor_eng <- function(x, ...) {
   lin_pred <- purrr::map2(
     slopes$terms,
     slopes$estimate,
-    ~ rlang::expr((!!sym(.x) * !!.y))
+    function(.x, .y) rlang::expr((!!sym(.x) * !!.y))
   )
   if (any(x$terms == "(Intercept)")) {
     beta_0 <- x$estimate[x$terms == "(Intercept)"]
@@ -178,7 +178,7 @@ multi_net_helper <- function(data, ...) {
       .sum = sum(dplyr::c_across(dplyr::starts_with(".pred_")))
     ) |>
     dplyr::mutate(
-      dplyr::across(dplyr::starts_with(".pred_"), ~ .x / .sum),
+      dplyr::across(dplyr::starts_with(".pred_"), function(.x) .x / .sum),
       idx = which.max(dplyr::c_across(dplyr::starts_with(".pred_")))
     ) |>
     dplyr::ungroup()
