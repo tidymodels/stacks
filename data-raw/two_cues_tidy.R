@@ -13,14 +13,14 @@ two_cues_raw <- read_csv("data-raw/two_cues_raw.csv")
 set.seed(2)
 
 # some cleaning up
-two_cues <- 
+two_cues <-
   two_cues_raw %>%
   # rename all variables to snake case!
   dplyr::rename_all(janitor::make_clean_names) %>%
   # select off some variable, switch up encodings a bit
   dplyr::transmute(
-    stimulus = tolower(stimulus), 
-    age = age_block_hours, 
+    stimulus = tolower(stimulus),
+    age = age_block_hours,
     time_of_day = case_when(
       time_block_hours <= 5 | time_block_hours >= 20 ~ "night",
       time_block_hours > 5 & time_block_hours < 12 ~ "morning",

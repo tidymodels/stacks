@@ -9,21 +9,21 @@
 #'   choose an appropriate value based on the model's mode.
 #' @param members Logical. Whether or not to additionally return the predictions
 #'   for each of the ensemble members.
-#' @param opts A list of optional arguments to the underlying predict 
+#' @param opts A list of optional arguments to the underlying predict
 #'   function passed on to [parsnip::predict.model_fit] for each member.
 #' @inheritParams stacks
 #'
 #' @template note_example_data
 #'
 #' @examplesIf (stacks:::should_run_examples(suggests = c("ranger", "kernlab")))
-#' 
+#'
 #' # see the "Example Data" section above for
 #' # clarification on the data and tuning results
 #' # objects used in these examples!
-#' 
+#'
 #' data(tree_frogs_reg_test)
 #' data(tree_frogs_class_test)
-#' 
+#'
 #' # build and fit a regression model stack
 #' reg_st <-
 #'   stacks() %>%
@@ -33,13 +33,13 @@
 #'   fit_members()
 #'
 #' reg_st
-#' 
+#'
 #' # predict on the tree frogs testing data
 #' predict(reg_st, tree_frogs_reg_test)
-#' 
+#'
 #' # include the predictions from the members
 #' predict(reg_st, tree_frogs_reg_test, members = TRUE)
-#' 
+#'
 #' # build and fit a classification model stack
 #' class_st <-
 #'   stacks() %>%
@@ -47,19 +47,19 @@
 #'   add_candidates(class_res_rf) %>%
 #'   blend_predictions() %>%
 #'   fit_members()
-#'  
+#'
 #' class_st
-#' 
+#'
 #' # predict reflex, first as a class, then as
 #' # class probabilities
 #' predict(class_st, tree_frogs_class_test)
 #' predict(class_st, tree_frogs_class_test, type = "prob")
-#' 
+#'
 #' # returning the member predictions as well
 #' predict(
-#'   class_st, 
-#'   tree_frogs_class_test, 
-#'   type = "prob", 
+#'   class_st,
+#'   tree_frogs_class_test,
+#'   type = "prob",
 #'   members = TRUE
 #' )
 #'
@@ -67,23 +67,27 @@
 #' @method predict model_stack
 #' @export predict.model_stack
 #' @export
-predict.model_stack <- function(object, new_data, type = NULL, members = FALSE, 
-                                opts = list(), ...) {
+predict.model_stack <- function(
+  object,
+  new_data,
+  type = NULL,
+  members = FALSE,
+  opts = list(),
+  ...
+) {
   check_fitted(object)
   type <- check_pred_type(object, type)
   check_inherits(members, "logical")
   check_inherits(opts, "list")
-  
-  coefs <- 
+
+  coefs <-
     .get_glmn_coefs(object[["coefs"]][["fit"]]) %>%
     dplyr::select(terms, estimate)
-  
-  member_type <- 
-    switch(type,
-           class =, prob = "prob",
-           numeric = "numeric")
-  
-  member_preds <- 
+
+  member_type <-
+    switch(type, class = , prob = "prob", numeric = "numeric")
+
+  member_preds <-
     rlang::call2(
       paste0("predict_members_", object[["mode"]]),
       model_stack = object,
@@ -94,12 +98,12 @@ predict.model_stack <- function(object, new_data, type = NULL, members = FALSE,
     ) %>%
     rlang::eval_tidy() %>%
     setNames(., make.names(names(.)))
-  
+
   res <- stack_predict(object$equations[[type]], member_preds)
-  
+
   if (members) {
     if (type == "class") {
-      member_preds <- 
+      member_preds <-
         purrr::map_dfc(
           names(object[["member_fits"]]),
           parse_member_probs,
@@ -109,19 +113,19 @@ predict.model_stack <- function(object, new_data, type = NULL, members = FALSE,
     }
     res <- dplyr::bind_cols(res, member_preds)
   }
-  
+
   res
 }
 
 #' Predicting with a model stack
-#' 
-#' @description 
-#' The data stack must be evaluated with [blend_predictions()] and its member 
-#' models fitted with [fit_members()] to predict on new data. 
-#' 
+#'
+#' @description
+#' The data stack must be evaluated with [blend_predictions()] and its member
+#' models fitted with [fit_members()] to predict on new data.
+#'
 #' @param object A data stack.
 #' @inheritParams stacks
-#' 
+#'
 #' @importFrom stats predict
 #' @method predict data_stack
 #' @export predict.data_stack
@@ -142,12 +146,18 @@ check_pred_type <- function(object, type) {
       type <- "class"
     }
   }
-  
+
   type
 }
 
-predict_members_regression <- function(model_stack, coefs, new_data, opts, type) {
-  predictions <- 
+predict_members_regression <- function(
+  model_stack,
+  coefs,
+  new_data,
+  opts,
+  type
+) {
+  predictions <-
     purrr::map(
       model_stack[["member_fits"]],
       predict,
@@ -157,12 +167,18 @@ predict_members_regression <- function(model_stack, coefs, new_data, opts, type)
     ) %>%
     purrr::map(dplyr::pull) %>%
     tibble::as_tibble()
-  
+
   predictions
 }
 
-predict_members_classification <- function(model_stack, coefs, new_data, opts, type) {
-  member_preds <- 
+predict_members_classification <- function(
+  model_stack,
+  coefs,
+  new_data,
+  opts,
+  type
+) {
+  member_preds <-
     purrr::map(
       model_stack[["member_fits"]],
       predict,
@@ -170,14 +186,16 @@ predict_members_classification <- function(model_stack, coefs, new_data, opts, t
       type = "prob",
       opts = opts
     ) %>%
-      purrr::map(tibble::rowid_to_column) %>%
-      tibble::enframe() %>%
-      tidyr::unnest(cols = value) %>%
-      tidyr::pivot_wider(id_cols = rowid,
-                         names_from = name,
-                         values_from = 3:ncol(.)) %>%
-      dplyr::select(-rowid)
-  
+    purrr::map(tibble::rowid_to_column) %>%
+    tibble::enframe() %>%
+    tidyr::unnest(cols = value) %>%
+    tidyr::pivot_wider(
+      id_cols = rowid,
+      names_from = name,
+      values_from = 3:ncol(.)
+    ) %>%
+    dplyr::select(-rowid)
+
   member_preds
 }
 
@@ -185,7 +203,10 @@ parse_member_probs <- function(member_name, member_probs, levels) {
   member_probs[, grepl(member_name, colnames(member_probs))] %>%
     multi_net_helper() %>%
     dplyr::transmute(
-      !!paste0(".pred_class_", member_name) := factor(levels[idx], levels = levels)
+      !!paste0(".pred_class_", member_name) := factor(
+        levels[idx],
+        levels = levels
+      )
     )
 }
 
@@ -204,15 +225,15 @@ check_fitted <- function(model_stack, call = caller_env()) {
 generics::augment
 
 #' Augment a model stack
-#' 
+#'
 #' @param x A fitted model stack; see [fit_members()].
 #' @inheritParams predict.model_stack
 #' @param ... Additional arguments passed to `predict.model_stack`. In
 #' particular, see `type` and `members`.
-#' 
-#' @seealso The [collect_parameters()] function is analogous to a [`tidy()`][generics::tidy()] 
+#'
+#' @seealso The [collect_parameters()] function is analogous to a [`tidy()`][generics::tidy()]
 #' method for model stacks.
-#' 
+#'
 #' @method augment model_stack
 #' @name augment.model_stack
 #' @export
@@ -220,23 +241,28 @@ augment.model_stack <- function(x, new_data, ...) {
   dots <- list(...)
   outcome <- x[["outcome"]]
   member_cols <- unlist(x[["cols_map"]])
-  
+
   res <- dplyr::bind_cols(new_data, predict(x, new_data = new_data, ...))
-  
+
   if (mode_is_regression(x) & isTRUE(dots[["members"]])) {
-    res <- dplyr::rename_with(res, ~paste0(".pred_", .x), any_of(unname(member_cols)))
+    res <- dplyr::rename_with(
+      res,
+      ~ paste0(".pred_", .x),
+      any_of(unname(member_cols))
+    )
   }
-  
+
   if (mode_is_regression(x) & outcome %in% colnames(new_data)) {
-    res <- 
+    res <-
       dplyr::mutate(
-        res, 
+        res,
         across(
           starts_with(".pred"),
           ~ !!rlang::sym(outcome) - .x,
-          .names = ".resid{gsub('.pred', '', .col)}")
+          .names = ".resid{gsub('.pred', '', .col)}"
+        )
       )
   }
-  
+
   tibble::as_tibble(res)
 }

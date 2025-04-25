@@ -16,8 +16,8 @@ cat_time_raw <- read_excel("data-raw/caterpillars_raw.xlsx", sheet = "TIME")
 cat_height <-
   cat_height_raw %>%
   tidyr::pivot_longer(
-    tidyselect::everything(), 
-    values_to = "height", 
+    tidyselect::everything(),
+    values_to = "height",
     names_to = "progeny"
   ) %>%
   tidyr::drop_na(height) %>%
@@ -33,12 +33,12 @@ cat_height <-
       TRUE ~ "medium"
     )
   )
-  
+
 cat_spines <-
   cat_spines_raw %>%
   tidyr::pivot_longer(
-    tidyselect::everything(), 
-    values_to = "spines", 
+    tidyselect::everything(),
+    values_to = "spines",
     names_to = "progeny"
   ) %>%
   tidyr::drop_na(spines) %>%
@@ -53,8 +53,8 @@ cat_spines <-
 cat_time <-
   cat_time_raw %>%
   tidyr::pivot_longer(
-    tidyselect::everything(), 
-    values_to = "time", 
+    tidyselect::everything(),
+    values_to = "time",
     names_to = "progeny"
   ) %>%
   tidyr::drop_na(time) %>%
@@ -66,5 +66,5 @@ cat_time <-
     )
   )
 
-caterpillars <- 
+caterpillars <-
   bind_cols(cat_height, spines = cat_spines$spines, time = cat_time$time)

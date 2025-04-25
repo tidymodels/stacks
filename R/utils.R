@@ -27,7 +27,7 @@ utils::globalVariables(c(
   "assess_object",
   "coef",
   "contains",
-  "data", 
+  "data",
   "estimate",
   "estimate.x",
   "estimate.y",
@@ -70,13 +70,13 @@ check_empty_ellipses <- function(...) {
   dots <- rlang::enquos(...)
   if (length(dots) > 0) {
     needs_name <- names(dots) == ""
-    names(dots)[needs_name] <- 
+    names(dots)[needs_name] <-
       dots[needs_name] %>%
       purrr::map(
         rlang::get_expr
       ) %>%
       unlist()
-    
+
     cli_warn(
       "The `...` are not used in this function but {?an/}
        argument{?s} {.arg {names(dots)}} {?was/were} passed."
@@ -87,15 +87,15 @@ check_empty_ellipses <- function(...) {
 
 check_inherits <- function(x, what, call = caller_env()) {
   cl <- match.call()
-  
+
   if (!inherits(x, what)) {
     cli_abort(
       "Element {.val {cl$x}} needs to inherit from {.var {what}}, but its 
-       class is {.var {class(x)}}.", 
+       class is {.var {class(x)}}.",
       call = call
     )
   }
-  
+
   invisible(TRUE)
 }
 
@@ -103,8 +103,7 @@ check_inherits <- function(x, what, call = caller_env()) {
 is_cran_check <- function() {
   if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     FALSE
-  }
-  else {
+  } else {
     Sys.getenv("_R_CHECK_PACKAGE_NAME_", "") != ""
   }
 }
@@ -114,11 +113,11 @@ is_cran_check <- function() {
 # for use a la `@examplesIf (tune:::should_run_examples())`
 should_run_examples <- function(suggests = NULL) {
   has_needed_installs <- TRUE
-  
+
   if (!is.null(suggests)) {
     has_needed_installs <- rlang::is_installed(suggests)
   }
-  
+
   has_needed_installs && !is_cran_check()
 }
 
@@ -137,7 +136,9 @@ mode_is_regression <- function(x) {
   }
 }
 
-.get_rs_hash <- function(stack) {attr(stack, "rs_hash")}
+.get_rs_hash <- function(stack) {
+  attr(stack, "rs_hash")
+}
 
 .get_model_def_names <- function(stack) {
   if (!is.null(names(attr(stack, "model_defs")))) {
@@ -159,7 +160,10 @@ mode_is_regression <- function(x) {
   x <- x[, c("terms", "estimate", "penalty")]
 
   if (is.list(x$estimate)) {
-    x$estimate <- purrr::map(x$estimate, ~ tibble::as_tibble(as.matrix(.x), rownames = "terms"))
+    x$estimate <- purrr::map(
+      x$estimate,
+      ~ tibble::as_tibble(as.matrix(.x), rownames = "terms")
+    )
     x <- tidyr::unnest(x, cols = c(estimate), names_repair = "minimal")
     names(x) <- c("class", "terms", "estimate", "penalty")
   }
