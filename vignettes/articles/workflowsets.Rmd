@@ -330,8 +330,7 @@ This object is now ready to predict with new data!
 
 ```{r}
 tree_frogs_test <- 
-  tree_frogs_test |>
-  bind_cols(predict(tree_frogs_model_st, .))
+  bind_cols(tree_frogs_test, predict(tree_frogs_model_st, tree_frogs_test))
 ```
 
 Juxtaposing the predictions with the true data:
