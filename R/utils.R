@@ -21,6 +21,7 @@ utils::globalVariables(c(
   ".metric",
   ".pred",
   ".pred_class",
+  ".sum",
   "across",
   "any_of",
   "as.formula",
