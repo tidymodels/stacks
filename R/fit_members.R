@@ -129,6 +129,10 @@ fit_members <- function(model_stack, ...) {
       )
   }
 
+  if (uses_foreach_only()) {
+    warn_foreach_deprecation()
+  }
+
   # fit each of them
   member_fits <-
     furrr::future_map(
@@ -253,7 +257,8 @@ check_for_required_packages <- function(x) {
 
   purrr::map(
     pkgs,
-    function(.x) suppressPackageStartupMessages(requireNamespace(.x, quietly = TRUE))
+    function(.x)
+      suppressPackageStartupMessages(requireNamespace(.x, quietly = TRUE))
   )
 
   invisible(TRUE)
@@ -273,4 +278,18 @@ error_needs_install <- function(pkgs, installed, call) {
 
 is_installed_ <- function(pkg) {
   rlang::is_installed(pkg)
+}
+
+uses_foreach_only <- function() {
+  future::nbrOfWorkers() == 1 && foreach::getDoParWorkers() > 1
+}
+
+warn_foreach_deprecation <- function() {
+  cli::cli_warn(c(
+    "!" = "{.pkg stacks} detected a parallel backend registered with \\
+           foreach but no backend registered with future.",
+    "i" = "Support for parallel processing with foreach was \\
+           deprecated in {.pkg stacks} 1.0.6.",
+    "i" = "See {.help tune::parallelism} to learn more."
+  ))
 }

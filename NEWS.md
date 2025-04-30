@@ -9,7 +9,7 @@
 
 * Transitioned support for parallel processing fully to the 
   [future](https://www.futureverse.org/) framework. Parallelism backends
-  registered with foreach will be ignored (#234).
+  registered with foreach will be ignored with a warning (#234).
   
 # stacks 1.0.5
 
