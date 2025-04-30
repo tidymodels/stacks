@@ -129,32 +129,20 @@ fit_members <- function(model_stack, ...) {
       )
   }
 
-  if (foreach::getDoParWorkers() > 1 || future::nbrOfWorkers() > 1) {
-    `%do_op%` <- switch(
-      # note some backends can return +Inf
-      min(future::nbrOfWorkers(), 2),
-      foreach::`%dopar%`,
-      doFuture::`%dofuture%`
-    )
-  } else {
-    `%do_op%` <- foreach::`%do%`
+  if (uses_foreach_only()) {
+    warn_foreach_deprecation()
   }
 
   # fit each of them
   member_fits <-
-    foreach::foreach(
-      mem = member_names,
-      .inorder = FALSE,
-      .options.future = list(seed = TRUE)
-    ) %do_op%
-    {
-      asNamespace("stacks")$fit_member(
-        name = mem,
-        wflows = model_stack[["model_defs"]],
-        members_map = members_map,
-        train_dat = dat
-      )
-    }
+    furrr::future_map(
+      member_names,
+      .f = fit_member,
+      wflows = model_stack[["model_defs"]],
+      members_map = members_map,
+      train_dat = dat,
+      .options = furrr::furrr_options(seed = TRUE)
+    )
 
   model_stack[["member_fits"]] <-
     setNames(member_fits, member_names)
@@ -269,7 +257,8 @@ check_for_required_packages <- function(x) {
 
   purrr::map(
     pkgs,
-    function(.x) suppressPackageStartupMessages(requireNamespace(.x, quietly = TRUE))
+    function(.x)
+      suppressPackageStartupMessages(requireNamespace(.x, quietly = TRUE))
   )
 
   invisible(TRUE)
@@ -289,4 +278,18 @@ error_needs_install <- function(pkgs, installed, call) {
 
 is_installed_ <- function(pkg) {
   rlang::is_installed(pkg)
+}
+
+uses_foreach_only <- function() {
+  future::nbrOfWorkers() == 1 && foreach::getDoParWorkers() > 1
+}
+
+warn_foreach_deprecation <- function() {
+  cli::cli_warn(c(
+    "!" = "{.pkg stacks} detected a parallel backend registered with \\
+           foreach but no backend registered with future.",
+    "i" = "Support for parallel processing with foreach was \\
+           deprecated in {.pkg stacks} 1.0.6.",
+    "i" = "See {.help tune::parallelism} to learn more."
+  ))
 }

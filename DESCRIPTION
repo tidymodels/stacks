@@ -20,9 +20,9 @@ Depends:
 Imports:
     butcher (>= 0.1.3),
     cli,
-    doFuture,
     dplyr (>= 1.1.0),
     foreach,
+    furrr,
     future,
     generics,
     ggplot2,

@@ -6,6 +6,10 @@
 * Added missing commas and addressed formatting issues throughout the vignettes and articles. Backticks for package names were removed and missing parentheses for functions were added (@Joscelinrocha, #218).
 
 * Increased the minimum R version to R 4.1.
+
+* Transitioned support for parallel processing fully to the 
+  [future](https://www.futureverse.org/) framework. Parallelism backends
+  registered with foreach will be ignored with a warning (#234).
   
 # stacks 1.0.5
 
