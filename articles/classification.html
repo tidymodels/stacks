@@ -6,18 +6,17 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Classification Models With stacks • stacks</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/Source_Code_Pro-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Source_Code_Pro-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Classification Models With stacks">
 <script defer data-domain="stacks.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script>
 </head>
@@ -29,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">stacks</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -104,7 +103,7 @@ bins. Ear function increases from factor levels “low”, to “mid”, to
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"tree_frogs"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># subset the data</span></span>
-<span><span class="va">tree_frogs</span> <span class="op">&lt;-</span> <span class="va">tree_frogs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">tree_frogs</span> <span class="op">&lt;-</span> <span class="va">tree_frogs</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">clutch</span>, <span class="va">latency</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Let’s plot the data to get a sense for how separable these groups
 are.</p>
@@ -114,9 +113,11 @@ are.</p>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">tree_frogs</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">treatment</span>, y <span class="op">=</span> <span class="va">age</span>, color <span class="op">=</span> <span class="va">reflex</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_jitter</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Embryo Age (s)"</span>, </span>
-<span>       x <span class="op">=</span> <span class="st">"treatment"</span>,</span>
-<span>       color <span class="op">=</span> <span class="st">"Response"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    y <span class="op">=</span> <span class="st">"Embryo Age (s)"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"treatment"</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">"Response"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="classification_files/figure-html/unnamed-chunk-4-1.png" alt="A ggplot scatterplot with categorical variable treatment, embryo age in seconds on the y axis, and points colored by response. The ages range from 350,000 to 500,000 seconds, and the two treatments are control and gentamicin. There are three responses: low, mid, and full. All of the embryos beyond a certain age have a full response, while the low and mid responses are well-intermixed regardless of age or treatment." width="768"></p>
 <p>It looks like the embryo age is pretty effective at picking out
 embryos with full VOR function, but the problem gets tougher for the
@@ -140,12 +141,12 @@ setting some options that will be used by each model definition.</p>
 <span><span class="va">folds</span> <span class="op">&lt;-</span> <span class="fu">rsample</span><span class="fu">::</span><span class="fu"><a href="https://rsample.tidymodels.org/reference/vfold_cv.html" class="external-link">vfold_cv</a></span><span class="op">(</span><span class="va">tree_frogs_train</span>, v <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">tree_frogs_rec</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/recipe.html" class="external-link">recipe</a></span><span class="op">(</span><span class="va">reflex</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">tree_frogs_train</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_dummy.html" class="external-link">step_dummy</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_nominal_predictors</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">-</span><span class="va">reflex</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/recipe.html" class="external-link">recipe</a></span><span class="op">(</span><span class="va">reflex</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">tree_frogs_train</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_dummy.html" class="external-link">step_dummy</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_nominal_predictors</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">-</span><span class="va">reflex</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_zv.html" class="external-link">step_zv</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">tree_frogs_wflow</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu"><a href="https://workflows.tidymodels.org/reference/workflow.html" class="external-link">workflow</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://workflows.tidymodels.org/reference/workflow.html" class="external-link">workflow</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://workflows.tidymodels.org/reference/add_recipe.html" class="external-link">add_recipe</a></span><span class="op">(</span><span class="va">tree_frogs_rec</span><span class="op">)</span></span></code></pre></div>
 <p>We also need to use the same control settings as in the numeric
 response setting:</p>
@@ -160,12 +161,12 @@ response setting:</p>
 <span>    mtry <span class="op">=</span> <span class="fu"><a href="https://hardhat.tidymodels.org/reference/tune.html" class="external-link">tune</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    min_n <span class="op">=</span> <span class="fu"><a href="https://hardhat.tidymodels.org/reference/tune.html" class="external-link">tune</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    trees <span class="op">=</span> <span class="fl">500</span></span>
-<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_args.html" class="external-link">set_mode</a></span><span class="op">(</span><span class="st">"classification"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_args.html" class="external-link">set_mode</a></span><span class="op">(</span><span class="st">"classification"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html" class="external-link">set_engine</a></span><span class="op">(</span><span class="st">"ranger"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">rand_forest_wflow</span> <span class="op">&lt;-</span></span>
-<span>  <span class="va">tree_frogs_wflow</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="va">tree_frogs_wflow</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://workflows.tidymodels.org/reference/add_model.html" class="external-link">add_model</a></span><span class="op">(</span><span class="va">rand_forest_spec</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">rand_forest_res</span> <span class="op">&lt;-</span> </span>
@@ -178,17 +179,17 @@ response setting:</p>
 <p>Now, moving on to the neural network model definition:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nnet_spec</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/mlp.html" class="external-link">mlp</a></span><span class="op">(</span>hidden_units <span class="op">=</span> <span class="fu"><a href="https://hardhat.tidymodels.org/reference/tune.html" class="external-link">tune</a></span><span class="op">(</span><span class="op">)</span>, penalty <span class="op">=</span> <span class="fu"><a href="https://hardhat.tidymodels.org/reference/tune.html" class="external-link">tune</a></span><span class="op">(</span><span class="op">)</span>, epochs <span class="op">=</span> <span class="fu"><a href="https://hardhat.tidymodels.org/reference/tune.html" class="external-link">tune</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_args.html" class="external-link">set_mode</a></span><span class="op">(</span><span class="st">"classification"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/mlp.html" class="external-link">mlp</a></span><span class="op">(</span>hidden_units <span class="op">=</span> <span class="fu"><a href="https://hardhat.tidymodels.org/reference/tune.html" class="external-link">tune</a></span><span class="op">(</span><span class="op">)</span>, penalty <span class="op">=</span> <span class="fu"><a href="https://hardhat.tidymodels.org/reference/tune.html" class="external-link">tune</a></span><span class="op">(</span><span class="op">)</span>, epochs <span class="op">=</span> <span class="fu"><a href="https://hardhat.tidymodels.org/reference/tune.html" class="external-link">tune</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_args.html" class="external-link">set_mode</a></span><span class="op">(</span><span class="st">"classification"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html" class="external-link">set_engine</a></span><span class="op">(</span><span class="st">"nnet"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">nnet_rec</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="va">tree_frogs_rec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="va">tree_frogs_rec</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_normalize.html" class="external-link">step_normalize</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">nnet_wflow</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="va">tree_frogs_wflow</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://workflows.tidymodels.org/reference/add_model.html" class="external-link">add_model</a></span><span class="op">(</span><span class="va">nnet_spec</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="va">tree_frogs_wflow</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://workflows.tidymodels.org/reference/add_model.html" class="external-link">add_model</a></span><span class="op">(</span><span class="va">nnet_spec</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://workflows.tidymodels.org/reference/add_recipe.html" class="external-link">update_recipe</a></span><span class="op">(</span><span class="va">nnet_rec</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">nnet_res</span> <span class="op">&lt;-</span></span>
@@ -208,12 +209,12 @@ putting together an ensemble!</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tree_frogs_model_st</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="co"># initialize the stack</span></span>
-<span>  <span class="fu"><a href="../reference/stacks.html">stacks</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/stacks.html">stacks</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="co"># add candidate members</span></span>
-<span>  <span class="fu"><a href="../reference/add_candidates.html">add_candidates</a></span><span class="op">(</span><span class="va">rand_forest_res</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/add_candidates.html">add_candidates</a></span><span class="op">(</span><span class="va">nnet_res</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/add_candidates.html">add_candidates</a></span><span class="op">(</span><span class="va">rand_forest_res</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/add_candidates.html">add_candidates</a></span><span class="op">(</span><span class="va">nnet_res</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="co"># determine how to combine their predictions</span></span>
-<span>  <span class="fu"><a href="../reference/blend_predictions.html">blend_predictions</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/blend_predictions.html">blend_predictions</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="co"># fit the candidates with nonzero stacking coefficients</span></span>
 <span>  <span class="fu"><a href="../reference/fit_members.html">fit_members</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -221,16 +222,16 @@ putting together an ensemble!</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 4</span></span></span>
 <span><span class="co">#&gt;    member                         type        weight class</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> .pred_full_nnet_res_1_04       mlp          21.6  full </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> .pred_mid_nnet_res_1_04        mlp          18.2  mid  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> .pred_mid_rand_forest_res_1_05 rand_forest  13.6  low  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> .pred_mid_rand_forest_res_1_08 rand_forest   6.47 mid  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> .pred_mid_nnet_res_1_01        mlp           4.60 low  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> .pred_mid_nnet_res_1_03        mlp           4.58 low  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> .pred_mid_rand_forest_res_1_07 rand_forest   4.07 low  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> .pred_mid_nnet_res_1_10        mlp           3.49 mid  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> .pred_full_nnet_res_1_01       mlp           3.09 full </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> .pred_mid_nnet_res_1_09        mlp           1.43 mid</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> .pred_mid_rand_forest_res_1_02 rand_forest  14.0  low  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> .pred_mid_nnet_res_1_06        mlp           9.95 mid  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> .pred_mid_rand_forest_res_1_06 rand_forest   9.87 low  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> .pred_full_nnet_res_1_06       mlp           9.33 full </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> .pred_full_nnet_res_1_09       mlp           7.71 full </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> .pred_mid_rand_forest_res_1_05 rand_forest   6.27 mid  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> .pred_full_nnet_res_1_08       mlp           5.96 full </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> .pred_mid_rand_forest_res_1_09 rand_forest   5.95 mid  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> .pred_mid_nnet_res_1_02        mlp           5.44 mid  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> .pred_mid_nnet_res_1_05        mlp           3.15 mid</span></span></code></pre></div>
 <p>To make sure that we have the right trade-off between minimizing the
 number of members and optimizing performance, we can use the
 <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot()</a></code> method:</p>
@@ -256,24 +257,24 @@ coefficients, we can make use of the <code><a href="../reference/collect_paramet
 function:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/collect_parameters.html">collect_parameters</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span>, <span class="st">"rand_forest_res"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 60 × 6</span></span></span>
-<span><span class="co">#&gt;    member                mtry min_n class terms                       coef</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> rand_forest_res_1_01     1    26 low   .pred_mid_rand_forest_res…     0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> rand_forest_res_1_01     1    26 low   .pred_full_rand_forest_re…     0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> rand_forest_res_1_01     1    26 mid   .pred_mid_rand_forest_res…     0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> rand_forest_res_1_01     1    26 mid   .pred_full_rand_forest_re…     0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> rand_forest_res_1_01     1    26 full  .pred_mid_rand_forest_res…     0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> rand_forest_res_1_01     1    26 full  .pred_full_rand_forest_re…     0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> rand_forest_res_1_02     2    33 low   .pred_mid_rand_forest_res…     0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> rand_forest_res_1_02     2    33 low   .pred_full_rand_forest_re…     0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> rand_forest_res_1_02     2    33 mid   .pred_mid_rand_forest_res…     0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> rand_forest_res_1_02     2    33 mid   .pred_full_rand_forest_re…     0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 50 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 57 × 6</span></span></span>
+<span><span class="co">#&gt;    member                mtry min_n class terms                    coef</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> rand_forest_res_1_01     1    14 low   .pred_mid_rand_forest_…   0  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> rand_forest_res_1_01     1    14 low   .pred_full_rand_forest…   0  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> rand_forest_res_1_01     1    14 mid   .pred_mid_rand_forest_…   0  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> rand_forest_res_1_01     1    14 mid   .pred_full_rand_forest…   0  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> rand_forest_res_1_01     1    14 full  .pred_mid_rand_forest_…   0  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> rand_forest_res_1_01     1    14 full  .pred_full_rand_forest…   0  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> rand_forest_res_1_02     1    31 low   .pred_mid_rand_forest_…  14.0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> rand_forest_res_1_02     1    31 low   .pred_full_rand_forest…   0  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> rand_forest_res_1_02     1    31 mid   .pred_mid_rand_forest_…   0  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> rand_forest_res_1_02     1    31 mid   .pred_full_rand_forest…   0  </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 47 more rows</span></span></span></code></pre></div>
 <p>This object is now ready to predict with new data!</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tree_frogs_pred</span> <span class="op">&lt;-</span></span>
-<span>  <span class="va">tree_frogs_test</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="va">tree_frogs_test</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_cols.html" class="external-link">bind_cols</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span>, <span class="va">.</span>, type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Computing the ROC AUC for the model:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
@@ -288,8 +289,8 @@ can use the <code>members</code> argument to generate predictions from
 each of the ensemble members.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tree_frogs_pred</span> <span class="op">&lt;-</span></span>
-<span>  <span class="va">tree_frogs_test</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">reflex</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="va">tree_frogs_test</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">reflex</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_cols.html" class="external-link">bind_cols</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span></span>
 <span>      <span class="va">tree_frogs_model_st</span>,</span>
@@ -300,51 +301,53 @@ each of the ensemble members.</p>
 <span>    <span class="op">)</span></span>
 <span></span>
 <span><span class="va">tree_frogs_pred</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 303 × 15</span></span></span>
-<span><span class="co">#&gt;    reflex .pred_class .pred_class_rand_forest_res…¹ .pred_class_rand_for…²</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                         <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> full   full        full                          full                  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> mid    mid         low                           mid                   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> mid    mid         mid                           mid                   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> mid    mid         low                           low                   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> full   full        full                          full                  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> full   full        full                          full                  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> full   full        full                          full                  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> full   full        full                          full                  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> full   full        full                          full                  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> full   full        full                          full                  </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 303 × 17</span></span></span>
+<span><span class="co">#&gt;    reflex .pred_class .pred_class_rand_forest_…¹ .pred_class_rand_for…²</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                      <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> full   full        full                       full                  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> mid    mid         low                        low                   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> mid    mid         mid                        mid                   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> mid    mid         low                        low                   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> full   full        full                       full                  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> full   full        full                       full                  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> full   full        full                       full                  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> full   full        full                       full                  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> full   full        full                       full                  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> full   full        full                       full                  </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 293 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ abbreviated names: ¹​.pred_class_rand_forest_res_1_05,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ²​.pred_class_rand_forest_res_1_07</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 11 more variables: .pred_class_nnet_res_1_07 &lt;fct&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   .pred_class_nnet_res_1_02 &lt;fct&gt;, .pred_class_nnet_res_1_03 &lt;fct&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   .pred_class_nnet_res_1_01 &lt;fct&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   .pred_class_rand_forest_res_1_09 &lt;fct&gt;, …</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ abbreviated names: ¹​.pred_class_rand_forest_res_1_02,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ²​.pred_class_rand_forest_res_1_06</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 13 more variables: .pred_class_rand_forest_res_1_07 &lt;fct&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   .pred_class_nnet_res_1_04 &lt;fct&gt;, .pred_class_nnet_res_1_08 &lt;fct&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   .pred_class_nnet_res_1_10 &lt;fct&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   .pred_class_rand_forest_res_1_04 &lt;fct&gt;, …</span></span></span>
 <span></span>
 <span><span class="fu">map</span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span><span class="op">)</span>,</span>
 <span>  <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span><span class="op">$</span><span class="va">reflex</span> <span class="op">==</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span>, <span class="va">.x</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">set_names</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">set_names</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tree_frogs_pred</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">pivot_longer</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">-</span><span class="va">reflex</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 14 × 3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 16 × 3</span></span></span>
 <span><span class="co">#&gt;    reflex name                             value</span></span>
 <span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>      1 .pred_class                      0.884</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>      1 .pred_class_rand_forest_res_1_05 0.855</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>      1 .pred_class_rand_forest_res_1_07 0.865</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>      1 .pred_class_nnet_res_1_07        0.868</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>      1 .pred_class_nnet_res_1_02        0.848</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>      1 .pred_class_nnet_res_1_03        0.845</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>      1 .pred_class_nnet_res_1_01        0.842</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>      1 .pred_class_rand_forest_res_1_09 0.881</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>      1 .pred_class_rand_forest_res_1_08 0.881</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      1 .pred_class_nnet_res_1_05        0.789</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>      1 .pred_class_nnet_res_1_09        0.835</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span>      1 .pred_class_nnet_res_1_06        0.858</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span>      1 .pred_class_nnet_res_1_04        0.855</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span>      1 .pred_class_nnet_res_1_10        0.851</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>      1 .pred_class                      0.904</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>      1 .pred_class_rand_forest_res_1_02 0.848</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>      1 .pred_class_rand_forest_res_1_06 0.858</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>      1 .pred_class_rand_forest_res_1_07 0.888</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>      1 .pred_class_nnet_res_1_04        0.838</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>      1 .pred_class_nnet_res_1_08        0.822</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>      1 .pred_class_nnet_res_1_10        0.845</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>      1 .pred_class_rand_forest_res_1_04 0.875</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>      1 .pred_class_rand_forest_res_1_05 0.868</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      1 .pred_class_rand_forest_res_1_09 0.884</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>      1 .pred_class_rand_forest_res_1_10 0.884</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span>      1 .pred_class_nnet_res_1_02        0.838</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span>      1 .pred_class_nnet_res_1_03        0.825</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span>      1 .pred_class_nnet_res_1_05        0.868</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span>      1 .pred_class_nnet_res_1_06        0.851</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span>      1 .pred_class_nnet_res_1_09        0.842</span></span></code></pre></div>
 <p>Voilà! You’ve now made use of the stacks package to predict tree frog
 embryo ear function using a stacked ensemble!</p>
 </div>
@@ -361,7 +364,7 @@ embryo ear function using a stacked ensemble!</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
   </div></footer>

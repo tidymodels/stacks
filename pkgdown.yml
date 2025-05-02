@@ -1,11 +1,11 @@
 pandoc: 3.1.11
-pkgdown: 2.1.0
+pkgdown: 2.1.2
 pkgdown_sha: ~
 articles:
   basics: basics.html
   classification: classification.html
   articles/workflowsets: workflowsets.html
-last_built: 2024-07-23T12:42Z
+last_built: 2025-05-02T15:46Z
 urls:
   reference: https://stacks.tidymodels.org/reference
   article: https://stacks.tidymodels.org/articles

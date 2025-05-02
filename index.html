@@ -6,18 +6,17 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Tidy Model Stacking • stacks</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" sizes="any" href="favicon.ico">
+<link rel="manifest" href="site.webmanifest">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/Source_Sans_Pro-0.4.9/font.css" rel="stylesheet">
-<link href="deps/Source_Code_Pro-0.4.9/font.css" rel="stylesheet">
-<link href="deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/Source_Sans_Pro-0.4.10/font.css" rel="stylesheet">
+<link href="deps/Source_Code_Pro-0.4.10/font.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Tidy Model Stacking">
 <meta name="description" content="Model stacking is an ensemble technique that involves training a model to combine the outputs of many diverse statistical models, and has been shown to improve predictive performance in a variety of settings. stacks implements a grammar for tidymodels-aligned model stacking.">
 <meta property="og:description" content="Model stacking is an ensemble technique that involves training a model to combine the outputs of many diverse statistical models, and has been shown to improve predictive performance in a variety of settings. stacks implements a grammar for tidymodels-aligned model stacking.">
@@ -32,7 +31,7 @@
 
     <a class="navbar-brand me-2" href="index.html">stacks</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -105,27 +104,22 @@
 <h2 id="a-grammar">a grammar<a class="anchor" aria-label="anchor" href="#a-grammar"></a>
 </h2>
 <p>At the highest level, ensembles are formed from <em>model definitions</em>. In this package, model definitions are an instance of a minimal <a href="https://workflows.tidymodels.org/" class="external-link">workflow</a>, containing a <em>model specification</em> (as defined in the <a href="https://parsnip.tidymodels.org/" class="external-link">parsnip</a> package) and, optionally, a <em>preprocessor</em> (as defined in the <a href="https://recipes.tidymodels.org/" class="external-link">recipes</a> package). Model definitions specify the form of candidate ensemble members.</p>
-<div class="float">
-<img src="reference/figures/model_defs.png" alt="A diagram representing “model definitions,” which specify the form of candidate ensemble members. Three colored boxes represent three different model types; a K-nearest neighbors model (in salmon), a linear regression model (in yellow), and a support vector machine model (in green)."><div class="figcaption">A diagram representing “model definitions,” which specify the form of candidate ensemble members. Three colored boxes represent three different model types; a K-nearest neighbors model (in salmon), a linear regression model (in yellow), and a support vector machine model (in green).</div>
-</div>
-<p>To be used in the same ensemble, each of these model definitions must share the same <em>resample</em>. This <a href="https://rsample.tidymodels.org/" class="external-link">rsample</a> <code>rset</code> object, when paired with the model definitions, can be used to generate the tuning/fitting results objects for the candidate <em>ensemble members</em> with tune.</p>
-<div class="float">
-<img src="reference/figures/candidates.png" alt="A diagram representing “candidate members” generated from each model definition. Four salmon-colored boxes labeled “KNN” represent K-nearest neighbors models trained on the resamples with differing hyperparameters. Similarly, the linear regression model generates one candidate member, and the support vector machine model generates six."><div class="figcaption">A diagram representing “candidate members” generated from each model definition. Four salmon-colored boxes labeled “KNN” represent K-nearest neighbors models trained on the resamples with differing hyperparameters. Similarly, the linear regression model generates one candidate member, and the support vector machine model generates six.</div>
-</div>
-<p>Candidate members first come together in a <code>data_stack</code> object through the <code><a href="reference/add_candidates.html">add_candidates()</a></code> function. Principally, these objects are just <a href="https://tibble.tidyverse.org/" class="external-link">tibble</a>s, where the first column gives the true outcome in the assessment set (the portion of the training set used for model validation), and the remaining columns give the predictions from each candidate ensemble member. (When the outcome is numeric, there’s only one column per candidate ensemble member. Classification requires as many columns per candidate as there are levels in the outcome variable.) They also bring along a few extra attributes to keep track of model definitions.</p>
-<div class="float">
-<img src="reference/figures/data_stack.png" alt="A diagram representing a “data stack,” a specific kind of data frame. Colored “columns” depict, in white, the true value of the outcome variable in the validation set, followed by four columns (in salmon) representing the predictions from the K-nearest neighbors model, one column (in tan) representing the linear regression model, and six (in green) representing the support vector machine model."><div class="figcaption">A diagram representing a “data stack,” a specific kind of data frame. Colored “columns” depict, in white, the true value of the outcome variable in the validation set, followed by four columns (in salmon) representing the predictions from the K-nearest neighbors model, one column (in tan) representing the linear regression model, and six (in green) representing the support vector machine model.</div>
-</div>
-<p>Then, the data stack can be evaluated using <code><a href="reference/blend_predictions.html">blend_predictions()</a></code> to determine to how best to combine the outputs from each of the candidate members. In the stacking literature, this process is commonly called <em>metalearning</em>.</p>
+<figure><img src="reference/figures/model_defs.png" alt="A diagram representing “model definitions,” which specify the form of candidate ensemble members. Three colored boxes represent three different model types; a K-nearest neighbors model (in salmon), a linear regression model (in yellow), and a support vector machine model (in green)."><figcaption aria-hidden="true">
+A diagram representing “model definitions,” which specify the form of candidate ensemble members. Three colored boxes represent three different model types; a K-nearest neighbors model (in salmon), a linear regression model (in yellow), and a support vector machine model (in green).
+</figcaption></figure><p>To be used in the same ensemble, each of these model definitions must share the same <em>resample</em>. This <a href="https://rsample.tidymodels.org/" class="external-link">rsample</a> <code>rset</code> object, when paired with the model definitions, can be used to generate the tuning/fitting results objects for the candidate <em>ensemble members</em> with tune.</p>
+<figure><img src="reference/figures/candidates.png" alt="A diagram representing “candidate members” generated from each model definition. Four salmon-colored boxes labeled “KNN” represent K-nearest neighbors models trained on the resamples with differing hyperparameters. Similarly, the linear regression model generates one candidate member, and the support vector machine model generates six."><figcaption aria-hidden="true">
+A diagram representing “candidate members” generated from each model definition. Four salmon-colored boxes labeled “KNN” represent K-nearest neighbors models trained on the resamples with differing hyperparameters. Similarly, the linear regression model generates one candidate member, and the support vector machine model generates six.
+</figcaption></figure><p>Candidate members first come together in a <code>data_stack</code> object through the <code><a href="reference/add_candidates.html">add_candidates()</a></code> function. Principally, these objects are just <a href="https://tibble.tidyverse.org/" class="external-link">tibble</a>s, where the first column gives the true outcome in the assessment set (the portion of the training set used for model validation), and the remaining columns give the predictions from each candidate ensemble member. (When the outcome is numeric, there’s only one column per candidate ensemble member. Classification requires as many columns per candidate as there are levels in the outcome variable.) They also bring along a few extra attributes to keep track of model definitions.</p>
+<figure><img src="reference/figures/data_stack.png" alt="A diagram representing a “data stack,” a specific kind of data frame. Colored “columns” depict, in white, the true value of the outcome variable in the validation set, followed by four columns (in salmon) representing the predictions from the K-nearest neighbors model, one column (in tan) representing the linear regression model, and six (in green) representing the support vector machine model."><figcaption aria-hidden="true">
+A diagram representing a “data stack,” a specific kind of data frame. Colored “columns” depict, in white, the true value of the outcome variable in the validation set, followed by four columns (in salmon) representing the predictions from the K-nearest neighbors model, one column (in tan) representing the linear regression model, and six (in green) representing the support vector machine model.
+</figcaption></figure><p>Then, the data stack can be evaluated using <code><a href="reference/blend_predictions.html">blend_predictions()</a></code> to determine to how best to combine the outputs from each of the candidate members. In the stacking literature, this process is commonly called <em>metalearning</em>.</p>
 <p>The outputs of each member are likely highly correlated. Thus, depending on the degree of regularization you choose, the coefficients for the inputs of (possibly) many of the members will zero out—their predictions will have no influence on the final output, and those terms will thus be thrown out.</p>
-<div class="float">
-<img src="reference/figures/coefs.png" alt="A diagram representing “stacking coefficients,” the coefficients of the linear model combining each of the candidate member predictions to generate the ensemble’s ultimate prediction. Boxes for each of the candidate members are placed besides each other, filled in with color if the coefficient for the associated candidate member is nonzero."><div class="figcaption">A diagram representing “stacking coefficients,” the coefficients of the linear model combining each of the candidate member predictions to generate the ensemble’s ultimate prediction. Boxes for each of the candidate members are placed besides each other, filled in with color if the coefficient for the associated candidate member is nonzero.</div>
-</div>
-<p>These stacking coefficients determine which candidate ensemble members will become ensemble members. Candidates with non-zero stacking coefficients are then fitted on the whole training set, altogether making up a <code>model_stack</code> object.</p>
-<div class="float">
-<img src="reference/figures/class_model_stack.png" alt="A diagram representing the “model stack” class, which collates the stacking coefficients and members (candidate members with nonzero stacking coefficients that are trained on the full training set). The representation of the stacking coefficients is as before, where the members (shown next to their associated stacking coefficients) are colored-in pentagons. Model stacks are a list subclass."><div class="figcaption">A diagram representing the “model stack” class, which collates the stacking coefficients and members (candidate members with nonzero stacking coefficients that are trained on the full training set). The representation of the stacking coefficients is as before, where the members (shown next to their associated stacking coefficients) are colored-in pentagons. Model stacks are a list subclass.</div>
-</div>
-<p>This model stack object, outputted from <code><a href="reference/fit_members.html">fit_members()</a></code>, is ready to predict on new data! The trained ensemble members are often referred to as <em>base models</em> in the stacking literature.</p>
+<figure><img src="reference/figures/coefs.png" alt="A diagram representing “stacking coefficients,” the coefficients of the linear model combining each of the candidate member predictions to generate the ensemble’s ultimate prediction. Boxes for each of the candidate members are placed besides each other, filled in with color if the coefficient for the associated candidate member is nonzero."><figcaption aria-hidden="true">
+A diagram representing “stacking coefficients,” the coefficients of the linear model combining each of the candidate member predictions to generate the ensemble’s ultimate prediction. Boxes for each of the candidate members are placed besides each other, filled in with color if the coefficient for the associated candidate member is nonzero.
+</figcaption></figure><p>These stacking coefficients determine which candidate ensemble members will become ensemble members. Candidates with non-zero stacking coefficients are then fitted on the whole training set, altogether making up a <code>model_stack</code> object.</p>
+<figure><img src="reference/figures/class_model_stack.png" alt="A diagram representing the “model stack” class, which collates the stacking coefficients and members (candidate members with nonzero stacking coefficients that are trained on the full training set). The representation of the stacking coefficients is as before, where the members (shown next to their associated stacking coefficients) are colored-in pentagons. Model stacks are a list subclass."><figcaption aria-hidden="true">
+A diagram representing the “model stack” class, which collates the stacking coefficients and members (candidate members with nonzero stacking coefficients that are trained on the full training set). The representation of the stacking coefficients is as before, where the members (shown next to their associated stacking coefficients) are colored-in pentagons. Model stacks are a list subclass.
+</figcaption></figure><p>This model stack object, outputted from <code><a href="reference/fit_members.html">fit_members()</a></code>, is ready to predict on new data! The trained ensemble members are often referred to as <em>base models</em> in the stacking literature.</p>
 <p>The full visual outline for these steps can be found <a href="https://github.com/tidymodels/stacks/blob/main/inst/figs/outline.png" class="external-link">here</a>. The API for the package closely mirrors these ideas. See the <code>basics</code> vignette for an example of how this grammar is implemented!</p>
 </div>
 <div class="section level2">
@@ -135,7 +129,7 @@
 <ul>
 <li><p>For questions and discussions about tidymodels packages, modeling, and machine learning, please <a href="https://forum.posit.co/new-topic?category_id=15&amp;tags=tidymodels,question" class="external-link">post on Posit Community</a>.</p></li>
 <li><p>If you think you have encountered a bug, please <a href="https://github.com/tidymodels/stacks/issues" class="external-link">submit an issue</a>.</p></li>
-<li><p>Either way, learn how to create and share a <a href="https://reprex.tidyverse.org/articles/articles/learn-reprex.html" class="external-link">reprex</a> (a minimal, reproducible example), to clearly communicate about your code.</p></li>
+<li><p>Either way, learn how to create and share a <a href="https://reprex.tidyverse.org/articles/learn-reprex.html" class="external-link">reprex</a> (a minimal, reproducible example), to clearly communicate about your code.</p></li>
 <li><p>Check out further details on <a href="https://www.tidymodels.org/contribute/" class="external-link">contributing guidelines for tidymodels packages</a> and <a href="https://www.tidymodels.org/help/" class="external-link">how to get help</a>.</p></li>
 </ul>
 <p>In the stacks package, some test objects take too long to build with every commit. If your contribution changes the structure of <code>data_stack</code> or <code>model_stacks</code> objects, please regenerate these test objects by running the scripts in <code>man-roxygen/example_models.Rmd</code>, including those with chunk options <code>eval = FALSE</code>.</p>
@@ -175,11 +169,11 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Simon Couch <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Simon Couch <br><small class="roles"> Author, maintainer </small>   </li>
 <li>
-<a href="https://github.com/topepo" class="external-link">Max Kuhn</a> <br><small class="roles"> Author </small>  </li>
+<a href="https://github.com/topepo" class="external-link">Max Kuhn</a> <br><small class="roles"> Author </small>   </li>
 <li>
-<a href="https://www.posit.co" class="external-link"><img src="https://www.tidyverse.org/posit-logo.svg" alt="Posit" height="16" width="62" style="margin-bottom: 3px;"></a> <br><small class="roles"> Copyright holder, funder </small>  </li>
+<a href="https://www.posit.co" class="external-link"><img src="https://www.tidyverse.org/posit-logo.svg" alt="Posit" height="16" width="62" style="margin-bottom: 3px;"></a> <br><small class="roles"> Copyright holder, funder </small>  <a href="https://ror.org/03wc8by49" class="external-link"><img src="https://raw.githubusercontent.com/ror-community/ror-logos/main/ror-icon-rgb.svg" class="ror" alt="ROR"></a> </li>
 </ul>
 </div>
 
@@ -196,7 +190,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
   </div></footer>
