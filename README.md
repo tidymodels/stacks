@@ -5,8 +5,6 @@
 badge](https://joss.theoj.org/papers/10.21105/joss.04471/status.svg)](https://doi.org/10.21105/joss.04471)
 [![R build
 status](https://github.com/simonpcouch/stacks/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/stacks/actions)
-[![Codecov test
-coverage](https://codecov.io/gh/tidymodels/stacks/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tidymodels/stacks?branch=main)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/stacks)](https://CRAN.R-project.org/package=stacks)
 <!-- badges: end -->
@@ -201,8 +199,8 @@ By contributing to this project, you agree to abide by its terms.
   issue](https://github.com/tidymodels/stacks/issues).
 
 - Either way, learn how to create and share a
-  [reprex](https://reprex.tidyverse.org/articles/articles/learn-reprex.html)
-  (a minimal, reproducible example), to clearly communicate about your
+  [reprex](https://reprex.tidyverse.org/articles/learn-reprex.html) (a
+  minimal, reproducible example), to clearly communicate about your
   code.
 
 - Check out further details on [contributing guidelines for tidymodels
