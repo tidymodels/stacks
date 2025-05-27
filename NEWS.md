@@ -1,5 +1,7 @@
 # stacks (development version)
 
+* A re-release of stacks 1.1.0 to address a note to resubmit following a since-resolved check failure.
+
 # stacks 1.1.0
 
 * Model stack and data stack print methods no longer raise conditions to
