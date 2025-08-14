@@ -514,14 +514,14 @@ process_.config <- function(.config, df, name) {
 
   .config_ <-
     gsub(
-      pattern = c("Model|Recipe"),
+      pattern = c("Model|Recipe|mod|post"),
       replacement = "",
       x = .config_,
     )
 
   .config_ <-
     gsub(
-      pattern = c("Preprocessor"),
+      pattern = c("Preprocessor|pre"),
       replacement = "_",
       x = .config_,
     )
