@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">stacks</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -298,11 +298,11 @@ over four possible values of <code>k</code> using a grid search.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 5</span></span></span>
 <span><span class="co">#&gt;   splits           id    .metrics         .notes           .predictions</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;split [343/86]&gt;</span> Fold1 <span style="color: #949494;">&lt;tibble [4 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;split [343/86]&gt;</span> Fold2 <span style="color: #949494;">&lt;tibble [4 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">&lt;split [343/86]&gt;</span> Fold3 <span style="color: #949494;">&lt;tibble [4 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> <span style="color: #949494;">&lt;split [343/86]&gt;</span> Fold4 <span style="color: #949494;">&lt;tibble [4 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> <span style="color: #949494;">&lt;split [344/85]&gt;</span> Fold5 <span style="color: #949494;">&lt;tibble [4 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;split [343/86]&gt;</span> Fold1 <span style="color: #949494;">&lt;tibble [4 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 4]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;split [343/86]&gt;</span> Fold2 <span style="color: #949494;">&lt;tibble [4 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 4]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">&lt;split [343/86]&gt;</span> Fold3 <span style="color: #949494;">&lt;tibble [4 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 4]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> <span style="color: #949494;">&lt;split [343/86]&gt;</span> Fold4 <span style="color: #949494;">&lt;tibble [4 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 4]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> <span style="color: #949494;">&lt;split [344/85]&gt;</span> Fold5 <span style="color: #949494;">&lt;tibble [4 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 4]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span></span></span></code></pre></div>
 <p>This <code>knn_res</code> object fully specifies the candidate
 members, and is ready to be included in a <code>stacks</code>
 workflow.</p>
@@ -344,11 +344,11 @@ function rather than <code><a href="https://tune.tidymodels.org/reference/tune_g
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 5</span></span></span>
 <span><span class="co">#&gt;   splits           id    .metrics         .notes           .predictions</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;split [343/86]&gt;</span> Fold1 <span style="color: #949494;">&lt;tibble [1 × 4]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;split [343/86]&gt;</span> Fold2 <span style="color: #949494;">&lt;tibble [1 × 4]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">&lt;split [343/86]&gt;</span> Fold3 <span style="color: #949494;">&lt;tibble [1 × 4]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> <span style="color: #949494;">&lt;split [343/86]&gt;</span> Fold4 <span style="color: #949494;">&lt;tibble [1 × 4]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> <span style="color: #949494;">&lt;split [344/85]&gt;</span> Fold5 <span style="color: #949494;">&lt;tibble [1 × 4]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;split [343/86]&gt;</span> Fold1 <span style="color: #949494;">&lt;tibble [1 × 4]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 4]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;split [343/86]&gt;</span> Fold2 <span style="color: #949494;">&lt;tibble [1 × 4]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 4]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">&lt;split [343/86]&gt;</span> Fold3 <span style="color: #949494;">&lt;tibble [1 × 4]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 4]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> <span style="color: #949494;">&lt;split [343/86]&gt;</span> Fold4 <span style="color: #949494;">&lt;tibble [1 × 4]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 4]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> <span style="color: #949494;">&lt;split [344/85]&gt;</span> Fold5 <span style="color: #949494;">&lt;tibble [1 × 4]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 4]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span></span></span></code></pre></div>
 <p>Finally, putting together the model definition for the support vector
 machine:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -393,11 +393,11 @@ machine:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 5</span></span></span>
 <span><span class="co">#&gt;   splits           id    .metrics         .notes           .predictions</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;split [343/86]&gt;</span> Fold1 <span style="color: #949494;">&lt;tibble [6 × 6]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;split [343/86]&gt;</span> Fold2 <span style="color: #949494;">&lt;tibble [6 × 6]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">&lt;split [343/86]&gt;</span> Fold3 <span style="color: #949494;">&lt;tibble [6 × 6]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> <span style="color: #949494;">&lt;split [343/86]&gt;</span> Fold4 <span style="color: #949494;">&lt;tibble [6 × 6]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> <span style="color: #949494;">&lt;split [344/85]&gt;</span> Fold5 <span style="color: #949494;">&lt;tibble [6 × 6]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;split [343/86]&gt;</span> Fold1 <span style="color: #949494;">&lt;tibble [6 × 6]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 4]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;split [343/86]&gt;</span> Fold2 <span style="color: #949494;">&lt;tibble [6 × 6]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 4]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">&lt;split [343/86]&gt;</span> Fold3 <span style="color: #949494;">&lt;tibble [6 × 6]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 4]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> <span style="color: #949494;">&lt;split [343/86]&gt;</span> Fold4 <span style="color: #949494;">&lt;tibble [6 × 6]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 4]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> <span style="color: #949494;">&lt;split [344/85]&gt;</span> Fold5 <span style="color: #949494;">&lt;tibble [6 × 6]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 4]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span></span></span></code></pre></div>
 <p>Altogether, we’ve created three model definitions, where the
 K-nearest neighbors model definition specifies 4 model configurations,
 the linear regression specifies 1, and the support vector machine
@@ -446,22 +446,22 @@ actual data:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">tree_frogs_data_st</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 429 × 12</span></span></span>
-<span><span class="co">#&gt;    latency knn_res_1_1 knn_res_1_2 knn_res_1_3 knn_res_1_4</span></span>
-<span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     142         103        68.6        78.0        87.1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>      79          87        69.0        64.6        63.8</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>      50          78        70.1        65.8        63.2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>      68          37        50.5        53.1        55.4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>      64          67        51.4        48.4        48.5</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>      52         264       158.        133.        114. </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>      39          21        26.0        29.9        33.9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>      46          29        28.4        33.0        35.1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     137          76        82.3        89.8        90.4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      73          60        74.3        68.8        65.7</span></span>
+<span><span class="co">#&gt;    latency knn_res_0_1_0 knn_res_0_2_0 knn_res_0_3_0 knn_res_0_4_0</span></span>
+<span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>       0            32          32.7          33.3          37.0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>       0            44          53.5          56.2          57.8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>       2            65          78.0          70.7          66.7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>       6            29          34.0          36.1          38.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>       8            62          53.1          54.7          63.2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>       9            46          50.3          46.5          43.7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>      10           136          98.3         101.          109. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>      11            63          44.6          43.2          45.2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>      11            58          48.0          47.2          49.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      12            62         103.          122.          136. </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 419 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 7 more variables: lin_reg_res_1_1 &lt;dbl&gt;, svm_res_1_1 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   svm_res_1_2 &lt;dbl&gt;, svm_res_1_3 &lt;dbl&gt;, svm_res_1_4 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   svm_res_1_5 &lt;dbl&gt;, svm_res_1_6 &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 7 more variables: lin_reg_res_0_0_0 &lt;dbl&gt;, svm_res_0_1_0 &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   svm_res_0_2_0 &lt;dbl&gt;, svm_res_0_3_0 &lt;dbl&gt;, svm_res_0_4_0 &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   svm_res_0_5_0 &lt;dbl&gt;, svm_res_0_6_0 &lt;dbl&gt;</span></span></span></code></pre></div>
 <p>The first column gives the first response value, and the remaining
 columns give the assessment set predictions for each ensemble member.
 Since we’re in the regression case, there’s only one column per ensemble
@@ -522,14 +522,14 @@ function:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/collect_parameters.html">collect_parameters</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span>, <span class="st">"svm_res"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 4</span></span></span>
-<span><span class="co">#&gt;   member           cost        sigma  coef</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> svm_res_1_1  0.000<span style="text-decoration: underline;">977</span> 0.000<span style="text-decoration: underline;">001</span>     0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> svm_res_1_2  0.007<span style="text-decoration: underline;">81</span>  1            0.204</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> svm_res_1_3  0.062<span style="text-decoration: underline;">5</span>   0.000<span style="text-decoration: underline;">000</span>000<span style="text-decoration: underline;">1</span> 0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> svm_res_1_4  0.5      0.000<span style="text-decoration: underline;">1</span>       0.896</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> svm_res_1_5  4        0.000<span style="text-decoration: underline;">000</span>01   0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> svm_res_1_6 32        0.01         0.103</span></span></code></pre></div>
+<span><span class="co">#&gt;   member             cost        sigma  coef</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> svm_res_0_1_0  0.000<span style="text-decoration: underline;">977</span> 0.000<span style="text-decoration: underline;">001</span>     0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> svm_res_0_2_0  0.007<span style="text-decoration: underline;">81</span>  1            0.204</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> svm_res_0_3_0  0.062<span style="text-decoration: underline;">5</span>   0.000<span style="text-decoration: underline;">000</span>000<span style="text-decoration: underline;">1</span> 0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> svm_res_0_4_0  0.5      0.000<span style="text-decoration: underline;">1</span>       0.896</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> svm_res_0_5_0  4        0.000<span style="text-decoration: underline;">000</span>01   0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> svm_res_0_6_0 32        0.01         0.103</span></span></code></pre></div>
 <p>This object is now ready to predict with new data!</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tree_frogs_test</span> <span class="op">&lt;-</span> </span>
@@ -558,10 +558,11 @@ predictions from each of the ensemble members.</p>
 <code class="sourceCode R"><span><span class="fu">map</span><span class="op">(</span><span class="va">member_preds</span>, <span class="va">rmse_vec</span>, truth <span class="op">=</span> <span class="va">member_preds</span><span class="op">$</span><span class="va">latency</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 8</span></span></span>
-<span><span class="co">#&gt;   latency .pred knn_res_1_3 knn_res_1_4 lin_reg_res_1_1 svm_res_1_2</span></span>
-<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       0  54.4        56.2        55.7            55.5        65.0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: svm_res_1_4 &lt;dbl&gt;, svm_res_1_6 &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   latency .pred knn_res_0_3_0 knn_res_0_4_0 lin_reg_res_0_0_0</span></span>
+<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       0  54.4          56.2          55.7              55.5</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: svm_res_0_2_0 &lt;dbl&gt;, svm_res_0_4_0 &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   svm_res_0_6_0 &lt;dbl&gt;</span></span></span></code></pre></div>
 <p>As we can see, the stacked ensemble outperforms each of the member
 models, though is closely followed by one of its members.</p>
 <p>Voila! You’ve now made use of the stacks package to predict red-eyed

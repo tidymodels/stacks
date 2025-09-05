@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">stacks</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -355,18 +355,18 @@ results:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://workflowsets.tidymodels.org/reference/extract_workflow_set_result.html" class="external-link">extract_workflow_set_result</a></span><span class="op">(</span><span class="va">wf_set_trained</span>, id <span class="op">=</span> <span class="st">"rec1_knn"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://tune.tidymodels.org/reference/collect_predictions.html" class="external-link">collect_metrics</a></span><span class="op">(</span>summarize <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 7</span></span></span>
-<span><span class="co">#&gt;        k .metric .estimator  mean     n std_err .config              </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1 rmse    standard    81.3     5    4.37 Preprocessor1_Model01</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     3 rmse    standard    69.6     5    3.57 Preprocessor1_Model02</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     5 rmse    standard    63.7     5    3.30 Preprocessor1_Model03</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     7 rmse    standard    61.2     5    2.95 Preprocessor1_Model04</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     8 rmse    standard    60.5     5    2.81 Preprocessor1_Model05</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     9 rmse    standard    59.8     5    2.82 Preprocessor1_Model06</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>    10 rmse    standard    59.3     5    2.83 Preprocessor1_Model07</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>    12 rmse    standard    58.7     5    2.83 Preprocessor1_Model08</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>    13 rmse    standard    58.5     5    2.84 Preprocessor1_Model09</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    15 rmse    standard    58.2     5    2.88 Preprocessor1_Model10</span></span></code></pre></div>
+<span><span class="co">#&gt;        k .metric .estimator  mean     n std_err .config         </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1 rmse    standard    81.3     5    4.37 pre0_mod01_post0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     3 rmse    standard    69.6     5    3.57 pre0_mod02_post0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     5 rmse    standard    63.7     5    3.30 pre0_mod03_post0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     7 rmse    standard    61.2     5    2.95 pre0_mod04_post0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     8 rmse    standard    60.5     5    2.81 pre0_mod05_post0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     9 rmse    standard    59.8     5    2.82 pre0_mod06_post0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>    10 rmse    standard    59.3     5    2.83 pre0_mod07_post0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>    12 rmse    standard    58.7     5    2.83 pre0_mod08_post0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>    13 rmse    standard    58.5     5    2.84 pre0_mod09_post0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    15 rmse    standard    58.2     5    2.88 pre0_mod10_post0</span></span></code></pre></div>
 <p>With these three model definitions fully specified and tuned in a
 workflow set, we are ready to begin stacking these model configurations.
 (Note that, in most applied settings, one would likely specify many more
@@ -390,11 +390,11 @@ did with individual workflows:</p>
 <span></span>
 <span><span class="va">tree_frogs_model_st</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
-<span><span class="co">#&gt;   member           type             weight</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> rec3_svm_1_05    svm_rbf           0.747</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> rec2_lin_reg_1_1 linear_reg        0.292</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> rec1_knn_1_08    nearest_neighbor  0.224</span></span></code></pre></div>
+<span><span class="co">#&gt;   member             type             weight</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> rec3_svm_0_05_0    svm_rbf           0.747</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> rec2_lin_reg_0_0_0 linear_reg        0.292</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> rec1_knn_0_08_0    nearest_neighbor  0.224</span></span></code></pre></div>
 <p>The results obtained from building a model stack with workflow sets
 are identical to those that would result from building a model stack
 with individual workflows.</p>
@@ -417,18 +417,18 @@ function:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/collect_parameters.html">collect_parameters</a></span><span class="op">(</span><span class="va">tree_frogs_model_st</span>, <span class="st">"rec3_svm"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 4</span></span></span>
-<span><span class="co">#&gt;    member             cost         sigma  coef</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> rec3_svm_1_01  0.000<span style="text-decoration: underline;">977</span> 0.000<span style="text-decoration: underline;">000</span>215   0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> rec3_svm_1_02  0.003<span style="text-decoration: underline;">10</span>  0.005<span style="text-decoration: underline;">99</span>       0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> rec3_svm_1_03  0.009<span style="text-decoration: underline;">84</span>  0.000<span style="text-decoration: underline;">000</span>000<span style="text-decoration: underline;">1</span>  0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> rec3_svm_1_04  0.031<span style="text-decoration: underline;">2</span>   0.000<span style="text-decoration: underline;">002</span>78    0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> rec3_svm_1_05  0.099<span style="text-decoration: underline;">2</span>   0.077<span style="text-decoration: underline;">4</span>        0.747</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> rec3_svm_1_06  0.315    0.000<span style="text-decoration: underline;">000</span>001<span style="text-decoration: underline;">29</span> 0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> rec3_svm_1_07  1        0.000<span style="text-decoration: underline;">035</span>9     0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> rec3_svm_1_08  3.17     1             0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> rec3_svm_1_09 10.1      0.000<span style="text-decoration: underline;">000</span>016<span style="text-decoration: underline;">7</span>  0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> rec3_svm_1_10 32        0.000<span style="text-decoration: underline;">464</span>      0</span></span></code></pre></div>
+<span><span class="co">#&gt;    member               cost         sigma  coef</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> rec3_svm_0_01_0  0.000<span style="text-decoration: underline;">977</span> 0.000<span style="text-decoration: underline;">000</span>215   0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> rec3_svm_0_02_0  0.003<span style="text-decoration: underline;">10</span>  0.005<span style="text-decoration: underline;">99</span>       0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> rec3_svm_0_03_0  0.009<span style="text-decoration: underline;">84</span>  0.000<span style="text-decoration: underline;">000</span>000<span style="text-decoration: underline;">1</span>  0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> rec3_svm_0_04_0  0.031<span style="text-decoration: underline;">2</span>   0.000<span style="text-decoration: underline;">002</span>78    0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> rec3_svm_0_05_0  0.099<span style="text-decoration: underline;">2</span>   0.077<span style="text-decoration: underline;">4</span>        0.747</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> rec3_svm_0_06_0  0.315    0.000<span style="text-decoration: underline;">000</span>001<span style="text-decoration: underline;">29</span> 0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> rec3_svm_0_07_0  1        0.000<span style="text-decoration: underline;">035</span>9     0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> rec3_svm_0_08_0  3.17     1             0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> rec3_svm_0_09_0 10.1      0.000<span style="text-decoration: underline;">000</span>016<span style="text-decoration: underline;">7</span>  0    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> rec3_svm_0_10_0 32        0.000<span style="text-decoration: underline;">464</span>      0</span></span></code></pre></div>
 <p>This object is now ready to predict with new data!</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tree_frogs_test</span> <span class="op">&lt;-</span> </span>
@@ -457,9 +457,9 @@ of the ensemble members.</p>
 <code class="sourceCode R"><span><span class="fu">map</span><span class="op">(</span><span class="va">member_preds</span>, <span class="va">rmse_vec</span>, truth <span class="op">=</span> <span class="va">member_preds</span><span class="op">$</span><span class="va">latency</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
-<span><span class="co">#&gt;   latency .pred rec1_knn_1_08 rec2_lin_reg_1_1 rec3_svm_1_05</span></span>
-<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       0  53.9          56.1             55.5          57.5</span></span></code></pre></div>
+<span><span class="co">#&gt;   latency .pred rec1_knn_0_08_0 rec2_lin_reg_0_0_0 rec3_svm_0_05_0</span></span>
+<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       0  53.9            56.1               55.5            57.5</span></span></code></pre></div>
 <p>As we can see, the stacked ensemble outperforms each of the member
 models, though is closely followed by one of its members.</p>
 <p>Voila! You’ve now made use of the stacks and workflowsets packages to
