@@ -20,3 +20,4 @@ cran-comments.md
 ^vignettes/articles$
 ^[\.]?air\.toml$
 ^\.vscode$
+MAINTENANCE.md
