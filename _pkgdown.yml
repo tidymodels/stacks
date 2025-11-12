@@ -8,8 +8,9 @@ template:
     primary: "#CA225E"
 
   includes:
-      in_header: |
-        <script defer data-domain="stacks.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script>
+    in_header: |
+      <script src="https://cdn.jsdelivr.net/gh/posit-dev/supported-by-posit/js/badge.min.js" data-max-height="43" data-light-bg="#666f76" data-light-fg="#f9f9f9"></script>
+      <script defer data-domain="stacks.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script>
 
 development:
   mode: auto
@@ -19,34 +20,34 @@ figures:
   fig.height: 5.75
 
 reference:
-  - title: Core Verbs
-    contents:
-    - stacks
-    - add_candidates
-    - blend_predictions
-    - fit_members
-  - title: Helpers
-    contents:
-    - collect_parameters
-    - starts_with("control_")
-    - get_expressions
-  - title: Example Data and Documentation
-    contents:
-    - example_data
-    - tree_frogs
-    - stacks_description
-  - title: Methods
-    contents:
-    - starts_with("autoplot")
-    - starts_with("axe_")
-    - starts_with("predict")
-    - augment.model_stack
-    - starts_with("print")
+- title: Core Verbs
+  contents:
+  - stacks
+  - add_candidates
+  - blend_predictions
+  - fit_members
+- title: Helpers
+  contents:
+  - collect_parameters
+  - starts_with("control_")
+  - get_expressions
+- title: Example Data and Documentation
+  contents:
+  - example_data
+  - tree_frogs
+  - stacks_description
+- title: Methods
+  contents:
+  - starts_with("autoplot")
+  - starts_with("axe_")
+  - starts_with("predict")
+  - augment.model_stack
+  - starts_with("print")
 
 articles:
-  - title: Get started
-    navbar: ~
-    contents:
-    - basics
-    - classification
-    - articles/workflowsets
+- title: Get started
+  navbar:
+  contents:
+  - basics
+  - classification
+  - articles/workflowsets
